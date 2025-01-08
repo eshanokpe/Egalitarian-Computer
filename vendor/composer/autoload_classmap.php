@@ -72,6 +72,7 @@ return array(
     'App\\Models\\Property' => $baseDir . '/app/Models/Property.php',
     'App\\Models\\PropertyPriceUpdate' => $baseDir . '/app/Models/PropertyPriceUpdate.php',
     'App\\Models\\PropertyValuation' => $baseDir . '/app/Models/PropertyValuation.php',
+    'App\\Models\\PropertyValuationPrediction' => $baseDir . '/app/Models/PropertyValuationPrediction.php',
     'App\\Models\\ReferralLog' => $baseDir . '/app/Models/ReferralLog.php',
     'App\\Models\\Sell' => $baseDir . '/app/Models/Sell.php',
     'App\\Models\\Sociallink' => $baseDir . '/app/Models/Sociallink.php',

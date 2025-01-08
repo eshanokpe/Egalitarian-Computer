@@ -81,10 +81,11 @@
                                             </div>
                                         </div>
                                        
+                                       
                                         <div class="col">
                                             <div class="mb-3">
                                                 <label for="exampleInputEmail1"> State</label>
-                                                <select name="state" id="state" class="form-control">
+                                                <select name="state" id="state" class="form-select">
                                                     <option value="">Select a State</option>
                                                     @foreach ($state as $state)
                                                         <option value="{{ $state }}" {{ $property->state == $state ? 'selected' : '' }}>
@@ -100,7 +101,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                      
+                                       
                                         <div class="col">
                                             <div class="mb-3">
                                                 <label for="exampleInputEmail1"> City</label>

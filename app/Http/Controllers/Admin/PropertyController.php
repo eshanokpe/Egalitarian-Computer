@@ -10,7 +10,10 @@ use App\Models\Neighborhood;
 use App\Models\PropertyValuation;
 use App\Models\PropertyPriceUpdate;
 use App\Models\NeighborhoodCategory;
+use App\Models\PropertyValuationPrediction;
 use App\Notifications\PropertyValuationNotification;
+use App\Notifications\PropertyValuationPredictionNotification;
+
 
 class PropertyController extends Controller
 {
@@ -174,7 +177,7 @@ class PropertyController extends Controller
             'description' => $request->input('description'),
             'location' => $request->input('location'),
             'city' => $request->input('city'),
-            'state' => $request->input('state'),
+            'state' => $request->input('state'), 
             'country' => $request->input('country'), 
             'lunch_price' => $request->input('lunch_price'),
             'price' => $newPrice,
@@ -252,6 +255,17 @@ class PropertyController extends Controller
         ->orderBy('created_at', 'asc') 
         ->get();
 
+        $data['propertyValuationPrediction'] = PropertyValuationPrediction::where('property_id', $data['property']->id)
+        ->when(request('filter'), function ($query) {
+            // Filter by selected year
+            if ($year = request('filter')) {
+                return $query->whereYear('created_at', $year);
+            }
+            return $query;
+        })
+        ->orderBy('created_at', 'asc') 
+        ->get();
+
         // Prepare the data for the chart
         $valuationData = $data['propertyValuation']->map(function ($valuation) {
             return [
@@ -312,12 +326,61 @@ class PropertyController extends Controller
         return redirect()->back()->with('success', 'Valuation added successfully.');
     }
 
+    public function valuationPredictionStore(Request $request)
+    {
+      
+        $request->validate([
+            'property_id' => 'required|exists:properties,id',
+            'valuation_type' => 'required|string|max:255',
+            'current_price' => 'required|string|min:0',
+            'market_value' => 'required|string|min:0',
+            'percentage_increase' => 'required|string|min:0',
+        ]);
+        // Parse numeric values from currency format if necessary
+        $currentPrice = preg_replace('/[₦,]/', '', $request->current_price);
+        $marketValue = preg_replace('/[₦,]/', '', $request->market_value);
+
+        $percentageIncrease = 0;
+        if ($currentPrice > 0) {
+            $percentageIncrease = ceil((($marketValue - $currentPrice) / $currentPrice) * 100);
+        }
+        // dd($percentageIncrease);
+        
+        PropertyValuationPrediction::create([
+            'property_id' => $request->property_id,
+            'valuation_type' => $request->valuation_type,
+            'current_price' => $currentPrice,
+            'market_value' => $marketValue,
+            'percentage_increase' => $percentageIncrease,
+        ]);
+        $property = Property::findOrFail($request->property_id);
+        $lunchPrice = $property->lunch_price;
+        $priceIncrease = $lunchPrice > 0 ? (($marketValue - $lunchPrice) / $lunchPrice) * 100 : 0;
+
+
+        $users = User::all();
+        foreach ($users as $user) { 
+            $user->notify(new PropertyValuationPredictionNotification($property, $priceIncrease));
+        }
+
+       
+        return redirect()->back()->with('success', 'Valuation Prediction added successfully.');
+    }
+
     public function valuationEdit($id){
         $propertyId = decrypt($id); 
         $data['propertyValuation'] = PropertyValuation::findOrFail($propertyId);
         $data['property'] = Property::findOrFail($data['propertyValuation']->property_id);
         // dd( $data['property']);
         return view('admin.home.properties.edit-evaluation', $data);
+    }
+
+    public function valuationPredictionEdit($id){
+        $propertyId = decrypt($id); 
+        $data['propertyValuationPrediction'] = PropertyValuationPrediction::findOrFail($propertyId);
+        $data['property'] = Property::findOrFail($data['propertyValuationPrediction']->property_id);
+        // dd( $data['property']);
+        return view('admin.home.properties.edit-evaluation-prediction', $data);
     }
 
     public function valuationUpdate(Request $request, $id){
@@ -358,13 +421,51 @@ class PropertyController extends Controller
         $property->percentage_increase = $priceIncrease; 
         $property->save(); 
 
-        // Send notification to all users
-        $users = User::all();
-        foreach ($users as $user) { 
-            $user->notify(new PropertyValuationNotification($property, $priceIncrease));
-        }
 
         return redirect()->back()->with('success', 'Properties Valuation updated successfully!');
+    }
+
+    public function valuationPredictionUpdate(Request $request, $id){
+    
+        $request->validate([
+            'property_id' => 'required|exists:properties,id',
+            'valuation_type' => 'required|string|max:255',
+            'current_price' => 'required|string|min:0',
+            'market_value' => 'required|string|min:0',
+            'percentage_increase' => 'required|string|min:0',
+        ]);
+
+        // Parse numeric values from currency format if necessary
+        $currentPrice = preg_replace('/[₦,]/', '', $request->current_price);
+        $marketValue = preg_replace('/[₦,]/', '', $request->market_value);
+
+        $percentageIncrease = 0;
+        if ($currentPrice > 0) {
+            $percentageIncrease = ceil((($marketValue - $currentPrice) / $currentPrice) * 100);
+        }
+        $propertyValuationPrediction = PropertyValuationPrediction::findOrFail($id);
+        $propertyValuationPrediction->update([
+            'property_id' => $request->property_id,
+            'valuation_type' => $request->valuation_type,
+            'current_price' => $currentPrice,
+            'market_value' => $marketValue,
+            'percentage_increase' => $percentageIncrease,
+        ]);
+
+
+        return redirect()->back()->with('success', 'Properties Valuation Prediction updated successfully!');
+    }
+
+    public function valuationDelete($id){
+        $propertyValuation = PropertyValuation::findOrFail(decrypt($id));
+        $propertyValuation->delete();
+        return redirect()->back()->with('success', 'Property Valuation deleted successfully.');
+    }
+
+    public function valuationPredictionDelete($id){
+        $propertyValuationPrediction = PropertyValuationPrediction::findOrFail(decrypt($id));
+        $propertyValuationPrediction->delete();
+        return redirect()->back()->with('success', 'Property Valuation Prediction deleted successfully.');
     }
 
     public function neighborhood($id)

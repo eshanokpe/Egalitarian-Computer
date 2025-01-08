@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Property;
 use App\Models\Offerprice;
 use App\Models\PropertyValuation;
+use App\Models\PropertyValuationPrediction;
 
 
  
@@ -106,15 +107,24 @@ class PropertyController extends Controller
         $propertyId = decrypt($id); 
         $data['property'] = Property::findOrFail($propertyId);
         $data['propertyValuation'] = PropertyValuation::where('property_id', $data['property']->id)
-            ->when(request('filter'), function ($query) {
-                // Filter by selected year
-                if ($year = request('filter')) {
-                    return $query->whereYear('created_at', $year);
-                }
-                return $query;
-            })
-            ->orderBy('created_at', 'asc') 
-            ->get();
+        ->when(request('filter'), function ($query) {
+            if ($year = request('filter')) {
+                return $query->whereYear('created_at', $year);
+            }
+            return $query;
+        })
+        ->orderBy('created_at', 'asc') 
+        ->get();
+
+        $data['propertyValuationPrediction'] = PropertyValuationPrediction::where('property_id', $data['property']->id)
+        ->when(request('filter'), function ($query) {
+            if ($year = request('filter')) {
+                return $query->whereYear('created_at', $year);
+            }
+            return $query;
+        })
+        ->orderBy('created_at', 'asc') 
+        ->get();
     
         // Prepare the data for the chart
         $valuationData = $data['propertyValuation']->map(function ($valuation) {

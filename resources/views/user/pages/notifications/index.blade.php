@@ -14,7 +14,7 @@
                 <div class="reviews__heading mb-30">
                     <h2 class="reviews__heading--title">Notification</h2>
                 </div>
-               
+                
                 <div class="properties__wrapper">
                     <div class="properties__table table-responsive">
                         <table class="properties__table--wrapper">

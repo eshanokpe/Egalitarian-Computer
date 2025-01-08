@@ -72,6 +72,17 @@ Route::prefix('admin')->group(function () {
             ->name('properties.valuation.edit');
             Route::put('properties/valuation/update/{id}', [AdminPropertyController::class, 'valuationUpdate'])
             ->name('properties.valuation.update');
+            Route::get('properties/valuation/delete/{id}', [AdminPropertyController::class, 'valuationDelete'])
+            ->name('properties.valuation.delete');
+
+            Route::post('properties/valuation/prediction/store', [AdminPropertyController::class, 'valuationPredictionStore'])
+            ->name('properties.valuation.prediction');
+            Route::get('properties/valuation/prediction/edit/{id}', [AdminPropertyController::class, 'valuationPredictionEdit'])
+            ->name('properties.valuation.prediction.edit');
+            Route::put('properties/valuation/prediction/update/{id}', [AdminPropertyController::class, 'valuationPredictionUpdate'])
+            ->name('properties.valuation.prediction.update');
+            Route::get('properties/valuation/prediction/delete/{id}', [AdminPropertyController::class, 'valuationPredictionDelete'])
+            ->name('properties.valuation.prediction.delete');
             
             Route::get('properties/{id}/neighborhood', [AdminPropertyController::class, 'neighborhood'])
             ->name('properties.neighborhood');

@@ -46,8 +46,6 @@
                         <div class="sales__report--section">
                             <div class="sales__report--heading d-flex  justify-content-between align-items-center mb-30">
                                 <h2 class="sales__report--heading__title mb-3">Evaluation Variation</h2>
-                                
-
                             </div>
                             <div class="welcome__section align-items-center">
                                 @forelse ($propertyValuation as $item)
@@ -71,8 +69,36 @@
                                     <p>No valuation</p>
                                 @endforelse
                             </div>
-                            
-                            
+                        </div>
+                        <!-- Sales Report section .\ -->
+                        <br/>
+                         <!-- Sales Report section -->
+                         <div class="sales__report--section">
+                            <div class="sales__report--heading d-flex  justify-content-between align-items-center mb-30">
+                                <h2 class="sales__report--heading__title mb-3">Evaluation Variation Prediction</h2>
+                            </div>
+                            <div class="welcome__section align-items-center">
+                                @forelse ($propertyValuationPrediction as $item)
+                                    <div class="row mb-3 d-flex justify-content-center">                                                
+                                        <div class="col">
+                                            <p class="text-dark mb-1 fw-semibold">{{ $item->valuation_type }}</p>
+                                            <h3 class="font-22 fw-bold">₦{{ number_format($item->market_value, 2) }}</h3> 
+                                        </div>
+                                        <div class="col">
+
+                                            <h3 class="font-22 fw-bold"> {{ $item->percentage_increase}}%  
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="green">
+                                                    <path d="M12 4l8 8h-6v8h-4v-8H4l8-8z"/>
+                                                </svg>
+                                            </h3> 
+                                            <p class="text-dark mb-1 fw-semibold"> {{  \Carbon\Carbon::parse($item->created_at)->format('d F, Y') }} </p>
+
+                                        </div>
+                                    </div>
+                                @empty
+                                    <p>No valuation</p>
+                                @endforelse
+                            </div>
                         </div>
                         <!-- Sales Report section .\ -->
 

@@ -16,6 +16,7 @@ class Property extends Model
         'description',
         'location',
         'city', 
+        'state', 
         'country',
         'lunch_price', 
         'price',

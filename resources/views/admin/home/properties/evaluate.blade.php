@@ -76,11 +76,15 @@
                                             <p class="mb-0 text-truncate text-muted">{{  \Carbon\Carbon::parse($item->created_at)->format('d F, Y') }} </p>
                                             
                                         </div>
-                                        <div class="col-auto align-self-center" style="margin-right: 10px">
+                                        <div class="col-auto align-self-center" style="margin-right: 50px">
                                             <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
-                                                {{ $item->percentage_increase}}% <i class="fas fa-angle-double-up align-self-center text-success icon-md"></i>
+                                                {{ $item->percentage_increase}}% 
+                                                <i class="fas fa-angle-double-up align-self-center text-success icon-md"></i>
                                                 <a href="{{ route('admin.properties.valuation.edit', encrypt($item->id)) }}" class="btn btn-link text-secondary p-2" >
                                                     <i class="las la-pen font-16"></i>
+                                                </a>
+                                                <a href="{{ route('admin.properties.valuation.delete', encrypt($item->id)) }}" class="btn btn-link text-secondary p-2" onclick="return confirm('Are you sure you want to delete this Property Valuation?');">
+                                                    <i class="las la-trash-alt font-16"></i>
                                                 </a>
                                             </div>
                                         </div> 
@@ -88,10 +92,39 @@
                                 @empty
                                     <p>No valuation</p>
                                 @endforelse
-                               
+                            </div><!--end card-body-->
+                        
+                        </div><!--end card-->
 
-                            
-
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Evaluation Variation Prediction </h4>
+                            </div><!--end card-header--> 
+                            <div class="card-body">
+                                @forelse ($propertyValuationPrediction as $item)
+                                    <div class="row d-flex justify-content-center mb-3">                                                
+                                        <div class="col">
+                                            <p class="text-dark mb-1 fw-semibold">{{ $item->valuation_type }}</p>
+                                            <h4 class="font-18 fw-bold">₦{{ number_format($item->market_value, 2) ?? '' }}</h4> 
+                                            <p class="mb-0 text-truncate text-muted">{{  \Carbon\Carbon::parse($item->created_at)->format('d F, Y') }} </p>
+                                            
+                                        </div>
+                                        <div class="col-auto align-self-center" style="margin-right: 50px">
+                                            <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
+                                                {{ $item->percentage_increase}}% 
+                                                <i class="fas fa-angle-double-up align-self-center text-success icon-md"></i>
+                                                <a href="{{ route('admin.properties.valuation.prediction.edit', encrypt($item->id)) }}" class="btn btn-link text-secondary p-2" >
+                                                    <i class="las la-pen font-16"></i>
+                                                </a>
+                                                <a href="{{ route('admin.properties.valuation.prediction.delete', encrypt($item->id)) }}" class="btn btn-link text-secondary p-2" onclick="return confirm('Are you sure you want to delete this Property Valuation Prediction?');">
+                                                    <i class="las la-trash-alt font-16"></i>
+                                                </a>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                @empty
+                                    <p>No valuation</p>
+                                @endforelse
                             </div><!--end card-body-->
                         
                         </div><!--end card-->
@@ -255,8 +288,6 @@
                             });
                         </script>
 
-
-
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -401,6 +432,144 @@
                                 </div>
                             </div>
                         </form>
+
+                        <form method="POST" action="{{ route('admin.properties.valuation.prediction') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Add Valuation Prediction </h4>
+                                </div>
+                                <div class="card-body">
+                                    <input type="hidden" class="form-control" name="property_id" value="{{ $property->id}}" placeholder="Enter Valuation type" required>
+
+                                    <div class="row">
+                                        <div class="mb-3">
+                                            <label for="exampleInputEmail1">Enter Valuation Prediction type</label>
+                                            <input type="text" class="form-control" name="valuation_type" placeholder="Enter Valuation Prediction type" required>
+                                            @error('valuation_type')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+
+                                     
+                                        <div class="mb-3">
+                                            <label for="launchPrice">Current Price (₦)</label>
+                                            <input 
+                                                type="text" 
+                                                class="form-control" 
+                                                id="currentPrice2" 
+                                                name="current_price" 
+                                                placeholder="Enter Current Price" 
+                                                value="{{ $property->price ? '₦' . number_format($property->price, 2) : '' }}" 
+                                                required>
+                                                @error('current_price')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="marketValue">Current Market Value (₦)</label>
+                                            <input 
+                                                type="text" 
+                                                class="form-control" 
+                                                id="marketValue2" 
+                                                name="market_value" 
+                                                placeholder="Enter Current Market Value" 
+                                                value="" 
+                                                required>
+                                            @error('market_value')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function () {
+                                                const marketValueInput = document.getElementById('marketValue2');
+                                        
+                                                marketValueInput.addEventListener('input', function () {
+                                                    // Allow only numeric input, including decimals
+                                                    this.value = this.value.replace(/[^0-9.]/g, '');
+                                                });
+                                        
+                                                marketValueInput.addEventListener('blur', function () {
+                                                    // Format the value as currency on blur
+                                                    const numericValue = parseFloat(this.value.replace(/,/g, '')) || 0;
+                                                    this.value = new Intl.NumberFormat('en-NG', {
+                                                        style: 'currency',
+                                                        currency: 'NGN',
+                                                        minimumFractionDigits: 2
+                                                    }).format(numericValue);
+                                                });
+                                        
+                                                marketValueInput.addEventListener('focus', function () {
+                                                    // Remove currency formatting on focus for easier editing
+                                                    this.value = this.value.replace(/[^0-9.]/g, '');
+                                                });
+                                            });
+                                        </script>
+                                        
+                                        <div class="mb-3">
+                                            <label for="priceIncrease">Price Increase (%)</label>
+                                            <input 
+                                                type="text" 
+                                                class="form-control" 
+                                                name="percentage_increase" 
+                                                id="priceIncrease2" 
+                                                placeholder="Price Increase" 
+                                                readonly>
+                                        </div>
+                                        
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function () {
+                                                const currentPriceInput = document.getElementById('currentPrice2');
+                                                const marketPriceInput = document.getElementById('marketValue2');
+                                                const priceIncreaseInput = document.getElementById('priceIncrease2');
+                                        
+                                                function parseCurrency(value) {
+                                                    return parseFloat(value.replace(/[₦,]/g, '')) || 0;
+                                                }
+                                        
+                                                function calculateIncrease() {
+                                                    const currentPrice = parseCurrency(currentPriceInput.value);
+                                                    const marketPrice = parseFloat(marketPriceInput.value) || 0;
+                                        
+                                                    if (currentPrice > 0 && marketPrice > 0) {
+                                                        const increasePercentage = ((marketPrice - currentPrice) / currentPrice) * 100;
+                                                        priceIncreaseInput.value = increasePercentage.toFixed(0) + '%';
+                                                    } else {
+                                                        priceIncreaseInput.value = '0.0';
+                                                    }
+                                                }
+                                        
+                                                currentPriceInput.addEventListener('input', calculateIncrease);
+                                                marketPriceInput.addEventListener('input', calculateIncrease);
+                                        
+                                                // Trigger calculation on page load
+                                                calculateIncrease();
+                                            });
+                                        </script>
+                                        
+                                        
+                                        
+
+                                        <div class=" mb-3">
+                                            <div class="col-lg-1"></div>
+                                            <div class="col-lg-6">
+                                                <button type="submit" class="btn btn-primary">Add Valuation Prediction</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
                     </div>
                     <div class="col-lg-1"></div>
                 </div><!--end row-->

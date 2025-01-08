@@ -644,6 +644,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Models\\Property' => __DIR__ . '/../..' . '/app/Models/Property.php',
         'App\\Models\\PropertyPriceUpdate' => __DIR__ . '/../..' . '/app/Models/PropertyPriceUpdate.php',
         'App\\Models\\PropertyValuation' => __DIR__ . '/../..' . '/app/Models/PropertyValuation.php',
+        'App\\Models\\PropertyValuationPrediction' => __DIR__ . '/../..' . '/app/Models/PropertyValuationPrediction.php',
         'App\\Models\\ReferralLog' => __DIR__ . '/../..' . '/app/Models/ReferralLog.php',
         'App\\Models\\Sell' => __DIR__ . '/../..' . '/app/Models/Sell.php',
         'App\\Models\\Sociallink' => __DIR__ . '/../..' . '/app/Models/Sociallink.php',

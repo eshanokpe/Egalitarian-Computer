@@ -48,10 +48,10 @@
                     </div>
                     <!--end col-->
                     <div class="col-lg-9">
-                        <div class="card">
+                        <div class="card"> 
                             
                             <div class="card-body">  
-                                @include('admin.home.settings.sociallink.add')
+                                @include('admin.home.settings.socialLink.add')
                                                                                                    
                             </div><!--end card-body-->
                         </div>

@@ -14,6 +14,19 @@
         margin-left: 8px;
         animation: fadeInOut 3s forwards;
     }
+    .referral-code {
+    word-break: break-word; /* Ensure long text breaks into the next line */
+    overflow-wrap: break-word; /* Allow content to wrap within the container */
+}
+
+.referral_code {
+    display: block; /* Force the referral code to start on a new line */
+    margin-bottom: 10px; /* Add space below the referral code */
+    font-size: 14px; /* Adjust font size if needed */
+    color: #333; /* Optional: Set a text color */
+    max-width: 100%; /* Prevent it from exceeding the container width */
+}
+
 
     @keyframes fadeInOut {
         0% { opacity: 0; }
@@ -231,17 +244,18 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="swiper-slide">
-                                <div class="currency__card">
+                                <div class="currency__card" style="border: 1px solid #ddd; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                                     <h3 class="currency__card--title">
                                         Refer Your Friend and Earn to Your Wallet
                                     </h3>
-                                    <div class="referral-code">
-                                        <span class="currency__weekly  referral_code">
+                                    <div class="referral-code" >
+                                        <span class="currency__weekly  referral_code" >
                                             {{ url('/user/register/referral/' . $user->referral_code) }}
                                         </span>
                                         <button class="copy-btn btn btn-success btn-lg" onclick="copyReferralLink()">Copy</button>
                                     </div>
                                 </div>
+                               
                                 
                             </div>
                         </div>

@@ -49,19 +49,7 @@
                         </ul>
                     </li>
                     <li class="offcanvas__menu_li"><a class="offcanvas__menu_item" href="./blog.html">News</a></li>
-                    <li class="offcanvas__menu_li">
-                        <a class="offcanvas__menu_item" href="#">Pages</a>
-                        <ul class="offcanvas__sub_menu">
-                            <li class="offcanvas__sub_menu_li"><a href="./about.html" class="offcanvas__sub_menu_item">About Us</a></li>
-                            <li class="offcanvas__sub_menu_li"><a href="./contact.html" class="offcanvas__sub_menu_item">Contact Us</a></li>
-                            <li class="offcanvas__sub_menu_li"><a href="./project.html" class="offcanvas__sub_menu_item">Project</a></li>
-                            <li class="offcanvas__sub_menu_li"><a href="./project-details.html" class="offcanvas__sub_menu_item">Project Details</a></li>
-                            <li class="offcanvas__sub_menu_li"><a href="./services-details.html" class="offcanvas__sub_menu_item">Services Details</a></li>
-                            <li class="offcanvas__sub_menu_li"><a href="./login.html" class="offcanvas__sub_menu_item">Login</a></li>
-                            <li class="offcanvas__sub_menu_li"><a href="./sign-up.html" class="offcanvas__sub_menu_item">Sing Up</a></li>
-                            <li class="offcanvas__sub_menu_li"><a href="./404.html" class="offcanvas__sub_menu_item">Error 404</a></li>
-                        </ul>
-                    </li>
+                  
                 </ul>
             </nav>
             <a class="add__listing--btn offcanvas__listing--btn solid__btn" href="./admin/create-listing.html"><span>Add Listing</span> <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">

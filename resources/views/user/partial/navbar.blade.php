@@ -205,7 +205,7 @@
                     <a class="header__user--profile__link d-flex align-items-center" href="#">
                         <img class="header__user--profile__thumbnail" 
                         style="border-radius:50px; max-height: 100%; max-width:100%; width:30px; height:30px;  object-fit: cover;"
-                        src="{{ Auth::user()->profile_image ? asset('storage/'.$user->profile_image) : asset('assets/admin/img/dashboard/avater.jpg') }}" 
+                        src="{{ Auth::user()->profile_image ? asset($user->profile_image) : asset('assets/admin/img/dashboard/avater.jpg') }}" 
                         alt="img">
 
                         <span class="header__user--profile__name">{{ Auth::user()->name}}</span>

@@ -41,7 +41,7 @@
             <div class="mb-3 mb-lg-0 row">
                 <label for="example-search-input" class="col-sm-2 col-form-label text-end"></label>
                 <div class="col-sm-10">
-                <button type="submit" class="btn btn-primary">{{ isset($aboutUs) ? 'Update' : 'Add' }}</button>
+                <button type="submit" class="btn btn-primary">{{ isset($about) ? 'Update' : 'Add' }}</button>
                 </div>
             </div>     
         </form>

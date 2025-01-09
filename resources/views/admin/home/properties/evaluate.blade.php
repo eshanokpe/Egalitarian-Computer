@@ -49,7 +49,8 @@
                                 <div class="row d-flex justify-content-center mb-3">                                                
                                     <div class="col">
                                         <p class="text-dark mb-1 fw-semibold">Current Price</p>
-                                        <h4 class="font-22 fw-bold">₦{{ number_format($property->price, 2) ?? '' }}</h4> 
+                                        {{-- <h4 class="font-22 fw-bold">₦{{ number_format($property->price, 2) ?? '' }}</h4>  --}}
+                                        <h4 class="font-22 fw-bold">₦{{ number_format($marketValueSum, 2) ?? '' }}</h4> 
                                         
                                     </div>
                                     <div class="col-auto align-self-center">
@@ -68,7 +69,6 @@
                                 <h4 class="card-title">Evaluation Variation  </h4>
                             </div><!--end card-header--> 
                             <div class="card-body">
-                                <h4>Total Variable Cost : ₦{{ number_format($marketValueSum, 2) }}</h4>
     
                                 @forelse ($propertyValuation as $item)
                                     <div class="row d-flex justify-content-center mb-3">                                                

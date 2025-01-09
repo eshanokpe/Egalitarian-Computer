@@ -38,10 +38,10 @@
                                         </div> 
                                     </td>
                                     <td>
-                                        <span class="item-price">₦{{ number_format($property->price, 2) }}</span>
+                                        <span class="item-price">₦{{ number_format($property->price, 2) }} per/sqm</span>
                                     </td>
                                     <td class="available-size" data-initial-size="{{ $property->buys->sum('selected_size_land')}}">
-                                        {{ $property->buys->sum('selected_size_land')}} per/sqm
+                                        {{ $property->buys->sum('selected_size_land')}} SQM 
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -98,7 +98,7 @@ function updateCart(row) {
     const remainingSize = Math.max(initialSize - quantity, 1); // Prevent negative sizes
 
     row.querySelector('.total-price').textContent = `₦${total.toLocaleString('en-NG', { minimumFractionDigits: 2 })}`;
-    availableSizeElement.textContent = `${remainingSize} per/sqm`;
+    availableSizeElement.textContent = `${remainingSize} SQM`;
 }
 
 // Add event listeners for buttons and inputs

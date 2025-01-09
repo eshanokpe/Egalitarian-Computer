@@ -39,13 +39,13 @@
                                         </div> 
                                     </td>
                                     <td>
-                                        <span class="item-price">₦{{ number_format($property->price, 2) }}</span>
+                                        <span class="item-price">₦{{ number_format($property->price, 2) }} per/sqm</span>
                                     </td>
                                     <td>
-                                        <span>{{ $property->size }} per/sqm</span>
+                                        <span>{{ $property->size }} SQM</span>
                                     </td>
                                     <td class="available-size" data-initial-size="{{ $property->available_size }}">
-                                        {{ $property->available_size }} per/sqm
+                                        {{ $property->available_size }} SQM 
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">

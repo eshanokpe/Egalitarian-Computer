@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
 use Illuminate\Support\Str;
 use App\Models\Buy;  
 use Yabacon\Paystack;  
@@ -101,5 +101,8 @@ class TransactionController extends Controller
         }
     }
 
-    
+    public function show($id){
+        $transaction = Transaction::where('id',  decrypt($id))->first();
+        return view('user.pages.transactions.show', compact('transaction')); 
+    }
 }

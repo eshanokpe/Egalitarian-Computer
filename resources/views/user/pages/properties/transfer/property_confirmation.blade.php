@@ -40,7 +40,7 @@
                                         <span class="item-price">₦{{ number_format($data['total_price'], 2) }}</span>
                                     </td>
                                     <td class="available-size" data-initial-size="{{  $data['land_size']}}">
-                                        {{  $data['land_size'] }} per/sqm
+                                        {{  $data['land_size'] }} SQM
                                     </td>
                                     <td>
                                         <span class="total-price" style="color: #47008E">₦{{ number_format($data['total_price'], 2) }}</span>

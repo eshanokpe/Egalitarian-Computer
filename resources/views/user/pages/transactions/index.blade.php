@@ -57,20 +57,20 @@
                                             ];
                                             $statusColor = $statusColors[$transaction->status] ?? $statusColors['default'];
                                         @endphp
-                                        <span class="status__btn pending2" style="background-color: {{ $statusColor }};">
-                                            <a class="text-white">{{ ucfirst($transaction->status) }}</a>
+                                        <span class="status__btn pending2" style="background-color: {{ $statusColor }}; color:#fff">
+                                            {{ ucfirst($transaction->status) }}
                                         </span>
-                                    </td>
+                                    </td> 
                                     <td>
                                         <span class="status__btn pending2">
-                                            <a href="{{ route('user.properties.show', encrypt($transaction->property->id)) }}">
-                                                View
+                                            <a href="{{ route('user.transaction.show', encrypt($transaction->id)) }}">
+                                                View Receipt
                                             </a>
                                         </span>
                                     </td>
                                 </tr>
                             @empty
-                                <tr>
+                                <tr> 
                                     <td colspan="7" class="text-center">No transactions available</td>
                                 </tr>
                             @endforelse

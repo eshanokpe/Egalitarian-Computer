@@ -40,7 +40,7 @@
                                                 <div class="reviews__author--text">
                                                     <h3 class="reviews__author--title">{{$item->name}}</h3>
                                                     <p class="reviews__author--subtitle">{{$item->location}}</p>
-                                                    <span class="properties__author--price">₦{{ number_format($item->price, 2) }}</span>
+                                                    <span class="properties__author--price">₦{{ number_format($item->price, 2) }} per/sqm</span>
                                                     <p class="reviews__author--title">{{$item->percentage_increase}}%</p>
                                                 </div>
                                             </div>
@@ -53,10 +53,10 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <span class="properties__views">{{$item->size}} per/sqm</span>
+                                            <span class="properties__views">{{$item->size}} SQM </span>
                                         </td>
                                         <td>
-                                            <span class="properties__views">{{$item->available_size}} per/sqm</span>
+                                            <span class="properties__views">{{$item->available_size}} SQM </span>
                                         </td>
                                         <td>
                                             <span class="sales__report--status pending2"><a href="{{ route('user.properties.show', encrypt($item->id))}}">View</a></span>

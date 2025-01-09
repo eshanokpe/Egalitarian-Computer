@@ -81,6 +81,7 @@ class AppServiceProvider extends ServiceProvider
                 $notifications = $user->notifications()
                     ->where('notifiable_id', $sender_id)  
                     ->orWhereJsonContains('data->recipient_id', $recipientId) 
+                    ->orderBy('created_at', 'desc') 
                     ->take(4) 
                     ->get();
         

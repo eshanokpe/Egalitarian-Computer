@@ -95,10 +95,10 @@ class SellPropertyController extends Controller
         ->where('user_id', $user->id)
         ->where('user_email', $user->email)
         ->groupBy('property_id', 'status') 
-        ->get();
+        ->paginate(10);
   
         return view('user.pages.properties.sell.history' , $data);
     }
- 
+  
 }
  

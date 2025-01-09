@@ -101,7 +101,7 @@
                                             <div class="chat__inbox--wrapper">
                                                 <ul class="chat__inbox--menu">
                                                     @foreach (auth()->user()->unreadNotifications as $notification)
-                                                        <li class="chat__inbox--menu__list">
+                                                        <li class="chat__inbox--menu__list mb-2" >
                                                             <a class="chat__inbox--menu__link active mark-as-read" href="{{ route('user.notifications.show', $notification->id) }}">
                                                                 {{ $notification->data['property_name'] }}: 
                                                                 Market Value ₦{{ number_format($notification->data['market_value'] ?? 0.0, 2) }}, 
@@ -111,7 +111,7 @@
                                                     @endforeach
 
                                                     @foreach ($notificationsBar as $notification)
-                                                        <li class="chat__inbox--menu__list">
+                                                        <li class="chat__inbox--menu__list mb-2">
                                                             <snap class="sales__report--status pending2"> {{ $notification->data['message'] }}</snap>
                                                             <a class="chat__inbox--menu__link active mark-as-read" href="#" 
                                                                data-notification-id="{{ $notification->id }}" 
@@ -129,7 +129,6 @@
                                                                 </div>
                                                             </a>
                                                         </li>
-                                                        
                                                         <script>
                                                             $(document).on('click', '.mark-as-read', function(e) {
                                                             
@@ -174,7 +173,6 @@
                                                                 });
                                                             });
                                                         </script>
-                                                    
                                                     @endforeach
                                                 </ul>
                                             </div>

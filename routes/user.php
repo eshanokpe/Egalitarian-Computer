@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\WalletController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\ProfileController;
@@ -31,7 +32,11 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('/transaction/report', [DashboardController::class, 'transactionReport'])->name('transactions');
 
     Route::get('/transaction/report', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::get('/transaction/show/{id}', [TransactionController::class, 'show'])->name('transaction.show');
     
+    Route::get('/wallet/index', [WalletController::class, 'index'])->name('wallet.index');
+    
+
     Route::get('/properties', [PropertyController::class, 'index'])->name('properties');
     Route::get('/buy', [PropertyController::class, 'buy'])->name('buy'); 
     Route::get('/offer/price/{id}', [PropertyController::class, 'offerPrice'])->name('offerPrice'); 

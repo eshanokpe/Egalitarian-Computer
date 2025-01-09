@@ -13,7 +13,7 @@
         border-radius: 4px; /* Rounded corners for the button */
         cursor: pointer; /* Pointer cursor on hover */
     }
-
+ 
 </style>
 
 @section('content')
@@ -49,12 +49,12 @@
                                         <div class="reviews__author--text">
                                             <h3 class="reviews__author--title">{{$property->property->name}}</h3>
                                             <p class="reviews__author--subtitle">{{$property->property->location}}</p>
-                                            <span class="properties__author--price">₦{{ number_format($property->property->price, 2)}}</span>
+                                            <span class="properties__author--price">₦{{ number_format($property->property->price, 2)}} per/sqm</span>
                                         </div> 
                                     </div>
                                 </td>
                                 <td> 
-                                    <span class="properties__views">{{ $property->total_selected_size_land }} per/sqm</span>
+                                    <span class="properties__views">{{ $property->total_selected_size_land }} SQM</span>
                                 </td>
                                 <td>
                                     @if($property->status == 'pending')

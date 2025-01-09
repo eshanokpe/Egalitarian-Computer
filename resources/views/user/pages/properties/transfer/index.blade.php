@@ -34,8 +34,8 @@
                                         <div class="reviews__author--text">
                                             <h3 class="reviews__author--title">{{$property->property->name}}</h3>
                                             <p class="reviews__author--subtitle">{{$property->property->location}}</p>
-                                            <span class="properties__author--price">₦{{ number_format($property->property->price, 2)}}</span>
-                                            <p class="properties__author--price text-decoration-line-through text-muted">₦{{ number_format($property->property->lunch_price, 2)}}</p>
+                                            <span class="properties__author--price">₦{{ number_format($property->property->price, 2)}} per/sqm</span>
+                                            <p class="properties__author--price text-decoration-line-through text-muted">₦{{ number_format($property->property->lunch_price, 2)}} per/sqm</p>
                                         </div>
                                     </div>
                                 </td>
@@ -46,7 +46,7 @@
                                 </td>
                               
                                 <td> 
-                                    <span class="properties__views">{{ $property->total_selected_size_land }} per/sqm</span>
+                                    <span class="properties__views">{{ $property->total_selected_size_land }} SQM</span>
                                 </td>
                                 <td>
                                     <span class="status__btn pending2">

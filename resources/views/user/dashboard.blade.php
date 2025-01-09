@@ -153,7 +153,7 @@
                                     <th style="width: 5%; padding: 10px;">#</th> <!-- Minimal space for index -->
                                     <th style="width: 20%; padding: 5px;">Transaction Ref</th>
                                     <th style="width: 20%; padding: 5px;">Payment Method</th>
-                                    <th style="width: 15%; padding: 5px;">Price</th>
+                                    <th style="width: 15%; padding: 5px;">Amount</th>
                                     <th style="width: 15%; padding: 5px;">Created</th>
                                     <th style="width: 10%; padding: 5px;">Status</th>
                                 </tr>

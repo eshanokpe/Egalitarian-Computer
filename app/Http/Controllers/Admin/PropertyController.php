@@ -421,7 +421,11 @@ class PropertyController extends Controller
         $property->price = $marketValue; 
         $property->percentage_increase = $priceIncrease; 
         $property->save(); 
-
+        
+        $users = User::all();
+        foreach ($users as $user) { 
+            $user->notify(new PropertyValuationNotification($property, $priceIncrease));
+        }
 
         return redirect()->back()->with('success', 'Properties Valuation updated successfully!');
     }

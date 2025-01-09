@@ -68,6 +68,8 @@
                                 <h4 class="card-title">Evaluation Variation  </h4>
                             </div><!--end card-header--> 
                             <div class="card-body">
+                                <h4>Total Variable Cost : ₦{{ number_format($marketValueSum, 2) }}</h4>
+    
                                 @forelse ($propertyValuation as $item)
                                     <div class="row d-flex justify-content-center mb-3">                                                
                                         <div class="col">
@@ -108,7 +110,7 @@
                                             <h4 class="font-18 fw-bold">₦{{ number_format($item->market_value, 2) ?? '' }}</h4> 
                                             <p class="mb-0 text-truncate text-muted">{{  \Carbon\Carbon::parse($item->created_at)->format('d F, Y') }} </p>
                                             
-                                        </div>
+                                        </div> 
                                         <div class="col-auto align-self-center" style="margin-right: 50px">
                                             <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
                                                 {{ $item->percentage_increase}}% 

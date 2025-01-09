@@ -244,6 +244,7 @@ class PropertyController extends Controller
     {
         $propertyId = decrypt($id); 
         $data['property'] = Property::findOrFail($propertyId);
+        
         $data['propertyValuation'] = PropertyValuation::where('property_id', $data['property']->id)
         ->when(request('filter'), function ($query) {
             // Filter by selected year
@@ -254,6 +255,7 @@ class PropertyController extends Controller
         })
         ->orderBy('created_at', 'asc') 
         ->get();
+        $data['marketValueSum'] = $data['propertyValuation']->sum('market_value');
 
         $data['propertyValuationPrediction'] = PropertyValuationPrediction::where('property_id', $data['property']->id)
         ->when(request('filter'), function ($query) {
@@ -371,7 +373,7 @@ class PropertyController extends Controller
         $propertyId = decrypt($id); 
         $data['propertyValuation'] = PropertyValuation::findOrFail($propertyId);
         $data['property'] = Property::findOrFail($data['propertyValuation']->property_id);
-        // dd( $data['property']);
+   
         return view('admin.home.properties.edit-evaluation', $data);
     }
 
@@ -379,7 +381,6 @@ class PropertyController extends Controller
         $propertyId = decrypt($id); 
         $data['propertyValuationPrediction'] = PropertyValuationPrediction::findOrFail($propertyId);
         $data['property'] = Property::findOrFail($data['propertyValuationPrediction']->property_id);
-        // dd( $data['property']);
         return view('admin.home.properties.edit-evaluation-prediction', $data);
     }
 

@@ -9,11 +9,10 @@
                     <div class="breadcrumb__content text-center" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="100">
                         <h1 class="breadcrumb__title h2">
                             <span>About </span>
-                            
                         </h1>
                         <ul class="breadcrumb__menu d-flex justify-content-center">
                             <li class="breadcrumb__menu--items">
-                                <a class="breadcrumb__menu--link" href="./index.html">Home</a>
+                                <a class="breadcrumb__menu--link" href="#">Home</a>
                             </li>
                             <li>
                                 <span>
@@ -36,13 +35,10 @@
                     <div class="about__inner d-flex">
                         <div class="about__thumbnail position-relative" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="100">
                             <div class="about__thumbnail--list one position-relative">
-                                <img src="/assets/img/other/about-thumb1.png" alt="about-thumb">
+                                <img src="{{ asset($about->image)}}" alt="about-thumb">
                                 
                             </div>
-                            <div class="about__thumbnail--list two">
-                                <img src="/assets/img/other/about-thumb2.png" alt="about-thumb">
-                                
-                            </div>
+                            
                         </div>
                         <div class="about__content" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="150">
                             <div class="section__heading" style="text-align: justify">

@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="contact__us--map aos-init aos-animate" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="150">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.546467503306!2d-0.12209412307005911!3d51.50318971101062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604b900d26973%3A0x4291f3172409ea92!2slastminute.com%20London%20Eye!5e0!3m2!1sen!2sbd!4v1700026532111!5m2!1sen!2sbd" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d482.03923983573395!2d3.4291290419066343!3d6.428674840342704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s1637%2C%20Ibukun%20House%20Ademola%20Adetokunbo%2C%20Victoria%20Island%2C%20Lagos.!5e0!3m2!1sen!2sng!4v1736498530198!5m2!1sen!2sng" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
             

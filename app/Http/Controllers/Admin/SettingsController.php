@@ -107,6 +107,7 @@ class SettingsController extends Controller
             'first_address' => 'nullable|string',
             'site_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'favicon' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'contactUs_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($request->hasFile('site_logo')) {
@@ -120,6 +121,12 @@ class SettingsController extends Controller
             $footerLogo = uniqid().'.'. $image->getClientOriginalExtension();
             $image->move(public_path('assets/images/logo'), $footerLogo);
             $validated['favicon'] = 'assets/images/logo/' . $footerLogo;
+        }
+        if ($request->hasFile('contactUs_logo')) {
+            $image = $request->file('contactUs_logo');
+            $ContactLogo = uniqid().'.'. $image->getClientOriginalExtension();
+            $image->move(public_path('assets/images/logo'), $ContactLogo);
+            $validated['contactUs_logo'] = 'assets/images/logo/' . $ContactLogo;
         }
        
 
@@ -140,6 +147,7 @@ class SettingsController extends Controller
             'first_address' => 'required|string',
             'site_logo' => 'image|mimes:jpeg,png,jpg,gif|max:4048',
             'favicon' => 'image|mimes:jpeg,png,jpg,gif|max:4048',
+            'contactUs_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]); 
 
         $contactUs = ContactDetials::findOrFail($id);
@@ -159,6 +167,20 @@ class SettingsController extends Controller
             $contactUs->site_logo = 'assets/images/logo/' . $imageName;
         }
 
+        if ($request->hasFile('contactUs_logo')) {
+            $imagecontactUsLogo = $request->file('contactUs_logo');
+            $imageNameContact = uniqid(). '.' . $imagecontactUsLogo->getClientOriginalExtension();
+            $imagecontactUsLogo->move(public_path('assets/images/logo'), $imageNameContact);
+
+            // Delete old footer_logo file if exists
+            if ($contactUs->contactUs_logo) {
+                $oldImagePath = public_path($contactUs->contactUs_logo);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+            $contactUs->contactUs_logo = 'assets/images/logo/' . $imageNameContact;
+        }
         if ($request->hasFile('favicon')) {
             $imagefavicon = $request->file('favicon');
             $imageNameFavicon = uniqid(). '.' . $imagefavicon->getClientOriginalExtension();

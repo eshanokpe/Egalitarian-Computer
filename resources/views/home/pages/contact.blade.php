@@ -118,7 +118,9 @@
                                 Nestled in the Buckhead</li>
                         </ul>
                         <div class="contact__property--thumb">
-                            <img src="./assets/img/other/contact-property-thumb.png" alt="img">
+                            <img 
+                            style="object-fit: cover; width:100%; height:100%; width:560px; height:400px"
+                            src="{{ asset($contactDetials->contactUs_logo) }}" alt="img">
                         </div>
                     </div>
                     <div class="contact__property--form" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200">

@@ -76,6 +76,21 @@
                     <img id="image-preview-favicon" src="" alt="Image Preview" class="img-thumbnail mt-2" style="display:none; max-width: 200px;">
                 </div>
             </div> 
+            <div class="mb-3 row">
+                <label for="example-email-input" class="col-sm-2 col-form-label text-end">Contact us Logo</label>
+                <div class="col-sm-10">
+                    <input id="contactUs_logo" type="file" class="form-control @error('image') is-invalid @enderror" name="contactUs_logo"  onchange="previewImageContactUs(event)">
+                    @error('contactUs_logo')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                    @if(isset($contactDetials)) 
+                        <img src="{{ asset($contactDetials->contactUs_logo) }}" alt="{{ $contactDetials->company_name }}" class="img-thumbnail mt-2" width="200">
+                    @endif
+                    <img id="image-preview-contactus" src="" alt="Image Preview" class="img-thumbnail mt-2" style="display:none; max-width: 200px;">
+                </div>
+            </div> 
             
             <div class="mb-3 mb-lg-0 row">
                 <label for="example-search-input" class="col-sm-2 col-form-label text-end"></label>
@@ -103,6 +118,21 @@
             function previewImageFavicon(event) {
                 const input = event.target;
                 const preview = document.getElementById('image-preview-favicon');
+                
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+                    
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            function previewImageContactUs(event) {
+                const input = event.target;
+                const preview = document.getElementById('image-preview-contactus');
                 
                 if (input.files && input.files[0]) {
                     const reader = new FileReader();

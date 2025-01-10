@@ -19,5 +19,6 @@ class ContactDetials extends Model
         'second_address',
         'site_logo',
         'favicon',
+        'contactUs_logo'
     ];
 }

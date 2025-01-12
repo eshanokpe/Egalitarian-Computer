@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class WalletFunded extends Notification implements ShouldQueue
+class WalletFundedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -62,6 +62,7 @@ class WalletFunded extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
+            'status' => 'WalletFundedNotification',
             'amount' => $this->amount,
             'balance' => $this->balance,
             'message' => "₦{$this->amount} has been added to your wallet. New balance: ₦{$this->balance}.",

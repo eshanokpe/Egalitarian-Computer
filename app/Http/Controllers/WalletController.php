@@ -33,6 +33,7 @@ class WalletController extends Controller
         $data = ['customer' => $customerId];
         // $data['preferred_bank'] = 'wema-bank';
         $data['preferred_bank'] = 'titan-paystack';
+        // $data['preferred_bank'] = 'test-bank';
         
         try {
             $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))

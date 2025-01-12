@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\Models\Transaction;
-use App\Notifications\WalletFunded;
+use App\Notifications\WalletFundedNotification;
 
 class WebhookController extends Controller
 {
@@ -51,7 +51,7 @@ class WebhookController extends Controller
                 ]);
                 // Trigger the notification
                 $newBalance = $user->wallet->balance;
-                $user->notify(new WalletFunded($amount, $newBalance));
+                $user->notify(new WalletFundedNotification($amount, $newBalance));
 
 
                 Log::info("Wallet updated successfully for user: {$email}");

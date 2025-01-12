@@ -455,7 +455,7 @@
                                             @enderror
                                         </div>
 
-                                     
+                                      
                                         <div class="mb-3">
                                             <label for="launchPrice">Current Price (₦)</label>
                                             <input 

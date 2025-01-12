@@ -78,7 +78,7 @@
                               
                             </tr>
                             @empty
-                               <tr><td> No Property available </td></tr>
+                                <tr><td>You have not bought any property yet.</td></tr>
                             @endforelse
                            
                             

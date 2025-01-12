@@ -61,10 +61,10 @@ class RegisterController extends Controller
     {
         // Validate the input
         $request->validate([
-            'first_name' => 'required|string|max:50|unique:users',
-            'last_name' => 'required|string|max:50|unique:users',
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
             'email' => 'required|string|email|max:50|unique:users',
-            'phone' => 'required|string|unique:users',
+            'phone' => 'required|string',
             // 'phone' => 'required|string|regex:/^\+?[0-9]{10,15}$/|unique:users',
             'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
             'referral_code' => 'nullable|string|exists:users,referral_code',

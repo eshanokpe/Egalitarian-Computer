@@ -41,6 +41,7 @@ class RecipientSubmittedNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
+            'notification_status' => 'RecipientSubmittedNotification',
             'property_id' => $this->transferDetails['property_id'],
             'property_slug' => $this->transferDetails['property_slug'],
             'property_name' => $this->transferDetails['property_name'],
@@ -64,12 +65,12 @@ class RecipientSubmittedNotification extends Notification
         $message = $notifiable->id === $this->transferDetails['sender_id']
             ? 'You have initiated a property transfer.'
             : 'You have received a property transfer.';
-        $formattedPrice = number_format($this->transferDetails['total_price'], 2);
+        $formattedPrice = number_format($this->transferDetails['total_price']/100, 2);
         return (new MailMessage)
             ->subject('Property Transfer Notification')
             ->line($message)
             ->line('Property Name: ' . $this->transferDetails['property_name'])
-            ->line('Land Size: ' . $this->transferDetails['land_size'])
+            ->line('Land Size: ' . $this->transferDetails['land_size'] .' SQM')
             ->line('Total Price: ₦' . $formattedPrice)
             ->line('Reference: ' . $this->transferDetails['reference'])
             ->action('View Property', url('/property/' . $this->transferDetails['property_slug']))
@@ -85,6 +86,7 @@ class RecipientSubmittedNotification extends Notification
     public function toArray($notifiable)
     {
         return [ 
+            'notification_status' => 'RecipientSubmittedNotification',
             'property_id' => $this->transferDetails['property_id'],
             'property_slug' => $this->transferDetails['property_slug'],
             'property_name' => $this->transferDetails['property_name'],

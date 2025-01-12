@@ -65,7 +65,7 @@
                             </tr>
                             @empty
                                 <tr>
-                                    <td> No Transfer Property available </td>
+                                    <tr><td>You have not bought any property yet.</td></tr>
                                 </tr>
                             @endforelse
                            

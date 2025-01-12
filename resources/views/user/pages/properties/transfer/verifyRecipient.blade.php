@@ -28,22 +28,22 @@
                                     <td>
                                         <div class="properties__author d-flex align-items-center">
                                             <div class="properties__author--thumb">
-                                                <img src="{{ asset($data['metadata']['property_image']) }}" alt="img" 
+                                                <img src="{{ asset($propertyImage) }}" alt="img" 
                                                     style="width: 64px; height:64px; object-fit:cover">
                                             </div>
                                             <div class="reviews__author--text">
-                                                <h3 class="reviews__author--title">{{ $data['metadata']['property_name'] }}</h3>
+                                                <h3 class="reviews__author--title">{{ $propertyName }}</h3>
                                             </div>
                                         </div> 
                                     </td>
                                     <td>
-                                        <span class="item-price">₦{{ number_format($data['amount'], 2) }}</span>
+                                        <span class="item-price">₦{{ number_format($amount, 2) }}</span>
                                     </td>
-                                    <td class="available-size" data-initial-size="{{  $data['metadata']['selected_size_land']}}">
-                                        {{  $data['metadata']['selected_size_land'] }} SQM
+                                    <td class="available-size" data-initial-size="{{  $landSize }}">
+                                        {{  $landSize }} SQM
                                     </td> 
                                     <td>
-                                        <span class="total-price" style="color: #47008E">₦{{ number_format($data['amount'], 2) }}</span>
+                                        <span class="total-price" style="color: #47008E">₦{{ number_format($amount, 2) }}</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -59,23 +59,20 @@
                         <div class="setting__profile " style="background-color: #fff"> 
                             <div class="edit__profile--step">
                                 <h4 class="setting__profile--title">Recipient Information</h4>
-                                {{-- <form action="{{ route('user.checkRecipient.transfer') }}" method="POST"> --}}
-                                    <form action="{{ route('user.verify.checkRecipient') }}" method="POST">
-                                    @csrf 
+                                <form action="{{ route('user.checkRecipient.transfer') }}" method="POST">
+                                    @csrf
                                     <div class="setting__profile--inner">
-                                        <input name="selected_size_land" id="selected_size_land" type="hidden" value="{{$data['metadata']['selected_size_land'] }}"/>
-                                        <input name="property_slug" id="property_slug" type="hidden" value="{{$data['metadata']['property_slug'] }}"/>
-                                        <input name="property_id" id="property_id" type="hidden" value="{{$data['metadata']['property_id'] }}"/>
-                                        <input name="amount" id="amount" type="hidden" value="{{$data['amount'] }}"/>
+                                        <input name="selected_size_land" id="selected_size_land" type="hidden" value="{{$landSize }}"/>
+                                        <input name="property_slug" id="property_slug" type="hidden" value="{{ $propertySlug }}"/>
+                                        <input name="property_id" id="property_id" type="hidden" value="{{$propertyId }}"/>
+                                        <input name="amount" id="amount" type="hidden" value="{{ $amount }}"/>
+                                        <input required class="add__listing--input__field mb-10" id="name" name="recipient_id"  placeholder="Recipient ID" type="hidden" value="{{ $recipientData->id }}">
+
                                         <div class="add__listing--input__box mb-20">
-                                            <label class="add__listing--input__label" for="email">Enter Recipient ID</label>
-                                            <input required class="add__listing--input__field" id="name" name="recipient_id" placeholder="Recipient ID" type="text" value="">
-                                            <input name="property_slug" id="property_slug" type="hidden" value="{{$data['metadata']['property_slug'] }}"/>
-                                            <input required class="add__listing--input__field" id="name" name="property_image" placeholder="Recipient ID" type="hidden" value="{{ $data['metadata']['property_image'] }}">
-                                            <input required class="add__listing--input__field" id="name" name="property_name" placeholder="Recipient ID" type="hidden" value="{{ $data['metadata']['property_name'] }}">
-                                            <input required class="add__listing--input__field" id="name" name="amount" placeholder="Recipient ID" type="hidden" value="{{ $data['amount'] }}">
-                                            <input required class="add__listing--input__field" id="name" name="selected_size_land" placeholder="Recipient ID" type="hidden" value="{{ $data['metadata']['selected_size_land'] }}">
-                                            
+                                            <label class="add__listing--input__label" for="email">Recipient Details</label>
+                                            <input required class="add__listing--input__field mb-10" id="name" name="recipient_id" disabled placeholder="Recipient ID" type="text" value="{{ $recipientData->last_name.' '.$recipientData->first_name }}">
+                                            <input required class="add__listing--input__field mb-10" id="name" name="recipient_id" disabled placeholder="Recipient ID" type="text" value="{{ $recipientData->email}}">
+                                            <small><b>{{ $recipientData->recipient_id}}</b></small>
                                         </div>
                                         
                                         <button type="submit" class="solid__btn add__property--btn">Continue</button>

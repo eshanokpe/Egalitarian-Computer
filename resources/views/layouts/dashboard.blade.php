@@ -55,6 +55,19 @@
         max-width: 200px;
         width: 100%;
     }
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+    .dashboard__page--wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+  }
+
+  footer {
+      margin-top: auto; /* Pushes the footer to the bottom */
+  }
   </style>
  
 </head>

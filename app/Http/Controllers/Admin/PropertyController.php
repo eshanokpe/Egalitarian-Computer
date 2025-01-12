@@ -321,7 +321,7 @@ class PropertyController extends Controller
 
         // Send notification to all users
         $users = User::all();
-        foreach ($users as $user) { 
+        foreach ($users as $user) {  
             $user->notify(new PropertyValuationNotification($property, $priceIncrease));
         }
 
@@ -354,7 +354,7 @@ class PropertyController extends Controller
             'current_price' => $currentPrice,
             'market_value' => $marketValue,
             'percentage_increase' => $percentageIncrease,
-        ]);
+        ]); 
         $property = Property::findOrFail($request->property_id);
         $lunchPrice = $property->lunch_price;
         $priceIncrease = $lunchPrice > 0 ? (($marketValue - $lunchPrice) / $lunchPrice) * 100 : 0;

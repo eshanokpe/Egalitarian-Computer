@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\User;
+use App\Notifications\SenderTransferNotification;
 use App\Notifications\RecipientSubmittedNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -77,10 +78,41 @@ class TransferPropertyController extends Controller
 
         return view('user.pages.properties.transfer.recipient', compact('data')); 
     }
-    
+
+    public function verifyRecipient(Request $request){
+        
+        $request->validate([
+            'property_id' => 'required',
+            'property_name' => 'required',
+            'amount' => 'required',
+            'selected_size_land' => 'required',
+            'recipient_id' => 'required',
+            'property_image' => 'required',
+            'property_slug' => 'required',
+        ]);
+        $data['amount'] = $request->input('amount');
+        $data['propertyImage']  = $request->input('property_image');
+        $data['propertyName']  = $request->input('property_name');
+        $recipientId = $request->input('recipient_id');
+        $data['landSize'] = $request->input('selected_size_land');
+        $data['propertySlug'] = $request->input('property_slug');
+        $data['propertyId'] = $request->input('property_id');
+
+        $recipientId = $request->input('recipient_id');
+        $data['recipientData'] = User::where('recipient_id', $recipientId)->first();
+            
+        if (!$data['recipientData']) {
+            return back()->with('error', 'This recipient does not exist.');
+        } 
+        
+        return view('user.pages.properties.transfer.verifyRecipient', $data); 
+
+    }
+   
     public function checkRecipientTransfer(Request $request, PaystackService $paystackService)
     {
       try{
+            // dd($request->all());
             $request->validate([
                 'selected_size_land' => 'required',
                 'property_slug' => 'required',
@@ -88,13 +120,17 @@ class TransferPropertyController extends Controller
                 'recipient_id' => 'required',
                 'amount' => 'required|numeric|min:1',
             ]);
+
             $user = Auth::user();
             $amount = $request->input('amount');
             $propertyId  = $request->input('property_id');
             $recipientId = $request->input('recipient_id');
             $propertySlug = $request->input('property_slug');
             $landSize = $request->input('selected_size_land');
-            $customerCheck = User::where('recipient_id', $recipientId)->first();
+            // dd($recipientId);
+
+            $customerCheck = User::where('id', $recipientId)->first();
+            // dd($customerCheck);
             
             if (!$customerCheck) {
                 return back()->with('error', 'This recipient does not exist.');
@@ -156,11 +192,15 @@ class TransferPropertyController extends Controller
                 'status' => 'pending',
             ];
             // // Notify the user
-            $recipient = User::where('recipient_id', $recipientId)->first();
+            $recipient = User::where('id', $recipientId)->first();
            
             if ($recipient) {
                 $recipient->notify(new RecipientSubmittedNotification($transferDetails));
             }
+
+            // Notify the user (sender)
+            $user->notify(new SenderTransferNotification($transferDetails));
+
 
             return redirect()->route('user.transfer.history')
             ->with(

@@ -49,7 +49,8 @@ class AppServiceProvider extends ServiceProvider
         View::share('terms', Terms::first()); 
         View::share('privacy', Privacy::first()); 
         View::share('sociallink', Sociallink::first());
-       View::composer('*', function ($view) {
+       
+        View::composer('*', function ($view) {
             if (Auth::check()) {
                 $user = Auth::user();
                 $notificationCount = $user->unreadNotifications->count();

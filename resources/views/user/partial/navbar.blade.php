@@ -110,24 +110,7 @@
                                                         </li>
                                                     @endforeach
 
-                                                    @foreach (auth()->user()->unreadNotifications as $notification)
-                                                        <li class="chat__inbox--menu__list mb-2">
-                                                            <a class="chat__inbox--menu__link active mark-as-read" href="#" 
-                                                            data-notification-id="{{ $notification->id }}" >
-                                                                <div class="chat__inbox--menu__wrapper d-flex justify-content-between">
-                                                                    <div class="chat__inbox--author d-flex align-items-center">
-                                                                        <div class="chat__inbox--author__content">
-                                                                            <h3 class="chat__inbox--author--name">
-                                                                                {{-- {{ $notification->data['message'] ?? 'Wallet Funded: ₦' . number_format($notification->data['amount'], 2) }} --}}
-                                                                            </h3>
-                                                                            <p class="chat__inbox--author__desc">Your wallet has been updated</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <span class="chat__inbox--date-time">{{ $notification->created_at->diffForHumans() }}</span>
-                                                                </div>
-                                                            </a>
-                                                        </li>
-                                                    @endforeach
+                                                   
 
                                                     @foreach ($notificationsBar as $notification)
                                                         <li class="chat__inbox--menu__list mb-2">

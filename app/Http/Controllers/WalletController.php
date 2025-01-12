@@ -28,13 +28,12 @@ class WalletController extends Controller
     // Create Dedicated Virtual Account
     
 
-    public function createDedicatedAccount(string $customerId, string $preferredBank = 'wema-bank')
+    public function createDedicatedAccount(string $customerId)
     {
         $data = ['customer' => $customerId];
-
-        if (!empty($preferredBank)) {
-            $data['preferred_bank'] = $preferredBank;
-        }
+        // $data['preferred_bank'] = 'wema-bank';
+        $data['preferred_bank'] = 'titan-paystack';
+        
         try {
             $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))
                 ->post(env('PAYSTACK_BASE_URL') . '/dedicated_account', $data);

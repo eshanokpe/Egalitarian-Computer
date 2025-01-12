@@ -58,6 +58,30 @@ class PaystackService
             'message' => $response->json('message') ?? 'Transfer initiation failed',
         ];
     }
-
+    public function createTransferRecipient()
+    {
+        $url = "https://api.paystack.co/transferrecipient";
+    
+        $fields = [
+            "type" => "nuban",
+            "name" => "Tolu Robert",
+            "account_number" => "01000000010",
+            "bank_code" => "058",
+            "currency" => "NGN"
+        ];
+    
+        // Send POST request using Laravel HTTP client
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . env('PAYSTACK_SECRET_KEY'),
+            'Cache-Control' => 'no-cache',
+        ])
+        ->post($url, $fields);
+    
+        // Get the response body
+        $result = $response->body();
+    
+        // Return the result or handle the response as needed
+        return $result;
+    }
     
 }

@@ -34,7 +34,6 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('/transaction/report', [TransactionController::class, 'index'])->name('transactions.index');
     Route::get('/transaction/show/{id}', [TransactionController::class, 'show'])->name('transaction.show');
     
-    Route::get('/wallet/index', [WalletController::class, 'index'])->name('wallet.index');
     
 
     Route::get('/properties', [PropertyController::class, 'index'])->name('properties');
@@ -88,5 +87,15 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('properties/{id}/valuation', [PropertyController::class, 'valuation'])->name('properties.valuation');
     Route::get('referral/index', [ReferralController::class, 'index'])->name('referral.index');
     Route::get('referral/show', [ReferralController::class, 'show'])->name('referrals.show');
+    
+    Route::get('/wallet/index', [WalletController::class, 'index'])->name('wallet.index');
+    Route::get('wallet/top-up', [WalletController::class, 'topUp'])->name('wallet.topUp');
+    Route::get('wallet/with-draw', [WalletController::class, 'withDraw'])->name('wallet.withdraw');
+    Route::get('wallet/transfer-post', [WalletController::class, 'transferPost'])->name('wallet.transferPost');
+    Route::post('/verify-account', [WalletController::class, 'verifyAccount'])->name('wallet.verifyAccount');
+   
+    Route::post('/webhook/paystack', [WebhookController::class, 'handlePaystackWebhook']);
+
+
 });
 

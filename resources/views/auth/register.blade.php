@@ -6,8 +6,7 @@
     <div class="container">
         <div class="breadcrumb__content text-center">
             <h1 class="breadcrumb__title h2">
-                <span>Sign </span>
-                Up
+                <span>Sign </span>Up
             </h1>
             <ul class="breadcrumb__menu d-flex justify-content-center">
                 <li class="breadcrumb__menu--items">
@@ -52,7 +51,6 @@
                 <div class="account__form">
                     <form method="POST" action="{{ route('post.register') }}">
                         @csrf
-
                         <div class="account__form--input mb-20">
                             <label class="account__form--input__label mb-12" for="name">First Name</label>
                             <input id="first_name" type="text" class="account__form--input__field @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}" placeholder="Enter your first name*" required autocomplete="first_name" autofocus>
@@ -85,7 +83,7 @@
 
                         <div class="account__form--input mb-20">
                             <label class="account__form--input__label mb-12" for="email">Phone number</label>
-                            <input id="phone" placeholder="Phone number" type="text" class="account__form--input__field  @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
+                            <input id="phone" placeholder="Phone number" type="tel" class="account__form--input__field  @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
                             @error('phone')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong> 
@@ -97,7 +95,7 @@
                             <label class="account__form--input__label mb-12" for="password">New Password</label>
                             <div class="account__form--create__password position-relative">
                                 <input class="account__form--input__field  @error('password') is-invalid @enderror" name="password" id="password" placeholder="Create password" type="password" required autocomplete="new-password">
-                                <button class="account__form--password__show--icon">
+                                <button type="button" class="account__form--password__show--icon" onclick="togglePasswordVisibility('password')">
                                     <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M8 10C2.76587 10 0.170875 5.437 0.063 5.24288C-0.021 5.09175 -0.021 4.90812 0.063 4.757C0.170875 4.563 2.76587 0 8 0C13.2341 0 15.8291 4.563 15.937 4.75712C16.021 4.90825 16.021 5.09188 15.937 5.243C15.8291 5.437 13.2341 10 8 10ZM1.08837 4.99925C1.68313 5.90062 4.01825 9 8 9C11.9944 9 14.3191 5.90312 14.9116 5.00075C14.3169 4.09937 11.9818 1 8 1C4.00562 1 1.68087 4.09688 1.08837 4.99925ZM8 8C6.34575 8 5 6.65425 5 5C5 3.34575 6.34575 2 8 2C9.65425 2 11 3.34575 11 5C11 6.65425 9.65425 8 8 8ZM8 3C6.89725 3 6 3.89725 6 5C6 6.10275 6.89725 7 8 7C9.10275 7 10 6.10275 10 5C10 3.89725 9.10275 3 8 3Z" fill="#817F7E"></path>
                                     </svg>
@@ -114,7 +112,7 @@
                             <label class="account__form--input__label mb-12" for="password">Confirm Password</label>
                             <div class="account__form--create__password position-relative">
                                 <input class="account__form--input__field" name="password_confirmation" id="password-confirm" placeholder="Confirm password" type="password" required autocomplete="new-password">
-                                <button class="account__form--password__show--icon">
+                                <button type="button" class="account__form--password__show--icon" onclick="togglePasswordVisibility('password-confirm')">
                                     <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M8 10C2.76587 10 0.170875 5.437 0.063 5.24288C-0.021 5.09175 -0.021 4.90812 0.063 4.757C0.170875 4.563 2.76587 0 8 0C13.2341 0 15.8291 4.563 15.937 4.75712C16.021 4.90825 16.021 5.09188 15.937 5.243C15.8291 5.437 13.2341 10 8 10ZM1.08837 4.99925C1.68313 5.90062 4.01825 9 8 9C11.9944 9 14.3191 5.90312 14.9116 5.00075C14.3169 4.09937 11.9818 1 8 1C4.00562 1 1.68087 4.09688 1.08837 4.99925ZM8 8C6.34575 8 5 6.65425 5 5C5 3.34575 6.34575 2 8 2C9.65425 2 11 3.34575 11 5C11 6.65425 9.65425 8 8 8ZM8 3C6.89725 3 6 3.89725 6 5C6 6.10275 6.89725 7 8 7C9.10275 7 10 6.10275 10 5C10 3.89725 9.10275 3 8 3Z" fill="#817F7E"></path>
                                     </svg>
@@ -137,6 +135,17 @@
                         <button type="submit" class="account__form--btn solid__btn">Creat An Account</button>
 
                     </form>
+                    <script>
+                        function togglePasswordVisibility(fieldId) {
+                            const inputField = document.getElementById(fieldId);
+                            if (inputField.type === "password") {
+                                inputField.type = "text";
+                            } else {
+                                inputField.type = "password";
+                            }
+                        }
+
+                    </script>
                    
                 </div>
             </div>

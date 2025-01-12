@@ -35,7 +35,7 @@
                         <div class="profile__author d-flex align-items-center">
                             <div class="profile__author--thumbnail position-relative">
                                 <img 
-                                src="{{ Auth::user()->profile_image ? asset('storage/'.$user->profile_image) : asset('assets/admin/img/dashboard/avater.jpg') }}" 
+                                src="{{ Auth::user()->profile_image ? asset($user->profile_image) : asset('assets/admin/img/dashboard/avater.jpg') }}" 
                                 alt="img"
                                 style="max-height: 100%; max-height:100%; object-fit:cover; width:198px; height:187px"
                                 >
@@ -59,6 +59,10 @@
                         </div>
                         <div class="profile__info d-flex">
                             <ul class="profile__info--wrapper">
+                                <li class="profile__info--list">
+                                    <h3 class="profile__info--title">FULL NAME</h3>
+                                    <a class="profile__info__text" href="#">{{ Auth::user()->last_name.' '.Auth::user()->first_name }}</a>
+                                </li>
                                 <li class="profile__info--list">
                                     <h3 class="profile__info--title">EMAIL</h3>
                                     <a class="profile__info__text" href="#">{{Auth::user()->email}}</a>

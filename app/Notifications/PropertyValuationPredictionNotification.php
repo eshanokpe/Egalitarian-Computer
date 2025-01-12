@@ -13,6 +13,7 @@ class PropertyValuationPredictionNotification extends Notification
 
     protected $property;
     protected $percentageIncrease;
+    protected $marketValue;
 
     /**
      * Create a new notification instance.
@@ -20,9 +21,10 @@ class PropertyValuationPredictionNotification extends Notification
      * @param $property
      * @param $percentageIncrease
      */
-    public function __construct($property, $percentageIncrease)
+    public function __construct($property, $percentageIncrease, $marketValue)
     {
         $this->property = $property;
+        $this->marketValue = $marketValue;
         $this->percentageIncrease = $percentageIncrease;
     }
 
@@ -47,9 +49,11 @@ class PropertyValuationPredictionNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Property Valuation Prediction Update')
-            ->line('The valuation for property ' . $this->property->name . ' has been updated.')
-            ->line('Market Value: ₦' . number_format($this->property->price, 2))
-            ->line('Percentage Increase: ' . $this->percentageIncrease . '%')
+            ->line('The valuation prediction for property ' . $this->property->name . ' has been updated.')
+            ->line('Market Value: ₦' . number_format($this->marketValue, 2))
+            ->line('Future Market Value: ₦' . number_format($this->marketValue, 2))
+            ->line('Future Date: ₦' . number_format($this->marketValue, 2))
+            ->line('Percentage Increase: ' . ceil($this->percentageIncrease). '%')
             ->action('View Property', url('user/properties/' . $this->property->id))
             ->line('Thank you for using our platform!');
     }

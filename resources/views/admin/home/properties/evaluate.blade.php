@@ -64,7 +64,7 @@
                             </div><!--end card-body-->
                         </div><!--end card-->
 
-                        <div class="card">
+                        <div class="card"> 
                             <div class="card-header">
                                 <h4 class="card-title">Evaluation Variation  </h4>
                             </div><!--end card-header--> 
@@ -446,8 +446,8 @@
 
                                     <div class="row">
                                         <div class="mb-3">
-                                            <label for="exampleInputEmail1">Enter Valuation Prediction type</label>
-                                            <input type="text" class="form-control" name="valuation_type" placeholder="Enter Valuation Prediction type" required>
+                                            <label for="exampleInputEmail1">Enter Future date </label>
+                                            <input type="date" class="form-control" name="valuation_type" placeholder="Enter Valuation Prediction type" required>
                                             @error('valuation_type')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -465,6 +465,7 @@
                                                 name="current_price" 
                                                 placeholder="Enter Current Price" 
                                                 value="{{ $property->price ? '₦' . number_format($property->price, 2) : '' }}" 
+                                                {{-- value="{{ $marketValueSum ? '₦' . number_format($marketValueSum, 2) : '' }}"  --}}
                                                 required>
                                                 @error('current_price')
                                                 <div class="invalid-feedback">
@@ -474,7 +475,7 @@
                                         </div>
                                         
                                         <div class="mb-3">
-                                            <label for="marketValue">Current Market Value (₦)</label>
+                                            <label for="marketValue">Future Market Value (₦)</label>
                                             <input 
                                                 type="text" 
                                                 class="form-control" 

@@ -72,11 +72,14 @@ class RegisterController extends Controller
      
         // Generate the recipient ID
         $recipientId = $this->createRecipientId();
+        $referrer = null;
 
-        $referrer = User::where('referral_code', $request->referral_code)->first();
-
-        if (!$referrer) {
-            return redirect()->back()->with('error', 'Invalid referral code.');
+        // Check if referral code is provided and valid
+        if (!empty($request->referral_code)) {
+            $referrer = User::where('referral_code', $request->referral_code)->first();
+            if (!$referrer) {
+                return redirect()->back()->with('error', 'Invalid referral code.');
+            }
         }
 
         // Create the user
@@ -91,17 +94,21 @@ class RegisterController extends Controller
             'referral_code' => $this->generateReferralCode(),
             'referred_by' => null,
         ]);
-        ReferralLog::create([
-            'referrer_id' => $referrer->id,
-            'referred_id' => $user->id,
-            'referral_code' => $request->referral_code,
-            'referred_at' => now(),
-        ]);
+        if ($referrer) {
+            ReferralLog::create([
+                'referrer_id' => $referrer->id,
+                'referred_id' => $user->id,
+                'referral_code' => $request->referral_code,
+                'referred_at' => now(),
+            ]);
+        }
+    
         // Create a virtual account
         $customerId = $walletController->createVirtualAccountCustomer($user);
 
         if ($customerId) {
            $virtualAccountResponse = $walletController->createDedicatedAccount($customerId);
+        //    dd( $virtualAccountResponse);
            if ($virtualAccountResponse['status'] === true) {
                 $virtualAccountData = $virtualAccountResponse['data'];
                 // Store virtual account details in the new table
@@ -122,8 +129,8 @@ class RegisterController extends Controller
         $user->wallet()->create([
             'user_id' => $user->id,
             'user_email' =>$user->email,
-            'balance' => '500000',
-            // 'balance' => 0.00,
+            // 'balance' => '500000',
+            'balance' => 0.00,
             'currency' => $virtualAccountData['currency'] ?? 'NGN',
         ]);
 

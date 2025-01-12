@@ -362,7 +362,7 @@ class PropertyController extends Controller
 
         $users = User::all();
         foreach ($users as $user) { 
-            $user->notify(new PropertyValuationPredictionNotification($property, $priceIncrease));
+            $user->notify(new PropertyValuationPredictionNotification($property, $priceIncrease, $marketValue));
         }
 
        

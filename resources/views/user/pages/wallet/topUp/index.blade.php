@@ -35,7 +35,7 @@
                 <div class="main__content--left__inner">
                     <!-- Welcome section -->
                     <div class="dashboard__chart--box mb-30">
-                        <h2 class="dashboard__chart--title"> Main Balance</h2>
+                        <h2 class="dashboard__chart--title"> Top Up Account Details</h2>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="swiper-slide">
@@ -43,36 +43,36 @@
                                         
                                         <section class="welcome__section d-flex justify-content-between align-items-center">
                                             <div class="welcome__content">
-                                                <span class="currency__card--amount">{{ $wallet->currency}} {{ number_format($wallet->balance, 2) }}</span>
+                                                <h4 class="currency__card--title">
+                                                    Account number
+                                                 </h4> 
+                                                 <span class="currency__card--amount" style="margin-top: -5px"> 
+                                                     {{ $user->virtualAccounts->first()->account_number}}
+                                                 </span>
+                                                 <h4 class="currency__card--title">
+                                                    Account Bank
+                                                </h4>
+                                                 <span class="currency__card--amount"  style="margin-top: -5px"> 
+                                                    {{ $user->virtualAccounts->first()->bank_name}}
+                                                </span>
+                                                <h4 class="currency__card--title">
+                                                    Recipient ID
+                                                </h4>
+                                                 <span class="currency__card--amount"  style="margin-top: -15px;  font-size: 1.6rem;"> 
+                                                    {{ Auth::user()->recipient_id }}
+                                                </span>
+                                                <h4 class="currency__card--title">
+                                                    Acount Name
+                                                </h4>
+                                                 <span class="currency__card--amount"  style="margin-top: -15px;  font-size: 1.6rem;"> 
+                                                    {{ Auth::user()->last_name.' '.Auth::user()->first_name }}
+                                                </span>
+                                                 
                                             </div>
+                                            
                                             
                                         </section>
-                                        <div class="currency__card--footer">
                                         
-                                            <div class="col-lg-12">
-                                                <div class="swiper-slide">
-                                                    <div class="currency__card">
-                                                        
-                                                        <!-- Buy, Sell, Transfer Buttons -->
-                                                        <div class="currency__actions mt-3 d-flex justify-content-around">
-                                                            <a href="{{ route('user.wallet.topUp') }}" class="btn  align-items-center">
-                                                                <img src="{{ asset('assets/admin/img/dashboard/top-up.png')}}" alt="Buy" class="me-2" width="50">
-                                                               <snap style="font-size: 14px"> Top up </snap>
-                                                            </a>
-                                                            <a href="{{ route('user.wallet.withdraw') }}" class="btn align-items-center">
-                                                                <img src="{{ asset('assets/admin/img/dashboard/withdrawn.png')}}" alt="Sell" class="me-2" width="50">
-                                                                <snap style="font-size: 14px">Withdraw </snap>
-                                                            </a>
-                                                            <a href="{{ route('user.transfer') }}" class="btn  align-items-center">
-                                                                <img src="{{ asset('assets/admin/img/dashboard/history.png')}}" alt="Transfer" class="me-2" width="50">
-                                                                <snap style="font-size: 14px"> History</snap>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
                                      
                                     </div>
                                 </div>
@@ -131,40 +131,20 @@
                     </div>
                     <!-- Transaction Report Section End -->
 
-                    
-                    
-
-                   
-                  
                 </div>
             </div>
             <div class="main__content--right">
                 <div class="dashboard__chart--box mb-30">
-                    <h2 class="dashboard__chart--title"> Account Details</h2>
+                    <h2 class="dashboard__chart--title">  Main Balance</h2>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="swiper-slide">
                                 <div class="currency__card">
                                     <h4 class="currency__card--title">
-                                       Account number
+                                       Main Balance
                                     </h4> 
-                                    <span class="currency__card--amount" style="margin-top: -15px"> 
-                                        {{ $user->virtualAccounts->first()->account_number}}
-                                    </span>
-                                    <h4 class="currency__card--title">
-                                        Account Bank
-                                    </h4>
-                                     <span class="currency__card--amount"  style="margin-top: -15px"> 
-                                        {{ $user->virtualAccounts->first()->bank_name}}
-                                    </span>
-                                    <h4 class="currency__card--title">
-                                        Recipient ID
-                                    </h4>
-                                     <span class="currency__card--amount"  style="margin-top: -15px;  font-size: 1.6rem;"> 
-                                        {{ Auth::user()->recipient_id }}
-                                    </span>
-                                    
-                                  
+                                    <span class="currency__card--amount">{{ $wallet->currency}} {{ number_format($wallet->balance, 2) }}</span>
+
                                     <br>
                                 </div>
                             </div>
@@ -224,7 +204,6 @@
 
                     </ul>
                 </div>
-                
             </div>
         </div>
         <!-- dashboard container .\ -->

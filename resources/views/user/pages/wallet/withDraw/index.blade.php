@@ -21,6 +21,12 @@
         90% { opacity: 1; }
         100% { opacity: 0; }
     }
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
 </style>
 
 @section('content')
@@ -35,44 +41,119 @@
                 <div class="main__content--left__inner">
                     <!-- Welcome section -->
                     <div class="dashboard__chart--box mb-30">
-                        <h2 class="dashboard__chart--title"> Main Balance</h2>
+                        <h2 class="dashboard__chart--title"> Transfer to </h2>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="swiper-slide">
                                     <div class="currency__card">
                                         
-                                        <section class="welcome__section d-flex justify-content-between align-items-center">
+                                        <section class="">
                                             <div class="welcome__content">
-                                                <span class="currency__card--amount">{{ $wallet->currency}} {{ number_format($wallet->balance, 2) }}</span>
+                                                <div class="setting__profile--inner">
+                                                    <form action="{{ route('user.wallet.transferPost') }}" method="POST">
+                                                        @csrf
+                                                        <!-- Account Number Input -->
+                                                        <div class="add__listing--input__box mb-20">
+                                                            <label class="add__listing--input__label" for="name">Recipient Account</label>
+                                                            <input 
+                                                                class="add__listing--input__field" 
+                                                                id="name" 
+                                                                name="account_number" 
+                                                                placeholder="Enter 10 digits Account Number" 
+                                                                type="number" 
+                                                                value="">
+                                                        </div>
+                                                    
+                                                        <!-- Bank Select -->
+                                                        <div class="add__listing--input__box mb-20">
+                                                            <label class="add__listing--input__label" for="bank">Select Bank</label>
+                                                            <select name="bank_code" id="bank" class="add__listing--input__field">
+                                                                <option value="">Select a bank</option>
+                                                                @if(!empty($banks))
+                                                                    @foreach($banks as $bank)
+                                                                        <option value="{{ $bank['code'] }}">{{ $bank['name'] }}</option>
+                                                                    @endforeach
+                                                                @else
+                                                                    <option value="">No banks available</option>
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                    
+                                                        <!-- Account Name Display -->
+                                                        <div class="add__listing--input__box mb-20">
+                                                            <label class="add__listing--input__label">Account Name</label>
+                                                            <div id="account_name" style="font-weight: bold; color: green;"> </div>
+                                                        </div>
+                                                    
+                                                        <!-- Submit Button -->
+                                                        <button type="submit" id="next-button" class="solid__btn add__property--btn" disabled>Next</button>
+                                                    </form>
+                                                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            const $accountNumber = $('#name');
+                                                            const $bankSelect = $('#bank');
+                                                            const $nextButton = $('#next-button');
+
+                                                            function toggleNextButton() {
+                                                                const isAccountNumberValid = $accountNumber.val().length === 10;
+                                                                const isBankSelected = $bankSelect.val() !== '';
+                                                                $nextButton.prop('disabled', !(isAccountNumberValid && isBankSelected));
+                                                            }
+
+                                                            // Listen for input changes
+                                                            $accountNumber.on('input', function () {
+                                                                // Ensure the input does not exceed 10 digits
+                                                                const currentValue = $accountNumber.val();
+                                                                if (currentValue.length > 10) {
+                                                                    $accountNumber.val(currentValue.slice(0, 10)); // Truncate to 10 characters
+                                                                }
+                                                                toggleNextButton();
+                                                            });
+                                                            $bankSelect.on('change', toggleNextButton);
+                                                        });
+                           
+                                                        $(document).ready(function () {
+                                                            $('#bank, #name').on('input change', function () {
+                                                                const accountNumber = $('#name').val();
+                                                                const bankCode = $('#bank').val();
+
+                                                                if (accountNumber.length === 10 && bankCode) {
+                                                                    // Show loading indicator (optional)
+                                                                    $('#account_name').text('Verifying...');
+
+                                                                    // Send AJAX request
+                                                                    $.ajax({
+                                                                        url: "{{ route('user.wallet.verifyAccount') }}",
+                                                                        method: "POST",
+                                                                        data: {
+                                                                            _token: "{{ csrf_token() }}",
+                                                                            account_number: accountNumber,
+                                                                            bank_code: bankCode,
+                                                                        },
+                                                                        success: function (response) {
+                                                                            $('#account_name').text(response.account_name || 'Account name not found');
+                                                                        },
+                                                                        error: function () {
+                                                                            $('#account_name').text('Unable to verify account. Please try again.');
+                                                                        },
+                                                                    });
+                                                                } else {
+                                                                    $('#account_name').text(''); // Clear the name if inputs are incomplete
+                                                                }
+                                                            });
+                                                        });
+
+
+                                                    </script>
+                                                    
+                                                </div>
+                                                 
                                             </div>
+                                            
                                             
                                         </section>
-                                        <div class="currency__card--footer">
                                         
-                                            <div class="col-lg-12">
-                                                <div class="swiper-slide">
-                                                    <div class="currency__card">
-                                                        
-                                                        <!-- Buy, Sell, Transfer Buttons -->
-                                                        <div class="currency__actions mt-3 d-flex justify-content-around">
-                                                            <a href="{{ route('user.wallet.topUp') }}" class="btn  align-items-center">
-                                                                <img src="{{ asset('assets/admin/img/dashboard/top-up.png')}}" alt="Buy" class="me-2" width="50">
-                                                               <snap style="font-size: 14px"> Top up </snap>
-                                                            </a>
-                                                            <a href="{{ route('user.wallet.withdraw') }}" class="btn align-items-center">
-                                                                <img src="{{ asset('assets/admin/img/dashboard/withdrawn.png')}}" alt="Sell" class="me-2" width="50">
-                                                                <snap style="font-size: 14px">Withdraw </snap>
-                                                            </a>
-                                                            <a href="{{ route('user.transfer') }}" class="btn  align-items-center">
-                                                                <img src="{{ asset('assets/admin/img/dashboard/history.png')}}" alt="Transfer" class="me-2" width="50">
-                                                                <snap style="font-size: 14px"> History</snap>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
                                      
                                     </div>
                                 </div>
@@ -131,40 +212,20 @@
                     </div>
                     <!-- Transaction Report Section End -->
 
-                    
-                    
-
-                   
-                  
                 </div>
             </div>
             <div class="main__content--right">
                 <div class="dashboard__chart--box mb-30">
-                    <h2 class="dashboard__chart--title"> Account Details</h2>
+                    <h2 class="dashboard__chart--title">  Main Balance</h2>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="swiper-slide">
                                 <div class="currency__card">
                                     <h4 class="currency__card--title">
-                                       Account number
+                                       Main Balance
                                     </h4> 
-                                    <span class="currency__card--amount" style="margin-top: -15px"> 
-                                        {{ $user->virtualAccounts->first()->account_number}}
-                                    </span>
-                                    <h4 class="currency__card--title">
-                                        Account Bank
-                                    </h4>
-                                     <span class="currency__card--amount"  style="margin-top: -15px"> 
-                                        {{ $user->virtualAccounts->first()->bank_name}}
-                                    </span>
-                                    <h4 class="currency__card--title">
-                                        Recipient ID
-                                    </h4>
-                                     <span class="currency__card--amount"  style="margin-top: -15px;  font-size: 1.6rem;"> 
-                                        {{ Auth::user()->recipient_id }}
-                                    </span>
-                                    
-                                  
+                                    <span class="currency__card--amount">{{ $wallet->currency}} {{ number_format($wallet->balance, 2) }}</span>
+
                                     <br>
                                 </div>
                             </div>
@@ -224,7 +285,6 @@
 
                     </ul>
                 </div>
-                
             </div>
         </div>
         <!-- dashboard container .\ -->
@@ -263,4 +323,8 @@
             }, 3000);
         });
     }
+   
+   
+
+
 </script>

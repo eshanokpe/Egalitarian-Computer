@@ -118,7 +118,7 @@
                                                                     <div class="chat__inbox--author d-flex align-items-center">
                                                                         <div class="chat__inbox--author__content">
                                                                             <h3 class="chat__inbox--author--name">
-                                                                                {{ $notification->data['message'] ?? 'Wallet Funded: ₦' . number_format($notification->data['amount'], 2) }}
+                                                                                {{-- {{ $notification->data['message'] ?? 'Wallet Funded: ₦' . number_format($notification->data['amount'], 2) }} --}}
                                                                             </h3>
                                                                             <p class="chat__inbox--author__desc">Your wallet has been updated</p>
                                                                         </div>

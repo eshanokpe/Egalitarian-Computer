@@ -113,8 +113,7 @@
                                                     @foreach (auth()->user()->unreadNotifications as $notification)
                                                         <li class="chat__inbox--menu__list mb-2">
                                                             <a class="chat__inbox--menu__link active mark-as-read" href="#" 
-                                                            data-notification-id="{{ $notification->id }}" 
-                                                            data-property-mode="{{ $notification->data['property_mode'] }}">
+                                                            data-notification-id="{{ $notification->id }}" >
                                                                 <div class="chat__inbox--menu__wrapper d-flex justify-content-between">
                                                                     <div class="chat__inbox--author d-flex align-items-center">
                                                                         <div class="chat__inbox--author__content">

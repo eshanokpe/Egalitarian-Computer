@@ -101,12 +101,12 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('wallet/transfer-post', [WalletController::class, 'transferPost'])->name('wallet.transferPost');
     Route::post('/verify-account', [WalletController::class, 'verifyAccount'])->name('wallet.verifyAccount');
     
-    Route::post('/webhook/paystack', function (Request $request) {
-        \Log::info('Paystack Webhook Test:', $request->all());
-        return response()->json(['status' => 'success'], 200);
-    });
+    // Route::post('/webhook/paystack', function (Request $request) {
+    //     \Log::info('Paystack Webhook Test:', $request->all());
+    //     return response()->json(['status' => 'success'], 200);
+    // });
     
-    // Route::post('/webhook/paystack', [WebhookController::class, 'handlePaystackWebhook']);
+    Route::post('/webhook/paystack', [WebhookController::class, 'handlePaystackWebhook']);
     Route::get('/webhook/paystack/test', [WebhookController::class, 'test_missing_paystack_signature_logs_warning']);
 
 

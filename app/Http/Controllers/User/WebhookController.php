@@ -8,77 +8,81 @@ use App\Models\User;
 use App\Models\Transaction;
 use App\Notifications\WalletFundedNotification;
 
+
 class WebhookController extends Controller
 {
-    // public function test_missing_paystack_signature_logs_warning()
-    // {
-    //     Log::shouldReceive('warning')
-    //         ->once()
-    //         ->with('Missing Paystack Signature');
+    public function handle(Request $request)
+    {
+        // Define your Paystack secret key
+        $paystackSecretKey = env('PAYSTACK_SECRET_KEY');
 
-    //     $response = $this->postJson('/api/paystack/webhook', [
-    //         'event' => 'charge.success',
-    //         'data' => [
-    //             'customer' => ['email' => 'test@example.com'],
-    //             'amount' => 500000,
-    //             'reference' => 'abc12345',
-    //         ],
-    //     ]);
+        // Ensure it's a POST request and has the necessary Paystack signature header
+        $signature = $request->header('X-Paystack-Signature');
+        $input = $request->getContent();
 
-    //     $response->assertStatus(403); // Ensure it returns the correct status code.
-    // }
-
-
-    public function handlePaystackWebhook(Request $request)
-    { 
-        // Log the incoming webhook for debugging
-        Log::info('Paystack Webhook Received', $request->all());
-
-        // Verify the Paystack webhook signature
-        $paystackSignature = $request->header('x-paystack-signature');
-        $secretKey = env('PAYSTACK_SECRET_KEY');
-
-        if (!$paystackSignature || !hash_equals(hash_hmac('sha512', $request->getContent(), $secretKey), $paystackSignature)) {
-            Log::warning('Invalid Paystack Webhook Signature');
-            return response()->json(['status' => 'error', 'message' => 'Invalid signature'], 403);
+        if (!$signature || $signature !== hash_hmac('sha512', $input, $paystackSecretKey)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // Handle the `charge.success` event
-        if ($request->event === 'charge.success') {
-            $data = $request->input('data');
+        // Parse the incoming JSON payload
+        $event = json_decode($input);
 
-            $email = $data['customer']['email']; // Get the customer's email
-            $amount = $data['amount'] / 100; // Convert amount to Naira (Paystack sends amount in kobo)
-            $reference = $data['reference'];
-
-            // Find the user by email
-            $user = User::where('email', $email)->first();
-
-            if ($user) {
-                // Update the wallet balance
-                $user->wallet->increment('balance', $amount);
-
-                // Log the transaction
-                Transaction::create([
-                    'user_id' => $user->id,
-                    'email' => $user->email,
-                    'amount' => $amount,
-                    'reference' => $reference,
-                    'status' => 'success',
-                    'description' => 'Fund added to wallet',
-                    'payment_method' => 'Transfer'
-                ]);
-                // Trigger the notification
-                $newBalance = $user->wallet->balance;
-                $user->notify(new WalletFundedNotification($amount, $newBalance));
-
-
-                Log::info("Wallet updated successfully for user: {$email}");
-            } else {
-                Log::warning("User with email {$email} not found.");
-            }
+        if (!$event) {
+            return response()->json(['error' => 'Invalid payload'], 400);
         }
 
-        return response()->json(['status' => 'success']);
+        // Log the event for debugging (optional)
+        Log::info('Paystack Webhook Received', (array) $event);
+
+        // Handle the event based on the type
+        switch ($event->event) {
+            case 'charge.success':
+                $this->handleChargeSuccess($event->data);
+                break;
+            // Add other event cases as needed
+            default:
+                Log::warning('Unhandled Paystack Event: ' . $event->event);
+                break;
+        }
+
+        // Return a 200 response to acknowledge receipt of the webhook
+        return response()->json(['status' => 'success'], 200);
+    }
+
+    protected function handleChargeSuccess($data)
+    {
+        // Example: Process the payment data
+        Log::info('Charge Successful', (array) $data);
+
+
+        $email = $data->customer->email;
+        $amount = $data->amount / 100; // Convert amount to Naira (Paystack sends amount in kobo)
+        $reference = $data->reference;
+
+        $user = User::where('email', $email)->first();
+        if ($user) {
+            // Update the wallet balance
+            $user->wallet->increment('balance', $amount);
+
+            // Log the transaction
+            Transaction::create([
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'amount' => $amount,
+                'reference' => $reference,
+                'status' => 'success',
+                'description' => 'Fund added to wallet',
+                'payment_method' => 'Transfer'
+            ]);
+            // Trigger the notification
+            $newBalance = $user->wallet->balance;
+            $user->notify(new WalletFundedNotification($amount, $newBalance));
+
+            Log::info("Wallet updated successfully for user: {$email}");
+        } else {
+            Log::warning("User with email {$email} not found.");
+        }
+
     }
 }
+

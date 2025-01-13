@@ -102,7 +102,7 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::post('/verify-account', [WalletController::class, 'verifyAccount'])->name('wallet.verifyAccount');
     
     Route::post('/webhook/paystack', [WebhookController::class, 'handlePaystackWebhook']);
-    Route::get('/webhook/paystack/test', [WebhookController::class, 'handlePaystackWebhook']);
+    Route::get('/webhook/paystack/test', [WebhookController::class, 'test_missing_paystack_signature_logs_warning']);
 
 
 });

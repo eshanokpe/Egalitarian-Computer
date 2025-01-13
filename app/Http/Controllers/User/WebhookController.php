@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
@@ -10,8 +10,27 @@ use App\Notifications\WalletFundedNotification;
 
 class WebhookController extends Controller
 {
+    // public function test_missing_paystack_signature_logs_warning()
+    // {
+    //     Log::shouldReceive('warning')
+    //         ->once()
+    //         ->with('Missing Paystack Signature');
+
+    //     $response = $this->postJson('/api/paystack/webhook', [
+    //         'event' => 'charge.success',
+    //         'data' => [
+    //             'customer' => ['email' => 'test@example.com'],
+    //             'amount' => 500000,
+    //             'reference' => 'abc12345',
+    //         ],
+    //     ]);
+
+    //     $response->assertStatus(403); // Ensure it returns the correct status code.
+    // }
+
+
     public function handlePaystackWebhook(Request $request)
-    {
+    { 
         // Log the incoming webhook for debugging
         Log::info('Paystack Webhook Received', $request->all());
 

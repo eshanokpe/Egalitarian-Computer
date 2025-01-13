@@ -22,7 +22,7 @@ class WalletController extends Controller
                 return $response->json()['data']['customer_code'] ?? null;
             }
 
-            return null; 
+            return null;  
     }
 
     // Create Dedicated Virtual Account

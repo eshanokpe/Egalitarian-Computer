@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\WalletController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\User\WebhookController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\TransferController;
@@ -99,8 +100,9 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('wallet/with-draw', [WalletController::class, 'withDraw'])->name('wallet.withdraw');
     Route::get('wallet/transfer-post', [WalletController::class, 'transferPost'])->name('wallet.transferPost');
     Route::post('/verify-account', [WalletController::class, 'verifyAccount'])->name('wallet.verifyAccount');
-   
+    
     Route::post('/webhook/paystack', [WebhookController::class, 'handlePaystackWebhook']);
+    Route::get('/webhook/paystack/test', [WebhookController::class, 'handlePaystackWebhook']);
 
 
 });

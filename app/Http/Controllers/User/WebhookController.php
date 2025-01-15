@@ -11,10 +11,11 @@ use App\Notifications\WalletFundedNotification;
 
 class WebhookController extends Controller
 {
-    public function test_missing_paystack_signature_logs_warning(){
-        $input = $request->getContent();
-        
+    public function test(){
+        $paystackSecretKey = env('PAYSTACK_SECRET_KEY');
+        dd($paystackSecretKey);
     }
+    
     public function handle(Request $request)
     {
         // Define your Paystack secret key

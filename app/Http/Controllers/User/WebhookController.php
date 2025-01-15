@@ -15,9 +15,13 @@ class WebhookController extends Controller
         $paystackSecretKey = env('PAYSTACK_SECRET_KEY');
         dd($paystackSecretKey);
     }
-    
+
     public function handle(Request $request)
     {
+        Log::info('Webhook invoked.');
+        Log::info('Headers:', $request->headers->all());
+        Log::info('Payload:', json_decode($request->getContent(), true));
+    
         // Define your Paystack secret key
         $paystackSecretKey = env('PAYSTACK_SECRET_KEY');
 
@@ -26,6 +30,7 @@ class WebhookController extends Controller
         $input = $request->getContent();
 
         if (!$signature || $signature !== hash_hmac('sha512', $input, $paystackSecretKey)) {
+            Log::error('Invalid signature:', ['signature' => $signature]);
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 

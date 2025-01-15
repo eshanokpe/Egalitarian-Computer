@@ -9,7 +9,6 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
-use App\Http\Controllers\CashierCreateController;
 
 /* 
 |--------------------------------------------------------------------------
@@ -51,7 +50,6 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/terms', [HomeController::class, 'terms'])->name('terms');
 
-Route::get('test/cashier-test', [CashierCreateController::class, 'createWallet']);
 
 
 Route::get('/paystack/create-customer', [WalletController::class, 'createCustomer']);

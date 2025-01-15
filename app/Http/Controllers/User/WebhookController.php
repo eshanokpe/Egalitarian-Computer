@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\User;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Notifications\WalletFundedNotification;
-
+  
 
 class WebhookController extends Controller
 {
@@ -63,7 +64,6 @@ class WebhookController extends Controller
     {
         // Example: Process the payment data
         Log::info('Charge Successful', (array) $data);
-
 
         $email = $data->customer->email;
         $amount = $data->amount / 100; // Convert amount to Naira (Paystack sends amount in kobo)

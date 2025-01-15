@@ -38,7 +38,7 @@ Route::post('/post/comment', [BlogController::class, 'storeComment'])->name('com
  
 Auth::routes(); 
 
-Route::get('user/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::get('/user/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::get('/user/register/referral/{referralCode}', [RegisterController::class, 'showRegistrationForm'])->name('register.referral');
 
 Route::post('post/register', [RegisterController::class, 'register'])->name('post.register');

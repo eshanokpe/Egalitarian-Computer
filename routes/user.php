@@ -36,7 +36,6 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('/transaction/show/{id}', [TransactionController::class, 'show'])->name('transaction.show');
     
     
-
     Route::get('/properties', [PropertyController::class, 'index'])->name('properties');
     Route::get('/buy', [PropertyController::class, 'buy'])->name('buy'); 
     Route::get('/offer/price/{id}', [PropertyController::class, 'offerPrice'])->name('offerPrice'); 

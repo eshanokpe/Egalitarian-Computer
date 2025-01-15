@@ -8,7 +8,6 @@ use App\Http\Controllers\WalletController  as PayStackWalletController;
 
 class WalletController extends Controller
 {
-    // 
     public function index(){ 
         
         $data['user'] = Auth::user();

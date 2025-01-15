@@ -80,7 +80,7 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- Pagination -->
+                <!-- Pagination --> 
                 <div class="pagination__area">
                     <nav class="pagination justify-content-center">
                         <ul class="pagination__menu d-flex align-items-center justify-content-center">

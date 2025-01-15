@@ -62,7 +62,7 @@ class WalletFundedNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'status' => 'WalletFundedNotification',
+            'notification_status' => 'WalletFundedNotification',
             'amount' => $this->amount,
             'balance' => $this->balance,
             'message' => "₦{$this->amount} has been added to your wallet. New balance: ₦{$this->balance}.",

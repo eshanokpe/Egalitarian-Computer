@@ -103,10 +103,15 @@
                                                     @foreach (auth()->user()->unreadNotifications as $notification)
                                                         <li class="chat__inbox--menu__list mb-2" >
                                                             <a class="mb-10 chat__inbox--menu__link active mark-as-read" href="{{ route('user.notifications.show', $notification->id) }}">
-                                                                @if( $notification->data['status'] == 'PropertyValuationNotification' || $notification->data['status'] == 'PropertyValuationPredictionNotification') 
+                                                                @if( $notification->data['notification_status'] == 'PropertyValuationNotification' || $notification->data['notification_status'] == 'PropertyValuationPredictionNotification') 
                                                                     {{ $notification->data['property_name'] }}: 
                                                                     Market Value ₦{{ number_format($notification->data['market_value'] ?? 0.0, 2) }}, 
                                                                     Increase {{ $notification->data['percentage_increase'] ?? 'N/A' }}%
+                                                                @endif
+                                                                @if( $notification->data['notification_status'] == 'WalletFundedNotification') 
+                                                                    {{-- Display the wallet funded notification message --}}
+                                                                    You have received ₦{{ number_format($notification->data['amount'], 2) }} in your wallet. 
+                                                                    Your new balance is ₦{{ number_format($notification->data['balance'], 2) }}.
                                                                 @endif
                                                                 {{$notification->data['notification_status']}}
                                                             </a>

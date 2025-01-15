@@ -16,7 +16,7 @@ class WebhookController extends Controller
         dd($paystackSecretKey);
     }
 
-    public function handle(Request $request)
+    public function handlePaystackWebhook(Request $request)
     {
         Log::info('Webhook invoked.');
         Log::info('Headers:', $request->headers->all());

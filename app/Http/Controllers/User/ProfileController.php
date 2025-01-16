@@ -89,7 +89,7 @@ class ProfileController extends Controller
                 'before:' . now()->subYears(18)->format('Y-m-d'),
             ]
         ],[
-          'dob.before' => 'You must be at least 18 years old to register.',
+          'dob.before' => 'You must be at least 18 years old to update.',
         ]);
         // dd($request->dob);
 

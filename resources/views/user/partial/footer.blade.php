@@ -58,4 +58,34 @@
         })
         .catch(error => console.error('Error:', error));
     }
+
+    function copyReferralLink() {
+        const referralLink = document.querySelector('.referral_code').innerText;
+        navigator.clipboard.writeText(referralLink).then(() => {
+            const message = document.createElement('span');
+            message.className = 'copy-success';
+            message.innerText = 'Referral link copied!';
+            
+            const referralContainer = document.querySelector('.referral-code');
+            referralContainer.appendChild(message);
+
+            // Remove the message after 3 seconds
+            setTimeout(() => {
+                referralContainer.removeChild(message);
+            }, 3000);
+        }).catch(() => {
+            const message = document.createElement('span');
+            message.className = 'copy-fail';
+            message.innerText = 'Failed to copy referral link.';
+            
+            const referralContainer = document.querySelector('.referral-code');
+            referralContainer.appendChild(message);
+
+            // Remove the message after 3 seconds
+            setTimeout(() => {
+                referralContainer.removeChild(message);
+            }, 3000);
+        });
+    }
+    
 </script>

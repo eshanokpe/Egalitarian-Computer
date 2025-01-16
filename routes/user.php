@@ -13,6 +13,7 @@ use App\Http\Controllers\User\ReferralController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\SellPropertyController;
+use App\Http\Controllers\User\SecurityController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\TransferPropertyController;
 
@@ -100,6 +101,14 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('wallet/transfer-post', [WalletController::class, 'transferPost'])->name('wallet.transferPost');
     Route::post('/verify-account', [WalletController::class, 'verifyAccount'])->name('wallet.verifyAccount');
     
+    Route::get('/help-support', [DashboardController::class, 'helpSupport'])->name('support');
+    Route::get('/security', [SecurityController::class, 'index'])->name('login.security');
+    Route::get('/change-password', [SecurityController::class, 'changePassword'])->name('change.password');
+    Route::put('/{id}/change-password', [SecurityController::class, 'changePasswordPost'])->name('change.password.post');
+    Route::get('/transaction-pin', [SecurityController::class, 'transactionPin'])->name('transaction.pin');
+    Route::put('/{id}/transaction-create', [SecurityController::class, 'createTransactionPin'])->name('transaction.create.pin');
+
+    Route::post('/user/toggle-hide-balance', [DashboardController::class, 'toggleHideBalance'])->name('toggle.hide.balance');
 
 });
 

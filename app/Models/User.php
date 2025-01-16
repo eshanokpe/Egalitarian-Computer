@@ -22,6 +22,8 @@ class User extends Authenticatable
         'profile_image',
         'referral_code',
         'referred_by',
+        'transaction_pin',
+        'hide_balance',
     ];
 
     protected $hidden = [

@@ -68,7 +68,42 @@
   footer {
       margin-top: auto; /* Pushes the footer to the bottom */
   }
-  </style>
+  
+    .copy-success {
+        font-size: 14px;
+        color: #28a745;
+        margin-left: 8px;
+        animation: fadeInOut 3s forwards;
+    }
+
+    .copy-fail {
+        font-size: 14px;
+        color: #dc3545;
+        margin-left: 8px;
+        animation: fadeInOut 3s forwards;
+    }
+    .referral-code {
+        word-break: break-word; /* Ensure long text breaks into the next line */
+        overflow-wrap: break-word; /* Allow content to wrap within the container */
+    }
+
+    .referral_code {
+        display: block; /* Force the referral code to start on a new line */
+        margin-bottom: 10px; /* Add space below the referral code */
+        font-size: 14px; /* Adjust font size if needed */
+        color: #333; /* Optional: Set a text color */
+        max-width: 100%; /* Prevent it from exceeding the container width */
+    }
+
+
+    @keyframes fadeInOut {
+        0% { opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+</style>
+
  
 </head>
 

@@ -14,7 +14,7 @@ use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
-    public function __construct()
+    public function __construct() 
     {
         $this->middleware('auth');
     }
@@ -101,7 +101,6 @@ class DashboardController extends Controller
     }
 
     
-
     public function propertiesShow($id)
     {
         $users = Auth::user();
@@ -117,6 +116,23 @@ class DashboardController extends Controller
         return view('user.pages.properties.show', $data);
     }
 
+    public function helpSupport(){
+        $data['user'] = Auth::user();
+        $data['referralsMade'] = $data['user']->referralsMade()->with('user', 'referrer')->take(6)->get();
+        $data['hasMoreReferrals'] = $data['referralsMade']->count() > 6;
+        
+        return view('user.pages.support', $data);
+    }
 
-    
+    public function toggleHideBalance(Request $request)
+    {
+        $user = Auth::user();
+
+        $user->hide_balance = $request->hide_balance;
+        $user->save();
+
+        return response()->json(['success' => true]);
+    }
+
+
 }

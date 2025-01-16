@@ -28,6 +28,8 @@ class WebhookController extends Controller
 
         // Ensure it's a POST request and has the necessary Paystack signature header
         $signature = $request->header('X-Paystack-Signature');
+        Log::info('signature:', $signature);
+
         $input = $request->getContent();
 
         if (!$signature || $signature !== hash_hmac('sha512', $input, $paystackSecretKey)) {

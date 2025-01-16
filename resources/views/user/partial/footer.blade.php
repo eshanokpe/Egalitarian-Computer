@@ -32,3 +32,30 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Customscript js -->
   <script src="{{ asset('assets/admin/js/chart-activation.js')}}"></script>
+
+  <script>
+    function toggleHideBalance(el) {
+        fetch('{{ route("user.toggle.hide.balance") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ hide_balance: el.checked })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                toastr.success('Wallet balance visibility updated.', 'Success');
+                setTimeout(() => {
+                    location.reload(); // Reload the page to reflect changes
+                }, 1500);
+                // alert('Wallet balance visibility updated.');
+                location.reload(); 
+            } else {
+                alert('Something went wrong!');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>

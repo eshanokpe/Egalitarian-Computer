@@ -17,7 +17,7 @@ class User extends Authenticatable
         'last_name', 
         'email',
         'password',
-        'phone',
+        'phone', 
         'recipient_id',
         'profile_image',
         'referral_code',

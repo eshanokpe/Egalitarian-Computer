@@ -102,6 +102,9 @@
         90% { opacity: 1; }
         100% { opacity: 0; }
     }
+    .toast {
+        font-size: 16px; /* Adjust the font size as needed */
+    }
 </style>
 
  

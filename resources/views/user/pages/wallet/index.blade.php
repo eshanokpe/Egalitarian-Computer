@@ -55,18 +55,24 @@
                                                         
                                                         <!-- Buy, Sell, Transfer Buttons -->
                                                         <div class="currency__actions mt-3 d-flex justify-content-around">
-                                                            <a href="{{ route('user.wallet.topUp') }}" class="btn  align-items-center">
-                                                                <img src="{{ asset('assets/admin/img/dashboard/top-up.png')}}" alt="Buy" class="me-2" width="50">
+                                                            <a href="{{ route('user.wallet.topUp') }}" class="btn  d-flex flex-column align-items-center justify-content-center text-center">
+                                                                <img src="{{ asset('assets/admin/img/dashboard/top-up.png')}}" alt="Buy" class="me-2 mb-2" width="50">
                                                                <snap style="font-size: 14px"> Top up </snap>
                                                             </a>
-                                                            <a href="{{ route('user.wallet.withdraw') }}" class="btn align-items-center">
-                                                                <img src="{{ asset('assets/admin/img/dashboard/withdrawn.png')}}" alt="Sell" class="me-2" width="50">
+                                                            <a href="{{ route('user.wallet.withdraw') }}" class="btn d-flex flex-column align-items-center justify-content-center text-center">
+                                                                <img src="{{ asset('assets/admin/img/dashboard/withdrawn.png')}}" alt="Sell" class="me-2 mb-2" width="50">
                                                                 <snap style="font-size: 14px">Withdraw </snap>
                                                             </a> 
-                                                            <a href="{{ route('user.transfer') }}" class="btn  align-items-center">
-                                                                <img src="{{ asset('assets/admin/img/dashboard/history.png')}}" alt="Transfer" class="me-2" width="50">
-                                                                <snap style="font-size: 14px"> History</snap>
+                                                            
+                                                            <a href="{{ route('user.transfer') }}" class="btn d-flex flex-column align-items-center justify-content-center text-center">
+                                                                <img 
+                                                                    src="{{ asset('assets/admin/img/dashboard/history.png')}}" 
+                                                                    alt="Transfer" 
+                                                                    class="mb-2" 
+                                                                    width="50">
+                                                                <span style="font-size: 14px">Payment History</span>
                                                             </a>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>

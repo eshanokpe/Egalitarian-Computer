@@ -75,7 +75,7 @@
                             <ul class="profile__info--wrapper">
                                 <li class="profile__info--list">
                                     <h3 class="profile__info--title">BIRTHDAY</h3>
-                                    <span class="profile__info__text">20 August</span>
+                                    <span class="profile__info__text">{{ \Carbon\Carbon::parse(Auth::user()->dob)->format('d F Y') }}</span>
                                 </li>
                                 <li class="profile__info--list">
                                     <h3 class="profile__info--title">LOCATION</h3>

@@ -68,6 +68,13 @@ class RegisterController extends Controller
             // 'phone' => 'required|string|regex:/^\+?[0-9]{10,15}$/|unique:users',
             'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
             'referral_code' => 'nullable|string|exists:users,referral_code',
+            'dob' => [
+                'required', 
+                'date', 
+                'before:' . now()->subYears(18)->format('Y-m-d'),
+            ]
+        ],[
+            'dob.before' => 'You must be at least 18 years old to register.',
         ]);
      
         // Generate the recipient ID
@@ -87,6 +94,7 @@ class RegisterController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
+            'dob' => $request->dob,
             'phone' => $request->phone,
             'recipient_id' => $recipientId,
             'password' => Hash::make($request->password),

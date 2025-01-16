@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Exception;
+use Carbon\Carbon;
  
 class ProfileController extends Controller
 {
@@ -75,22 +76,35 @@ class ProfileController extends Controller
    
     public function update(Request $request)
     {
+        try{
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:15',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'referral_code' => 'nullable|string|exists:users,referral_code',
+            'dob' => [
+                'nullable', 
+                'date', 
+                'before:' . now()->subYears(18)->format('Y-m-d'),
+            ]
+        ],[
+          'dob.before' => 'You must be at least 18 years old to register.',
         ]);
-        try{
+        // dd($request->dob);
+
+       
             $user = Auth::user();
         
             // Update name and phone
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->phone = $request->phone;
+            if ($request->has('dob') && !empty($request->dob)) {
+                $user->dob = Carbon::parse($request->dob)->format('Y-m-d'); // Ensure correct date format
+            }
         
             // Handle profile image upload
-            
             if ($request->hasFile('profile_image')) {
                 $imagePath = $request->file('profile_image');
                 $imageName = time() . '.' . $imagePath->extension();

@@ -68,6 +68,11 @@
                                                         placeholder="Last name" 
                                                         type="text" 
                                                         value="{{ old('last_name', Auth::user()->last_name) }}">
+                                                    @error('last_name')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
                                                 </div>
                                                 <div class="add__listing--input__box mb-20">
                                                     <label class="add__listing--input__label" for="name">First name</label>
@@ -78,6 +83,11 @@
                                                         placeholder="First name" 
                                                         type="text" 
                                                         value="{{ old('first_name', Auth::user()->first_name) }}">
+                                                    @error('first_name')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
                                                 </div>
                                     
                                                 <!-- Email Input -->
@@ -90,8 +100,31 @@
                                                         placeholder="Email-Address" 
                                                         type="email" 
                                                         value="{{ Auth::user()->email }}">
+                                                    @error('email')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
                                                 </div>
                                     
+                                                 <!-- BOD Input -->
+                                                 <div class="add__listing--input__box mb-20">
+                                                    <label class="add__listing--input__label" for="dob">Date of Birth</label>
+                                                    <input 
+                                                        class="add__listing--input__field" 
+                                                        id="dob" 
+                                                        name="dob" 
+                                                        placeholder="Date of birth" 
+                                                        type="date" 
+                                                        value="{{ \Carbon\Carbon::parse(Auth::user()->dob)->format('Y-m-d') }}">
+                                                    @error('dob')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                                
+
                                                 <!-- Phone Input -->
                                                 <div class="add__listing--input__box mb-20">
                                                     <label class="add__listing--input__label" for="phone">Phone</label>
@@ -102,6 +135,11 @@
                                                         placeholder="Phone number" 
                                                         type="tel" 
                                                         value="{{ old('phone', Auth::user()->phone) }}">
+                                                    @error('phone')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
                                                 </div>
                                     
                                                 <!-- Update Button -->

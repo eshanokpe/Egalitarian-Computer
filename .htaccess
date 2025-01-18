@@ -1,26 +1,31 @@
-<!-- <IfModule mod_rewrite.c>
-    RewriteEngine on
-    RewriteCond %{REQUEST_URI} !^public
-    RewriteRule ^(.*)$ public/$1 [L]
-</IfModule> -->
 <IfModule mod_rewrite.c>
+    # Disable MultiViews to prevent unwanted behavior
     <IfModule mod_negotiation.c>
         Options -MultiViews
     </IfModule>
 
+    # Enable Rewrite Engine
     RewriteEngine On
 
+    # Preserve HTTP Authorization Header for APIs and Webhooks
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+    # Allow access to existing directories or files directly
     RewriteCond %{REQUEST_FILENAME} -d [OR]
     RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^ ^$1 [N]
+    RewriteRule ^ - [L]
 
+    # Special rule for webhook routes (add your webhook route here)
+    RewriteCond %{REQUEST_URI} ^/user/webhook/paystack [NC]
+    RewriteRule ^ - [L]
+
+    # Allow access to assets or files with extensions (e.g., .css, .js, .png)
     RewriteCond %{REQUEST_URI} (\.\w+$) [NC]
-    RewriteRule ^(.*)$ public/$1
+    RewriteRule ^(.*)$ public/$1 [L]
 
+    # Redirect all other requests to index.php for Laravel routing
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php
+    RewriteRule ^ index.php [L]
 </IfModule>

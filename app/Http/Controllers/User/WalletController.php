@@ -60,6 +60,13 @@ class WalletController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
         }
+    } 
 
+    public function paymentHistory(){
+        $data['user'] = Auth::user();
+        $data['referralsMade'] = $data['user']->referralsMade()->with('user', 'referrer')->take(6)->get();
+        $data['hasMoreReferrals'] = $data['referralsMade']->count() > 6;
+      
+        return view('user.pages.wallet.payment.history', $data);
     }
 }

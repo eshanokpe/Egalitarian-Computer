@@ -14,14 +14,13 @@
                 <div class="main__content--left__inner">
                     <!-- Welcome section -->
                     <div class="dashboard__chart--box mb-30">
-                        <h2 class="dashboard__chart--title"> Help and Support </h2>
+                        <h2 class="dashboard__chart--title"> Help Center </h2>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="swiper-slide">
                                     <div class="currency__card">
-                                        <h1 class="dashboard__chart--title"> Hi {{ auth::user()->last_name}}, </h1>
-                                        <h1 class="dashboard__chart--title"> how can we help? </h1>
-                                           
+                                        <h1 class="dashboard__chart--title"> FAQ </h1>
+                                        <p>Find the answer to your problem</p>
                                     </div>
                                 </div>
                             </div>
@@ -30,44 +29,30 @@
 
                      <!-- Transaction Report Section -->
                      <div class="sales__report--section p-4" >
+                        
                         <div class="accordion accordion-flush" id="accordionFlushExample">
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="flush-headingOne">
-                                <button class="accordion-button collapsed dashboard__chart--title" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    <img src="{{ asset('assets/admin/img/dashboard/helpcenter.png')}}" alt="Buy" class="me-2" width="50">
-
-                                    <b>Help Center</b> 
-                                </button>
-                              </h2>
-                            </div>
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="flush-headingTwo">
-                                <button class="accordion-button collapsed dashboard__chart--title" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                    <img src="{{ asset('assets/admin/img/dashboard/contact_support.png')}}" alt="Buy" class="me-2" width="50">
-                                  
-                                    <b>Contact Support</b>
-                                </button>
-                              </h2>
-                            </div>
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="flush-headingThree">
-                                <button class="accordion-button collapsed dashboard__chart--title" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                    <img src="{{ asset('assets/admin/img/dashboard/call_center.png')}}" alt="Buy" class="me-2" width="50">
-                                  
-                                    <b>Call Center</b>
-                                </button>
-                              </h2>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingFour">
-                                  <button class="accordion-button collapsed dashboard__chart--title" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                                    <img src="{{ asset('assets/admin/img/dashboard/follow_us.jpg')}}" alt="Buy" class="me-2" width="50">
-                                    
-                                    <b>Follow us on Social Media</b>
-                                  </button>
-                                </h2>
-                              </div>
-                          </div>
+                            @foreach ($faqs as $index => $faq)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-heading{{ $index }}">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#flush-collapse{{ $index }}" 
+                                                aria-expanded="false" 
+                                                aria-controls="flush-collapse{{ $index }}">
+                                            <h3>{{ $faq->question }}</h3>
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapse{{ $index }}" 
+                                         class="accordion-collapse collapse" 
+                                         aria-labelledby="flush-heading{{ $index }}" 
+                                         data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            {{ $faq->answer }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        
 
                     </div>
                     <!-- Transaction Report Section End -->

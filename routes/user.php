@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\WalletController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\User\HelpSupportController;
 use App\Http\Controllers\User\WebhookController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\PaymentController;
@@ -100,8 +101,15 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('wallet/with-draw', [WalletController::class, 'withDraw'])->name('wallet.withdraw');
     Route::get('wallet/transfer-post', [WalletController::class, 'transferPost'])->name('wallet.transferPost');
     Route::post('/verify-account', [WalletController::class, 'verifyAccount'])->name('wallet.verifyAccount');
+
+    Route::get('payment/history', [WalletController::class, 'paymentHistory'])->name('payment.history');
+
     
-    Route::get('/help-support', [DashboardController::class, 'helpSupport'])->name('support');
+    Route::get('/help-support', [HelpSupportController::class, 'index'])->name('support');
+    Route::get('/help-center', [HelpSupportController::class, 'helpCenter'])->name('help.center');
+    Route::get('/contact-support', [HelpSupportController::class, 'contactSupport'])->name('contact.support');
+    Route::get('/social-media', [HelpSupportController::class, 'socialMedia'])->name('social.media');
+
     Route::get('/security', [SecurityController::class, 'index'])->name('login.security');
     Route::get('/change-password', [SecurityController::class, 'changePassword'])->name('change.password');
     Route::put('/{id}/change-password', [SecurityController::class, 'changePasswordPost'])->name('change.password.post');

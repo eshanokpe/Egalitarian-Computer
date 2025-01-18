@@ -13,4 +13,4 @@ class Faqs extends Model
         'question',
         'answer' 
     ];
-}
+} 

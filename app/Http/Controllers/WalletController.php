@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 class WalletController extends Controller
 {
-    // Create Customer 
+    // Create Customer  
     public function createVirtualAccountCustomer($user)
     {
         $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))
@@ -119,5 +119,6 @@ class WalletController extends Controller
         ]);
     }
 
+   
 
 }

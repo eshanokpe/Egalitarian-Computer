@@ -63,8 +63,8 @@
                                                                 <img src="{{ asset('assets/admin/img/dashboard/withdrawn.png')}}" alt="Sell" class="me-2 mb-2" width="50">
                                                                 <snap style="font-size: 14px">Withdraw </snap>
                                                             </a> 
-                                                            
-                                                            <a href="{{ route('user.transfer') }}" class="btn d-flex flex-column align-items-center justify-content-center text-center">
+                                                             
+                                                            <a href="{{ route('user.payment.history') }}" class="btn d-flex flex-column align-items-center justify-content-center text-center">
                                                                 <img 
                                                                     src="{{ asset('assets/admin/img/dashboard/history.png')}}" 
                                                                     alt="Transfer" 

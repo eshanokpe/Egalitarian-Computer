@@ -116,13 +116,7 @@ class DashboardController extends Controller
         return view('user.pages.properties.show', $data);
     }
 
-    public function helpSupport(){
-        $data['user'] = Auth::user();
-        $data['referralsMade'] = $data['user']->referralsMade()->with('user', 'referrer')->take(6)->get();
-        $data['hasMoreReferrals'] = $data['referralsMade']->count() > 6;
-        
-        return view('user.pages.support', $data);
-    }
+   
 
     public function toggleHideBalance(Request $request)
     {

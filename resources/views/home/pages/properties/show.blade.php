@@ -326,7 +326,7 @@
                                             <thead class="thead-light">
                                                 <th>Year sold</th>
                                                 <th style="padding-left: 20px">Sold price</th>
-                                            </thead>
+                                            </thead> 
                                             <tbody class="timeline mt-10" >
                                                 {{-- @forelse ($property->priceUpdates as $item) --}}
                                                 @forelse ($property->priceUpdates->sortByDesc('created_at') as $item)

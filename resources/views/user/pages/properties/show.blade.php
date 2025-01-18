@@ -14,7 +14,12 @@
                 <div class="row add__property--heading mb-30">
                     <h2 class="add__property--heading__title text-start">Show Property</h2>
                     <div class="add__property--heading__title text-end">
-                        <a href="{{ route('user.properties.valuation', encrypt($property->id)) }}"  class="solid__btn add__property--btn">
+                        <a 
+                        style="max-width: 100%; width:200px; object-fit:contain"
+                        href="{{ route('user.properties.history', encrypt($property->id)) }}"  class="mb-3 solid__btn add__property--btn ">
+                            Property history
+                        </a>
+                        <a href="{{ route('user.properties.valuation', encrypt($property->id)) }}"  class="mb-3 solid__btn add__property--btn">
                             Valuation
                         </a>
                         <a href="{{ route('user.properties') }}"  class="solid__btn add__property--btn">
@@ -41,7 +46,7 @@
                                             <label class="add__listing--input__label" for="input1">Title</label>
                                             <input disabled value="{{ $property->name }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text">
                                         </div>
-                                    </div>
+                                    </div> 
                                     <div class="col-12">
                                         <div class="add__listing--textarea__box mb-15">
                                             <label class="add__listing--input__label" for="input2">Description</label>

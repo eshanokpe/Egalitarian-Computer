@@ -138,4 +138,9 @@ class PropertyController extends Controller
         return view('user.pages.properties.valuation', $data);
     }
     
+    public function propertyHistory($id){
+        $propertyId = decrypt($id); 
+        $data['property'] = Property::findOrFail($propertyId);
+        return view('user.pages.properties.history', $data);
+    }
 }

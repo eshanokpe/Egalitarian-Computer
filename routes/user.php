@@ -93,6 +93,7 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::post('/transfer/confirm/{slug}/submit', [TransferPropertyController::class, 'submitConfirmation'])->name('confirm.transfer.submit');
 
     Route::get('properties/{id}/valuation', [PropertyController::class, 'valuation'])->name('properties.valuation');
+    Route::get('properties/{id}/history', [PropertyController::class, 'propertyHistory'])->name('properties.history');
     Route::get('referral/index', [ReferralController::class, 'index'])->name('referral.index');
     Route::get('referral/show', [ReferralController::class, 'show'])->name('referrals.show');
     
@@ -109,7 +110,7 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('/help-center', [HelpSupportController::class, 'helpCenter'])->name('help.center');
     Route::get('/contact-support', [HelpSupportController::class, 'contactSupport'])->name('contact.support');
     Route::get('/social-media', [HelpSupportController::class, 'socialMedia'])->name('social.media');
-
+ 
     Route::get('/security', [SecurityController::class, 'index'])->name('login.security');
     Route::get('/change-password', [SecurityController::class, 'changePassword'])->name('change.password');
     Route::put('/{id}/change-password', [SecurityController::class, 'changePasswordPost'])->name('change.password.post');

@@ -247,15 +247,28 @@ class PropertyController extends Controller
         
         $data['propertyValuation'] = PropertyValuation::where('property_id', $data['property']->id)
         ->when(request('filter'), function ($query) {
-            // Filter by selected year
-            if ($year = request('filter')) {
+             if ($year = request('filter')) {
                 return $query->whereYear('created_at', $year);
             }
             return $query;
         })
         ->orderBy('created_at', 'asc') 
-        ->get();
+        ->get(); 
+
         $data['marketValueSum'] = $data['propertyValuation']->sum('market_value');
+        $data['initialValueSum'] = $data['propertyValuation']
+        ->sortByDesc('created_at') 
+        ->skip(1) 
+        ->sum('market_value');
+        
+        if ($data['initialValueSum'] > 0) {
+            $percentageIncrease = ceil((($data['marketValueSum'] - $data['initialValueSum']) / $data['initialValueSum'])) * 100;
+        } else {
+            $percentageIncrease = 0; // Handle division by zero
+        }
+        
+        // $percentage = min(100, ($data['marketValueSum'] / $data['initialValueSum']) * 100);
+        $data['percentageIncrease'] = $percentageIncrease;
 
         $data['propertyValuationPrediction'] = PropertyValuationPrediction::where('property_id', $data['property']->id)
         ->when(request('filter'), function ($query) {
@@ -277,7 +290,6 @@ class PropertyController extends Controller
         });
 
         $data['valuationData'] = $valuationData;
-        // dd($data['valuationData']);
         return view('admin.home.properties.evaluate', $data);
     }
 

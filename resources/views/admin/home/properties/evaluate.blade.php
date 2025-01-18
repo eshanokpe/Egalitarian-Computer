@@ -42,7 +42,7 @@
                                 <div class="row d-flex justify-content-center mb-3">                                                
                                     <div class="col">
                                         <p class="text-dark mb-1 fw-semibold">Initial Price</p>
-                                        <h4 class="font-22 fw-bold">₦{{ number_format($property->lunch_price, 2) ?? '' }}</h4>   
+                                        <h4 class="font-22 fw-bold">₦{{ number_format($initialValueSum, 2) ?? '' }}</h4>   
                                     </div> 
                                 </div>
 
@@ -56,7 +56,7 @@
                                     <div class="col-auto align-self-center">
                                         <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md  rounded-circle">
                                             {{-- <i data-feather="fas fa-angle-double-up" class="align-self-center text-muted icon-sm"></i>   --}}
-                                            {{ $property->percentage_increase}}% <i class="fas fa-angle-double-up align-self-center text-success icon-md"></i>
+                                            {{ $percentageIncrease }}% <i class="fas fa-angle-double-up align-self-center text-success icon-md"></i>
                                         </div>
                                     </div> 
                                 </div>
@@ -328,7 +328,7 @@
                                                 id="currentPrice" 
                                                 name="current_price" 
                                                 placeholder="Enter Current Price" 
-                                                value="{{ $property->price ? '₦' . number_format($property->price, 2) : '' }}" 
+                                                value="{{ $marketValueSum ? '₦' . number_format($marketValueSum, 2) : '' }}" 
                                                 required>
                                                 @error('current_price')
                                                 <div class="invalid-feedback">
@@ -455,7 +455,7 @@
                                             @enderror
                                         </div>
 
-                                      
+                                       
                                         <div class="mb-3">
                                             <label for="launchPrice">Current Price (₦)</label>
                                             <input 

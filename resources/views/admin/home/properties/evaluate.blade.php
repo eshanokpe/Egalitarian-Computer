@@ -42,6 +42,10 @@
                                 <div class="row d-flex justify-content-center mb-3">                                                
                                     <div class="col">
                                         <p class="text-dark mb-1 fw-semibold">Initial Price</p>
+                                        @if(session('initialValueSum'))
+                                            <p>Initial Value Sum: {{ session('initialValueSum') }}</p>
+                                        @endif
+
                                         <h4 class="font-22 fw-bold">₦{{ number_format($initialValueSum, 2) ?? '' }}</h4>   
                                     </div> 
                                 </div>
@@ -58,7 +62,7 @@
                                             {{-- <i data-feather="fas fa-angle-double-up" class="align-self-center text-muted icon-sm"></i>   --}}
                                             {{ $percentageIncrease }}% <i class="fas fa-angle-double-up align-self-center text-success icon-md"></i>
                                         </div>
-                                    </div> 
+                                    </div>  
                                 </div>
 
                             </div><!--end card-body-->

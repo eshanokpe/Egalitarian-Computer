@@ -58,9 +58,9 @@
                                 <div class="listing__hero--slider__content--top d-flex align-items-center justify-content-between">
                                     <h3 class="listing__hero--slider__title">{{ $property->name }}</h3>
                                     @if($property->valuationSummary)
-                                        <span class="listing__hero--slider__price" style="color: #fff; front-size:26px">₦{{ number_format($property->valuationSummary->current_value_sum) }}</span>
+                                        <span class="listing__hero--slider__price" style="color: #fff; front-size:26px">₦{{ number_format($property->valuationSummary->current_value_sum, 2) }}</span>
                                     @else
-                                        <span class="listing__hero--slider__price" style="color: #fff; front-size:26px">₦{{ number_format($property->price) }}</span>
+                                        <span class="listing__hero--slider__price" style="color: #fff; front-size:26px">₦{{ number_format($property->price, 2) }}</span>
                                     @endif
                                 </div>
                                 <p class="listing__hero--slider__text"><svg width="11" height="17" viewBox="0 0 11 17" fill="none" xmlns="http://www.w3.org/2000/svg">

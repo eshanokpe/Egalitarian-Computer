@@ -136,20 +136,7 @@
             <div class="main__content--right">
                 <div class="dashboard__chart--box mb-30">
                     <h2 class="dashboard__chart--title">  Main Balance</h2>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="swiper-slide">
-                                <div class="currency__card">
-                                    <h4 class="currency__card--title">
-                                       Main Balance
-                                    </h4> 
-                                    <span class="currency__card--amount">{{ $wallet->currency}} {{ number_format($wallet->balance, 2) }}</span>
-
-                                    <br>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @include('user.partial.mainBalance')
                 </div>
 
                 <div class="dashboard__chart--box mb-30">

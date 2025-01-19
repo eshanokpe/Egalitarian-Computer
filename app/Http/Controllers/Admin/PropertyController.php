@@ -337,10 +337,10 @@ class PropertyController extends Controller
         ->orderBy('created_at', 'asc') 
         ->get(); 
         $marketValueSum = $data['propertyValuation']->sum('market_value');
-        $propertyValuationSummary = PropertyValuationSummary::where('property_id',$request->property_id);
-        $propertyValuationSummary->property_id = $request->property_id; 
-        $propertyValuationSummary->property_valuation_id = $data['propertyValuation']->id; 
-        $propertyValuationSummary->initial_value_sum = $marketValueSum; 
+        $propertyValuationSummary = PropertyValuationSummary::firstOrNew([
+            'property_id' => $request->property_id,
+        ]);
+        $propertyValuationSummary->initial_value_sum = $marketValueSum;
         $propertyValuationSummary->save();  
 
         }catch(\Exception $e){

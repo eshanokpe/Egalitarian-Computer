@@ -46,11 +46,10 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                toastr.success('Wallet balance visibility updated.', 'Success');
+                // toastr.success('Wallet balance visibility updated.', 'Success');
                 setTimeout(() => {
-                    location.reload(); // Reload the page to reflect changes
+                    location.reload(); 
                 }, 1500);
-                // alert('Wallet balance visibility updated.');
                 location.reload(); 
             } else {
                 alert('Something went wrong!');

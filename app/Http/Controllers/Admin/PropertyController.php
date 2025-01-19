@@ -397,7 +397,10 @@ class PropertyController extends Controller
             $percentageIncrease = ceil((($marketValue - $currentPrice) / $currentPrice) * 100);
         }
         // dd($percentageIncrease);
-
+        PropertyValuationSummary::create(
+            ['property_id' => $request->property_id],
+            ['initial_value_sum' => $marketValue]
+        );
         PropertyValuation::create([
             'property_id' => $request->property_id,
             'valuation_type' => $request->valuation_type,

@@ -9,7 +9,12 @@ class PropertyValuationSummary extends Model
 {
     use HasFactory;  
  
-    protected $fillable = ['property_id', 'property_valuation_id', 'initial_value_sum'];
+    protected $fillable = [
+        'property_id', 
+        'property_valuation_id', 
+        'initial_value_sum',
+        'current_value_sum',
+    ];
 
     public function property()
     {

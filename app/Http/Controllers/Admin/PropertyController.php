@@ -334,6 +334,11 @@ class PropertyController extends Controller
             'market_value' => $marketValue,
             'percentage_increase' => $percentageIncrease,
         ]);
+        $propertyValuationSummary = PropertyValuationSummary::firstOrNew([
+            'property_id' => $request->property_id,
+        ]);
+        $propertyValuationSummary->current_value_sum = $marketValue;
+        $propertyValuationSummary->save();  
         
         // Update the Property price
         $property = Property::findOrFail($request->property_id);
@@ -344,10 +349,10 @@ class PropertyController extends Controller
         $property->percentage_increase = $priceIncrease; 
         $property->save();  
 
-        $users = User::all();
-        foreach ($users as $user) { 
-            $user->notify(new PropertyValuationNotification($property, $priceIncrease));
-        }
+        // $users = User::all();
+        // foreach ($users as $user) { 
+        //     $user->notify(new PropertyValuationNotification($property, $priceIncrease));
+        // }
         
         return redirect()->route('admin.properties.evaluate', encrypt($property->id))
         ->with('success', 'Properties Valuation updated successfully!')

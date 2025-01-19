@@ -286,7 +286,6 @@ class PropertyController extends Controller
     }
 
     public function valuationUpdate(Request $request, $id){
-    
         $request->validate([
             'property_id' => 'required|exists:properties,id',
             'valuation_type' => 'required|string|max:255',
@@ -294,13 +293,29 @@ class PropertyController extends Controller
             'market_value' => 'required|string|min:0',
             'percentage_increase' => 'required|string|min:0',
         ]);
-
+       
         $propertyValuations = PropertyValuation::where('property_id', $request->property_id)
         ->where('id', $id)
         ->get();
+        $data['marketValueSum'] = $propertyValuations
+            ->sortByDesc('created_at') // Sort records by latest
+            ->sum('market_value'); 
 
+        $data['propertyValuation'] = PropertyValuation::where('property_id', $request->property_id)
+            ->when(request('filter'), function ($query) {
+                 if ($year = request('filter')) {
+                    return $query->whereYear('created_at', $year);
+                }
+                return $query;
+            })
+            ->orderBy('created_at', 'asc') 
+            ->get(); 
+        $marketValueSum = $data['propertyValuation']->sum('market_value');
+        // dd($marketValueSum );
+        
         $valueSum = $this->calculateValuationSums($propertyValuations, $id);
-    
+       
+        
         $currentPrice = preg_replace('/[₦,]/', '', $request->current_price);
         $marketValue = preg_replace('/[₦,]/', '', $request->market_value);
 
@@ -316,18 +331,13 @@ class PropertyController extends Controller
             'market_value' => $marketValue,
             'percentage_increase' => $percentageIncrease,
         ]);
+        $propertyValuationSummary = PropertyValuationSummary::findOrFail($request->property_id);
+        $propertyValuationSummary->property_id = $request->property_id; 
+        $propertyValuationSummary->property_valuation_id = $propertyValuation->id; 
+        $propertyValuationSummary->initial_value_sum = $marketValueSum; 
+        $propertyValuationSummary->save();  
 
-        $propertyValuations = PropertyValuation::where('property_id', $request->property_id)
-            ->orderBy('created_at', 'asc')
-            ->get();
-
-        $initialValueSum = $propertyValuations->sortByDesc('created_at')
-            ->skip(1)
-            ->sum('market_value');
-
-        
-        $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $request->property_id)->value('initial_value_sum') ?? 0;
-
+      
         
         // Update the Property price
         $property = Property::findOrFail($request->property_id);
@@ -345,7 +355,7 @@ class PropertyController extends Controller
         
         return redirect()->route('admin.properties.evaluate', encrypt($property->id))
         ->with('success', 'Properties Valuation updated successfully!')
-        ->with('initialValueSum', $data['initialValueSum']);
+        ->with('initialValueSum', $marketValueSum);
     }
 
     private function calculateValuationSums($propertyValuations, $excludeId = null)

@@ -49,7 +49,7 @@ class PropertyValuationNotification extends Notification
             ->subject('Property Valuation Update')
             ->line('The valuation for property ' . $this->property->name . ' has been updated.')
             ->line('Market Value: ₦' . number_format($this->property->price, 2))
-            ->line('Percentage Increase: ' . $this->percentageIncrease . '%')
+            ->line('Percentage Increase: ' . ceil($this->percentageIncrease) . '%')
             ->action('View Property', url('user/properties/' . $this->property->id))
             ->line('Thank you for using our platform!');
     }

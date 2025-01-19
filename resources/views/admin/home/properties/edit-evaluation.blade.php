@@ -64,7 +64,7 @@
                                                             </div>
                                                         @enderror
                                                     </div>
-            
+                                                    
                                                     <div class="mb-3">
                                                         <label for="launchPrice">Current Price (₦)</label>
                                                         <input 
@@ -72,7 +72,7 @@
                                                             class="form-control" 
                                                             id="currentPrice" 
                                                             name="current_price" 
-                                                            placeholder="Enter Current Price" 
+                                                            placeholder="Enter Current Price"  
                                                             {{-- value="{{ $property->price ? '₦' . number_format($property->price, 2) : '' }}"  --}}
                                                             value="{{ $property->price ? '₦' . number_format($propertyValuation->current_price, 2) : '' }}" 
                                                             required>

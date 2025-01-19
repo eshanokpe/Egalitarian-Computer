@@ -317,14 +317,8 @@ class PropertyController extends Controller
             'percentage_increase' => $percentageIncrease,
         ]);
 
-        $propertyValuations = PropertyValuation::where('property_id', $request->property_id)
-            ->orderBy('created_at', 'asc')
-            ->get();
-            dd('uu2');
-
-        $initialValueSum = $propertyValuations->sortByDesc('created_at')
-            ->skip(1)
-            ->sum('market_value');
+       
+        dd('uu2');
 
         $data['propertyValuation'] = PropertyValuation::where('property_id', $request->property_id)
             ->when(request('filter'), function ($query) {

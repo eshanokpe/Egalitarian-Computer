@@ -334,14 +334,14 @@ class PropertyController extends Controller
         // $lunchPrice = $property->lunch_price;
         // $priceIncrease = $lunchPrice > 0 ? (($marketValue - $lunchPrice) / $lunchPrice) * 100 : 0;
 
-        // $property->price = $marketValue; 
-        // $property->percentage_increase = $priceIncrease; 
-        // $property->save();  
+        $property->price = $marketValue; 
+        $property->percentage_increase = $priceIncrease; 
+        $property->save();  
 
-        // $users = User::all();
-        // foreach ($users as $user) { 
-        //     $user->notify(new PropertyValuationNotification($property, $priceIncrease));
-        // }
+        $users = User::all();
+        foreach ($users as $user) { 
+            $user->notify(new PropertyValuationNotification($property, $priceIncrease));
+        }
         
         return redirect()->route('admin.properties.evaluate', encrypt($property->id))
         ->with('success', 'Properties Valuation updated successfully!')

@@ -308,25 +308,7 @@ class PropertyController extends Controller
         if ($currentPrice > 0) {
             $percentageIncrease = ceil((($marketValue - $currentPrice) / $currentPrice) * 100);
         }
-        $propertyValuation = PropertyValuation::findOrFail($id);
-        $propertyValuation->update([
-            'property_id' => $request->property_id,
-            'valuation_type' => $request->valuation_type,
-            'current_price' => $currentPrice,
-            'market_value' => $marketValue,
-            'percentage_increase' => $percentageIncrease,
-        ]);
-
-        // $propertyValuations = PropertyValuation::where('property_id', $request->property_id)
-        //     ->orderBy('created_at', 'asc')
-        //     ->get();
-
-        // $initialValueSum = $propertyValuations->sortByDesc('created_at')
-        //     ->skip(1)
-        //     ->sum('market_value');
-
-        try{
-        // $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $request->property_id)->value('initial_value_sum') ?? 0;
+       
         $data['propertyValuation'] = PropertyValuation::where('property_id', $request->property_id)
         ->when(request('filter'), function ($query) {
              if ($year = request('filter')) {
@@ -343,9 +325,15 @@ class PropertyController extends Controller
         $propertyValuationSummary->initial_value_sum = $marketValueSum;
         $propertyValuationSummary->save();  
 
-        }catch(\Exception $e){
-            dd($e->getMessage());
-        }
+       
+        $propertyValuation = PropertyValuation::findOrFail($id);
+        $propertyValuation->update([
+            'property_id' => $request->property_id,
+            'valuation_type' => $request->valuation_type,
+            'current_price' => $currentPrice,
+            'market_value' => $marketValue,
+            'percentage_increase' => $percentageIncrease,
+        ]);
         
         // Update the Property price
         $property = Property::findOrFail($request->property_id);

@@ -334,8 +334,17 @@ class PropertyController extends Controller
             'market_value' => $marketValue,
             'percentage_increase' => $percentageIncrease,
         ]);
-        
-        $currentMarketValue = $data['propertyValuation']->sum('market_value');
+        //PropertyValuationSummary
+        $updatedPropertyValuation = PropertyValuation::where('property_id', $request->property_id)
+        ->when(request('filter'), function ($query) {
+             if ($year = request('filter')) {
+                return $query->whereYear('created_at', $year);
+            }
+            return $query;
+        })
+        ->orderBy('created_at', 'asc') 
+        ->get(); 
+        $currentMarketValue = $updatedPropertyValuation->sum('market_value');
         $propertyValuationSummary = PropertyValuationSummary::firstOrNew([
             'property_id' => $request->property_id,
         ]);

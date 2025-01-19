@@ -297,12 +297,12 @@ class PropertyController extends Controller
         $propertyValuations = PropertyValuation::where('property_id', $request->property_id)
         ->where('id', $id)
         ->get();
-        dd('uu');
 
         $valueSum = $this->calculateValuationSums($propertyValuations, $id);
     
         $currentPrice = preg_replace('/[₦,]/', '', $request->current_price);
         $marketValue = preg_replace('/[₦,]/', '', $request->market_value);
+        dd('uu');
 
         $percentageIncrease = 0;
         if ($currentPrice > 0) {

@@ -23,6 +23,7 @@ class PropertyController extends Controller
     {
         $properties = Property::all();
         return view('admin.home.properties.index', compact('properties'));
+      
     }
 
     public function create()
@@ -259,9 +260,12 @@ class PropertyController extends Controller
         $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $propertyId)->value('initial_value_sum') ?? 0;
         // dd($data['initialValueSum']);
         $data['valueSum'] = $this->calculateValuationSums($data['propertyValuation']);
-        // Additional calculations if needed
         $data['marketValueSum'] = $data['valueSum']['marketValueSum'];
-        $data['percentageIncrease'] = $data['valueSum']['percentageIncrease'];
+        $percentage_value = 0;
+        if ($data['initialValueSum'] > 0) {
+            $percentage_value = ceil((($data['marketValueSum'] - $data['initialValueSum']) / $data['initialValueSum']) * 100);
+        }
+        $data['percentageIncrease'] = $percentage_value;
 
         $data['propertyValuationPrediction'] = PropertyValuationPrediction::where('property_id', $data['property']->id)
         ->when(request('filter'), function ($query) {
@@ -374,16 +378,8 @@ class PropertyController extends Controller
         ->with('success', 'Properties Valuation updated successfully!')
         ;
     }
-
-    private function calculateValuationSums($propertyValuations, $excludeId = null)
+    private function calculateValuationSums($propertyValuations)
     {
-        // Filter out the valuation to exclude, if specified
-        if ($excludeId) {
-            $propertyValuations = $propertyValuations->filter(function ($valuation) use ($excludeId) {
-                return $valuation->id !== $excludeId;
-            });
-        }
-
         // Calculate the total market value sum
         $marketValueSum = $propertyValuations->sum('market_value');
 
@@ -404,6 +400,7 @@ class PropertyController extends Controller
             'percentageIncrease' => round($percentageIncrease, 2), // Rounded to 2 decimal places
         ];
     }
+    
 
 
     public function valuationStore(Request $request)

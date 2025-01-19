@@ -41,7 +41,7 @@
 </style>
 
 @section('content')
-
+ 
 
 <section class="listing__hero--section">
     <div class="listing__hero--section__inner position-relative">
@@ -119,10 +119,18 @@
                         <div class="listing__details--content__step">
                             <h2 class="listing__details--title mb-25">{{ $property->name }}</h2>
                             <div class="listing__details--price__id d-flex align-items-center">
-                                <div class="listing__details--price d-flex">
-                                    <span class="listing__details--price__new">₦{{ number_format($property->price) }}</span>
-                                    <span class="listing__details--price__old">₦{{ number_format($property->lunch_price) }}</span>
-                                </div>
+                                {{-- {{$property->valuationSummary}} --}}
+                                @if($property->valuationSummary)
+                                    <div class="listing__details--price d-flex">
+                                        <span class="listing__details--price__new">₦{{ number_format($property->valuationSummary->current_value_sum) }}</span>
+                                        <span class="listing__details--price__old">₦{{ number_format($property->valuationSummary->initial_value_sum) }}</span>
+                                    </div>
+                                @else  
+                                    <div class="listing__details--price d-flex">
+                                        <span class="listing__details--price__new">₦{{ number_format($property->price) }}</span>
+                                        <span class="listing__details--price__old">₦{{ number_format($property->lunch_price) }}</span>
+                                    </div>
+                                @endif
                                 <span class="listing__details--property__id">Gazette Number: {{ $property->gazette_number}}</span>
                             </div>
                             <p class="listing__details--location__text"><svg width="11" height="17" viewBox="0 0 11 17" fill="none" xmlns="http://www.w3.org/2000/svg">

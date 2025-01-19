@@ -17,13 +17,18 @@ class PropertyValuationSummary extends Model
         'percentage_value',
     ];
 
-    public function property()
-    {
-        return $this->belongsTo(Property::class);
-    }
+    // public function property()
+    // {
+    //     return $this->belongsTo(Property::class);
+    // }
 
     public function propertyValuation()
     {
         return $this->belongsTo(PropertyValuation::class);
+    }
+
+    public function property()
+    {
+        return $this->belongsTo(Property::class, 'property_id', 'id');
     }
 }

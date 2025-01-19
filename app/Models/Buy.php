@@ -9,7 +9,7 @@ class Buy extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    protected $fillable = [ 
         'user_id',
         'user_email',
         'property_id',
@@ -23,5 +23,10 @@ class Buy extends Model
     public function property()
     {
         return $this->belongsTo(Property::class, 'property_id');
+    }
+
+    public function valuationSummary()
+    {
+        return $this->hasOne(PropertyValuationSummary::class, 'property_id', 'property_id');
     }
 }

@@ -49,12 +49,23 @@
                                         <div class="reviews__author--text">
                                             <h3 class="reviews__author--title">{{$property->property->name}}</h3>
                                             <p class="reviews__author--subtitle">{{$property->property->location}}</p>
-                                            <span class="properties__author--price">₦{{ number_format($property->property->price, 2)}} per/sqm</span>
+                                            @if($property->valuationSummary)
+                                                <span class="properties__author--price">₦{{ number_format($property->valuationSummary->current_value_sum, 2)}} per/sqm</span>
+                                                <p class="properties__author--price text-decoration-line-through text-muted">₦{{ number_format($property->valuationSummary->initial_value_sum, 2)}} per/sqm</p>
+                                            @else  
+                                                <span class="properties__author--price">₦{{ number_format($property->property->price, 2)}} per/sqm</span>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="properties__views">{{ $property->property->percentage_increase }}%</span>
+                                    <span class="properties__views">
+                                        @if($property->valuationSummary)
+                                            {{ $property->valuationSummary->percentage_value }}%
+                                        @else
+                                            {{ $property->property->percentage_increase }}%
+                                        @endif
+                                    </span>
                                   
                                 </td>  
                                 <td> 
@@ -77,7 +88,7 @@
                                 </td>
                               
                             </tr>
-                            @empty
+                            @empty 
                                 <tr><td>You have not bought any property yet.</td></tr>
                             @endforelse
                            

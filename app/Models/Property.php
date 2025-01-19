@@ -58,6 +58,11 @@ class Property extends Model
     {
         return $this->morphMany(CustomNotification::class, 'notifiable')->orderBy('created_at', 'desc');
     }
+    
+    public function valuationSummary()
+    {
+        return $this->hasOne(PropertyValuationSummary::class, 'property_id', 'id');
+    }
 
 
    

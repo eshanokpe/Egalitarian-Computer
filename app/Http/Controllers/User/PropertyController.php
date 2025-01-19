@@ -39,6 +39,7 @@ class PropertyController extends Controller
             DB::raw('MAX(created_at) as latest_created_at') 
         )
         ->with('property')
+        ->with('valuationSummary')
         ->where('user_id', $user->id)
         ->where('user_email', $user->email)
         ->groupBy('property_id') 

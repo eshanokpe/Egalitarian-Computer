@@ -317,16 +317,16 @@ class PropertyController extends Controller
             'percentage_increase' => $percentageIncrease,
         ]);
 
-        $propertyValuations = PropertyValuation::where('property_id', $request->property_id)
-            ->orderBy('created_at', 'asc')
-            ->get();
+        // $propertyValuations = PropertyValuation::where('property_id', $request->property_id)
+        //     ->orderBy('created_at', 'asc')
+        //     ->get();
 
-        $initialValueSum = $propertyValuations->sortByDesc('created_at')
-            ->skip(1)
-            ->sum('market_value');
+        // $initialValueSum = $propertyValuations->sortByDesc('created_at')
+        //     ->skip(1)
+        //     ->sum('market_value');
 
         
-        $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $request->property_id)->value('initial_value_sum') ?? 0;
+        // $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $request->property_id)->value('initial_value_sum') ?? 0;
 
         
         // Update the Property price
@@ -338,14 +338,15 @@ class PropertyController extends Controller
         $property->percentage_increase = $priceIncrease; 
         $property->save();  
 
-        $users = User::all();
-        foreach ($users as $user) { 
-            $user->notify(new PropertyValuationNotification($property, $priceIncrease));
-        }
+        // $users = User::all();
+        // foreach ($users as $user) { 
+        //     $user->notify(new PropertyValuationNotification($property, $priceIncrease));
+        // }
         
         return redirect()->route('admin.properties.evaluate', encrypt($property->id))
         ->with('success', 'Properties Valuation updated successfully!')
-        ->with('initialValueSum', $data['initialValueSum']);
+        // ->with('initialValueSum', $data['initialValueSum'])
+        ;
     }
 
     private function calculateValuationSums($propertyValuations, $excludeId = null)

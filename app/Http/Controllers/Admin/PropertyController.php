@@ -325,7 +325,7 @@ class PropertyController extends Controller
         //     ->skip(1)
         //     ->sum('market_value');
 
-        
+        try{
         // $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $request->property_id)->value('initial_value_sum') ?? 0;
         $data['propertyValuation'] = PropertyValuation::where('property_id', $request->property_id)
         ->when(request('filter'), function ($query) {
@@ -342,6 +342,10 @@ class PropertyController extends Controller
         $propertyValuationSummary->property_valuation_id = $data['propertyValuation']->id; 
         $propertyValuationSummary->initial_value_sum = $marketValueSum; 
         $propertyValuationSummary->save();  
+
+        }catch(\Exception $e){
+            dd($e->getMessage());
+        }
         
         // Update the Property price
         $property = Property::findOrFail($request->property_id);

@@ -334,14 +334,16 @@ class PropertyController extends Controller
             'market_value' => $marketValue,
             'percentage_increase' => $percentageIncrease,
         ]);
-        $percentage_value = 0;
-        if ($initailMarketValue > 0) {
-            $percentage_value = ceil((($marketValue - $initailMarketValue) / $initailMarketValue) * 100);
-        }
+        
+        $currentMarketValue = $data['propertyValuation']->sum('market_value');
         $propertyValuationSummary = PropertyValuationSummary::firstOrNew([
             'property_id' => $request->property_id,
         ]);
-        $propertyValuationSummary->current_value_sum = $marketValue;
+        $percentage_value = 0;
+        if ($initailMarketValue > 0) {
+            $percentage_value = ceil((($currentMarketValue - $initailMarketValue) / $initailMarketValue) * 100);
+        }
+        $propertyValuationSummary->current_value_sum = $currentMarketValue;
         $propertyValuationSummary->percentage_value = $percentage_value;
         $propertyValuationSummary->save();  
         

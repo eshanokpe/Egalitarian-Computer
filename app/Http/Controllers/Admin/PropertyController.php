@@ -257,6 +257,7 @@ class PropertyController extends Controller
         ->get(); 
 
         $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $propertyId)->value('initial_value_sum') ?? 0;
+        dd($data['initialValueSum']);
         $data['valueSum'] = $this->calculateValuationSums($data['propertyValuation']);
         // Additional calculations if needed
         $data['marketValueSum'] = $data['valueSum']['marketValueSum'];

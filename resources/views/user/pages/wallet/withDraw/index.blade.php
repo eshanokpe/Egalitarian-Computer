@@ -29,6 +29,11 @@
 
 </style>
 
+<style>
+ 
+
+</style>
+
 @section('content')
 
 <div class="page__body--wrapper" id="dashbody__page--body__wrapper">
@@ -63,22 +68,25 @@
                                                                 type="number" 
                                                                 value="">
                                                         </div>
-                                                    
+                                                        
+                                                            
                                                         <!-- Bank Select -->
-                                                        <div class="add__listing--input__box mb-20">
+                                                        <div class="add__listing--input__box mb-20" >
                                                             <label class="add__listing--input__label" for="bank">Select Bank</label>
-                                                            <select name="bank_code" id="bank" class="add__listing--input__field">
-                                                                <option value="">Select a bank</option>
-                                                                @if(!empty($banks))
-                                                                    @foreach($banks as $bank)
-                                                                        <option value="{{ $bank['code'] }}">{{ $bank['name'] }}</option>
-                                                                    @endforeach
-                                                                @else
-                                                                    <option value="">No banks available</option>
-                                                                @endif
-                                                            </select>
+                                                            <div style="border: 1px solid  #ccc; padding:10px; border-radius:5px" class="w-100">
+                                                                <select  name="bank_code" id="bank" class="add__listing--input__field js-bank-select">
+                                                                    <option value="">Select a bank</option>
+                                                                    @if(!empty($banks))
+                                                                        @foreach($banks as $bank)
+                                                                            <option value="{{ $bank['code'] }}">{{ $bank['name'] }}</option>
+                                                                        @endforeach
+                                                                    @else
+                                                                        <option value="">No banks available</option>
+                                                                    @endif
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                    
+
                                                         <!-- Account Name Display -->
                                                         <div class="add__listing--input__box mb-20">
                                                             <label class="add__listing--input__label">Account Name</label>
@@ -89,7 +97,18 @@
                                                         <button type="submit" id="next-button" class="solid__btn add__property--btn" disabled>Next</button>
                                                     </form>
                                                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+                                                        
                                                     <script>
+                             
+                                                        $(document).ready(function() {
+                                                            $('.js-bank-select').select2({
+                                                                placeholder: "Select a bank",
+                                                                allowClear: false,
+                                                                // width: '100%',
+                                                            });
+                                                        });
                                                         $(document).ready(function () {
                                                             const $accountNumber = $('#name');
                                                             const $bankSelect = $('#bank');
@@ -123,14 +142,19 @@
                                                                     $('#account_name').text('Verifying...');
 
                                                                     // Send AJAX request
+                                  
                                                                     $.ajax({
                                                                         url: "{{ route('user.wallet.verifyAccount') }}",
                                                                         method: "POST",
-                                                                        data: {
+                                                                        headers: {
+                                                                            'Content-Type': 'application/json',
+                                                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                                        },
+                                                                        data: JSON.stringify({
                                                                             _token: "{{ csrf_token() }}",
                                                                             account_number: accountNumber,
                                                                             bank_code: bankCode,
-                                                                        },
+                                                                        }),
                                                                         success: function (response) {
                                                                             $('#account_name').text(response.account_name || 'Account name not found');
                                                                         },

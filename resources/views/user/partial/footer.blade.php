@@ -34,7 +34,7 @@
   <script src="{{ asset('assets/admin/js/chart-activation.js')}}"></script>
 
   <script>
-    function toggleHideBalance(el) {
+    function toggleHideBalance(el) { 
         fetch('{{ route("user.toggle.hide.balance") }}', {
             method: 'POST',
             headers: {

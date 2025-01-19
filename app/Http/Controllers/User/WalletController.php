@@ -27,8 +27,8 @@ class WalletController extends Controller
 
         // $result = $paystackWalletController->createTransferRecipient();
         // dd($result);
-
-        $data['banks'] = $paystackWalletController->getBanks();
+ 
+        $data['banks'] = $paystackWalletController->getBanks(); 
         // dd($data['banks']);
 
         $data['user'] = Auth::user();
@@ -43,11 +43,26 @@ class WalletController extends Controller
         ]);
     }
 
-    public function verifyAccount(Request $request, PayStackWalletController $paystackWalletController){
+    public function verifyAccount(Request $request, PayStackWalletController $paystackWalletController)
+    {
+        $validated = $request->validate([
+            'account_number' => 'required|string',
+            'bank_code' => 'required|string',
+        ]);
+
+        // Your verification logic
+        return response()->json(['account_name' => $validated['bank_code'] ]); // Example
+    }
+
+
+    public function verifyAccountt(Request $request, PayStackWalletController $paystackWalletController){
+        dd('Request');
+        
         $request->validate([
             'account_number' => 'required|digits:10',
             'bank_code' => 'required|string',
         ]);
+        dd($request->all());
         try {
             $result = $paystackWalletController->verifyAccount($request->account_number, $request->bank_code);
             return response()->json([

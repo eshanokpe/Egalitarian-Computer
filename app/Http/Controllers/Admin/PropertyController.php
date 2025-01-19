@@ -397,18 +397,19 @@ class PropertyController extends Controller
             $percentageIncrease = ceil((($marketValue - $currentPrice) / $currentPrice) * 100);
         }
         // dd($percentageIncrease);
-        PropertyValuationSummary::create(
-            ['property_id' => $request->property_id],
-            ['initial_value_sum' => $marketValue]
-        );
-        PropertyValuation::create([
+        
+        $propertyValuation = PropertyValuation::create([
             'property_id' => $request->property_id,
             'valuation_type' => $request->valuation_type,
             'current_price' => $currentPrice,
             'market_value' => $marketValue,
             'percentage_increase' => $percentageIncrease,
         ]);
-
+        PropertyValuationSummary::create([
+            'property_id' => $request->property_id,
+            'property_valuation_id' => $propertyValuation->id,
+            'initial_value_sum' => $currentPrice
+        ]);
         // Update the Property price
         $property = Property::findOrFail($request->property_id);
         $lunchPrice = $property->lunch_price;

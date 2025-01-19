@@ -344,10 +344,10 @@ class PropertyController extends Controller
         $property->percentage_increase = $priceIncrease; 
         $property->save();  
 
-        // $users = User::all();
-        // foreach ($users as $user) { 
-        //     $user->notify(new PropertyValuationNotification($property, $priceIncrease));
-        // }
+        $users = User::all();
+        foreach ($users as $user) { 
+            $user->notify(new PropertyValuationNotification($property, $priceIncrease));
+        }
         
         return redirect()->route('admin.properties.evaluate', encrypt($property->id))
         ->with('success', 'Properties Valuation updated successfully!')

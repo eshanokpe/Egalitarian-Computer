@@ -351,7 +351,6 @@ class PropertyController extends Controller
         
         return redirect()->route('admin.properties.evaluate', encrypt($property->id))
         ->with('success', 'Properties Valuation updated successfully!')
-        // ->with('initialValueSum', $data['initialValueSum'])
         ;
     }
 

@@ -331,8 +331,8 @@ class PropertyController extends Controller
         
         // Update the Property price
         $property = Property::findOrFail($request->property_id);
-        // $lunchPrice = $property->lunch_price;
-        // $priceIncrease = $lunchPrice > 0 ? (($marketValue - $lunchPrice) / $lunchPrice) * 100 : 0;
+        $lunchPrice = $property->lunch_price;
+        $priceIncrease = $lunchPrice > 0 ? (($marketValue - $lunchPrice) / $lunchPrice) * 100 : 0;
 
         $property->price = $marketValue; 
         $property->percentage_increase = $priceIncrease; 

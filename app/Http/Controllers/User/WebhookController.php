@@ -19,16 +19,13 @@ class WebhookController extends Controller
 
     public function handlePaystackWebhook(Request $request)
     {
-        Log::info('Webhook invoked.');
         Log::info('Headers:', $request->headers->all());
         Log::info('Payload:', json_decode($request->getContent(), true));
     
-        // Define your Paystack secret key
         $paystackSecretKey = env('PAYSTACK_SECRET_KEY');
-
-        // Ensure it's a POST request and has the necessary Paystack signature header
         $signature = $request->header('X-Paystack-Signature');
-        Log::info('signature:', $signature);
+
+        Log::info('signature:', ['signature' => $signature]);
 
         $input = $request->getContent();
 

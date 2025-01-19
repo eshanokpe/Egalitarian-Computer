@@ -318,7 +318,6 @@ class PropertyController extends Controller
         ]);
 
        
-        dd('uu2');
 
         $data['propertyValuation'] = PropertyValuation::where('property_id', $request->property_id)
             ->when(request('filter'), function ($query) {
@@ -333,7 +332,7 @@ class PropertyController extends Controller
 
         $propertyValuationSummary = PropertyValuationSummary::findOrFail($request->property_id);
         $propertyValuationSummary->property_id = $request->property_id; 
-        $propertyValuationSummary->property_valuation_id = $propertyValuation->id; 
+        $propertyValuationSummary->property_valuation_id = $data['propertyValuation']->id; 
         $propertyValuationSummary->initial_value_sum = $marketValueSum; 
         $propertyValuationSummary->save();  
 

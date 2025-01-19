@@ -316,11 +316,11 @@ class PropertyController extends Controller
             'market_value' => $marketValue,
             'percentage_increase' => $percentageIncrease,
         ]);
-        dd('uu1');
 
         $propertyValuations = PropertyValuation::where('property_id', $request->property_id)
             ->orderBy('created_at', 'asc')
             ->get();
+            dd('uu2');
 
         $initialValueSum = $propertyValuations->sortByDesc('created_at')
             ->skip(1)

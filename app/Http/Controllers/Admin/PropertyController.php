@@ -302,12 +302,13 @@ class PropertyController extends Controller
     
         $currentPrice = preg_replace('/[₦,]/', '', $request->current_price);
         $marketValue = preg_replace('/[₦,]/', '', $request->market_value);
-        dd('uu');
 
         $percentageIncrease = 0;
         if ($currentPrice > 0) {
             $percentageIncrease = ceil((($marketValue - $currentPrice) / $currentPrice) * 100);
         }
+        dd('uu1');
+
         $propertyValuation = PropertyValuation::findOrFail($id);
         $propertyValuation->update([
             'property_id' => $request->property_id,

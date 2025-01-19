@@ -126,13 +126,13 @@
                                 {{-- {{$property->valuationSummary}} --}}
                                 @if($property->valuationSummary)
                                     <div class="listing__details--price d-flex">
-                                        <span class="listing__details--price__new">₦{{ number_format($property->valuationSummary->current_value_sum) }}</span>
-                                        <span class="listing__details--price__old">₦{{ number_format($property->valuationSummary->initial_value_sum) }}</span>
+                                        <span class="listing__details--price__new">₦{{ number_format($property->valuationSummary->current_value_sum, 2) }}</span>
+                                        <span class="listing__details--price__old">₦{{ number_format($property->valuationSummary->initial_value_sum, 2) }}</span>
                                     </div>
                                 @else  
                                     <div class="listing__details--price d-flex">
-                                        <span class="listing__details--price__new">₦{{ number_format($property->price) }}</span>
-                                        <span class="listing__details--price__old">₦{{ number_format($property->lunch_price) }}</span>
+                                        <span class="listing__details--price__new">₦{{ number_format($property->price, 2) }}</span>
+                                        <span class="listing__details--price__old">₦{{ number_format($property->lunch_price, 2) }}</span>
                                     </div>
                                 @endif
                                 <span class="listing__details--property__id">Gazette Number: {{ $property->gazette_number}}</span>

@@ -294,10 +294,10 @@ class PropertyController extends Controller
             'market_value' => 'required|string|min:0',
             'percentage_increase' => 'required|string|min:0',
         ]);
-
         $propertyValuations = PropertyValuation::where('property_id', $request->property_id)
         ->where('id', $id)
         ->get();
+        dd('uu');
 
         $valueSum = $this->calculateValuationSums($propertyValuations, $id);
     
@@ -343,7 +343,6 @@ class PropertyController extends Controller
 
       
         // $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $request->property_id)->value('initial_value_sum') ?? 0;
-
         
         // Update the Property price
         $property = Property::findOrFail($request->property_id);

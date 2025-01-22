@@ -9,7 +9,7 @@
 
         <div class="container-fluid">
             <!-- Page-Title -->
-            <div class="row">
+            <div class="row"> 
                 <div class="col-sm-12">
                     <div class="page-title-box">
                         <div class="float-end">
@@ -155,7 +155,7 @@
                                                                     const increasePercentage = ((marketPrice - currentPrice) / currentPrice) * 100;
                                                                     priceIncreaseInput.value = increasePercentage.toFixed(0) + '%';
                                                                 } else {
-                                                                    priceIncreaseInput.value = '0.0';
+                                                                    priceIncreaseInput.value = '{{ $propertyValuationPrediction->percentage_increase }}%';
                                                                 }
                                                             }
                                                     

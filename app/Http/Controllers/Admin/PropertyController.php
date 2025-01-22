@@ -486,10 +486,10 @@ class PropertyController extends Controller
         $priceIncrease = $lunchPrice > 0 ? (($marketValue - $lunchPrice) / $lunchPrice) * 100 : 0;
 
 
-        // $users = User::all();
-        // foreach ($users as $user) { 
-        //     $user->notify(new PropertyValuationPredictionNotification($property, $priceIncrease, $marketValue));
-        // }
+        $users = User::all();
+        foreach ($users as $user) { 
+            $user->notify(new PropertyValuationPredictionNotification($property, $priceIncrease, $marketValue));
+        }
 
        
         return redirect()->back()->with('success', 'Valuation Prediction added successfully.');

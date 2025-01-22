@@ -57,9 +57,9 @@
                                         <div class="add__listing--input__box mb-20">
                                             <label class="add__listing--input__label">Lunch Price</label>
                                             @if($property->valuationSummary)
-                                                <input disabled value="₦{{ number_format($property->valuationSummary->initial_value_sum) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text">
+                                                <input disabled value="₦{{ number_format($property->valuationSummary->initial_value_sum,2) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text">
                                             @else
-                                                <input disabled value="₦{{ number_format($property->lunch_price) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text">
+                                                <input disabled value="₦{{ number_format($property->lunch_price,2) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text">
                                             @endif
                                         </div>
                                     </div>
@@ -67,9 +67,9 @@
                                         <div class="add__listing--input__box mb-20">
                                             <label class="add__listing--input__label"> Current Price</label>
                                             @if($property->valuationSummary)
-                                                <input disabled value="₦{{ number_format($property->valuationSummary->current_value_sum) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text" disabled>
+                                                <input disabled value="₦{{ number_format($property->valuationSummary->current_value_sum,2) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text" disabled>
                                             @else
-                                                <input disabled value="₦{{ number_format($property->price) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text" disabled>
+                                                <input disabled value="₦{{ number_format($property->price,2) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text" disabled>
                                             @endif
                                            
                                         </div>

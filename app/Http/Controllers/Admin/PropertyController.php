@@ -482,10 +482,7 @@ class PropertyController extends Controller
             'percentage_increase' => $percentageIncrease,
         ]);
 
-        $users = User::all();
-        foreach ($users as $user) { 
-            $user->notify(new PropertyValuationPredictionNotification($property, $priceIncrease, $marketValue, $propertyValuationPrediction));
-        }
+        
         $property = Property::findOrFail($request->property_id);
         $lunchPrice = $property->lunch_price;
         $priceIncrease = $lunchPrice > 0 ? (($marketValue - $lunchPrice) / $lunchPrice) * 100 : 0;
@@ -493,7 +490,7 @@ class PropertyController extends Controller
 
         $users = User::all();
         foreach ($users as $user) { 
-            $user->notify(new PropertyValuationPredictionNotification($property, $priceIncrease, $marketValue));
+            $user->notify(new PropertyValuationPredictionNotification($property, $priceIncrease, $marketValue, $propertyValuationPrediction));
         }
 
         return redirect()->back()->with('success', 'Valuation Prediction added successfully.');
@@ -520,15 +517,15 @@ class PropertyController extends Controller
     
         $request->validate([
             'property_id' => 'required|exists:properties,id',
-            'valuation_type' => 'required|string|max:255',
+            'future_date' => 'required|string|max:255',
             'current_price' => 'required|string|min:0',
-            'market_value' => 'required|string|min:0',
+            'future_market_value' => 'required|string|min:0',
             'percentage_increase' => 'required|string|min:0',
         ]);
 
         // Parse numeric values from currency format if necessary
         $currentPrice = preg_replace('/[₦,]/', '', $request->current_price);
-        $marketValue = preg_replace('/[₦,]/', '', $request->market_value);
+        $marketValue = preg_replace('/[₦,]/', '', $request->future_market_value);
 
         $percentageIncrease = 0;
         if ($currentPrice > 0) {
@@ -537,9 +534,9 @@ class PropertyController extends Controller
         $propertyValuationPrediction = PropertyValuationPrediction::findOrFail($id);
         $propertyValuationPrediction->update([
             'property_id' => $request->property_id,
-            'valuation_type' => $request->valuation_type,
+            'future_date' => $request->future_date,
             'current_price' => $currentPrice,
-            'market_value' => $marketValue,
+            'future_market_value' => $marketValue,
             'percentage_increase' => $percentageIncrease,
         ]);
 

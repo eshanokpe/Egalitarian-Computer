@@ -57,7 +57,7 @@
                                                 <div class="row">
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1">Enter Valuation Date</label>
-                                                        <input type="date" class="form-control" name="valuation_type" value="{{ $propertyValuationPrediction->valuation_type}}" placeholder="Enter Valuation date" required>
+                                                        <input type="date"  class="form-control"  name="future_date" value="{{ $propertyValuationPrediction->future_date }}" required>
                                                         @error('valuation_type')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
@@ -89,11 +89,11 @@
                                                             type="text" 
                                                             class="form-control" 
                                                             id="marketValue" 
-                                                            name="market_value" 
+                                                            name="future_market_value" 
                                                             placeholder="Enter Current Market Value" 
-                                                            value="{{ $property->price ? '₦' . number_format($propertyValuationPrediction->market_value, 2) : '' }}" 
+                                                            value="{{ $property->price ? '₦' . number_format($propertyValuationPrediction->future_market_value, 2) : '' }}" 
                                                             required>
-                                                        @error('market_value')
+                                                        @error('future_market_value')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>

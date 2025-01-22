@@ -65,7 +65,7 @@
                                             Total Assets
                                         </h3>
                                         <span class="currency__card--amount">₦{{ number_format($totalAmount, 2)}}</span>
-                                        <div class="currency__card--footer">
+                                        <div class="currency__card--footer"> 
                                         
                                             <span class="currency__weekly">Property assets</span>
                                             <span class="currency__increase ">

@@ -322,11 +322,11 @@ class PropertyController extends Controller
         })
         ->orderBy('created_at', 'asc') 
         ->get(); 
-        $initailMarketValue = $data['propertyValuation']->sum('market_value');
+        $initialMarketValue = $data['propertyValuation']->sum('market_value');
         $propertyValuationSummary = PropertyValuationSummary::firstOrNew([
             'property_id' => $request->property_id,
         ]);
-        $propertyValuationSummary->initial_value_sum = $initailMarketValue;
+        $propertyValuationSummary->initial_value_sum = $initialMarketValue;
         $propertyValuationSummary->save();  
 
        
@@ -353,8 +353,8 @@ class PropertyController extends Controller
             'property_id' => $request->property_id,
         ]);
         $percentage_value = 0;
-        if ($initailMarketValue > 0) {
-            $percentage_value = ceil((($currentMarketValue - $initailMarketValue) / $initailMarketValue) * 100);
+        if ($initialMarketValue > 0) {
+            $percentage_value = ceil((($currentMarketValue - $initialMarketValue) / $initialMarketValue) * 100);
         }
         $propertyValuationSummary->current_value_sum = $currentMarketValue;
         $propertyValuationSummary->percentage_value = $percentage_value;

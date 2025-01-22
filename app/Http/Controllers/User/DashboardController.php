@@ -30,6 +30,7 @@ class DashboardController extends Controller
         $data['totalAmount'] = Transaction::where('user_id', $user->id)
                                             ->where('email', $user->email)
                                             ->where('status', 'success')
+                                            ->where('payment_method', 'card')
                                             ->sum('amount');
         $data['totalTransactions'] = Transaction::where('user_id', $user->id)->where('email', $user->email)->where('status', 'success')->count();
         $data['user'] = User::where('id', $user->id)

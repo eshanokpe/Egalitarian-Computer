@@ -83,9 +83,7 @@
                                     <div class="col-lg-4">
                                         <div class="add__listing--input__box mb-20">
                                             <label class="add__listing--input__label" for="input4">Gazette Number</label>
-                                            <textarea disabled value="" class="add__listing--input__field" id="input4" rows="2">
-                                                {{ $property->gazette_number}}
-                                            </textarea>
+                                            <textarea disabled value="" class="add__listing--input__field" id="input4" rows="2">{{ $property->gazette_number}}</textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">

@@ -67,9 +67,9 @@
                                         <div class="add__listing--input__box mb-20">
                                             <label class="add__listing--input__label"> Current Price</label>
                                             @if($property->valuationSummary)
-                                                <input disabled value="₦{{ number_format($property->valuationSummary->current_value_sum,2) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text" disabled>
+                                                <input disabled value="₦{{ number_format($property->valuationSummary->current_value_sum,2) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text" >
                                             @else
-                                                <input disabled value="₦{{ number_format($property->price,2) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text" disabled>
+                                                <input disabled value="₦{{ number_format($property->price,2) }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text" >
                                             @endif
                                            
                                         </div>
@@ -83,7 +83,9 @@
                                     <div class="col-lg-4">
                                         <div class="add__listing--input__box mb-20">
                                             <label class="add__listing--input__label" for="input4">Gazette Number</label>
-                                            <input disabled value="{{ $property->gazette_number}}" class="add__listing--input__field" id="input4" placeholder="Description" type="text">
+                                            <textarea disabled value="" class="add__listing--input__field" id="input4" placeholder="Description" type="text">
+                                                {{ $property->gazette_number}}
+                                            </textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">

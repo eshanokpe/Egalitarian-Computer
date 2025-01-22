@@ -57,7 +57,7 @@
                                                 <div class="row">
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1">Enter Valuation Date</label>
-                                                        <input type="data" class="form-control" name="valuation_type" value="{{ $propertyValuationPrediction->valuation_type}}" placeholder="Enter Valuation date" required>
+                                                        <input type="date" class="form-control" name="valuation_type" value="{{ $propertyValuationPrediction->valuation_type}}" placeholder="Enter Valuation date" required>
                                                         @error('valuation_type')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}

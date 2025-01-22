@@ -84,7 +84,7 @@
                                                     </div>
                                                     
                                                     <div class="mb-3">
-                                                        <label for="marketValue">Current Market Value (₦)</label>
+                                                        <label for="marketValue">Future Market Value (₦)</label>
                                                         <input 
                                                             type="text" 
                                                             class="form-control" 

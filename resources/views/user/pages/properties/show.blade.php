@@ -56,15 +56,22 @@
                                     <div class="col-lg-6">
                                         <div class="add__listing--input__box mb-20">
                                             <label class="add__listing--input__label">Lunch Price</label>
-                                            <input disabled value="{{ $property->lunch_price }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text">
-                                            
+                                            @if($property->valuationSummary)
+                                                <input disabled value="{{ $property->valuationSummary->initial_value_sum}}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text">
+                                            @else
+                                                <input disabled value="{{ $property->lunch_price }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text">
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="add__listing--input__box mb-20">
                                             <label class="add__listing--input__label"> Current Price</label>
-                                            <input disabled value="{{ $property->price }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text">
-                                            
+                                            @if($property->valuationSummary)
+                                                <input disabled value="{{ $property->valuationSummary->current_value_sum}}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text" disabled>
+                                            @else
+                                                <input disabled value="{{ $property->price }}" class="add__listing--input__field" id="input1" placeholder="Your Name" type="text" disabled>
+                                            @endif
+                                           
                                         </div>
                                     </div> 
                                     <div class="col-lg-4">

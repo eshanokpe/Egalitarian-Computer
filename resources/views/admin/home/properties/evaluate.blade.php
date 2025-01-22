@@ -466,7 +466,7 @@
                                                 id="currentPrice2" 
                                                 name="current_price" 
                                                 placeholder="Enter Current Price" 
-                                                value="{{ $property->price ? '₦' . number_format($property->price, 2) : '' }}" 
+                                                value="{{ $marketValueSum ? '₦' . number_format($marketValueSum, 2) : '' }}" 
                                                 {{-- value="{{ $marketValueSum ? '₦' . number_format($marketValueSum, 2) : '' }}"  --}}
                                                 required>
                                                 @error('current_price')

@@ -108,9 +108,9 @@
                                 @forelse ($propertyValuationPrediction as $item)
                                     <div class="row d-flex justify-content-center mb-3">                                                
                                         <div class="col">
-                                            <p class="text-dark mb-1 fw-semibold">{{ $item->valuation_type }}</p>
-                                            <h4 class="font-18 fw-bold">₦{{ number_format($item->market_value, 2) ?? '' }}</h4> 
-                                            <p class="mb-0 text-truncate text-muted">{{  \Carbon\Carbon::parse($item->created_at)->format('d F, Y') }} </p>
+                                            <p class="text-dark mb-1 fw-semibold">{{ \Carbon\Carbon::parse($item->future_date)->format('d F, Y') }}</p>
+                                            <h4 class="font-18 fw-bold">₦{{ number_format($item->future_market_value, 2) ?? '' }}</h4> 
+                                            {{-- <p class="mb-0 text-truncate text-muted">{{  \Carbon\Carbon::parse($item->created_at)->format('d F, Y') }} </p> --}}
                                             
                                         </div> 
                                         <div class="col-auto align-self-center" style="margin-right: 50px">

@@ -11,9 +11,9 @@ class PropertyValuationPrediction extends Model
 
     protected $fillable = [
         'property_id',
-        'valuation_type',
+        'future_date',
         'current_price',
-        'market_value',
+        'future_market_value', 
         'percentage_increase',
     ];
 

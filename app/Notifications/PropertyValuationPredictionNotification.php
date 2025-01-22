@@ -21,11 +21,12 @@ class PropertyValuationPredictionNotification extends Notification
      * @param $property
      * @param $percentageIncrease
      */
-    public function __construct($property, $percentageIncrease, $marketValue)
+    public function __construct($property, $percentageIncrease, $marketValue, $propertyValuationPrediction)
     {
         $this->property = $property;
         $this->marketValue = $marketValue;
         $this->percentageIncrease = $percentageIncrease;
+        $this->propertyValuationPrediction = $propertyValuationPrediction;
     }
 
     /**
@@ -36,7 +37,7 @@ class PropertyValuationPredictionNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database']; // You can include 'mail', 'sms', etc.
+        return ['mail', 'database']; 
     }
 
     /**
@@ -50,10 +51,10 @@ class PropertyValuationPredictionNotification extends Notification
         return (new MailMessage)
             ->subject('Property Valuation Prediction Update')
             ->line('The valuation prediction for property ' . $this->property->name . ' has been updated.')
-            ->line('Market Value: ₦' . number_format($this->marketValue, 2))
-            ->line('Future Market Value: ₦' . number_format($this->marketValue, 2))
-            ->line('Future Date: ₦' . number_format($this->marketValue, 2))
-            ->line('Percentage Increase: ' . ceil($this->percentageIncrease). '%')
+            ->line('Market Value: ₦' . number_format($this->propertyValuationPrediction['current_price'], 2))
+            ->line('Future Market Value: ₦' . number_format($this->propertyValuationPrediction['future_market_value'], 2))
+            ->line('Future Date: ' . \Carbon\Carbon::parse($this->propertyValuationPrediction['future_date'])->format('d F, Y'))
+            ->line('Percentage Increase: ' . ceil($this->percentageIncrease) . '%')
             ->action('View Property', url('user/properties/' . $this->property->id))
             ->line('Thank you for using our platform!');
     }
@@ -70,7 +71,9 @@ class PropertyValuationPredictionNotification extends Notification
             'notification_status' => 'PropertyValuationPredictionNotification',
             'property_id' => $this->property->id,
             'property_name' => $this->property->name,
-            'market_value' => $this->property->price,
+            'current_market_value' => $this->propertyValuationPrediction['current_price'],
+            'future_market_value' => $this->propertyValuationPrediction['future_market_value'],
+            'future_date' => \Carbon\Carbon::parse($this->propertyValuationPrediction['future_date'])->format('d F, Y'),
             'percentage_increase' => ceil($this->percentageIncrease),
         ];
     }

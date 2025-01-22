@@ -474,13 +474,18 @@ class PropertyController extends Controller
         }
         // dd($percentageIncrease);
         
-        PropertyValuationPrediction::create([
+        $propertyValuationPrediction = PropertyValuationPrediction::create([
             'property_id' => $request->property_id,
-            'valuation_type' => $request->valuation_type,
+            'future_date' => $request->valuation_type,
             'current_price' => $currentPrice,
-            'market_value' => $marketValue,
+            'future_market_value' => $marketValue,
             'percentage_increase' => $percentageIncrease,
-        ]); 
+        ]);
+
+        $users = User::all();
+        foreach ($users as $user) { 
+            $user->notify(new PropertyValuationPredictionNotification($property, $priceIncrease, $marketValue, $propertyValuationPrediction));
+        }
         $property = Property::findOrFail($request->property_id);
         $lunchPrice = $property->lunch_price;
         $priceIncrease = $lunchPrice > 0 ? (($marketValue - $lunchPrice) / $lunchPrice) * 100 : 0;
@@ -491,7 +496,6 @@ class PropertyController extends Controller
             $user->notify(new PropertyValuationPredictionNotification($property, $priceIncrease, $marketValue));
         }
 
-       
         return redirect()->back()->with('success', 'Valuation Prediction added successfully.');
     }
 

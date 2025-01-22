@@ -35,13 +35,20 @@
                                         <td>
                                             <div class="properties__author d-flex align-items-center">
                                                 <div class="properties__author--thumb">
-                                                    <img src="{{ asset($item->property_images) }}" alt="img" style="width: 64px; height:64px; max-width:100%; max-height:100%; object-fit:cover"> 
+                                                    <img src="{{ asset($item->property_images) }}" alt="img" style="width: 90px; height:120px; max-width:100%; max-height:100%; object-fit:cover"> 
                                                 </div>
                                                 <div class="reviews__author--text">
                                                     <h3 class="reviews__author--title">{{$item->name}}</h3>
                                                     <p class="reviews__author--subtitle">{{$item->location}}</p>
-                                                    <span class="properties__author--price">₦{{ number_format($item->price, 2) }} per/sqm</span>
-                                                    <p class="reviews__author--title">{{$item->percentage_increase}}%</p>
+                                                    @if($item->valuationSummary)
+                                                        <span class="properties__author--price">₦{{ number_format($item->valuationSummary->current_value_sum, 2)}} per/sqm</span>
+                                                        <p class="properties__author--price text-decoration-line-through text-muted">₦{{ number_format($item->valuationSummary->initial_value_sum, 2)}} per/sqm</p>
+                                                        <p class="reviews__author--title">{{$item->valuationSummary->percentage_value}}%</p>
+                                                    @else   
+                                                        <span class="properties__author--price">₦{{ number_format($item->property->price, 2)}} per/sqm</span>
+                                                        <p class="reviews__author--title">{{$item->percentage_increase}}%</p>
+
+                                                    @endif
                                                 </div>
                                             </div>
                                         </td>

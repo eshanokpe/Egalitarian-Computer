@@ -54,6 +54,11 @@ class Property extends Model
     {
         return $this->hasMany(PropertyPriceUpdate::class, 'property_id', 'id');
     }
+    public function history()
+    {
+        return $this->hasMany(PropertyPriceUpdate::class);
+    }
+
     public function notifications()
     {
         return $this->morphMany(CustomNotification::class, 'notifiable')->orderBy('created_at', 'desc');
@@ -64,8 +69,6 @@ class Property extends Model
         return $this->hasOne(PropertyValuationSummary::class, 'property_id', 'id');
     }
 
-
-   
     protected static function boot()
     {
         parent::boot();

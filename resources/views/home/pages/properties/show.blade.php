@@ -344,7 +344,7 @@
                                                 @forelse ($property->priceUpdates->sortByDesc('created_at') as $item)
                                                     <tr class="mt-5" > 
                                                         <div class="">
-                                                            <td>
+                                                            <td> 
                                                                 <div class="p-2">
                                                                     <span class="apartment__info--title">{{ $item->updated_year}}</span>
                                                                     </div>

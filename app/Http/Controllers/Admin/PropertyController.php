@@ -163,7 +163,7 @@ class PropertyController extends Controller
 
         $percentageIncrease = $lunchPrice > 0 ? (($newPrice - $lunchPrice) / $lunchPrice) * 100 : 0;
 
-        // Log the price update
+        // Log the price update 
         PropertyPriceUpdate::create([
             'property_id' => $property->id,
             'previous_price' => $previousPrice,
@@ -481,7 +481,7 @@ class PropertyController extends Controller
             'future_market_value' => $marketValue,
             'percentage_increase' => $percentageIncrease,
         ]);
-
+ 
         
         $property = Property::findOrFail($request->property_id);
         $lunchPrice = $property->lunch_price;

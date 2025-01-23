@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\VisionMissionController;
 use App\Http\Controllers\Admin\SociallinkController;
 use App\Http\Controllers\Admin\FAQController;
+use App\Http\Controllers\Admin\PropertyHistoryController;
 use App\Http\Controllers\Admin\PropertyController as AdminPropertyController;
 
  
@@ -84,6 +85,13 @@ Route::prefix('admin')->group(function () {
             Route::get('properties/valuation/prediction/delete/{id}', [AdminPropertyController::class, 'valuationPredictionDelete'])
             ->name('properties.valuation.prediction.delete');
             
+            Route::get('properties/{id}/propertyHistory', [PropertyHistoryController::class, 'index'])
+            ->name('properties.propertyHistory');
+            Route::post('properties/propertyHistory/store', [PropertyHistoryController::class, 'store'])->name('properties.propertyHistory.store');
+
+            Route::get('/properties/propertyHistory/{id}/edit', [PropertyHistoryController::class, 'edi'])->name('properties.propertyHistory.edit');
+            Route::delete('properties/propertyHistory/delete/{id}', [PropertyHistoryController::class, 'destroy'])->name('properties.propertyHistory.delete');
+
             Route::get('properties/{id}/neighborhood', [AdminPropertyController::class, 'neighborhood'])
             ->name('properties.neighborhood');
             Route::post('properties/neighborhood/store', [AdminPropertyController::class, 'storeNeighborhood'])->name('properties.neighborhood.store');

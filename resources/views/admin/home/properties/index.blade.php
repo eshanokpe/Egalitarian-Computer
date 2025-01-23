@@ -46,6 +46,7 @@
                                             <th>Image</th>
                                             <th>Amount</th>
                                             <th>Created date</th>
+                                            <th>Property History</th>
                                             <th>Neighborhood</th>
                                             <th>Valuation</th>
                                             <th class="text-end">Action</th>
@@ -66,6 +67,11 @@
                                                 <td>₦{{ number_format($property->price, 2) }}</td>
 
                                                 <td>{{ $property->created_at ? $property->created_at->format('d F Y') : 'N/A' }}</td>
+                                                <td>
+                                                    <a href="{{ route('admin.properties.propertyHistory', encrypt($property->id)) }}" class="btn btn-sm btn-secondary" style="background-color: coral">
+                                                        Property history
+                                                    </a>
+                                                </td>
                                                 <td>
                                                     <a href="{{ route('admin.properties.neighborhood', encrypt($property->id)) }}" class="btn btn-sm btn-primary">
                                                         Neighborhood

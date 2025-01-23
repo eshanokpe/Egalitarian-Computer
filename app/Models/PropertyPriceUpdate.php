@@ -9,7 +9,7 @@ class PropertyPriceUpdate extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    protected $fillable = [ 
         'property_id',
         'previous_price',
         'previous_percentage_increase',

@@ -42,8 +42,6 @@
                                 <div class="row d-flex justify-content-center mb-3">                                                
                                     <div class="col">
                                         <p class="text-dark mb-1 fw-semibold">Initial Price</p>
-                                        
-
                                         <h4 class="font-22 fw-bold">₦{{ number_format($initialValueSum, 2) ?? '' }}</h4>   
                                     </div> 
                                 </div>

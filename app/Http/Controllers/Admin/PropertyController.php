@@ -258,7 +258,7 @@ class PropertyController extends Controller
         ->get(); 
 
         $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $propertyId)->value('initial_value_sum') ?? 0;
-        // dd($data['initialValueSum']);
+    
         $data['valueSum'] = $this->calculateValuationSums($data['propertyValuation']);
         $data['marketValueSum'] = $data['valueSum']['marketValueSum'];
         $percentage_value = 0;
@@ -273,7 +273,7 @@ class PropertyController extends Controller
                 return $query->whereYear('created_at', $year);
             }
             return $query;
-        })
+        }) 
         ->orderBy('created_at', 'asc') 
         ->get();
 
@@ -283,7 +283,7 @@ class PropertyController extends Controller
                 'date' => $valuation->created_at->format('M, d'), 
                 'price' => $valuation->market_value,
             ];
-        });
+        }); 
 
         $data['valuationData'] = $valuationData;
         return view('admin.home.properties.evaluate', $data);

@@ -12,7 +12,9 @@ use App\Models\User;
 use App\Models\Property;
 use App\Models\Offerprice;
 use App\Models\PropertyValuation;
+use App\Models\PropertyValuationSummary;
 use App\Models\PropertyValuationPrediction;
+
 
 
  
@@ -115,7 +117,17 @@ class PropertyController extends Controller
             return $query;
         })
         ->orderBy('created_at', 'asc') 
-        ->get();
+        ->get(); 
+        $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $propertyId)->value('initial_value_sum') ?? 0;
+        $data['valueSum'] = $this->calculateValuationSums($data['propertyValuation']);
+        $data['marketValueSum'] = $data['valueSum']['marketValueSum'];
+        $percentage_value = 0;
+        if ($data['initialValueSum'] > 0) {
+            $percentage_value = ceil((($data['marketValueSum'] - $data['initialValueSum']) / $data['initialValueSum']) * 100);
+        }
+        $data['percentageIncrease'] = $percentage_value;
+
+       
 
         $data['propertyValuationPrediction'] = PropertyValuationPrediction::where('property_id', $data['property']->id)
         ->when(request('filter'), function ($query) {
@@ -139,6 +151,29 @@ class PropertyController extends Controller
         return view('user.pages.properties.valuation', $data);
     }
     
+    private function calculateValuationSums($propertyValuations)
+    {
+        // Calculate the total market value sum
+        $marketValueSum = $propertyValuations->sum('market_value');
+
+        // Calculate the initial value sum, excluding the most recent valuation
+        $initialValueSum = $propertyValuations
+            ->sortByDesc('created_at') 
+            ->skip(1)                 
+            ->sum('market_value');   
+
+        // Calculate the percentage increase
+        $percentageIncrease = $initialValueSum > 0
+            ? (($marketValueSum - $initialValueSum) / $initialValueSum) * 100
+            : 0;
+
+        // Return the results as an array
+        return [
+            'marketValueSum' => $marketValueSum,
+            'percentageIncrease' => round($percentageIncrease, 2), // Rounded to 2 decimal places
+        ];
+    }
+
     public function propertyHistory($id){
         $propertyId = decrypt($id); 
         $data['property'] = Property::findOrFail($propertyId);

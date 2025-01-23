@@ -22,17 +22,16 @@
                             <div class="row mb-3 d-flex justify-content-center">                                                
                                 <div class="col">
                                     <p class="text-dark mb-1 fw-semibold">Initial Price</p>
-                                    <h3 class="font-22 fw-bold">₦{{ number_format($property->lunch_price, 2) }}</h3> 
+                                    <h3 class="font-22 fw-bold">₦{{ number_format($initialValueSum, 2) }}</h3> 
                                 </div>
                             </div>
                             <div class="row mb-3 d-flex justify-content-center">                                                
-                                <div class="col">
+                                <div class="col"> 
                                     <p class="text-dark mb-1 fw-semibold">Current Price</p>
-                                    <h3 class="font-22 fw-bold">₦{{ number_format($property->price, 2) }}</h3> 
+                                    <h3 class="font-22 fw-bold">₦{{ number_format($marketValueSum, 2) }}</h3> 
                                 </div>
                                 <div class="col">
-                                    {{-- <p class="text-dark mb-1 fw-semibold">  {{ $property->percentage_increase}}%</p> --}}
-                                    <h3 class="font-22 fw-bold"> {{ $property->percentage_increase}}%  
+                                    <h3 class="font-22 fw-bold"> {{ $percentageIncrease}}%  
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="green">
                                             <path d="M12 4l8 8h-6v8h-4v-8H4l8-8z"/>
                                         </svg>
@@ -69,7 +68,7 @@
                                     <p>No valuation</p>
                                 @endforelse
                             </div>
-                        </div>
+                        </div> 
                         <!-- Sales Report section .\ -->
                         <br/>
                          <!-- Sales Report section -->

@@ -109,7 +109,7 @@
                                             
                                             <!-- Buy, Sell, Transfer Buttons -->
                                             <div class="currency__actions mt-3 d-flex justify-content-around">
-                                                <a href="{{ route('user.buy') }}" class="btn btn-primary align-items-center">
+                                                <a href="{{ route('user.properties') }}" class="btn btn-primary align-items-center">
                                                     <img src="{{ asset('assets/admin/img/dashboard/buy.png')}}" alt="Buy" class="me-2" width="50">
                                                    <snap style="font-size: 14px"> Buy </snap>
                                                 </a>

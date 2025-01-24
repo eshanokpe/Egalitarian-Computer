@@ -198,7 +198,7 @@
                                             </div>
                                             <script>
                                                 document.addEventListener('DOMContentLoaded', function () {
-                                                    var previousPrice = {{ $previousPrice->previous_price }};
+                                                    var previousPrice = {{ $previousPrice->updated_price }};
                                                     var updatedPriceInput = document.getElementById('updated_price');
                                                     var priceIncreaseInput = document.getElementById('priceIncrease');
 

@@ -77,7 +77,7 @@ class PropertyHistoryController extends Controller
 
     public function destroy($id)
     {
-        $propertyHistory = PropertyPriceUpdate::findOrFail(decry($id));
+        $propertyHistory = PropertyPriceUpdate::findOrFail(decrypt($id));
         $propertyHistory->delete();
 
         return redirect()

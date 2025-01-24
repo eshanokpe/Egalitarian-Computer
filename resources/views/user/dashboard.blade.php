@@ -106,7 +106,7 @@
                                                 </span>
                                                  Invest
                                             </h3>
-                                            
+                                             
                                             <!-- Buy, Sell, Transfer Buttons -->
                                             <div class="currency__actions mt-3 d-flex justify-content-around">
                                                 <a href="{{ route('user.properties') }}" class="btn btn-primary align-items-center">

@@ -81,7 +81,7 @@
                                     <div class="row mb-3 d-flex justify-content-center">                                                
                                         <div class="col">
                                             <p class="text-dark mb-1 fw-semibold">{{ $item->valuation_type }}</p>
-                                            <h3 class="font-22 fw-bold">₦{{ number_format($item->market_value, 2) }}</h3> 
+                                            <h3 class="font-22 fw-bold">₦{{ number_format($item->future_market_value, 2) }}</h3> 
                                         </div>
                                         <div class="col">
 

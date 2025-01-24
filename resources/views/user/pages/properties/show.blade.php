@@ -226,7 +226,7 @@
                                     
                                     <div class="col-6">
                                         <div class="add__listing--input__box mb-20">
-                                            <label class="add__listing--input__label" for="input5">Contract deed document</label>
+                                            <label class="add__listing--input__label" for="input5">Land Information certificate</label>
                                             @if(isset($property) && $property->contract_deed)
                                                 
                                                 <!-- View and Download Links -->

@@ -73,7 +73,6 @@
                                                             id="currentPrice" 
                                                             name="current_price" 
                                                             placeholder="Enter Current Price"  
-                                                            {{-- value="{{ $property->price ? '₦' . number_format($property->price, 2) : '' }}"  --}}
                                                             value="{{ $property->price ? '₦' . number_format($propertyValuation->current_price, 2) : '' }}" 
                                                             required>
                                                             @error('current_price')

@@ -89,8 +89,9 @@ Route::prefix('admin')->group(function () {
             ->name('properties.propertyHistory');
             Route::post('properties/propertyHistory/store', [PropertyHistoryController::class, 'store'])->name('properties.propertyHistory.store');
 
-            Route::get('/properties/propertyHistory/{id}/edit', [PropertyHistoryController::class, 'edi'])->name('properties.propertyHistory.edit');
+            Route::get('/properties/propertyHistory/{id}/edit', [PropertyHistoryController::class, 'edit'])->name('properties.propertyHistory.edit');
             Route::get('properties/propertyHistory/delete/{id}', [PropertyHistoryController::class, 'destroy'])->name('properties.propertyHistory.delete');
+            Route::put('properties/propertyHistory/update/{id}', [PropertyHistoryController::class, 'update'])->name('properties.propertyHistory.update');
 
             Route::get('properties/{id}/neighborhood', [AdminPropertyController::class, 'neighborhood'])
             ->name('properties.neighborhood');

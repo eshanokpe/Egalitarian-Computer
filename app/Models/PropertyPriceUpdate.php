@@ -11,7 +11,7 @@ class PropertyPriceUpdate extends Model
 
     protected $fillable = [ 
         'property_id',
-        'previous_price',
+        'previous_price', 
         'previous_percentage_increase',
         'previous_year',
         'updated_price', 

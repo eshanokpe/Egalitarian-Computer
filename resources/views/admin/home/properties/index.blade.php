@@ -69,7 +69,7 @@
                                                 <td>{{ $property->created_at ? $property->created_at->format('d F Y') : 'N/A' }}</td>
                                                 <td>
                                                     <a href="{{ route('admin.properties.propertyHistory', encrypt($property->id)) }}" class="btn btn-sm btn-secondary" style="background-color: coral">
-                                                        Property history
+                                                        Property history 
                                                     </a>
                                                 </td>
                                                 <td>

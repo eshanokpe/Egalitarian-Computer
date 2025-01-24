@@ -28,7 +28,7 @@ class PropertyHistoryController extends Controller
             ->first();
         $data['previousPrice'] = $previousPrice;
 
-        return view('admin.home.properties.propertyHistory', $data);
+        return view('admin.home.properties.propertyHistory.propertyHistory', $data);
     }
 
     public function store(Request $request)
@@ -85,4 +85,40 @@ class PropertyHistoryController extends Controller
             ->with('success', 'Property history deleted successfully!');
     }
 
+    public function edit($id)
+    {
+        $propertyHistory = PropertyPriceUpdate::findOrFail(decrypt($id));
+
+        return view('admin.home.properties.propertyHistory.editPropertyHistory', compact('propertyHistory'));
+    }
+
+    public function update(Request $request, $id){
+        // dd($request->all());
+        $validatedData = $request->validate([
+            'updated_year' =>'required|string',
+            'previous_price' => 'required|string',
+            'updated_price' => 'required|string|min:1',
+            'percentage_increase' => 'required|string',
+        ]);
+
+        $propertyHistory = PropertyPriceUpdate::findOrFail(decrypt($id));
+        
+
+        $updatedPrice = (float) str_replace(',', '', $validatedData['updated_price']);
+        $previousPrice = (float) str_replace(['₦', ','], '', $validatedData['previous_price']);
+        // dd($previousPrice);
+        $year = $request->input('updated_year', $validatedData['updated_year']);
+
+        $propertyHistory->update([
+            'previous_price' => $previousPrice,
+            // 'previous_year' => $propertyHistory->previous_year,
+            'updated_price' => $updatedPrice,
+            'percentage_increase' => $validatedData['percentage_increase'],
+            'updated_year' => $year,
+        ]);
+
+        return redirect()
+            ->route('admin.properties.propertyHistory', encrypt($propertyHistory->property_id))
+            ->with('success', 'Property history updated successfully!');
+    }
 }

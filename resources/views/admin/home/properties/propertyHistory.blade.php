@@ -80,7 +80,6 @@
                                             <th style="padding-left: 20px">Action</th>
                                         </thead> 
                                         <tbody class="timeline mt-10" >
-                                            {{-- @forelse ($property->priceUpdates as $item) --}}
                                             @forelse ($property->priceUpdates->sortByDesc('created_at') as $item)
                                                 <tr class="mt-5" > 
                                                     <div class="">

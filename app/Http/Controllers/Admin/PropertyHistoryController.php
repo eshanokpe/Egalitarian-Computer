@@ -75,5 +75,14 @@ class PropertyHistoryController extends Controller
             ->with('success', 'Property history updated successfully!');
     }
 
+    public function destroy($id)
+    {
+        $propertyHistory = PropertyPriceUpdate::findOrFail(decry($id));
+        $propertyHistory->delete();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Property history deleted successfully!');
+    }
 
 }

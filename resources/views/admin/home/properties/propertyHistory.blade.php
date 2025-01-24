@@ -104,7 +104,7 @@
                                                             <a href="{{ route('admin.properties.propertyHistory.edit', encrypt($item->id)) }}" class="btn btn-link text-secondary" >
                                                                 <i class="las la-pen font-16"></i>
                                                             </a>
-                                                            <a href="{{ route('admin.properties.propertyHistory.delete', encrypt($item->id)) }}" class="btn btn-link text-secondary" onclick="return confirm('Are you sure you want to delete this Property Valuation?');">
+                                                            <a href="{{ route('admin.properties.propertyHistory.delete', encrypt($item->id)) }}" class="btn btn-link text-secondary" onclick="return confirm('Are you sure you want to delete this Property history?');">
                                                                 <i class="las la-trash-alt font-16"></i>
                                                             </a>
                                                         </td>

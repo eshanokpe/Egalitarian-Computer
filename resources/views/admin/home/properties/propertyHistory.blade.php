@@ -140,7 +140,7 @@
                                         @csrf
                                         <input type="hidden" class="form-control" name="property_id" value="{{ $property->id}}" placeholder="Enter Valuation type" required>
 
-                                        <div class="row">
+                                        <div class="row"> 
                                             <div class="mb-3">
                                                 <label for="exampleInputEmail1">Pevious Year</label>
                                                 <input type="text" class="form-control" 
@@ -153,9 +153,9 @@
                                                 @enderror
                                             </div>
                                             <div class="mb-3">
-                                                <label for="exampleInputEmail1">Pevious Price</label>
+                                                <label for="exampleInputEmail1">Previous Price</label>
                                                 <input type="text" class="form-control" 
-                                                value="₦{{ number_format($previousPrice->previous_price, 2) }}" disabled
+                                                value="₦{{ number_format($previousPrice->updated_price, 2) }}" disabled
                                                 id="previous_price"
                                                 name="previous_price"  required>
                                                 @error('previous_price')

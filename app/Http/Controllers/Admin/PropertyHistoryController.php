@@ -71,7 +71,7 @@ class PropertyHistoryController extends Controller
 
         // Redirect back with success message
         return redirect()
-            ->route('admin.properties.show', $validatedData['property_id'])
+            ->back()
             ->with('success', 'Property history updated successfully!');
     }
 

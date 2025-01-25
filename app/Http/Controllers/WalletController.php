@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -119,6 +119,6 @@ class WalletController extends Controller
         ]);
     }
 
-   
+    
 
 }

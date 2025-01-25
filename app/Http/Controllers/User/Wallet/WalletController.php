@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\User\Wallet;
 use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\WalletController  as PayStackWalletController;
+use Illuminate\Support\Facades\Http;
 
 class WalletController extends Controller
 {
@@ -53,7 +54,7 @@ class WalletController extends Controller
         // Your verification logic
         return response()->json(['account_name' => $validated['bank_code'] ]); // Example
     }
-
+ 
 
     public function verifyAccountt(Request $request, PayStackWalletController $paystackWalletController){
         dd('Request');
@@ -83,5 +84,23 @@ class WalletController extends Controller
         $data['hasMoreReferrals'] = $data['referralsMade']->count() > 6;
       
         return view('user.pages.wallet.payment.history', $data);
+    }
+
+    public function resolveAccount(Request $request)
+    {
+        $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))
+            ->get('https://api.paystack.co/bank/resolve', [
+                'account_number' => $request->account_number,
+                'bank_code' => $request->bank_code,
+            ]);
+    
+        if ($response->successful()) {
+            return response()->json([
+                'status' => 'success',
+                'account_name' => $response['data']['account_name'],
+            ]);
+        }
+    
+        return response()->json(['status' => 'error', 'message' => 'Unable to resolve account.']);
     }
 }

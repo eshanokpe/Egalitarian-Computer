@@ -110,53 +110,53 @@
                                                             Next
                                                         </button>
                                                     </div>
-                                                     <!-- Modal -->
- <div class="modal fade" id="modaladdcontact" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal__contact--main__content">
-            <div class="modal__contact--header d-flex align-items-center justify-content-between">
-                <h3 class="modal__contact--header__title">Transfer Confirmation</h3>
-                <button type="button" class="modal__contact--close__btn" data-bs-dismiss="modal" aria-label="Close">    
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12.711" height="12.711" viewBox="0 0 12.711 12.711">
-                        <g id="Group_7205" data-name="Group 7205" transform="translate(-113.644 -321.644)">
-                          <path id="Vector" d="M0,9.883,9.883,0" transform="translate(115.059 323.059)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                          <path id="Vector-2" data-name="Vector" d="M9.883,9.883,0,0" transform="translate(115.059 323.059)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                        </g>
-                      </svg>                                                              
-                </button>
-            </div>
-            <div class="modal-body modal__contact--body">
-                <div class="modal__contact--form">
-                   
-                    <form action="{{ route('user.wallet.createRecipient') }}" method="POST">
-                        <div class="modal__contact--form__input mb-20">
-                            <label class="modal__contact--input__label" for="name">Account Number</label>
-                            <input class="modal__contact--input__field" id="account_name_display" type="text" disabled>
-                        </div>
-                        <div class="modal__contact--form__input mb-20">
-                            <label class="modal__contact--input__label" for="name">Account Name</label>
-                            <input class="modal__contact--input__field" id="modal-account-name"  type="text" disabled>
-                        </div>
-                        <div class="modal__contact--form__input mb-20">
-                            <label class="modal__contact--input__label" for="name">Bank Name</label>
-                            <input class="modal__contact--input__field" id="modal-bank-name"  type="text" disabled>
-                        </div>
-                        <div class="modal__contact--form__input mb-20">
-                            <label class="modal__contact--input__label" for="name"> Amount</label>
-                            <input class="modal__contact--input__field" id="modal-amount" type="text" disabled>
-                        </div>
-                       
-                        <div class="modal__contact--footer">
-                            <button class="solid__btn border-0" type="submit">Contact</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> 
 
-                                                   
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="modaladdcontact" tabindex="-1">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content modal__contact--main__content">
+                                                                <div class="modal__contact--header d-flex align-items-center justify-content-between">
+                                                                    <h3 class="modal__contact--header__title">Add Contact</h3>
+                                                                    <button type="button" class="modal__contact--close__btn" data-bs-dismiss="modal" aria-label="Close">    
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12.711" height="12.711" viewBox="0 0 12.711 12.711">
+                                                                            <g id="Group_7205" data-name="Group 7205" transform="translate(-113.644 -321.644)">
+                                                                              <path id="Vector" d="M0,9.883,9.883,0" transform="translate(115.059 323.059)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                                                              <path id="Vector-2" data-name="Vector" d="M9.883,9.883,0,0" transform="translate(115.059 323.059)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                                                            </g>
+                                                                          </svg>                                                              
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body modal__contact--body">
+                                                                    <div class="modal__contact--form">
+                                                                       
+                                                                        <form action="{{ route('user.wallet.createRecipient') }}" method="POST">
+                                                                            <div class="modal__contact--form__input mb-20">
+                                                                                <label class="modal__contact--input__label" for="name">Account Number</label>
+                                                                                <input class="modal__contact--input__field" id="modal-account-number" type="text" disabled>
+                                                                            </div>
+                                                                            <div class="modal__contact--form__input mb-20">
+                                                                                <label class="modal__contact--input__label" for="name">Account Name</label>
+                                                                                <input class="modal__contact--input__field" id="modal-account-name"  type="text" disabled>
+                                                                            </div>
+                                                                            <div class="modal__contact--form__input mb-20">
+                                                                                <label class="modal__contact--input__label" for="name">Bank Name</label>
+                                                                                <input class="modal__contact--input__field" id="modal-bank-name"  type="text" disabled>
+                                                                            </div>
+                                                                            <div class="modal__contact--form__input mb-20">
+                                                                                <label class="modal__contact--input__label" for="name"> Amount</label>
+                                                                                <input class="modal__contact--input__field" id="modal-amount" type="text" disabled>
+                                                                            </div>
+                                                                           
+                                                                            <div class="modal__contact--footer">
+                                                                                <button class="solid__btn border-0" type="submit">Contact</button>
+                                                                            </div>
+                                                                        </form>
+                                                                       
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div> 
                                                   
                                                    
                                                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -251,7 +251,23 @@
                                                                 }
                                                             });
                                                         });
-                            
+                                                        // Modal Logic
+                                                        const modal = $('#modal');
+                                                        const modalOverlay = $('#modal-overlay');
+                                                        $('#next-button').click(function() {
+                                                            $('#modal-account-number').text($('#number').val());
+                                                            $('#modal-account-name').text($('#account_name_display').text());
+                                                            $('#modal-bank-name').text($('#bank option:selected').text());
+                                                            $('#modal-amount').text($('#amount').val());
+                                                            modal.addClass('active');
+                                                            modalOverlay.addClass('active');
+                                                        });
+
+                                                        $('#modal-close, #modal-overlay').click(function() {
+                                                            modal.removeClass('active');
+                                                            modalOverlay.removeClass('active');
+                                                        });
+
 
                                                     </script>
                                                     
@@ -387,51 +403,6 @@
        
     </main>
 </div>
- <!-- Modal -->
- <div class="modal fade" id="modaladdcontact" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content modal__contact--main__content">
-            <div class="modal__contact--header d-flex align-items-center justify-content-between">
-                <h3 class="modal__contact--header__title">Transfer Confirmation</h3>
-                <button type="button" class="modal__contact--close__btn" data-bs-dismiss="modal" aria-label="Close">    
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12.711" height="12.711" viewBox="0 0 12.711 12.711">
-                        <g id="Group_7205" data-name="Group 7205" transform="translate(-113.644 -321.644)">
-                          <path id="Vector" d="M0,9.883,9.883,0" transform="translate(115.059 323.059)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                          <path id="Vector-2" data-name="Vector" d="M9.883,9.883,0,0" transform="translate(115.059 323.059)" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                        </g>
-                      </svg>                                                              
-                </button>
-            </div>
-            <div class="modal-body modal__contact--body">
-                <div class="modal__contact--form">
-                   
-                    <form action="{{ route('user.wallet.createRecipient') }}" method="POST">
-                        <div class="modal__contact--form__input mb-20">
-                            <label class="modal__contact--input__label" for="name">Account Number</label>
-                            <input class="modal__contact--input__field" id="account_name_display" type="text" disabled>
-                        </div>
-                        <div class="modal__contact--form__input mb-20">
-                            <label class="modal__contact--input__label" for="name">Account Name</label>
-                            <input class="modal__contact--input__field" id="modal-account-name"  type="text" disabled>
-                        </div>
-                        <div class="modal__contact--form__input mb-20">
-                            <label class="modal__contact--input__label" for="name">Bank Name</label>
-                            <input class="modal__contact--input__field" id="modal-bank-name"  type="text" disabled>
-                        </div>
-                        <div class="modal__contact--form__input mb-20">
-                            <label class="modal__contact--input__label" for="name"> Amount</label>
-                            <input class="modal__contact--input__field" id="modal-amount" type="text" disabled>
-                        </div>
-                       
-                        <div class="modal__contact--footer">
-                            <button class="solid__btn border-0" type="submit">Contact</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> 
 
 @endsection 
 <script>

@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="{{ asset('assets/admin/css/rtl.css')}}">
   <link rel="stylesheet" href="{{ asset('assets/admin/css/table.css')}}">
   <link rel="stylesheet" href="{{ asset('assets/admin/css/creat-listing.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/admin/css/chat.css')}}">
 
    <!-- Scripts --> 
    @viteReactRefresh

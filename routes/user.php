@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\WalletController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\HelpSupportController;
@@ -17,6 +16,9 @@ use App\Http\Controllers\User\SellPropertyController;
 use App\Http\Controllers\User\SecurityController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\TransferPropertyController;
+use App\Http\Controllers\User\Wallet\WalletController;
+use App\Http\Controllers\User\Wallet\WalletTransferController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -102,7 +104,8 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('wallet/with-draw', [WalletController::class, 'withDraw'])->name('wallet.withdraw');
     Route::get('wallet/transfer-post', [WalletController::class, 'transferPost'])->name('wallet.transferPost');
     
-    Route::post('/verify-account', [WalletController::class, 'verifyAccount'])->name('wallet.verifyAccount');
+    Route::get('resolve-account', [WalletController::class, 'resolveAccount'])->name('wallet.resolve.account');
+    Route::post('create-recipient', [WalletTransferController::class, 'createRecipient'])->name('wallet.createRecipient');
  
     Route::get('payment/history', [WalletController::class, 'paymentHistory'])->name('payment.history');
 

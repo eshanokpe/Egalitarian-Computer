@@ -19,16 +19,18 @@ class WalletTransferController extends Controller
 
     public function createRecipient(Request $request)
     {
+        $user = Auth::user();
         $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))->post('https://api.paystack.co/transferrecipient', [
             'type' => 'nuban', // Nigerian bank account
             'name' => $request->name,
             'account_number' => $request->account_number,
             'bank_code' => $request->bank_code, // Get bank codes from Paystack's bank list API
             'currency' => 'NGN',
+            'email' => $user->email,
         ]);
 
         $data = $response->json();
-        // dd($data);
+    
         if ($response->successful()) {
             return response()->json([
                 'status' => 'success', 
@@ -68,11 +70,13 @@ class WalletTransferController extends Controller
 
     public function processTransfer(array $validated)
     {
-         $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))->post('https://api.paystack.co/transfer', [
+        $user = Auth::user();
+        $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))->post('https://api.paystack.co/transfer', [
             'source' => 'balance',
             'amount' => $validated['amount'] * 100, // Amount in kobo
             'recipient' => $validated['recipient_code'],
             'reason' => $validated['reason'],
+            'email' => $user->email,
         ]);
 
         $data = $response->json();

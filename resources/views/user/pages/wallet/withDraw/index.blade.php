@@ -463,7 +463,6 @@
                         bank_code: bankCode,
                     },
                     success: function (response) {
-                        // alert(response.status);
                         if (response.status === 'success') {
                             const data = response.data;
                             console.log(data); 
@@ -479,7 +478,13 @@
 
                             $('#amount').prop('disabled', false);
                             $('#amount-container').show();
-                            $('#next-button').prop('disabled', false);
+
+                            // Enable "Next" button only if the amount is filled
+                            if (amount && parseFloat(amount) > 0) {
+                                $('#next-button').prop('disabled', false);
+                            } else {
+                                $('#next-button').prop('disabled', true);
+                            }
                         } else {
                             $('#account_name_display').text('Account name not found');
                             $('#amount').prop('disabled', true);
@@ -494,6 +499,17 @@
                 });
             } else {
                 $('#account_name_display').text(''); // Clear the name if inputs are incomplete
+                $('#next-button').prop('disabled', true); // Ensure button remains disabled
+            }
+        });
+        // Additional event listener to ensure button enables when `amount_display` is filled
+        $('#amount_display').on('input', function () {
+            const amount = $(this).val();
+
+            if (amount && parseFloat(amount) > 0) {
+                $('#next-button').prop('disabled', false);
+            } else {
+                $('#next-button').prop('disabled', true);
             }
         });
     });

@@ -6,20 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\WalletController  as PayStackWalletController;
 use Illuminate\Support\Facades\Http;
+use App\Services\TransferService;
 
 class WalletTransferController extends Controller
 {
-    public function index(){ 
+    protected $transferService;
 
+    public function __construct(TransferService $transferService)
+    {
+        $this->transferService = $transferService;
     }
+
     public function createRecipient(Request $request)
     {
-        // return response()->json([
-        //     'status' => 'success', 
-        //     'data' => $request->all()
-        // ]);
-
-
         $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))->post('https://api.paystack.co/transferrecipient', [
             'type' => 'nuban', // Nigerian bank account
             'name' => $request->name,
@@ -69,9 +68,7 @@ class WalletTransferController extends Controller
 
     public function processTransfer(array $validated)
     {
-        // return response()->json(['status' => 'success', 'data' => $validated['amount']]);
-
-        $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))->post('https://api.paystack.co/transfer', [
+         $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))->post('https://api.paystack.co/transfer', [
             'source' => 'balance',
             'amount' => $validated['amount'] * 100, // Amount in kobo
             'recipient' => $validated['recipient_code'],
@@ -87,5 +84,34 @@ class WalletTransferController extends Controller
         }
 
     }
+
+    public function verifyOtp(Request $request)
+    {
+        $validated = $request->validate([
+            'transfer_code' => 'required|string',
+            'otp' => 'required|string',
+        ]);
+
+        $response = $this->transferService->verifyOtp($validated['transfer_code'], $validated['otp']);
+
+        if ($response['status'] === 'success') {
+           
+            $userWallet = Auth::user()->wallet;
+            $transferAmount = $response['data']['amount'] ?? 0;
+            $userWallet->balance -= $transferAmount;
+            $userWallet->save();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Transfer completed successfully.',
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => $response['message'] ?? 'Failed to verify OTP.',
+        ], 400);
+    }
+
    
 }

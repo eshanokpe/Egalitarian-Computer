@@ -287,9 +287,7 @@
 </div> 
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -391,23 +389,56 @@
                             }),
                             success: function (transferResponse) {
                                 if (transferResponse.status === 'success') {
-                                    // alert('Transfer successful! Reference: ' + transferResponse.transferReference);
                                     // $('#process-transfer').prop('disabled', true);
                                     const transactionDetails = transferResponse.data;
                                     console.log(transactionDetails); 
-                                    // Optionally reload the page or clear the modal fields
+                                    if (transactionDetails.status === 'otp') {
+                                        const otp = prompt('Enter the OTP sent to your phone/email:');
+                                        if (otp) {
+                                            // Send OTP to the backend for verification
+                                            $.ajax({
+                                                url: "{{ route('user.wallet.verifyOtp') }}",
+                                                method: "POST",
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                },
+                                                data: JSON.stringify({
+                                                    transfer_code: transactionDetails.transfer_code,
+                                                    otp: otp
+                                                }),
+                                                success: function (otpResponse) {
+                                                    if (otpResponse.status === 'success') {
+                                                        toastr.success('The transfer has been completed successfully.', 'Success');
+                                                        setTimeout(() => {
+                                                            location.reload(); 
+                                                        }, 1500);
+                                                        location.reload(); 
+           
+                                                    } else {
+                                                        toastr.error('OTP verification failed:' + otpResponse.message, 'Error');
+                                                    }
+                                                },
+                                                error: function () {
+                                                    toastr.error('An error occurred while verifying the OTP.', 'Error');
+                                                }
+                                            });
+                                        }
+                                    }
+                                    
                                 } else {
                                     // $('#process-transfer').prop('disabled', true);
-                                    alert('Transfer failed: ' + transferResponse.message);
+                                    toastr.error('Transfer failed: ' + transferResponse.message, 'Error');
+
                                 }
                             },
                             error: function () {
                                 // $('#process-transfer').prop('disabled', true);
-                                alert('An error occurred during the transfer process.');
+                                toastr.error('An error occurred during the transfer process', 'Error');
                             }
                         });
                     } else {
-                        alert('Recipient creation failed: ' + response.message);
+                        toastr.error('Recipient creation failed: '+ response.message, 'Error');
                     }
                 },
                 error: function () {

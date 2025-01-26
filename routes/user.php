@@ -108,6 +108,7 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
 
     Route::post('create-recipient', [WalletTransferController::class, 'createRecipient'])->name('wallet.createRecipient');
     Route::post('initiate-transfer', [WalletTransferController::class, 'initiateTransfer'])->name('wallet.initiateTransfer');
+    Route::post('verifyOtp', [WalletTransferController::class, 'verifyOtp'])->name('wallet.verifyOtp');
  
     Route::get('payment/history', [WalletController::class, 'paymentHistory'])->name('payment.history');
 

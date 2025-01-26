@@ -69,7 +69,7 @@ class WebhookController extends Controller
         if ($user) {
             // Update the wallet balance
             $user->wallet->increment('balance', $amount); 
-
+ 
             // Log the transaction
             Transaction::create([
                 'user_id' => $user->id,

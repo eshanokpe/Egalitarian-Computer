@@ -48,14 +48,15 @@ class WalletTransferController extends Controller
             'reason' => 'nullable|string',
         ]);
         $user = auth()->user();
-        return response()->json(['status' => 'success', 'data' => $user->wallet->balance]);
 
-        if ($user->wallet->balance < (float)$validated['amount']) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Insufficient wallet balance.',
-            ], 400);
-        }
+        // return response()->json(['status' => 'success', 'data' => (float)$user->wallet->balance ]);
+
+        // if ((int)$user->wallet_balance < (int)$validated['amount']) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => 'Insufficient wallet balance.',
+        //     ], 400);
+        // }
         
         $transferResponse = $this->processTransfer($validated); 
         if ($transferResponse['status'] === 'success') {

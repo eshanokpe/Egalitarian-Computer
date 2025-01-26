@@ -277,8 +277,13 @@
                         </div>
                        
                         <div class="modal__contact--footer">
-                            <button class="solid__btn border-0"  type="submit">Process Transfer</button>
+                            <button class="solid__btn border-0" id="process-transfer" type="submit">
+                                <span class="button-text">Process Transfer</span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            </button>
+                            {{-- <button class="solid__btn border-0"  type="submit">Process Transfer</button> --}}
                         </div>
+                        
                     </form>
                 </div>
             </div>
@@ -341,7 +346,13 @@
             const accountName = $('#modal-account-name').val();
             const bankCode = $('#modal-bankCode').val();
             const amount = $('#modal-amount').val();
-            // $('#process-transfer').text('Loading...').prop('disabled', true);
+            const $button = $('#process-transfer');
+
+            // Show loading state
+            $button.prop('disabled', true);
+            $button.find('.button-text').text('Loading...');
+            $button.find('.spinner-border').removeClass('d-none');
+
             // Step 1: Create Recipient
             $.ajax({
                 url: "{{ route('user.wallet.createRecipient') }}", 
@@ -361,14 +372,7 @@
                         // $('#process-transfer').prop('disabled', false);
                         const recipientCode = response.recipient_code;
                         console.log(recipientCode); 
-                        function generateUUID() {
-                            // Simple UUID v4 generation
-                            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                                var r = Math.random() * 16 | 0,
-                                    v = c === 'x' ? r : (r & 0x3 | 0x8);
-                                return v.toString(16);
-                            });
-                        }
+                        
                         // Step 2: Initiate Transfer
                         $.ajax({
                             url: "{{ route('user.wallet.initiateTransfer') }}",
@@ -404,19 +408,35 @@
                                 }
                             },
                             error: function () {
-                                // $('#process-transfer').prop('disabled', true);
                                 toastr.error('An error occurred during the transfer process', 'Error');
+                            },
+                            complete: function () {
+                                resetButtonState($button);
                             }
                         });
                     } else {
                         toastr.error('Recipient creation failed: '+ response.message, 'Error');
+                        resetButtonState($button);
                     }
                 },
                 error: function () {
-                    alert('An error occurred while creating the recipient.');
+                    toastr.error('An error occurred while creating the recipient.', 'Error');
+                    resetButtonState($button);
                 }
             });
         });
+        function resetButtonState($button) {
+            $button.prop('disabled', false);
+            $button.find('.button-text').text('Process Transfer');
+            $button.find('.spinner-border').addClass('d-none');
+        }
+
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
     });
 
    

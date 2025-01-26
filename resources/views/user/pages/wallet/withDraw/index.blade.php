@@ -390,41 +390,12 @@
                             success: function (transferResponse) {
                                 if (transferResponse.status === 'success') {
                                     // $('#process-transfer').prop('disabled', true);
-                                    const transactionDetails = transferResponse.data;
+                                    const transactionDetails = transferResponse.data;                                                        
                                     console.log(transactionDetails); 
-                                    if (transactionDetails.status === 'otp') {
-                                        const otp = prompt('Enter the OTP sent to your phone/email:');
-                                        if (otp) {
-                                            // Send OTP to the backend for verification
-                                            $.ajax({
-                                                url: "{{ route('user.wallet.verifyOtp') }}",
-                                                method: "POST",
-                                                headers: {
-                                                    'Content-Type': 'application/json',
-                                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                                },
-                                                data: JSON.stringify({
-                                                    transfer_code: transactionDetails.transfer_code,
-                                                    otp: otp
-                                                }),
-                                                success: function (otpResponse) {
-                                                    if (otpResponse.status === 'success') {
-                                                        toastr.success('The transfer has been completed successfully.', 'Success');
-                                                        setTimeout(() => {
-                                                            location.reload(); 
-                                                        }, 1500);
-                                                        location.reload(); 
-           
-                                                    } else {
-                                                        toastr.error('OTP verification failed:' + otpResponse.message, 'Error');
-                                                    }
-                                                },
-                                                error: function () {
-                                                    toastr.error('An error occurred while verifying the OTP.', 'Error');
-                                                }
-                                            });
-                                        }
-                                    }
+                                    toastr.success('The transfer has been completed successfully.', 'Success');
+                                    setTimeout(() => {
+                                        location.reload(); 
+                                    }, 1500);
                                     
                                 } else {
                                     // $('#process-transfer').prop('disabled', true);

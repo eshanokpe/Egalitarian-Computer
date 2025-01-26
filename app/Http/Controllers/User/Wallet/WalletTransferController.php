@@ -61,6 +61,10 @@ class WalletTransferController extends Controller
         
         $transferResponse = $this->processTransfer($validated); 
         if ($transferResponse['status'] === 'success') {
+            $userWallet = Auth::user()->wallet;
+            $transferAmount = $transferResponse['data']['amount'] ?? 0;
+            $userWallet->balance -= $transferAmount;
+            $userWallet->save();
             return response()->json(['status' => 'success', 'data' => $transferResponse['data']]);
         } else {
             return response()->json(['status' => 'error', 'message' => $transferResponse['message']]);

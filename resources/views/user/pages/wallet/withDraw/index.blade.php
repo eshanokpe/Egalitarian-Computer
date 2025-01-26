@@ -393,7 +393,6 @@
                             }),
                             success: function (transferResponse) {
                                 if (transferResponse.status === 'success') {
-                                    // $('#process-transfer').prop('disabled', true);
                                     const transactionDetails = transferResponse.data;                                                        
                                     console.log(transactionDetails); 
                                     toastr.success('The transfer has been completed successfully.', 'Success');
@@ -402,7 +401,6 @@
                                     }, 1500);
                                     
                                 } else {
-                                    // $('#process-transfer').prop('disabled', true);
                                     toastr.error('Transfer failed: ' + transferResponse.message, 'Error');
 
                                 }
@@ -479,7 +477,6 @@
                             $('#amount').prop('disabled', false);
                             $('#amount-container').show();
 
-                            // Enable "Next" button only if the amount is filled
                             if (amount && parseFloat(amount) > 0) {
                                 $('#next-button').prop('disabled', false);
                             } else {

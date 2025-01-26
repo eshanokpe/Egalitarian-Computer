@@ -129,12 +129,10 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
 });
 
 Route::prefix('user')->name('user.')->group(function () {
-    // Route::post('/webhook/paystack', function (Request $request) {
-    //     \Log::info('Paystack Webhook Test:', $request->all());
-    //     return response()->json(['status' => 'success'], 200);
-    // }); 
+   
     Route::post('/webhook/paystack', [WebhookController::class, 'handlePaystackWebhook']);
-    Route::get('/webhook/paystack/test', [WebhookController::class, 'test']);
+    Route::post('/webhook/transfer', [WebhookController::class, 'handleTransferWebhook']);
+
 });
 
 

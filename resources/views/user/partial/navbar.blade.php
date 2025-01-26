@@ -130,6 +130,23 @@
                                                                     You have received ₦{{ number_format($notification->data['amount'], 2) }} in your wallet. 
                                                                     Your new balance is ₦{{ number_format($notification->data['balance'], 2) }}.
                                                                 @endif
+                                                                @if( $notification->data['notification_status'] == 'WalletTransferNotification') 
+                                                                    <div class="list-group-item {{ $notification->read_at ? '' : 'list-group-item-warning' }}">
+                                                                        <h5 class="mb-1">{{ $notification->data['message'] ?? 'Notification' }}</h5>
+                                                                        <p class="mb-1">Amount: NGN {{ number_format($notification->data['amount'], 2) }}</p>
+                                                                        <p class="mb-1">New Balance: NGN {{ number_format($notification->data['new_balance'], 2) }}</p>
+                                                                        <small>Sent at: {{ $notification->created_at->format('M d, Y h:i A') }}</small>
+                                                        
+                                                                        @if (is_null($notification->read_at))
+                                                                            <form action="{{ route('user.notifications.read', $notification->id) }}" method="POST" style="display: inline;">
+                                                                                @csrf
+                                                                                <button class="btn btn-sm btn-success mt-2">Mark as Read</button>
+                                                                            </form>
+                                                                        @else
+                                                                            <span class="badge bg-secondary mt-2">Read</span>
+                                                                        @endif
+                                                                    </div>
+                                                                @endif
                                                                 {{$notification->data['notification_status']}}
                                                             </a>
                                                         </li>

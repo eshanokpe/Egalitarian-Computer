@@ -62,7 +62,7 @@
                                     @if(Auth::user()->hide_balance)
                                         Wallet Balance: ****
                                     @else
-                                        Wallet Balance: <span class="wallet-balance">{{ $wallet->currency}}{{ number_format($wallet->balance, 2) }}</span>
+                                        Wallet Balance: <span class="wallet-balance">{{ $wallet->currency}}{{ number_format($wallet->balance,  2) }}</span>
                                     @endif
                                 </span>
                             </a>

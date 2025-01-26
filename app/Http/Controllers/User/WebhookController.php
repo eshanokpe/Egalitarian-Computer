@@ -12,10 +12,7 @@ use App\Notifications\WalletFundedNotification;
 
 class WebhookController extends Controller
 {
-    public function test(){
-        $paystackSecretKey = env('PAYSTACK_SECRET_KEY');
-        dd($paystackSecretKey);
-    }
+    
 
     public function handlePaystackWebhook(Request $request)
     {
@@ -71,7 +68,7 @@ class WebhookController extends Controller
         $user = User::where('email', $email)->first();
         if ($user) {
             // Update the wallet balance
-            $user->wallet->increment('balance', $amount);
+            $user->wallet->increment('balance', $amount); 
 
             // Log the transaction
             Transaction::create([

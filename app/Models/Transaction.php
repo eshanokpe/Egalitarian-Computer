@@ -21,6 +21,11 @@ class Transaction extends Model
         'description',
         'transaction_state',
         'paid_at',
+        'recipient_name',
+        'recipient_code',
+        'account_number',
+        'account_name',
+        'bank_name',
     ]; 
 
     public function user(){

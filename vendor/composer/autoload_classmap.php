@@ -95,6 +95,7 @@ return array(
     'App\\Notifications\\RecipientSubmittedNotification' => $baseDir . '/app/Notifications/RecipientSubmittedNotification.php',
     'App\\Notifications\\SenderTransferNotification' => $baseDir . '/app/Notifications/SenderTransferNotification.php',
     'App\\Notifications\\WalletFundedNotification' => $baseDir . '/app/Notifications/WalletFundedNotification.php',
+    'App\\Notifications\\WalletTransferNotification' => $baseDir . '/app/Notifications/WalletTransferNotification.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',

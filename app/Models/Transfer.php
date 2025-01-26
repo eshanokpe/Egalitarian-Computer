@@ -23,7 +23,7 @@ class Transfer extends Model
         'confirmation_date',
         'confirmed_by',
         'rejection_reason'
-    ];
+    ]; 
     
     public function property()
     {

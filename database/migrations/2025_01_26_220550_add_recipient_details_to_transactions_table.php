@@ -14,7 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            //
+            $table->string('recipient_name')->nullable();
+            $table->string('recipient_code')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('account_name')->nullable();
+            $table->string('bank_name')->nullable();
         });
     }
 
@@ -26,7 +30,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            //
+            $table->dropColumn(['recipient_name', 'recipient_code', 'account_number', 'account_name', 'bank_name']);
         });
     }
 };

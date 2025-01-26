@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User\Wallet;
 use Auth;
+use Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\WalletController  as PayStackWalletController;
@@ -50,7 +51,6 @@ class WalletTransferController extends Controller
         ]);
 
         $userWallet = Auth::user()->wallet;
-
         
         if ($userWallet->balance < (float)$validated['amount']) {
             return response()->json([
@@ -67,14 +67,15 @@ class WalletTransferController extends Controller
             if ($userWallet->balance >= $transferAmount) {
                 $userWallet->balance -= $transferAmount;
                 $userWallet->save();
-        
+
+                Log::info('Transfer successful. Wallet updated.');
                 return response()->json(['status' => 'success', 'data' => $transferResponse['data']]);
             } else {
+                Log::error('Wallet balance mismatch after transfer.');
                 return response()->json(['status' => 'error', 'message' => 'Insufficient wallet balance.'], 400);
             }
-          
-            return response()->json(['status' => 'success', 'data' => $transferResponse['data']]);
         } else {
+            Log::error('Transfer failed. Paystack response:', $transferResponse);
             return response()->json(['status' => 'error', 'message' => $transferResponse['message']]);
         }
        
@@ -128,6 +129,21 @@ class WalletTransferController extends Controller
             'message' => $response['message'] ?? 'Failed to verify OTP.',
         ], 400);
     }
+
+    protected function calculateTransferFee($amount)
+    {
+        return $amount >= 500000 ? 2500 : 1000; // Fee in kobo (₦25 or ₦10)
+    }
+
+    // $fee = $this->calculateTransferFee($validated['amount']);
+    // $totalAmount = $validated['amount'] + $fee;
+
+    // if ($userWallet->balance < $totalAmount) {
+    //     return response()->json([
+    //         'status' => 'error',
+    //         'message' => 'Insufficient wallet balance to cover transfer and fees.',
+    //     ], 400);
+    // }
 
    
 }

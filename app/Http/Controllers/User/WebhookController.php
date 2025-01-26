@@ -10,7 +10,7 @@ use App\Models\Transaction;
 use App\Notifications\WalletFundedNotification;
 use App\Notifications\WalletTransferNotification;
 use Illuminate\Support\Facades\Auth;
-  
+   
 
 class WebhookController extends Controller
 {
@@ -54,6 +54,8 @@ class WebhookController extends Controller
         $email = $data->customer->email;
         $amount = $data->amount / 100; // Convert amount to Naira (Paystack sends amount in kobo)
         $reference = $data->reference;
+        $status = $data->status;
+        $customerName = $data->customer->first_name;
 
         $user = User::where('email', $email)->first();
         if ($user) {
@@ -66,9 +68,10 @@ class WebhookController extends Controller
                 'email' => $user->email,
                 'amount' => $amount,
                 'reference' => $reference,
-                'status' => 'success',
+                'status' => $status,
                 'description' => 'Fund added to wallet',
-                'payment_method' => 'Transfer'
+                'payment_method' => 'Transfer',
+                'recipient_name' => $customerName,
             ]);
             // Trigger the notification
             $newBalance = $user->wallet->balance;

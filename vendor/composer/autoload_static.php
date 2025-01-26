@@ -667,6 +667,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Notifications\\RecipientSubmittedNotification' => __DIR__ . '/../..' . '/app/Notifications/RecipientSubmittedNotification.php',
         'App\\Notifications\\SenderTransferNotification' => __DIR__ . '/../..' . '/app/Notifications/SenderTransferNotification.php',
         'App\\Notifications\\WalletFundedNotification' => __DIR__ . '/../..' . '/app/Notifications/WalletFundedNotification.php',
+        'App\\Notifications\\WalletTransferNotification' => __DIR__ . '/../..' . '/app/Notifications/WalletTransferNotification.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',

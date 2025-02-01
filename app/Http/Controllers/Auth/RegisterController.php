@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-use Mail;
+use Mail; 
 use App\Http\Controllers\WalletController;
 use App\Models\User;
 use App\Models\ReferralLog;
@@ -14,31 +14,21 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Mail\VerificationEmail;
 use Illuminate\Validation\Rules\Password;
+use App\Services\AuthService;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
+   
+    protected $authService;
+    protected $walletController;
 
-    use RegistersUsers;
+    // use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
     protected $redirectTo = '/login';
-
-    public function __construct()
+    public function __construct(AuthService $authService, WalletController $walletController)
     {
+        $this->authService = $authService;
+        $this->walletController = $walletController;
         $this->middleware('guest');
     }
 
@@ -65,7 +55,6 @@ class RegisterController extends Controller
             'last_name' => 'required|string|max:50',
             'email' => 'required|string|email|max:50|unique:users',
             'phone' => 'required|string',
-            // 'phone' => 'required|string|regex:/^\+?[0-9]{10,15}$/|unique:users',
             'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
             'referral_code' => 'nullable|string|exists:users,referral_code',
             'dob' => [
@@ -76,103 +65,39 @@ class RegisterController extends Controller
         ],[
             'dob.before' => 'You must be at least 18 years old to register.',
         ]);
+
+        try{
+           
+            $result = $this->authService->register($request->all(), $this->walletController);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Registration successful',
+                    'user' => $result['user'],
+                    'token' => $result['token'],
+                ], 201);
+            }
+            // auth()->login($result['user']);
+            return redirect()->route('login')->with('success', 'Please check your email to verify your account.');
+        } catch (ValidationException $e) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Validation failed',
+                    'errors' => $e->errors(),
+                ], 422);
+            }
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Registration failed',
+                    'error' => $e->getMessage(),
+                ], 500);
+            }
+            return redirect()->back()->with('error', $e->getMessage())->withInput();
+        }
      
-        // Generate the recipient ID
-        $recipientId = $this->createRecipientId();
-        $referrer = null;
-
-        // Check if referral code is provided and valid
-        if (!empty($request->referral_code)) {
-            $referrer = User::where('referral_code', $request->referral_code)->first();
-            if (!$referrer) {
-                return redirect()->back()->with('error', 'Invalid referral code.');
-            }
-        }
-
-        // Create the user
-        $user = User::create([ 
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'dob' => $request->dob,
-            'phone' => $request->phone,
-            'recipient_id' => $recipientId,
-            'password' => Hash::make($request->password),
-            'profile_image' => null,
-            'referral_code' => $this->generateReferralCode(),
-            'referred_by' => null,
-        ]);
-        if ($referrer) {
-            ReferralLog::create([
-                'referrer_id' => $referrer->id,
-                'referred_id' => $user->id,
-                'referral_code' => $request->referral_code,
-                'referred_at' => now(),
-            ]);
-        }
-    
-        // Create a virtual account
-        $customerId = $walletController->createVirtualAccountCustomer($user);
-
-        if ($customerId) {
-           $virtualAccountResponse = $walletController->createDedicatedAccount($customerId);
-        //    dd( $virtualAccountResponse);
-           if ($virtualAccountResponse['status'] === true) {
-                $virtualAccountData = $virtualAccountResponse['data'];
-                // Store virtual account details in the new table
-                VirtualAccount::create([
-                    'user_id' => $user->id,
-                    'user_email' => $user->email,
-                    'bank_name' => $virtualAccountData['bank']['name'],
-                    'account_name' => $virtualAccountData['account_name'],
-                    'account_number' => $virtualAccountData['account_number'],
-                    'currency' => $virtualAccountData['currency'],
-                    'customer_code' => $virtualAccountData['customer']['customer_code'],
-                    'is_active' => true,
-                ]);
-            }
-        } else {
-            return redirect()->back()->withErrors('Unable to register with Paystack. Please try again later.');
-        }
-        $user->wallet()->create([
-            'user_id' => $user->id,
-            'user_email' =>$user->email,
-            // 'balance' => '500000',
-            'balance' => 0.00,
-            'currency' => $virtualAccountData['currency'] ?? 'NGN',
-        ]);
-
-         // Send verification email and referral link
-        $referralLink = "https://dohmayn.com/user/register/referral/{$user->referral_code}";
-        Mail::to($user->email)->send(new VerificationEmail($user, $referralLink,  $virtualAccountData));
-
-        // Redirect to the intended page or dashboard
-        return redirect()->route('login')->with('success', 'Please check your email to verify your account.');
     } 
     
-    // private function generateReferralCode()
-    // {
-    //     return strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 8));
-    // }
-    private function generateReferralCode()
-    {
-        do {
-            $code = 'DOHMAYN' . strtoupper(Str::random(6));
-        } while (User::where('referral_code', $code)->exists());
-
-        return $code;
-    }
-
-
-    public function createRecipientId()
-    {
-        $prefix = "DOHMAYN";
-        $randomNumber = rand(10000, 99999); 
-        $uniqueCode = strtoupper(Str::random(10)); 
-        
-        $recipientId = "{$prefix}-{$randomNumber}-{$uniqueCode}";
-        return $recipientId;
-    }
 
     protected function handleReferralCode($referralCode)
     {

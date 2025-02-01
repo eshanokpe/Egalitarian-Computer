@@ -83,12 +83,7 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    // Route::get('/notifications/count', function() {
-    //     return response()->json([
-    //         // 'count' => auth()->user()->unreadNotifications->count()
-    //         'count' => 2
-    //     ]);
-    // });
+   
     Route::get('/notifications/{id}', [NotificationController::class, 'show'])->name('notifications.show');
     Route::post('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
     Route::get('/{propertyMode}/confirm/{slug}', [TransferPropertyController::class, 'confirmTransfer'])->name('transfer.property.confirm');

@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->group(function () {
-//     Route::post('/webhook/paystack', [WebhookController::class, 'handlePaystackWebhook']);
+Route::post('post/register', [RegisterController::class, 'register']);
+Route::post('post/login', [LoginController::class, 'login']);
 
-// });
+
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
+Route::middleware('auth:api')->group(function () {
+    // Route::post('/webhook/paystack', [WebhookController::class, 'handlePaystackWebhook']);
+
+});

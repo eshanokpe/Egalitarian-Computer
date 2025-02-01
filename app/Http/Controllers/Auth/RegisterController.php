@@ -79,7 +79,9 @@ class RegisterController extends Controller
                     'errors' => $validator->errors(),
                 ], 422);
             }
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            return redirect()->back()
+                    ->withErrors($validator->errors())
+                    ->withInput();
         }
 
         try{

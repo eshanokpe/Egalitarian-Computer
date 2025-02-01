@@ -19,6 +19,7 @@ use App\Http\Controllers\Auth\LoginController; // Import LoginController
 
 // Public routes (no authentication required)
 Route::post('register', [RegisterController::class, 'register']);
+Route::get('getRegister', [RegisterController::class, 'getRegister']);
 Route::post('login', [LoginController::class, 'login']);
 
 // Protected routes (authentication required)

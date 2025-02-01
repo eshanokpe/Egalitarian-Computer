@@ -37,7 +37,11 @@ class RegisterController extends Controller
         return view('auth.register', ['referralCode' => $referralCode]);
     }
 
-
+    public function getRegister(){
+        return response()->json([
+            'message' => 'Get Register',
+        ], 200);
+    }
     protected function validator(array $data)
     {
         return Validator::make($data, [

@@ -54,7 +54,7 @@ class RegisterController extends Controller
  
     public function register(Request $request, WalletController $walletController)
     {
-        // Validate the input
+    // Validate the input
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
@@ -71,53 +71,64 @@ class RegisterController extends Controller
             'dob.before' => 'You must be at least 18 years old to register.',
         ]);
 
-        // Check if validation fails
+        // Handle validation failure
         if ($validator->fails()) {
             \Log::error('Validation failed:', $validator->errors()->toArray());
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'message' => 'Validation failed',
-                    'errors' => $validator->errors(),
-                ], 422);
-            }
-            return redirect()->back()
-                    ->withErrors($validator->errors())
-                    ->withInput();
+            return $this->handleValidationError($request, $validator);
         }
-            
-        
 
         try {
             // Call AuthService register method
             $result = app(AuthService::class)->register($request->all(), $walletController);
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'message' => 'Registration successful',
-                    'user' => $result['user'],
-                    'token' => $result['token'],
-                ], 201);
-            }
-            return redirect()->route('login')->with('success', 'Please check your email to verify your account.');
+            return $this->handleRegistrationSuccess($request, $result);
         } catch (ValidationException $e) {
             \Log::error('ValidationException:', $e->errors());
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'message' => 'Validation failed',
-                    'errors' => $e->errors(),
-                ], 422);
-            }
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            return $this->handleExceptionError($request, $e, 422);
         } catch (\Exception $e) {
             \Log::error('Registration failed:', ['error' => $e->getMessage()]);
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'message' => 'Registration failed',
-                    'error' => $e->getMessage(),
-                ], 500);
-            }
-            return redirect()->back()->with('error', $e->getMessage())->withInput();
+            return $this->handleExceptionError($request, $e, 500);
         }
     }
+
+    private function handleValidationError(Request $request, $validator)
+    {
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        return redirect()->back()
+            ->withErrors($validator->errors())
+            ->withInput();
+    }
+
+    private function handleRegistrationSuccess(Request $request, $result)
+    {
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Registration successful',
+                'user' => $result['user'],
+                'token' => $result['token'],
+            ], 201);
+        }
+
+        return redirect()->route('login')->with('success', 'Please check your email to verify your account.');
+    }
+
+    private function handleExceptionError(Request $request, \Exception $e, $statusCode)
+    {
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Registration failed',
+                'error' => $e->getMessage(),
+            ], $statusCode);
+        }
+
+        return redirect()->back()->with('error', $e->getMessage())->withInput();
+    }
+
 
     
 

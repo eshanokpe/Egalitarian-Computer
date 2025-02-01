@@ -94,7 +94,7 @@ class RegisterController extends Controller
                     'message' => 'Registration successful',
                     'user' => $result['user'],
                     'token' => $result['token'],
-                ], 200);
+                ], 201);
             }
             // auth()->login($result['user']);
             return redirect()->route('login')->with('success', 'Please check your email to verify your account.');

@@ -77,6 +77,7 @@ class RegisterController extends Controller
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
             ], 422);
+            return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
 
         try{

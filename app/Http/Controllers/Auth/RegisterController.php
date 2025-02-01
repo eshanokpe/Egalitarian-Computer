@@ -54,7 +54,7 @@ class RegisterController extends Controller
  
     public function register(Request $request, WalletController $walletController)
     {
-    // Validate the input
+    
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
@@ -129,9 +129,6 @@ class RegisterController extends Controller
         return redirect()->back()->with('error', $e->getMessage())->withInput();
     }
 
-
-    
-
     protected function handleReferralCode($referralCode)
     {
         if ($referralCode) {
@@ -142,6 +139,25 @@ class RegisterController extends Controller
             }
         }
         return null; 
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+        $email = $request->input('email');
+        $user = User::where('email', $email)->first();
+        if ($user) {
+            return response()->json([
+                'message' => 'Email is already registered.',
+                'exists' => true,
+            ], 200);
+        }
+        return response()->json([
+            'message' => 'Email is available.',
+            'exists' => false,
+        ], 200);
     }
 
    

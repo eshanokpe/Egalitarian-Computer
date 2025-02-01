@@ -91,7 +91,7 @@ class AuthService
                 // Send verification email and referral link
                 $referralLink = "https://dohmayn.com/user/register/referral/{$user->referral_code}";
                 Mail::to($user->email)->send(new VerificationEmail($user, $referralLink, $virtualAccountData));
-
+ 
                 // Return the user and token for API
                 $token = $user->createToken('authToken')->plainTextToken;
                 return [
@@ -100,7 +100,7 @@ class AuthService
                 ];
             }
         }
-
+ 
         throw ValidationException::withMessages([
             'wallet' => ['Unable to register with Paystack. Please try again later.'],
         ]);

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class WalletController extends Controller
-{
+{ 
     // Create Customer  
     public function createVirtualAccountCustomer($user)
     {
@@ -32,8 +32,8 @@ class WalletController extends Controller
     {
         $data = ['customer' => $customerId];
         // $data['preferred_bank'] = 'wema-bank';
-        $data['preferred_bank'] = 'titan-paystack';
-        // $data['preferred_bank'] = 'test-bank';
+        // $data['preferred_bank'] = 'titan-paystack';
+        $data['preferred_bank'] = 'test-bank';
         
         try {
             $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))

@@ -94,7 +94,7 @@ class RegisterController extends Controller
             // auth()->login($result['user']);
             return redirect()->route('login')->with('success', 'Please check your email to verify your account.');
         }  catch (\Exception $e) {
-            \Log::info('Register failed:', $e);
+            // \Log::info('Register failed:', $e->getMessage());
 
             if ($request->wantsJson()) {
                 return response()->json([

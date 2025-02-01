@@ -94,7 +94,7 @@ class AuthService
  
                 // Return the user and token for API
                 $token = $user->createToken('authToken')->plainTextToken;
-                return [
+                return [ 
                     'user' => $user,
                     'token' => $token, 
                 ];

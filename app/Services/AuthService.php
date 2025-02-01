@@ -2,13 +2,19 @@
 
 namespace App\Services;
 use Mail; 
+use App\Http\Controllers\WalletController;
 use App\Models\User;
-use Illuminate\Support\Str;
 use App\Models\ReferralLog;
 use App\Models\VirtualAccount;
+use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 use App\Mail\VerificationEmail;
+use Illuminate\Validation\Rules\Password;
+use App\Services\AuthService;
 use Illuminate\Validation\ValidationException;
 
 class AuthService

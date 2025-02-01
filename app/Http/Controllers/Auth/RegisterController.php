@@ -16,7 +16,6 @@ use App\Mail\VerificationEmail;
 use Illuminate\Validation\Rules\Password;
 use App\Services\AuthService;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
 {

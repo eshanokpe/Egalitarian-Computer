@@ -96,7 +96,7 @@ class AuthService
                 $token = $user->createToken('authToken')->plainTextToken;
                 return [
                     'user' => $user,
-                    'token' => $token,
+                    'token' => $token, 
                 ];
             }
         }

@@ -92,9 +92,16 @@ class RegisterController extends Controller
             if ($request->wantsJson()) {
                 return response()->json([
                     'message' => 'Registration successful',
-                    'user' => $result['user'],
+                    'user' => $result['user']->toArray(),
                     'token' => $result['token'],
                 ], 201);
+            }
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Registration successful',
+                    'user' => $result['user']->toArray(),
+                    'token' => $result['token'],
+                ], 200);
             }
             // auth()->login($result['user']);
             return redirect()->route('login')->with('success', 'Please check your email to verify your account.');

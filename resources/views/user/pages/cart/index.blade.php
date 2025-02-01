@@ -10,7 +10,7 @@
                 <div class="reviews__heading mb-30">
                     <h2 class="reviews__heading--title">My Property</h2>
                     <p class="reviews__heading--desc">We are glad to see you again!</p>
-                </div>
+                </div> 
                 <div class="properties__wrapper">
                     <div class="properties__table table-responsive">
                         <table class="properties__table--wrapper cart__table">
@@ -38,9 +38,15 @@
                                             </div>
                                         </div> 
                                     </td>
-                                    <td>
-                                        <span class="item-price">₦{{ number_format($property->price, 2) }} per/sqm</span>
-                                    </td>
+                                    @if($property->valuationSummary) 
+                                        <td>
+                                            <span class="item-price">₦{{ number_format($property->valuationSummary->current_value_sum, 2) }} per/sqm</span>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <span class="item-price">₦{{ number_format($property->price, 2) }} per/sqm</span>
+                                        </td>
+                                    @endif
                                     <td>
                                         <span>{{ $property->size }} SQM</span>
                                     </td>
@@ -57,9 +63,15 @@
                                                 style="padding: 5px 10px; background:#47008E; color:#fff; font-size:18px">+</button>
                                         </div>
                                     </td>
-                                    <td>
-                                        <span class="total-price" style="color: #47008E">₦{{ number_format($property->price, 2) }}</span>
-                                    </td>
+                                    @if($property->valuationSummary) 
+                                        <td>
+                                            <span class="total-price" style="color: #47008E">₦{{ number_format($property->valuationSummary->current_value_sum, 2) }}</span>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <span class="total-price" style="color: #47008E">₦{{ number_format($property->price, 2) }}</span>
+                                        </td>
+                                    @endif
                                 </tr>
                             </tbody>
                         </table>

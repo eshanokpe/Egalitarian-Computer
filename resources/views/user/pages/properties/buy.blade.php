@@ -53,7 +53,7 @@
                                             @if($property->valuationSummary) 
                                                 <span class="properties__author--price">₦{{ number_format($property->valuationSummary->current_value_sum, 2)}} per/sqm</span>
                                                 <p class="properties__author--price text-decoration-line-through text-muted">₦{{ number_format($property->valuationSummary->initial_value_sum, 2)}} per/sqm</p>
-                                            @else   
+                                            @else    
                                                 <span class="properties__author--price">₦{{ number_format($property->property->price, 2)}} per/sqm</span>
                                             @endif
                                         </div>

@@ -53,7 +53,6 @@ class RegisterController extends Controller
  
     public function register(Request $request, WalletController $walletController)
     {
-        // \Log::info('Register Request Data:', $request->all());
         // Validate the input
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:50',
@@ -87,7 +86,7 @@ class RegisterController extends Controller
                     'message' => 'Registration successful',
                     'user' => $result['user'],
                     'token' => $result['token'],
-                ], 201);
+                ], 200);
             }
             // auth()->login($result['user']);
             return redirect()->route('login')->with('success', 'Please check your email to verify your account.');
@@ -100,6 +99,8 @@ class RegisterController extends Controller
             }
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
+        \Log::info('Register Request Data:', $request->wantsJson());
+
             if ($request->wantsJson()) {
                 return response()->json([
                     'message' => 'Registration failed',

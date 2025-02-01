@@ -73,10 +73,12 @@ class RegisterController extends Controller
 
         // Check if validation fails
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 422);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
 

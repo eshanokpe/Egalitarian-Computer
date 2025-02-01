@@ -58,9 +58,9 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
-            'email' => 'required|string|email|max:50|unique:users',
+            'email' => 'required|string|email|max:50|unique:users,email',
             'phone' => 'required|string',
-            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::min(8)->letters()->numbers()],
+            'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
             'referral_code' => 'nullable|string|exists:users,referral_code',
             'dob' => [
                 'required', 
@@ -73,6 +73,7 @@ class RegisterController extends Controller
 
         // Check if validation fails
         if ($validator->fails()) {
+            \Log::error('Validation failed:', $validator->errors()->toArray());
             if ($request->wantsJson()) {
                 return response()->json([
                     'message' => 'Validation failed',
@@ -83,31 +84,31 @@ class RegisterController extends Controller
                     ->withErrors($validator->errors())
                     ->withInput();
         }
+            
+        
 
-        try{
-           
-            $result = $this->authService->register($request->all(), $this->walletController);
-            // \Log::info('Register successful:', $result);
-
+        try {
+            // Call AuthService register method
+            $result = app(AuthService::class)->register($request->all(), $walletController);
             if ($request->wantsJson()) {
                 return response()->json([
                     'message' => 'Registration successful',
-                    // 'user' => $result['user']->toArray(),
-                    // 'token' => $result['token'],
+                    'user' => $result['user'],
+                    'token' => $result['token'],
                 ], 201);
             }
-            // if ($request->wantsJson()) {
-            //     return response()->json([
-            //         'message' => 'Registration successful',
-            //         'user' => $result['user']->toArray(),
-            //         // 'token' => $result['token'],
-            //     ], 200);
-            // }
-            // auth()->login($result['user']);
             return redirect()->route('login')->with('success', 'Please check your email to verify your account.');
-        }  catch (\Exception $e) {
-            // \Log::info('Register failed:', $e->getMessage());
-
+        } catch (ValidationException $e) {
+            \Log::error('ValidationException:', $e->errors());
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Validation failed',
+                    'errors' => $e->errors(),
+                ], 422);
+            }
+            return redirect()->back()->with('error', $e->getMessage())->withInput();
+        } catch (\Exception $e) {
+            \Log::error('Registration failed:', ['error' => $e->getMessage()]);
             if ($request->wantsJson()) {
                 return response()->json([
                     'message' => 'Registration failed',
@@ -116,8 +117,8 @@ class RegisterController extends Controller
             }
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
-     
-    } 
+    }
+
     
 
     protected function handleReferralCode($referralCode)

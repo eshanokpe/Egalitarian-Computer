@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use App\Mail\VerificationEmail;
 use Illuminate\Validation\Rules\Password;
 use App\Services\AuthService;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
 {
@@ -81,6 +83,8 @@ class RegisterController extends Controller
         try{
            
             $result = $this->authService->register($request->all(), $this->walletController);
+            \Log::info('Register successful:', $result);
+
             if ($request->wantsJson()) {
                 return response()->json([
                     'message' => 'Registration successful',
@@ -90,16 +94,8 @@ class RegisterController extends Controller
             }
             // auth()->login($result['user']);
             return redirect()->route('login')->with('success', 'Please check your email to verify your account.');
-        } catch (ValidationException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'message' => 'Validation failed',
-                    'errors' => $e->errors(),
-                ], 422);
-            }
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        } catch (\Exception $e) {
-        \Log::info('Register Request Data:', $request->wantsJson());
+        }  catch (\Exception $e) {
+            \Log::info('Register failed:', $e);
 
             if ($request->wantsJson()) {
                 return response()->json([

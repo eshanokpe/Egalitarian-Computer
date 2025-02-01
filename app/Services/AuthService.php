@@ -69,7 +69,6 @@ class AuthService
             if ($virtualAccountResponse['status'] === true) {
                 $virtualAccountData = $virtualAccountResponse['data'];
 
-                // Store virtual account details
                 VirtualAccount::create([
                     'user_id' => $user->id,
                     'user_email' => $user->email,

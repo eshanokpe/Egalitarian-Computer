@@ -55,19 +55,19 @@ class RegisterController extends Controller
     {
         \Log::info('Register Request Data:', $request->all());
         // Validate the input
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
             'email' => 'required|string|email|max:50|unique:users',
             'phone' => 'required|string',
-            'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
+            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::min(8)->letters()->numbers()],
             'referral_code' => 'nullable|string|exists:users,referral_code',
             'dob' => [
                 'required', 
                 'date', 
                 'before:' . now()->subYears(18)->format('Y-m-d'),
             ]
-        ],[
+        ], [
             'dob.before' => 'You must be at least 18 years old to register.',
         ]);
 

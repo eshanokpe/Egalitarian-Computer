@@ -49,6 +49,7 @@ class RegisterController extends Controller
  
     public function register(Request $request, WalletController $walletController)
     {
+        \Log::info('Register Request Data:', $request->all());
         // Validate the input
         $request->validate([
             'first_name' => 'required|string|max:50',

@@ -66,6 +66,14 @@ class RegisterController extends Controller
             'dob.before' => 'You must be at least 18 years old to register.',
         ]);
 
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         try{
            
             $result = $this->authService->register($request->all(), $this->walletController);

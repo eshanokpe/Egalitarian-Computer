@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use App\Models\ReferralLog;
 use App\Models\VirtualAccount;
 use Illuminate\Support\Facades\Hash;

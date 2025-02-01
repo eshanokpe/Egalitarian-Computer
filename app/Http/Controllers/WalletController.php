@@ -34,7 +34,7 @@ class WalletController extends Controller
         // $data['preferred_bank'] = 'wema-bank';
         // $data['preferred_bank'] = 'titan-paystack';
         $data['preferred_bank'] = 'test-bank';
-        
+            
         try {
             $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))
                 ->post(env('PAYSTACK_BASE_URL') . '/dedicated_account', $data);

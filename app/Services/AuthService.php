@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Services;
-
+use Mail; 
 use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\ReferralLog;

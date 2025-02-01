@@ -16,13 +16,15 @@ use App\Http\Controllers\Auth\RegisterController;
 |
 */
 
-Route::post('post/register', [RegisterController::class, 'register']);
-Route::post('post/login', [LoginController::class, 'login']);
+Route::post('register', [RegisterController::class, 'register']);
+Route::post('login', [LoginController::class, 'login']);
 
 
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth:api')->group(function () {
+    Route::post('register', [RegisterController::class, 'register']);
+    Route::post('login', [LoginController::class, 'login']);
     // Route::post('/webhook/paystack', [WebhookController::class, 'handlePaystackWebhook']);
 
 });

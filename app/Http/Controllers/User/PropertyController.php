@@ -30,6 +30,7 @@ class PropertyController extends Controller
        
         $data['user'] = User::where('id', $user->id)->where('email', $user->email)->first();
         $data['properties'] = Property::latest()->paginate(10);
+        
         if ($request->wantsJson() || $request->is('api/*')) {
             return response()->json([
                 'user' => $data['user'],

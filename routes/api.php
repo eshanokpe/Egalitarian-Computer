@@ -22,11 +22,12 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::get('/check/email', [RegisterController::class, 'checkEmail']);
 Route::post('login', [LoginController::class, 'login']);
 
-Route::get('/properties', [PropertyController::class, 'index']);
 
 
 // Protected routes (authentication required)
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/properties', [PropertyController::class, 'index']);
+
     Route::post('logout', [AuthController::class, 'logout']);
 
     // Example of other protected routes

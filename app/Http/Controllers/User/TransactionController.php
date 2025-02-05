@@ -21,7 +21,7 @@ class TransactionController extends Controller
         $this->paystack = new Paystack(env('PAYSTACK_SECRET_KEY')); // Initialize Paystack
     }
 
-    public function index(){ 
+    public function index(Request $request){ 
         $user = Auth::user();
        
         $data['transactions'] = Transaction::with('user')->latest()
@@ -32,7 +32,7 @@ class TransactionController extends Controller
                 'transactions' => $data['transactions'],
             ]);
         }
-        
+
         return view('user.pages.transactions.index', $data); 
     }
     

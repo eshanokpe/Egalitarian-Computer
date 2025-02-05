@@ -27,12 +27,12 @@ class PropertyController extends Controller
  
     public function index(Request $request){
         $user = Auth::user();
-        if (!$user) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Unauthorized access. Please log in.',
-            ], 401);
-        }
+        // if (!$user) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Unauthorized access. Please log in.',
+        //     ], 401);
+        // }
         $data['user'] = User::where('id', $user->id)->where('email', $user->email)->first();
         $data['properties'] = Property::latest()->paginate(10);
         if ($request->wantsJson()) {

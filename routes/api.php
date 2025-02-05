@@ -4,8 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\LoginController; // Import LoginController
-
+use App\Http\Controllers\Auth\LoginController; 
+use App\Http\Controllers\User\PropertyController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +21,9 @@ use App\Http\Controllers\Auth\LoginController; // Import LoginController
 Route::post('register', [RegisterController::class, 'register']);
 Route::get('/check/email', [RegisterController::class, 'checkEmail']);
 Route::post('login', [LoginController::class, 'login']);
+
+Route::get('/properties', [PropertyController::class, 'index']);
+
 
 // Protected routes (authentication required)
 Route::middleware('auth:sanctum')->group(function () {

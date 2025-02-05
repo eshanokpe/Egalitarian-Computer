@@ -27,8 +27,22 @@ class PropertyController extends Controller
  
     public function index(){
         $user = Auth::user();
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized access. Please log in.',
+            ], 401);
+        }
         $data['user'] = User::where('id', $user->id)->where('email', $user->email)->first();
         $data['properties'] = Property::latest()->paginate(10);
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'user' => $data['user'],
+                'properties' => $data['properties'],
+            ]);
+        }
         return view('user.pages.properties.index',$data); 
     }
 
@@ -98,7 +112,7 @@ class PropertyController extends Controller
         ->where('user_id', $user->id)
         ->where('user_email', $user->email)
         ->where('user_email', 'buy')
-        ->latest()
+        ->latest() 
         ->paginate(10);
         $data['user'] = User::where('id', $user->id)->first();
 

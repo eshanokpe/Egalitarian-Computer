@@ -29,7 +29,7 @@ use App\Http\Controllers\User\Wallet\WalletTransferController;
 | routes are loaded by the RouteServiceProvider within a group which 
 | contains the "web" middleware group. Now create something great!
 |
-*/ 
+*/  
 
 Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
      
@@ -41,6 +41,7 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     
     
     Route::get('/properties', [PropertyController::class, 'index'])->name('properties');
+    
     Route::get('/buy', [PropertyController::class, 'buy'])->name('buy'); 
     Route::get('/offer/price/{id}', [PropertyController::class, 'offerPrice'])->name('offerPrice'); 
     Route::post('/offer/price/post', [PropertyController::class, 'offerPricePost'])->name('offerPrice.post'); 

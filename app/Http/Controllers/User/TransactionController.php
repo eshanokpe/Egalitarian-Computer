@@ -27,6 +27,12 @@ class TransactionController extends Controller
         $data['transactions'] = Transaction::with('user')->latest()
         ->paginate(10);
 
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json([
+                'transactions' => $data['transactions'],
+            ]);
+        }
+        
         return view('user.pages.transactions.index', $data); 
     }
     

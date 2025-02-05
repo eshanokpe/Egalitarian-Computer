@@ -158,7 +158,7 @@
                                     <th style="width: 10%; padding: 5px;">Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody>  
                                 @forelse($transactions as $index => $transaction)
                                 <tr>
                                     <td style="padding: 10px;">{{ $index + 1 }}</td>

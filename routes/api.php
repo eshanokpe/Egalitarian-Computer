@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController; 
 use App\Http\Controllers\User\PropertyController;
+use App\Http\Controllers\User\TransactionController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,6 +28,8 @@ Route::post('login', [LoginController::class, 'login']);
 // Protected routes (authentication required)
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/properties', [PropertyController::class, 'index']);
+    Route::get('/transactions', [TransactionController::class, 'index']);
+
 
     Route::post('logout', [AuthController::class, 'logout']);
 

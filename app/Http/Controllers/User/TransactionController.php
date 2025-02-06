@@ -31,7 +31,7 @@ class TransactionController extends Controller
             return response()->json([
                 'transactions' => $data['transactions'],
             ]);
-        }
+        } 
 
         return view('user.pages.transactions.index', $data); 
     }

@@ -20,14 +20,12 @@ class DashboardController extends Controller
     }
  
     public function index(){
-        // $query = Transaction::with('user')->latest();
-        // $transactions = $query->paginate(10); 
+       
         $user = Auth::user();
         $wallet = Auth::user()->wallet; 
         $balance = $wallet ? $wallet->balance : 0;
-        // dd($balance); 
         $data['transactions'] = Transaction::where('user_id', $user->id)->where('email', $user->email)->latest()->limit(6)->get();
-       
+        
         $data['totalAmount'] = Transaction::where('user_id', $user->id)
                                             ->where('email', $user->email)
                                             ->where('status', 'success')
@@ -43,7 +41,13 @@ class DashboardController extends Controller
         $data['referralsMade'] = $user->referralsMade()->with('user', 'referrer')->take(6)->get();
         $data['hasMoreReferrals'] = $data['referralsMade']->count() > 6;
         
-       
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json([
+                'referralsMade' => $data['referralsMade'],
+                'hasMoreReferrals' => $data['hasMoreReferrals'],
+                'totalAmount' => $data['totalAmount'],
+            ]);
+        } 
 
         return view('user.dashboard', $data); 
     }

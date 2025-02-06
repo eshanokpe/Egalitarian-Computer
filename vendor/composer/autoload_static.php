@@ -38,6 +38,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
         'bab4ed692c1fd3872849227e2a85791e' => __DIR__ . '/..' . '/unicodeveloper/laravel-paystack/src/Support/helpers.php',
         '101b35f72e0ccb1b5ef72aa86bba3ef9' => __DIR__ . '/..' . '/yoeunes/toastr/src/helpers.php',
+        '729884d63e12fec5784da40b420d0f4c' => __DIR__ . '/../..' . '/app/Helpers/wallet.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -588,6 +589,7 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Http\\Controllers\\Admin\\PropertyHistoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/PropertyHistoryController.php',
         'App\\Http\\Controllers\\Admin\\SettingsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/SettingsController.php',
         'App\\Http\\Controllers\\Admin\\SociallinkController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/SociallinkController.php',
+        'App\\Http\\Controllers\\Api\\WalletController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/WalletController.php',
         'App\\Http\\Controllers\\Auth\\AdminLoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/AdminLoginController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -673,8 +675,10 @@ class ComposerStaticInitfe33f98a750b8c5a51b30c78bd3fab21
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Services\\AuthService' => __DIR__ . '/../..' . '/app/Services/AuthService.php',
         'App\\Services\\PaystackService' => __DIR__ . '/../..' . '/app/Services/PaystackService.php',
         'App\\Services\\TransferService' => __DIR__ . '/../..' . '/app/Services/TransferService.php',
+        'App\\Services\\WalletService' => __DIR__ . '/../..' . '/app/Services/WalletService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',

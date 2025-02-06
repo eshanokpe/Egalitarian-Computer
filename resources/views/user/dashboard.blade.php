@@ -195,7 +195,7 @@
                         {{-- <div class="pagination">
                             {{ $transactions->links() }}
                         </div> --}}
-                        @if($totalTransactions > 6)
+                        @if($totalTransactionsAssets > 6)
                             <div class="text-center mt-3">
                                 <a class="welcome__content--btn solid__btn" href="{{ route('user.transactions') }}">View More Transactions</a>
                             </div>

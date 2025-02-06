@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
  
-    public function index(){
+    public function index(Request $request){
        
         $user = Auth::user();
         $wallet = Auth::user()->wallet; 

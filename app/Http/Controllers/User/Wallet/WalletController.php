@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 
 class WalletController extends Controller
 {
-    public function index(){ 
+    public function index(){  
         
         $data['user'] = Auth::user();
         $data['referralsMade'] = $data['user']->referralsMade()->with('user', 'referrer')->take(6)->get();
@@ -55,28 +55,6 @@ class WalletController extends Controller
         return response()->json(['account_name' => $validated['bank_code'] ]); // Example
     }
  
-
-    public function verifyAccountt(Request $request, PayStackWalletController $paystackWalletController){
-        dd('Request');
-        
-        $request->validate([
-            'account_number' => 'required|digits:10',
-            'bank_code' => 'required|string',
-        ]);
-        dd($request->all());
-        try {
-            $result = $paystackWalletController->verifyAccount($request->account_number, $request->bank_code);
-            return response()->json([
-                'success' => true,
-                'data' => $result,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ], 500);
-        }
-    } 
 
     public function paymentHistory(){
         $data['user'] = Auth::user();

@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController; 
 use App\Http\Controllers\User\PropertyController;
 use App\Http\Controllers\User\TransactionController;
+use App\Http\Controllers\Api\WalletController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,6 +31,7 @@ Route::post('login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/properties', [PropertyController::class, 'index']);
     Route::get('/transactions', [TransactionController::class, 'index']);
+    Route::get('/wallet/balance', [WalletController::class, 'getBalance']);
 
 
     Route::post('logout', [AuthController::class, 'logout']);

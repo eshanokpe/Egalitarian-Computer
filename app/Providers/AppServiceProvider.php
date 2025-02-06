@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Providers;
-
+use App\Services\WalletService;
+use function App\Helpers\getWalletBalance;
 use Illuminate\Support\ServiceProvider;
+
 use Auth;
 use App\Models\User;
 use App\Models\Faqs;
@@ -61,14 +63,12 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer('*', function ($view) {
-            if (Auth::check()) {
-                $wallet = Auth::user()->wallet;
-                $balance = $wallet ? $wallet->balance : 0;
-                $view->with('wallet', $wallet);
-            } else {
-                $view->with('wallet', 0);
-            }
-        });
+            // $walletBalance = (new WalletService())->getWalletBalance(); 
+            // or
+            $walletBalance = getWalletBalance(); 
+
+            $view->with('wallet', $walletBalance);
+        }); 
         View::composer('*', function ($view) {
             if (Auth::check()) {
                 $user = Auth::user();

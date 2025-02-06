@@ -63,9 +63,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer('*', function ($view) {
-            // $walletBalance = (new WalletService())->getWalletBalance(); 
+            $walletBalance = (new WalletService())->getWalletBalance(); 
             // or
-            $walletBalance = getWalletBalance(); 
+            // $walletBalance = getWalletBalance(); 
 
             $view->with('wallet', $walletBalance);
         }); 

@@ -68,6 +68,13 @@ class AppServiceProvider extends ServiceProvider
             // $walletBalance = getWalletBalance(); 
 
             $view->with('wallet', $walletBalance);
+        //     if (Auth::check()) {
+        //         $wallet = Auth::user()->wallet;
+        //         $balance = $wallet ? $wallet->balance : 0;
+        //         $view->with('wallet', $wallet);
+        //     } else {
+        //         $view->with('wallet', 0);
+        //     }
         }); 
         View::composer('*', function ($view) {
             if (Auth::check()) {

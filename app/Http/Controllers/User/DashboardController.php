@@ -31,7 +31,7 @@ class DashboardController extends Controller
                                             ->where('status', 'success')
                                             ->where('payment_method', 'card')
                                             ->sum('amount');
-        $data['totalTransactions'] = Transaction::where('user_id', $user->id)
+        $data['totalTransactionsAssets'] = Transaction::where('user_id', $user->id)
                                             ->where('email', $user->email)
                                             ->where('payment_method', 'card')
                                             ->where('status', 'success')->count();
@@ -46,6 +46,7 @@ class DashboardController extends Controller
                 'referralsMade' => $data['referralsMade'],
                 'hasMoreReferrals' => $data['hasMoreReferrals'],
                 'totalAmount' => $data['totalAmount'],
+                'totalAssets' => $data['totalTransactionsAssets'],
             ]);
         } 
 

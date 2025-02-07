@@ -19,12 +19,14 @@ class TransactionController extends Controller
     {
         $this->middleware('auth'); 
         $this->paystack = new Paystack(env('PAYSTACK_SECRET_KEY')); // Initialize Paystack
-    }
+    } 
 
     public function index(Request $request){ 
         $user = Auth::user();
-       
-        $data['transactions'] = Transaction::with('user')->latest()
+
+        $data['transactions'] = Transaction::where('user_id', $user->id)
+        ->with('user')
+        ->latest()
         ->paginate(10);
 
         if ($request->wantsJson() || $request->is('api/*')) {

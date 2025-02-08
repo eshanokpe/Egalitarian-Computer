@@ -127,7 +127,7 @@ class DashboardController extends Controller
             return $item->category->name ?? 'Uncategorized';
         });
         return view('user.pages.properties.show', $data);
-    }
+    } 
 
    
 

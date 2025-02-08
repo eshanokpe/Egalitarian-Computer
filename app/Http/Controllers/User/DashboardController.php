@@ -126,13 +126,6 @@ class DashboardController extends Controller
         $data['neighborhoods'] = $neighborhoods->groupBy(function ($item) {
             return $item->category->name ?? 'Uncategorized';
         });
-        if (request()->wantsJson()) {
-            return response()->json([
-                'property' => $data['property'],
-                'user' => $data['user'],
-                'neighborhoods' => $data['neighborhoods']
-            ]);
-        }
         return view('user.pages.properties.show', $data);
     }
 

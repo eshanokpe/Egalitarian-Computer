@@ -9,6 +9,7 @@ use App\Http\Controllers\User\PropertyController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Api\WalletController;
+use App\Http\Controllers\Api\PropertyController as APIPropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/wallet/balance', [WalletController::class, 'getBalance']);
     Route::get('/get/assets', [DashboardController::class, 'index']);
 
-    Route::get('/properties/{id}', [DashboardController::class, 'propertiesShow']);
+    Route::get('/properties/{id}', [APIPropertyController::class, 'propertiesShow']);
      
  
     Route::post('logout', [AuthController::class, 'logout']);

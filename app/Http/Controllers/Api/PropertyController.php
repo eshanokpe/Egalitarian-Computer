@@ -22,7 +22,7 @@ class PropertyController extends Controller
                         ->where('email', $users->email)
                         ->first();
         $neighborhoods = Neighborhood::with(['property', 'category'])->get();
-
+ 
         $data['neighborhoods'] = $neighborhoods->groupBy(function ($item) {
             return $item->category->name ?? 'Uncategorized';
         });

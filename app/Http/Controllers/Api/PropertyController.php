@@ -29,7 +29,7 @@ class PropertyController extends Controller
         if (request()->wantsJson()) {
             return response()->json([
                 'property' => $data['property'],
-                'valuation_summary' => $data['property']->valuationSummary
+                'valuation_summary' => $data['property']->valuationSummary,
                 'neighborhoods' => $data['neighborhoods']
             ]);
         }

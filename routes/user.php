@@ -18,7 +18,7 @@ use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\TransferPropertyController;
 use App\Http\Controllers\User\Wallet\WalletController;
 use App\Http\Controllers\User\Wallet\WalletTransferController;
-
+ 
 
 /*
 |--------------------------------------------------------------------------
@@ -41,8 +41,8 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     
     
     Route::get('/properties', [PropertyController::class, 'index'])->name('properties');
-    
-    Route::get('/buy', [PropertyController::class, 'buy'])->name('buy'); 
+     
+    Route::get('/buy', [PropertyController::class, 'buy'])->name('buy');  
     Route::get('/offer/price/{id}', [PropertyController::class, 'offerPrice'])->name('offerPrice'); 
     Route::post('/offer/price/post', [PropertyController::class, 'offerPricePost'])->name('offerPrice.post'); 
  
@@ -65,9 +65,9 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('/properties', [PropertyController::class, 'index'])->name('properties'); 
  
     Route::get('/my-properties', [DashboardController::class, 'properties'])->name('myProperties');
-    
+
     Route::get('/my-properties/{id}', [DashboardController::class, 'propertiesShow'])->name('properties.show');
-    
+     
     Route::get('/cart/{id}', [CartController::class, 'index'])->name('cart.index');
     Route::get('/cart/sell/{id}', [CartController::class, 'sell'])->name('cart.sell.index');
     Route::get('/cart/transfer/{id}', [CartController::class, 'transfer'])->name('cart.transfer.index');

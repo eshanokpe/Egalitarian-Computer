@@ -35,7 +35,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/wallet/balance', [WalletController::class, 'getBalance']);
     Route::get('/get/assets', [DashboardController::class, 'index']);
 
-
+    Route::get('/properties/{id}', [DashboardController::class, 'propertiesShow']);
+     
+ 
     Route::post('logout', [AuthController::class, 'logout']);
 
     // Example of other protected routes

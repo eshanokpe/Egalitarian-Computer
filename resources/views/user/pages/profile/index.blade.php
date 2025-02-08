@@ -35,7 +35,7 @@
                         <div class="profile__author d-flex align-items-center">
                             <div class="profile__author--thumbnail position-relative">
                                 <img 
-                                src="{{ Auth::user()->profile_image ? asset($user->profile_image) : asset('assets/admin/img/dashboard/avater.jpg') }}" 
+                                src="{{ Auth::user()->profile_image ? asset($user->profile_image) : asset('assets/admin/img/dashboard/avater.jpg') }}"  x
                                 alt="img"
                                 style="max-height: 100%; max-height:100%; object-fit:cover; width:198px; height:187px"
                                 >

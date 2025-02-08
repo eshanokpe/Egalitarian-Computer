@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Auth;
 use App\Models\User;
 use App\Models\Neighborhood;
 use App\Models\Property;

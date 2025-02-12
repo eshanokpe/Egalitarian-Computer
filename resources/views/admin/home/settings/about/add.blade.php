@@ -8,7 +8,7 @@
             @csrf
             @if(isset($about))
                 @method('PUT')
-            @endif
+            @endif 
             <div class="mb-3 row">
                 <label for="" required class="col-sm-2 col-form-label text-end">Title</label>
                 <div class="col-sm-10">

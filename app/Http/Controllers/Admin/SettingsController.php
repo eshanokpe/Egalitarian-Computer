@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+ 
 use App\Http\Traits\SettingsTrait;
 use App\Models\Terms;
 use App\Models\About;

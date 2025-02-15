@@ -25,12 +25,24 @@ class PropertyController extends Controller
  
         $data['neighborhoods'] = $neighborhoods->groupBy(function ($item) {
             return $item->category->name ?? 'Uncategorized';
-        });
+        }); 
+
+        $data['propertyValuation'] = PropertyValuation::where('property_id', $data['property']->id)
+        ->when(request('filter'), function ($query) {
+             if ($year = request('filter')) {
+                return $query->whereYear('created_at', $year);
+            }
+            return $query;
+        })
+        ->orderBy('created_at', 'asc') 
+        ->get(); 
+
         if (request()->wantsJson()) {
             return response()->json([
                 'property' => $data['property'],
                 'valuation_summary' => $data['property']->valuationSummary,
-                'neighborhoods' => $data['neighborhoods']
+                'neighborhoods' => $data['neighborhoods'],
+                'propertyValuation' => $data['propertyValuation'],
             ]);
         }
     }

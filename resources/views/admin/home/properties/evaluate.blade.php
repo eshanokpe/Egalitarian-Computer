@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
-                        <div class="float-end">
+                        <div class="float-end"> 
                             <ol class="breadcrumb">
                                 <a href="{{ route('admin.properties.index')}}" class="btn btn-dark">View Property</a>
                             </ol>

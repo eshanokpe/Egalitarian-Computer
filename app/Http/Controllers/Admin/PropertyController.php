@@ -279,7 +279,7 @@ class PropertyController extends Controller
 
         // Prepare the data for the chart
         $valuationData = $data['propertyValuation']->map(function ($valuation) {
-            return [
+            return [ 
                 'date' => $valuation->created_at->format('M, d'), 
                 'price' => $valuation->market_value,
             ];

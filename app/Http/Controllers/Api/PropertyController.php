@@ -6,6 +6,7 @@ use Auth;
 use App\Models\User;
 use App\Models\Neighborhood;
 use App\Models\Property;
+use App\Models\PropertyValuation;
 use App\Models\Transaction;
 // or
 use function App\Helpers\getWalletBalance; 

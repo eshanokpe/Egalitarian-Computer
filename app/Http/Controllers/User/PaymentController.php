@@ -10,7 +10,7 @@ use App\Models\Buy;
 use Yabacon\Paystack;  
 use App\Models\Wallet;
 use App\Models\Property;  
-use App\Models\Transaction;  
+use App\Models\Transaction;   
 
 class PaymentController extends Controller
 {
@@ -49,7 +49,7 @@ class PaymentController extends Controller
         }
 
         // Generate a unique transaction reference
-        $reference = 'PROREF-' . time() . '-' . strtoupper(Str::random(8));
+        $reference = 'DOHREF-' . time() . '-' . strtoupper(Str::random(8));
 
         $selectedSizeLand  = $request->input('quantity');
         $remainingSize  = $request->input('remaining_size');
@@ -105,10 +105,10 @@ class PaymentController extends Controller
                 $channel = $paymentDetails->data->channel;
                 // Create the transaction record
                 $transaction = Transaction::create([
-                    'property_id' => $property->id,
-                    'property_name' => $property->name,
                     'user_id' => $user->id,
                     'email' => $user->email,
+                    'property_id' => $property->id,
+                    'property_name' => $property->name,
                     'amount' => $amount,
                     'status' =>  $paymentDetails->data->status,
                     'payment_method' => $channel,

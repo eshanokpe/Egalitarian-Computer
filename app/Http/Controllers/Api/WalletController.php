@@ -26,7 +26,7 @@ class WalletController extends Controller
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric|min:0.01',
         ]);
-
+ 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',

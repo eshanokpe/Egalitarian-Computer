@@ -22,6 +22,7 @@ class TransactionController extends Controller
             'payment_method' => 'required|string',
             'reference' => 'required|string|unique:transactions,reference',
             'transaction_state' => 'required|string',
+            'status' => 'required|string',
         ]);
 
         if ($validator->fails()) {

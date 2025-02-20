@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/properties', [PropertyController::class, 'index']);
     Route::get('/transactions', [TransactionController::class, 'index']);
     Route::get('/wallet/balance', [WalletController::class, 'getBalance']);
+    Route::post('/wallet/deduct', [WalletController::class, 'deductBalance']);
     Route::get('/get/assets', [DashboardController::class, 'index']);
 
     Route::get('/properties/{id}', [APIPropertyController::class, 'propertiesShow']);

@@ -211,7 +211,7 @@
                                     @enderror
                                     <img id="image-preview" src="" alt="Image Preview" class="img-thumbnail mt-2" style="display:none; max-width: 200px;">
                                 </div>
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="exampleInputEmail1">Upload Payment Plan</label>
                                     <input onchange="paymentPlan(event)" type="file" class="form-control" name="payment_plan" required>
                                     @error('payment_plan')
@@ -220,8 +220,8 @@
                                         </div>
                                     @enderror
                                     <img id="image-paymentPlan" src="" alt="Image Preview" class="img-thumbnail mt-2" style="display:none; max-width: 200px;">
-                                </div>
-                                <div class="mb-3">
+                                </div> --}}
+                                {{-- <div class="mb-3">
                                     <label for="exampleInputEmail1">Upload Brochure</label>
                                     <input onchange="previewBrochure(event)" type="file" class="form-control" name="brochure" required>
                                     @error('brochure')
@@ -230,7 +230,7 @@
                                         </div>
                                     @enderror
                                     <img id="image-Brochure" src="" alt="Image Preview" class="img-thumbnail mt-2" style="display:none; max-width: 200px;">
-                                </div>
+                                </div> --}}
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1">Land Survey</label>
                                     <input onchange="previewLandSurvey(event)" type="file" class="form-control" name="land_survey" required>
@@ -243,7 +243,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1">Upload Contract deed document</label>
+                                    <label for="exampleInputEmail1">Upload Land Information Certificate</label>
                                     <input onchange="previewContractDeed(event)" type="file" class="form-control" name="contract_deed" required>
                                     @error('contract_deed')
                                         <div class="invalid-feedback">

@@ -70,7 +70,7 @@
                             </div><!--end card-header--> 
                             <div class="card-body">
     
-                                @forelse ($propertyValuation as $item)
+                                @forelse ($propertyValuation as $item) 
                                     <div class="row d-flex justify-content-center mb-3">                                                
                                         <div class="col">
                                             <p class="text-dark mb-1 fw-semibold">{{ $item->valuation_type }}</p>

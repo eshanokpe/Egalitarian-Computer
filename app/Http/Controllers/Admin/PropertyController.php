@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Property;
 use App\Models\Neighborhood;
-use App\Models\PropertyValuation;
+use App\Models\PropertyValuation; 
 use App\Models\PropertyPriceUpdate;
 use App\Models\NeighborhoodCategory;
 use App\Models\PropertyValuationSummary;
@@ -254,7 +254,7 @@ class PropertyController extends Controller
             }
             return $query;
         })
-        ->orderBy('created_at', 'asc') 
+        ->orderBy('created_at', 'asc')  
         ->get(); 
 
         $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $propertyId)->value('initial_value_sum') ?? 0;

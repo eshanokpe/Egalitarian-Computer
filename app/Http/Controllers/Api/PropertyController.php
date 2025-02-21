@@ -10,7 +10,7 @@ use App\Models\PropertyValuation;
 use App\Models\Transaction;
 // or
 use function App\Helpers\getWalletBalance; 
-
+ 
 class PropertyController extends Controller
 {
     

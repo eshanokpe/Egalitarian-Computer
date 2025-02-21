@@ -30,10 +30,12 @@ Route::get('/check/email', [RegisterController::class, 'checkEmail']);
 Route::post('login', [LoginController::class, 'login']);
  
 
-
+ 
 // Protected routes (authentication required)
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/properties', [PropertyController::class, 'index']);
+    Route::get('/properties/{id}', [APIPropertyController::class, 'propertiesShow']);
+
     Route::get('/transactions', [TransactionController::class, 'index']);
     Route::get('/wallet/balance', [WalletController::class, 'getBalance']);
     Route::post('/wallet/deduct', [WalletController::class, 'deductBalance']);
@@ -45,7 +47,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     
 
-    Route::get('/properties/{id}', [APIPropertyController::class, 'propertiesShow']);
      
  
     Route::post('logout', [AuthController::class, 'logout']);

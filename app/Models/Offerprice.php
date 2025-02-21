@@ -10,6 +10,7 @@ class Offerprice extends Model
     use HasFactory;
 
     protected $fillable =[
+        'id',
         'property_id',
         'buy_id',
         'amount',

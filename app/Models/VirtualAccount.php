@@ -10,6 +10,7 @@ class VirtualAccount extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'user_id',
         'user_email',
         'bank_name', 

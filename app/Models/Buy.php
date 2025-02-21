@@ -10,6 +10,7 @@ class Buy extends Model
     use HasFactory;
 
     protected $fillable = [ 
+        'id',
         'user_id',
         'user_email',
         'property_id',

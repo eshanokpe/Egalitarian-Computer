@@ -10,6 +10,7 @@ class Privacy extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'content',
     ];
 }

@@ -10,6 +10,7 @@ class PropertyValuationPrediction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'property_id',
         'future_date',
         'current_price',

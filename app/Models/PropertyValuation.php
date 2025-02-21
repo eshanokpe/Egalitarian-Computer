@@ -9,6 +9,7 @@ class PropertyValuation extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'property_id',
         'valuation_type',
         'current_price',

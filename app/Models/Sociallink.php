@@ -9,6 +9,7 @@ class Sociallink extends Model
 {
     use HasFactory;
     protected $fillable = [ 
+        'id',
         'facebook',
         'twitter',
         'whatsapp',

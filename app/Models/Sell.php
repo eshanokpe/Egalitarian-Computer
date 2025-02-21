@@ -10,6 +10,7 @@ class Sell extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'property_id',
         'property_name',
         'selected_size_land',

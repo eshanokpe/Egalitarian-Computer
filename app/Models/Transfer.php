@@ -10,6 +10,7 @@ class Transfer extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'property_id',
         'property_name',
         'land_size',

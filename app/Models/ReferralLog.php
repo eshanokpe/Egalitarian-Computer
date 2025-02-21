@@ -10,6 +10,7 @@ class ReferralLog extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'referrer_id',
         'referred_id',
         'referral_code',

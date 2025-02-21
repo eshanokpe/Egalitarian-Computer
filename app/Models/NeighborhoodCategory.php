@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class NeighborhoodCategory extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'id',
+        'name',
+    ];
 
     // Relationship to Properties (if needed)
     public function properties()

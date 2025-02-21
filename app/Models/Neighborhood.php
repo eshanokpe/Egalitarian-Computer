@@ -10,6 +10,7 @@ class Neighborhood extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'property_id',
         'neighborhood_category_id',
         'neighborhood_name',

@@ -14,7 +14,8 @@ class NotificationController extends Controller
     { 
     
         $user = auth()->user();
-        $notifications = $user->notifications()->with('property')->paginate(10);
+        $notifications = $user->notifications()->with('property')->paginate(30);
+
         $unreadCount = $user->unreadNotifications()->count();
 
         if ($request->wantsJson() || $request->is('api/*')) {

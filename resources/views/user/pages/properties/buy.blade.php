@@ -83,7 +83,7 @@
                                             style="color: #fff; font-size:14px margine:1px; " 
                                             href="{{ route('user.offerPrice', encrypt($property->property->id))}}">
                                                 Offer Price
-                                            </a>
+                                            </a> 
                                         </center>
                                     @endif
                                 </td>

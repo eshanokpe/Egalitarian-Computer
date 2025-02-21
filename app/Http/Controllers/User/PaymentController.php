@@ -117,12 +117,12 @@ class PaymentController extends Controller
                 ]);
                 // Create the buy record
                 $buy = Buy::create([
-                    'property_id' => $property->id,
-                    'transaction_id' => $transaction->id,
-                    'selected_size_land' => $paymentDetails->data->metadata->selected_size_land,
-                    'remaining_size' => $paymentDetails->data->metadata->remaining_size,
                     'user_id' => $user->id,
                     'user_email' => $user->email,
+                    'transaction_id' => $transaction->id,
+                    'property_id' => $property->id,
+                    'selected_size_land' => $paymentDetails->data->metadata->selected_size_land,
+                    'remaining_size' => $paymentDetails->data->metadata->remaining_size,
                     'total_price' => $amount,
                     'status' => 'sold',
                 ]);

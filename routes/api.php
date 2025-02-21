@@ -9,6 +9,7 @@ use App\Http\Controllers\User\PropertyController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Api\WalletController;
+use App\Http\Controllers\Api\BuyPropertyController;
 use App\Http\Controllers\Api\TransactionController as APITransactionController;
 use App\Http\Controllers\Api\PropertyController as APIPropertyController;
 
@@ -39,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get/assets', [DashboardController::class, 'index']);
 
     Route::post('/transactions', [APITransactionController::class, 'store']);
+    Route::post('/buy/properties', [BuyPropertyController::class, 'store']);
 
 
     

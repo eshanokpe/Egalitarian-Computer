@@ -12,7 +12,18 @@ class NotificationController extends Controller
     
     public function index()
     { 
-        $notifications = auth()->user()->notifications()->with('property')->paginate(10);
+    
+        $user = auth()->user();
+        $notifications = $user->notifications()->with('property')->paginate(10);
+        $unreadCount = $user->unreadNotifications()->count();
+
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json([
+                'notifications' => $notifications,
+                'unread_count' => $unreadCount,
+            ]);
+        }
+
 
         return view('user.pages.notifications.index', compact('notifications'));
     }

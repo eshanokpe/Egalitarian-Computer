@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController; 
 use App\Http\Controllers\User\PropertyController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Api\WalletController;
 use App\Http\Controllers\Api\BuyPropertyController;
@@ -43,6 +44,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/transactions', [APITransactionController::class, 'store']);
     Route::post('/buy/properties', [BuyPropertyController::class, 'store']);
+
+    Route::post('/notifications', [NotificationController::class, 'index']);
 
 
     

@@ -63,7 +63,7 @@ class PropertyValuationNotification extends Notification
     public function toArray($notifiable)
     {
         return [ 
-            'notification_status' => 'PropertyValuationNotification',
+            'notification_status' => 'Property Valuation Notification',
             'property_id' => $this->property->id,
             'property_name' => $this->property->name,
             'market_value' => $this->property->price,

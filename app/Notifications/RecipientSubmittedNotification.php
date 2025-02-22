@@ -41,7 +41,7 @@ class RecipientSubmittedNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'notification_status' => 'RecipientSubmittedNotification',
+            'notification_status' => 'Recipient Submitted Notification',
             'property_id' => $this->transferDetails['property_id'],
             'property_slug' => $this->transferDetails['property_slug'],
             'property_name' => $this->transferDetails['property_name'],

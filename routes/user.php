@@ -9,7 +9,7 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\TransferController;
 use App\Http\Controllers\User\PropertyController;
-use App\Http\Controllers\User\ReferralController;
+use App\Http\Controllers\User\ReferralController; 
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\SellPropertyController;

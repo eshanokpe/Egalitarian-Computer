@@ -76,7 +76,7 @@
                         <path d="M7 15H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <span class="sidebar__menu--text">Transaction</span>
-                </a>
+                </a> 
             </li>
 
             <li class="sidebar__menu--items">
@@ -91,7 +91,7 @@
             </li>
             
             
-           
+        
             <li class="sidebar__menu--items">
                 <a class="sidebar__menu--link" href="{{ route('user.referral.index')}}">
                     <svg class="sidebar__menu--icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

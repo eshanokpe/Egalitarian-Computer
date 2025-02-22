@@ -20,7 +20,7 @@ class User extends Authenticatable
         'phone', 
         'dob',
         'recipient_id',
-        'profile_image',
+        'profile_image', 
         'referral_code',
         'referred_by',
         'transaction_pin',
@@ -39,7 +39,8 @@ class User extends Authenticatable
     public function virtualAccounts()
     {
         return $this->hasMany(VirtualAccount::class);
-    }
+    } 
+
     public function wallet()
     {
         return $this->hasOne(Wallet::class);

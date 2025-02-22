@@ -12,7 +12,6 @@ class NotificationController extends Controller
     
     public function index(Request $request)
     { 
-    
         $user = auth()->user();
         $notifications = $user->notifications()->with('property')->paginate(30);
 

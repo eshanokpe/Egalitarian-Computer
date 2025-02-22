@@ -62,7 +62,7 @@ class WalletTransferNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'notification_status' => 'WalletTransferNotification',
+            'notification_status' => 'Wallet Transfer Notification',
             'amount' => $this->amount,
             'new_balance' => $this->newBalance,
             'message' => 'Your wallet has been credited with NGN ' . number_format($this->amount, 2) .

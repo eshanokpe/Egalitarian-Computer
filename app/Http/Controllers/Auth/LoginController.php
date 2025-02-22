@@ -49,10 +49,13 @@ class LoginController extends Controller
         // Attempt to log in with credentials
         if (Auth::attempt($credentials)) {
             if (Auth::user()->hasVerifiedEmail()) {
-                 if ($request->wantsJson()) {
-                    return response()->json([
+                $user = Auth::user();
+                $user->load('virtualAccounts');
+                
+                if ($request->wantsJson()) {
+                    return response()->json([ 
                         'message' => 'Login successful',
-                        'user' => Auth::user(),
+                        'user' => $user,
                         'token' => Auth::user()->createToken('dohmayn')->plainTextToken, // For API Token
                     ], 200);
                 }

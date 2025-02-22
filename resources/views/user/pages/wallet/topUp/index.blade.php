@@ -7,7 +7,7 @@
         margin-left: 8px;
         animation: fadeInOut 3s forwards;
     }
-
+ 
     .copy-fail {
         font-size: 14px;
         color: #dc3545;

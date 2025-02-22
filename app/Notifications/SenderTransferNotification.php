@@ -63,7 +63,7 @@ class SenderTransferNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         return [
-            'notification_status' => 'SenderTransferNotification',
+            'notification_status' => 'Sender Transfer Notification',
             'property_name' => $this->details['property_name'],
             'land_size' => $this->details['land_size'],
             'total_price' => $this->details['total_price'],

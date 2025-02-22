@@ -52,7 +52,7 @@ class TransactionController extends Controller
             if (!$property) {
                 return redirect()->back()->with('error', 'Property not found.');
             }
-
+ 
             if ($paymentDetails->data->status === 'success') {
                 $amount = $paymentDetails->data->amount / 100;
                 $reference = $paymentDetails->data->reference;

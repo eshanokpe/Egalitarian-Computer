@@ -91,7 +91,6 @@ class ProfileController extends Controller
         ],[
           'dob.before' => 'You must be at least 18 years old to update.',
         ]);
-        // dd($request->dob);
 
        
             $user = Auth::user();
@@ -113,9 +112,23 @@ class ProfileController extends Controller
             }
         
             $user->save();
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Profile updated successfully!',
+                    'user' => $user,
+                ], 200);
+            }
         
             return redirect()->back()->with('success', 'Profile updated successfully!');
         }catch(Exception $e){
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Something went wrong! ' . $e->getMessage(),
+                ], 500);
+            }
             return redirect()->back()->with('error', 'Something went wrong!.' .$e->getMessage());
         }
     }

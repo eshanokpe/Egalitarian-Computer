@@ -15,19 +15,21 @@ class ProfileController extends Controller
         $this->middleware('auth'); 
     }
  
-    public function index(){
+    public function index() {
         $user = Auth::user();
-        $data['user'] = User::where('id', $user->id)->where('email', $user->email)->first();
-
-        return response()->json([
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'email' => $user->email,
-            'profile_image' => $user->profile_image ? url($user->profile_image) : null,
-        ]);
-
-        return view('user.pages.profile.index',$data); 
+        $user->load('virtualAccounts'); // Load the related virtual accounts
+    
+        if (request()->wantsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Profile retrieved successfully!',
+                'user' => $user,
+            ], 200);
+        }
+    
+        return view('user.pages.profile.index', ['user' => $user]);
     }
+    
 
     /**
      * Show the form for creating a new resource.

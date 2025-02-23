@@ -16,8 +16,15 @@ class ProfileController extends Controller
     }
  
     public function index(){
-             $user = Auth::user();
+        $user = Auth::user();
         $data['user'] = User::where('id', $user->id)->where('email', $user->email)->first();
+
+        return response()->json([
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'profile_image' => $user->profile_image ? url($user->profile_image) : null,
+        ]);
 
         return view('user.pages.profile.index',$data); 
     }
@@ -121,16 +128,12 @@ class ProfileController extends Controller
             $user->save(); // Save all changes at once
 
             if ($request->wantsJson()) {
+                $user = Auth::user();
+                $user->load('virtualAccounts');
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Profile updated successfully!',
-                    'user' => [
-                        'first_name' => $user->first_name,
-                        'last_name' => $user->last_name,
-                        'phone' => $user->phone,
-                        'dob' => $user->dob,
-                        'profile_image' => asset($user->profile_image),
-                    ],
+                    'user' => $user,
                 ], 200);
             }
 

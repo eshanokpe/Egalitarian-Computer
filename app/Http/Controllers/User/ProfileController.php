@@ -82,7 +82,7 @@ class ProfileController extends Controller
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
                 'phone' => 'nullable|string|max:15',
-                'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'referral_code' => 'nullable|string|exists:users,referral_code',
                 'dob' => [
                     'nullable',

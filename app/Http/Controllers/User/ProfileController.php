@@ -74,64 +74,78 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
    
+   
     public function update(Request $request)
     {
-        try{
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:15',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
-            'referral_code' => 'nullable|string|exists:users,referral_code',
-            'dob' => [
-                'nullable', 
-                'date', 
-                'before:' . now()->subYears(18)->format('Y-m-d'),
-            ]
-        ],[
-          'dob.before' => 'You must be at least 18 years old to update.',
-        ]);
+        try {
+            $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'phone' => 'nullable|string|max:15',
+                'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'referral_code' => 'nullable|string|exists:users,referral_code',
+                'dob' => [
+                    'nullable',
+                    'date',
+                    'before:' . now()->subYears(18)->format('Y-m-d'),
+                ]
+            ], [
+                'dob.before' => 'You must be at least 18 years old to update.',
+            ]);
 
-       
             $user = Auth::user();
-        
-            // Update name and phone
+
+            // Update basic info
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->phone = $request->phone;
-            if ($request->has('dob') && !empty($request->dob)) {
-                $user->dob = Carbon::parse($request->dob)->format('Y-m-d'); // Ensure correct date format
+
+            if ($request->filled('dob')) {
+                $user->dob = Carbon::parse($request->dob)->format('Y-m-d');
             }
-        
+
             // Handle profile image upload
             if ($request->hasFile('profile_image')) {
-                $imagePath = $request->file('profile_image');
-                $imageName = time() . '.' . $imagePath->extension();
-                $imagePath->move(public_path('assets/profile/'), $imageName);
-                $user->update(['profile_image' =>  'assets/profile/' . $imageName]);
+                $image = $request->file('profile_image');
+                $imageName = time() . '.' . $image->extension();
+                $destinationPath = public_path('assets/profile/');
+
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true); // Ensure the directory exists
+                }
+
+                $image->move($destinationPath, $imageName);
+                $user->profile_image = 'assets/profile/' . $imageName;
             }
-        
-            $user->save();
+
+            $user->save(); // Save all changes at once
 
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Profile updated successfully!',
-                    'user' => $user,
+                    'user' => [
+                        'first_name' => $user->first_name,
+                        'last_name' => $user->last_name,
+                        'phone' => $user->phone,
+                        'dob' => $user->dob,
+                        'profile_image' => asset($user->profile_image),
+                    ],
                 ], 200);
             }
-        
+
             return redirect()->back()->with('success', 'Profile updated successfully!');
-        }catch(Exception $e){
+        } catch (\Exception $e) {  // Fixed Exception handling
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Something went wrong! ' . $e->getMessage(),
                 ], 500);
             }
-            return redirect()->back()->with('error', 'Something went wrong!.' .$e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong! ' . $e->getMessage());
         }
     }
+
     
     /**
      * Remove the specified resource from storage.

@@ -73,25 +73,27 @@ class SecurityController extends Controller
     
     public function createTransactionPin(Request $request, $id)
     {
-        // Validate the input
-        $request->validate([
-            'old_pin' => 'nullable|min:4|max:4', // Old PIN is optional
-            'new_pin' => 'required|min:4|max:4|confirmed', // New PIN is required and must be confirmed
-        ]);
-
         // Get the authenticated user
         $user = Auth::user();
 
-        // Check if the user already has a transaction PIN
+        // Define validation rules conditionally
+        $rules = [
+            'new_pin' => 'required|min:4|max:4', // New PIN is always required
+        ];
+
+        // If the user already has a PIN, enforce old_pin and new_pin confirmation
         if ($user->transaction_pin) {
-            // If the user has a PIN, validate the old PIN
+            $rules['old_pin'] = 'required|min:4|max:4'; // Old PIN is required
+            $rules['new_pin'] .= '|confirmed'; // Add confirmation rule for new PIN
+        }
+
+        // Validate the input
+        $request->validate($rules);
+
+        // If the user has a PIN, validate the old PIN
+        if ($user->transaction_pin) {
             if (!Hash::check($request->old_pin, $user->transaction_pin)) {
                 return $this->sendErrorResponse('The old PIN is incorrect.', 400, $request);
-            }
-        } else {
-            // If the user does not have a PIN, ensure the old_pin field is empty
-            if ($request->old_pin) {
-                return $this->sendErrorResponse('You do not have an old PIN set. Leave this field blank.', 400, $request);
             }
         }
 

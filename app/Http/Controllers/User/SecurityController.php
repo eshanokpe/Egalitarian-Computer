@@ -56,10 +56,10 @@ class SecurityController extends Controller
         if ($request->wantsJson()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Password changed successfully.',
+                'message' => 'Password changed successfully. For security reasons, please log in again.',
             ], 200);
         } else {
-            return back()->with('success', 'Password changed successfully.');
+            return back()->with('success', 'Password changed successfully. For security reasons, please log in again.');
         }
     }
 

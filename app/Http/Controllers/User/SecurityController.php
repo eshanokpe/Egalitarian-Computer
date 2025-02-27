@@ -41,7 +41,10 @@ class SecurityController extends Controller
         // Check if old password is correct
         if (!Hash::check($request->old_password, $user->password)) {
             if ($request->wantsJson()) {
-                return apiResponse(false, 'The old password is incorrect.', 400);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'The old password is incorrect.',
+                ], 400);
             } else {
                 return back()->withErrors(['old_password' => 'The old password is incorrect.']);
             }
@@ -51,7 +54,10 @@ class SecurityController extends Controller
         $user->password = Hash::make($request->new_password);
         $user->save();
         if ($request->wantsJson()) {
-            return apiResponse(true, 'Password changed successfully.', 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Password changed successfully.',
+            ], 200);
         } else {
             return back()->with('success', 'Password changed successfully.');
         }

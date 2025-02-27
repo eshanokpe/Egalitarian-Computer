@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot() 
     {    
         View::share('menuItems', MenuItem::with('dropdownItems')->get()); 
-        View::share('faqs', Faqs::all()); 
+        View::share('faqs', Faqs::all());  
         View::share('posts', Post::latest()->paginate(20)); 
         View::share('about', About::first()); 
         // View::share('properties', Property::inRandomOrder()->take(6)->get()); 

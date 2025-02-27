@@ -43,6 +43,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/wallet/balance', [WalletController::class, 'getBalance']);
     Route::post('/wallet/deduct', [WalletController::class, 'deductBalance']);
     Route::get('/get/assets', [DashboardController::class, 'index']);
+    Route::get('/get/faqs', [DashboardController::class, 'faqs']);
+
     Route::post('/transactions', [APITransactionController::class, 'store']);
     Route::post('/buy/properties', [BuyPropertyController::class, 'store']);
 

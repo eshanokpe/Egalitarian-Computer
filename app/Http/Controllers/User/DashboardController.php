@@ -7,6 +7,7 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Faqs;
 use App\Models\Neighborhood;
 use App\Models\Property;
 use App\Models\Transaction;
@@ -129,8 +130,6 @@ class DashboardController extends Controller
         return view('user.pages.properties.show', $data);
     } 
 
-   
-
     public function toggleHideBalance(Request $request)
     {
         $user = Auth::user();
@@ -141,5 +140,13 @@ class DashboardController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function faqs() {
+        $faqs = Faqs::all();
 
+        return response()->json([
+            'status' => 'success',
+            'data' => $faqs,
+        ], 200);
+
+    }
 }

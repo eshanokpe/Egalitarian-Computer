@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Exception;
 use Carbon\Carbon;
+
  
 class ProfileController extends Controller
 {
@@ -14,6 +15,8 @@ class ProfileController extends Controller
     {
         $this->middleware('auth'); 
     }
+
+    
  
     public function index() {
         $user = Auth::user();

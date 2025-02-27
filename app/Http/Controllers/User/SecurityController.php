@@ -81,18 +81,38 @@ class SecurityController extends Controller
 
         if ($user->transaction_pin) {
             if (!Hash::check($request->old_pin, $user->transaction_pin)) {
-                return back()->withErrors(['old_pin' => 'The old PIN is incorrect.']);
+                if ($request->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'The old PIN is incorrect.',
+                    ], 400);
+                } else {
+                    return back()->withErrors(['old_pin' => 'The old PIN is incorrect.']);
+                }
             }
         } else {
             if ($request->old_pin) {
-                return back()->withErrors(['old_pin' => 'You do not have an old PIN set. Leave this field blank.']);
+                if ($request->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'You do not have an old PIN set. Leave this field blank.',
+                    ], 400);
+                } else {
+                    return back()->withErrors(['old_pin' => 'You do not have an old PIN set. Leave this field blank.']);
+                }
             }
         }
 
         $user->transaction_pin = Hash::make($request->new_pin);
         $user->save();
-
-        return back()->with('success', 'Transaction PIN created/updated successfully.');
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Password changed successfully. For security reasons, please log in again.',
+            ], 200);
+        } else {
+            return back()->with('success', 'Transaction PIN created/updated successfully.');
+        }
     }
 
 }

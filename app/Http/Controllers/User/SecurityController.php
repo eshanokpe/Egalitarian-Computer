@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller; 
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Hash;
@@ -33,21 +33,28 @@ class SecurityController extends Controller
         // Validate the input
         $request->validate([
             'old_password' => 'required',
-            'new_password' => 'required|min:8|confirmed', // Automatically checks for 'new_password_confirmation'
+            'new_password' => 'required|min:8|confirmed', 
         ]);
 
         $user = Auth::user();
 
         // Check if old password is correct
         if (!Hash::check($request->old_password, $user->password)) {
-            return back()->withErrors(['old_password' => 'The old password is incorrect.']);
+            if ($request->wantsJson()) {
+                return apiResponse(false, 'The old password is incorrect.', 400);
+            } else {
+                return back()->withErrors(['old_password' => 'The old password is incorrect.']);
+            }
         }
 
         // Update the password
         $user->password = Hash::make($request->new_password);
         $user->save();
-
-        return back()->with('success', 'Password changed successfully.');
+        if ($request->wantsJson()) {
+            return apiResponse(true, 'Password changed successfully.', 200);
+        } else {
+            return back()->with('success', 'Password changed successfully.');
+        }
     }
 
     public function transactionPin(){

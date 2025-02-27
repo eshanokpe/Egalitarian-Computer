@@ -73,39 +73,39 @@ class SecurityController extends Controller
     
     public function createTransactionPin(Request $request, $id)
     {
-        // Get the authenticated user
         $user = Auth::user();
 
-        // Define validation rules conditionally
         $rules = [
             'new_pin' => 'required|min:4|max:4', // New PIN is always required
+            'new_pin_confirmation' => 'required|min:4|max:4|same:new_pin', // Ensure confirmation matches
         ];
 
-        // If the user already has a PIN, enforce old_pin and new_pin confirmation
         if ($user->transaction_pin) {
             $rules['old_pin'] = 'required|min:4|max:4'; // Old PIN is required
-            $rules['new_pin'] .= '|confirmed'; // Add confirmation rule for new PIN
+        }
+       
+        // $request->validate($rules);
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 400);
         }
 
-        // Validate the input
-        $request->validate($rules);
-
-        // If the user has a PIN, validate the old PIN
         if ($user->transaction_pin) {
             if (!Hash::check($request->old_pin, $user->transaction_pin)) {
                 return $this->sendErrorResponse('The old PIN is incorrect.', 400, $request);
             }
         }
 
-        // Update the user's transaction PIN
         $user->transaction_pin = Hash::make($request->new_pin);
         $user->save();
 
-        // Return success response
         return $this->sendSuccessResponse('Transaction PIN created/updated successfully.', 200, $request);
     }
 
-    // Helper function to send error responses
     private function sendErrorResponse($message, $statusCode, $request)
     {
         if ($request->wantsJson()) {

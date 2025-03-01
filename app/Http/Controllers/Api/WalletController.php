@@ -69,7 +69,7 @@ class WalletController extends Controller
         ]);
     }
 
-    public function getBank(PayStackWalletController $paystackWalletController){
+    public function getBank(PayStackWalletController $paystackWalletController, Request $request){
         $data['banks'] = $paystackWalletController->getBanks(); 
         if ($request->wantsJson() || $request->is('api/*')) {
             return response()->json([

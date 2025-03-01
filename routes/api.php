@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Api\WalletController;
+use App\Http\Controllers\Api\WalletController  as APIWalletController;
 use App\Http\Controllers\Auth\LoginController; 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\ProfileController;
@@ -43,8 +43,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/properties/{id}', [APIPropertyController::class, 'propertiesShow']);
 
     Route::get('/transactions', [TransactionController::class, 'index']);
-    Route::get('/wallet/balance', [WalletController::class, 'getBalance']);
-    Route::post('/wallet/deduct', [WalletController::class, 'deductBalance']);
+    Route::get('/wallet/balance', [APIWalletController::class, 'getBalance']);
+    Route::post('/wallet/deduct', [APIWalletController::class, 'deductBalance']);
     Route::get('/get/assets', [DashboardController::class, 'index']);
     Route::get('/get/faqs', [DashboardController::class, 'faqs']);
 
@@ -58,8 +58,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/{id}/change-password', [SecurityController::class, 'changePasswordPost']);
     Route::put('/{id}/transaction/pin', [SecurityController::class, 'createTransactionPin']);
    
-    Route::get('/get/bank', [WalletController::class, 'getBank']);
-    Route::post('create-recipient', [WalletTransferController::class, 'createRecipient']);
+    Route::get('/get/bank', [APIWalletController::class, 'getBank']);
+    Route::post('create/recipient', [WalletTransferController::class, 'createRecipient']);
 
     
   

@@ -14,6 +14,7 @@ use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Api\BuyPropertyController;
 use App\Http\Controllers\User\SecurityController;
 use App\Http\Controllers\User\Wallet\WalletTransferController;
+use App\Http\Controllers\User\Wallet\WalletController;
 use App\Http\Controllers\Api\PropertyController as APIPropertyController;
 use App\Http\Controllers\Api\TransactionController as APITransactionController;
 
@@ -60,6 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
    
     Route::get('/get/bank', [APIWalletController::class, 'getBank']);
     Route::post('create/recipient', [WalletTransferController::class, 'createRecipient']);
+    Route::get('resolve/account', [WalletController::class, 'resolveAccount']);
+
 
     
   

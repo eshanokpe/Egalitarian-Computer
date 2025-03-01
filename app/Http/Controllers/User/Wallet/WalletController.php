@@ -64,7 +64,7 @@ class WalletController extends Controller
         return view('user.pages.wallet.payment.history', $data);
     }
 
-    public function resolveAccount(Request $request)
+    public function resolveAccount(Request $request) 
     {
         $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))
             ->get('https://api.paystack.co/bank/resolve', [

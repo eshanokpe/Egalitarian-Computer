@@ -25,7 +25,7 @@ class WalletTransferController extends Controller
             'type' => 'nuban', // Nigerian bank account
             'name' => $request->name,
             'account_number' => $request->account_number,
-            'bank_code' => $request->bank_code, // Get bank codes from Paystack's bank list API
+            'bank_code' => $request->bank_code, 
             'currency' => 'NGN',
             'email' => $user->email,
         ]);

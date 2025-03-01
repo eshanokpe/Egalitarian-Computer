@@ -60,8 +60,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/{id}/transaction/pin', [SecurityController::class, 'createTransactionPin']);
    
     Route::get('/get/bank', [APIWalletController::class, 'getBank']);
-    Route::post('create/recipient', [WalletTransferController::class, 'createRecipient']);
     Route::get('resolve/account', [WalletController::class, 'resolveAccount']);
+
+    Route::post('create/recipient', [WalletTransferController::class, 'createRecipient']);
+    Route::post('initiate/transfer', [WalletTransferController::class, 'initiateTransfer']);
 
 
     

@@ -327,10 +327,9 @@
 
         // Listen for input changes
         $accountNumber.on('input', function () {
-            // Ensure the input does not exceed 10 digits
             const currentValue = $accountNumber.val();
             if (currentValue.length > 10) {
-                $accountNumber.val(currentValue.slice(0, 10)); // Truncate to 10 characters
+                $accountNumber.val(currentValue.slice(0, 10)); 
             }
             toggleNextButton();
         });

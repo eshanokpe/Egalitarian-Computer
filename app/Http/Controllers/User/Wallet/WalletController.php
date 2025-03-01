@@ -24,14 +24,7 @@ class WalletController extends Controller
         return view('user.pages.wallet.topUp.index', $data); 
     }
 
-    public function getBank(PayStackWalletController $paystackWalletController){
-        $data['banks'] = $paystackWalletController->getBanks(); 
-        if ($request->wantsJson() || $request->is('api/*')) {
-            return response()->json([
-                'banks' => $data['banks'],
-            ]);
-        }
-    }
+   
     public function withDraw(PayStackWalletController $paystackWalletController){ 
 
         $data['banks'] = $paystackWalletController->getBanks(); 

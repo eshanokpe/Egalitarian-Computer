@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\WalletService; 
 use App\Models\Wallet;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\WalletController  as PayStackWalletController;
 
 class WalletController extends Controller
 {
@@ -66,6 +67,15 @@ class WalletController extends Controller
             'message' => 'Amount deducted successfully',
             'balance' => $wallet,
         ]);
+    }
+
+    public function getBank(PayStackWalletController $paystackWalletController){
+        $data['banks'] = $paystackWalletController->getBanks(); 
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json([
+                'banks' => $data['banks'],
+            ]);
+        }
     }
 
 }

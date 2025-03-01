@@ -13,7 +13,6 @@ use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Api\BuyPropertyController;
 use App\Http\Controllers\User\SecurityController;
-use App\Http\Controllers\User\Wallet\WalletController;
 use App\Http\Controllers\User\Wallet\WalletTransferController;
 use App\Http\Controllers\Api\PropertyController as APIPropertyController;
 use App\Http\Controllers\Api\TransactionController as APITransactionController;

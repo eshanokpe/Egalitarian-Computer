@@ -58,6 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/update/profile', [ProfileController::class, 'update']);
     Route::put('/{id}/change-password', [SecurityController::class, 'changePasswordPost']);
     Route::put('/{id}/transaction/pin', [SecurityController::class, 'createTransactionPin']);
+    Route::get('/{userId}/transaction/get/pin', [SecurityController::class, 'getTransactionPin']);
    
     Route::get('/get/bank', [APIWalletController::class, 'getBank']);
     Route::get('resolve/account', [WalletController::class, 'resolveAccount']);

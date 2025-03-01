@@ -45,7 +45,7 @@ class SecurityController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'The old password is incorrect.',
-                ], 400);
+                ], 400); 
             } else {
                 return back()->withErrors(['old_password' => 'The old password is incorrect.']);
             }
@@ -129,6 +129,51 @@ class SecurityController extends Controller
             ], $statusCode);
         } else {
             return back()->with('success', $message);
+        }
+    }
+
+    public function getTransactionPin(Request $request, $userId)
+    {
+        try {
+            // Ensure the authenticated user is accessing their own PIN
+            if ($request->user()->id != $userId) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Unauthorized',
+                ], 403);
+            }
+
+            // Fetch the user
+            $user = $request->user();
+
+            // Check if the user has a transaction PIN
+            if (!$user->transaction_pin) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => [
+                        'has_pin' => false,
+                        'message' => 'No transaction PIN set for this user',
+                    ],
+                ]);
+            }
+
+            // Return a success response indicating the PIN exists
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'has_pin' => true,
+                    'message' => 'Transaction PIN is set for this user',
+                ],
+            ]);
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error fetching transaction PIN: ' . $e->getMessage());
+
+            // Return an error response
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to fetch transaction PIN',
+            ], 500);
         }
     }
 

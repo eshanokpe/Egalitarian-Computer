@@ -157,22 +157,48 @@ class SecurityController extends Controller
                 ]);
             }
 
-            // Return a success response indicating the PIN exists
-            return response()->json([
-                'status' => 'success',
-                'data' => [
-                    'has_pin' => true,
-                    'message' => 'Transaction PIN is set for this user',
-                ],
+            // Validate the request
+            $validator = Validator::make($request->all(), [
+                'entered_pin' => 'required|min:4|max:4', // Ensure the entered PIN is 4 digits
             ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors(),
+                ], 400);
+            }
+
+            // Compare the entered PIN with the stored hashed PIN
+            $enteredPin = $request->entered_pin;
+            $storedPin = $user->transaction_pin;
+
+            if (Hash::check($enteredPin, $storedPin)) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => [
+                        'pin_match' => true,
+                        'message' => 'The entered PIN matches the stored PIN.',
+                    ],
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => [
+                        'pin_match' => false,
+                        'message' => 'The entered PIN does not match the stored PIN.',
+                    ],
+                ]);
+            }
         } catch (\Exception $e) {
             // Log the error
-            Log::error('Error fetching transaction PIN: ' . $e->getMessage());
+            // Log::error('Error fetching or comparing transaction PIN: ' . $e->getMessage());
 
             // Return an error response
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to fetch transaction PIN',
+                'message' => 'Failed to fetch or compare transaction PIN',
             ], 500);
         }
     }

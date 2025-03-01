@@ -25,7 +25,7 @@ class TransactionController extends Controller
         $user = Auth::user();
 
         $data['transactions'] = Transaction::where('user_id', $user->id)
-        ->with('user')
+        ->with('user') 
         ->latest()
         ->paginate(10);
 

@@ -19,7 +19,7 @@ class WalletTransferController extends Controller
     }
 
     public function createRecipient(Request $request)
-    {
+    {  
         $user = Auth::user();
         $response = Http::withToken(env('PAYSTACK_SECRET_KEY'))->post('https://api.paystack.co/transferrecipient', [
             'type' => 'nuban', // Nigerian bank account

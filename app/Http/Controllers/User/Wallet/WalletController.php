@@ -24,19 +24,26 @@ class WalletController extends Controller
         return view('user.pages.wallet.topUp.index', $data); 
     }
 
+    public function getBank(PayStackWalletController $paystackWalletController){
+        $data['banks'] = $paystackWalletController->getBanks(); 
+        if ($request->wantsJson() || $request->is('api/*')) {
+            return response()->json([
+                'banks' => $data['banks'],
+            ]);
+        }
+    }
     public function withDraw(PayStackWalletController $paystackWalletController){ 
 
-        // $result = $paystackWalletController->createTransferRecipient();
-        // dd($result);
- 
         $data['banks'] = $paystackWalletController->getBanks(); 
         // dd($data['banks']);
 
         $data['user'] = Auth::user();
         $data['referralsMade'] = $data['user']->referralsMade()->with('user', 'referrer')->take(6)->get();
         $data['hasMoreReferrals'] = $data['referralsMade']->count() > 6;
-        // return view('user.pages.wallet.withDraw.index', $data); 
-        return view('user.pages.wallet.withDraw.index', [
+
+       
+
+        return view('user.pages.wallet.withDraw.index', [ 
             'banks' => $data['banks'],
             'user' => $data['user'],
             'referralsMade' => $data['referralsMade'],

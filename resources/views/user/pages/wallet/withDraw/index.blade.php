@@ -353,7 +353,7 @@
             $button.find('.button-text').text('Loading...');
             $button.find('.spinner-border').removeClass('d-none');
 
-            // Step 1: Create Recipient
+            // Step 1: Create Recipient 
             $.ajax({
                 url: "{{ route('user.wallet.createRecipient') }}", 
                 method: "POST",
@@ -383,7 +383,7 @@
                             }, 
                             data: JSON.stringify({
                                 _token: $('meta[name="csrf-token"]').attr('content'),
-                                name: accountName,
+                                name: accountName, 
                                 account_number: accountNumber,
                                 bank_code: bankCode,
                                 recipient_code: recipientCode,

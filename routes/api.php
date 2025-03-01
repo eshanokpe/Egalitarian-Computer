@@ -3,18 +3,22 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Api\WalletController;
 use App\Http\Controllers\Auth\LoginController; 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\PropertyController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\TransactionController;
-use App\Http\Controllers\Api\WalletController;
 use App\Http\Controllers\Api\BuyPropertyController;
 use App\Http\Controllers\User\SecurityController;
-use App\Http\Controllers\Api\TransactionController as APITransactionController;
+use App\Http\Controllers\User\Wallet\WalletController;
+use App\Http\Controllers\User\Wallet\WalletTransferController;
 use App\Http\Controllers\Api\PropertyController as APIPropertyController;
+use App\Http\Controllers\Api\TransactionController as APITransactionController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -55,9 +59,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/{id}/change-password', [SecurityController::class, 'changePasswordPost']);
     Route::put('/{id}/transaction/pin', [SecurityController::class, 'createTransactionPin']);
    
+    Route::get('/get/bank', [WalletController::class, 'getBank']);
+    Route::post('create-recipient', [WalletTransferController::class, 'createRecipient']);
 
     
- 
+  
     Route::post('logout', [AuthController::class, 'logout']);
 
     // Example of other protected routes

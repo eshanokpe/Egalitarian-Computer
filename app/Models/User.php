@@ -57,7 +57,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(ReferralLog::class, 'id');
     }
-
+    
+    public function walletTransactions()
+    {
+        return $this->hasMany(WalletTransaction::class);
+    }
     // Relationship: Referrals received by this user (users who referred by this user)
    
 

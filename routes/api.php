@@ -65,6 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('create/recipient', [WalletTransferController::class, 'createRecipient']);
     Route::post('initiate/transfer', [WalletTransferController::class, 'initiateTransfer']);
+    Route::get('get/wallet/transactions', [WalletTransferController::class, 'getWalletTransactions']);
 
 
     

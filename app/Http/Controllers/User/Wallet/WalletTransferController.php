@@ -169,5 +169,13 @@ class WalletTransferController extends Controller
     //     ], 400);
     // }
 
+    public function getWalletTransactions(Request $request)
+    {
+        $user = $request->user();
+        $transactions = $user->walletTransactions()->latest()->get();
+
+        return response()->json($transactions);
+    }
+
    
 }

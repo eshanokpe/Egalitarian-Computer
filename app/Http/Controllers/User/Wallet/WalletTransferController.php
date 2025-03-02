@@ -49,6 +49,8 @@ class WalletTransferController extends Controller
             'recipient_code' => 'required|string',
             'amount' => 'required|numeric|min:1',
             'reason' => 'nullable|string',
+            'accountName' => 'nullable|string',
+            'bankName' => 'nullable|string',
         ]);
 
         $user = Auth::user();
@@ -75,6 +77,8 @@ class WalletTransferController extends Controller
                     'user_id' => $user->id,
                     'wallet_id' => $userWallet->id,
                     'type' => 'transfer',
+                    'accountName' => $validated['accountName'],
+                    'bankName' => $validated['bankName'],
                     'amount' => $transferAmount,
                     'recipient_code' => $validated['recipient_code'],
                     'reason' => $validated['reason'],
@@ -93,6 +97,8 @@ class WalletTransferController extends Controller
                 'user_id' => $user->id,
                 'wallet_id' => $userWallet->id,
                 'type' => 'transfer',
+                'accountName' => $validated['accountName'],
+                'bankName' => $validated['bankName'],
                 'amount' => (float)$validated['amount'],
                 'recipient_code' => $validated['recipient_code'],
                 'reason' => $validated['reason'],

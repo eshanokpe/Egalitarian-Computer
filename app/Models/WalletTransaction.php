@@ -13,6 +13,8 @@ class WalletTransaction extends Model
         'user_id',          
         'wallet_id',       
         'type',            
+        'accountName',            
+        'bankName',            
         'amount',           
         'reason',     
         'recipient_code', 
@@ -28,7 +30,7 @@ class WalletTransaction extends Model
     {
         return $this->belongsTo(Wallet::class);
     }
-
+ 
     public function user()
     {
         return $this->belongsTo(User::class);

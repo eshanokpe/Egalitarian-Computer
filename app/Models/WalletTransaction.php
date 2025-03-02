@@ -10,13 +10,28 @@ class WalletTransaction extends Model
     use HasFactory; 
 
     protected $fillable = [
-        'wallet_id','type','amount','description'
+        'user_id',          
+        'wallet_id',       
+        'type',            
+        'amount',           
+        'description',     
+        'recipient_code', 
+        'status',           
+        'metadata',         
     ];
 
+    protected $casts = [
+        'metadata' => 'array', // Cast metadata to an array
+    ];
 
     public function wallet()
     {
         return $this->belongsTo(Wallet::class);
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

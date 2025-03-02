@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Wallet;
 use Auth;
 use Log;
+use App\Models\WalletTransaction;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\WalletController  as PayStackWalletController;
@@ -50,14 +51,15 @@ class WalletTransferController extends Controller
             'reason' => 'nullable|string',
         ]);
 
-        $userWallet = Auth::user()->wallet;
+        $user = Auth::user();
+        $userWallet = $user->wallet;
         
         if ($userWallet->balance < (float)$validated['amount']) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Insufficient wallet balance.',
             ], 400);
-        }
+        } 
         
         $transferResponse = $this->processTransfer($validated); 
         if ($transferResponse['status'] === 'success') {
@@ -68,6 +70,18 @@ class WalletTransferController extends Controller
                 $userWallet->balance -= $transferAmount;
                 $userWallet->save();
 
+                // Log the transaction
+                WalletTransaction::create([
+                    'user_id' => $user->id,
+                    'wallet_id' => $userWallet->id,
+                    'type' => 'transfer',
+                    'amount' => $transferAmount,
+                    'recipient_code' => $validated['recipient_code'],
+                    'reason' => $validated['reason'],
+                    'status' => 'success',
+                    'metadata' => $transferResponse, // Store the Paystack response
+                ]);
+
                 Log::info('Transfer successful. Wallet updated.');
                 return response()->json(['status' => 'success', 'data' => $transferResponse['data']]);
             } else {
@@ -75,6 +89,16 @@ class WalletTransferController extends Controller
                 return response()->json(['status' => 'error', 'message' => 'Insufficient wallet balance.'], 400);
             }
         } else {
+            WalletTransaction::create([
+                'user_id' => $user->id,
+                'wallet_id' => $userWallet->id,
+                'type' => 'transfer',
+                'amount' => (float)$validated['amount'],
+                'recipient_code' => $validated['recipient_code'],
+                'reason' => $validated['reason'],
+                'status' => 'failed',
+                'metadata' => $transferResponse, // Store the Paystack response
+            ]);
             Log::error('Transfer failed. Paystack response:', $transferResponse);
             return response()->json(['status' => 'error', 'message' => $transferResponse['message']]);
         }

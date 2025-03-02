@@ -76,10 +76,6 @@ class WalletController extends Controller
             return response()->json([
                 'status' => 'success',
                 'data' => $response['data'],
-                // 'account_name' => $response['data']['account_name'],
-                // 'bank_name' => $response['data']['bank_name'],
-                // 'account_number' => $response['data']['account_number'],
-                // 'amount' => $response['data']['amount'],
             ]);
         }
     

@@ -124,7 +124,7 @@ class PaymentController extends Controller
                     'selected_size_land' => $paymentDetails->data->metadata->selected_size_land,
                     'remaining_size' => $paymentDetails->data->metadata->remaining_size,
                     'total_price' => $amount,
-                    'status' => 'sold',
+                    'status' => 'available',
                 ]);
                 
                 // if (is_numeric($property->available_size) && is_numeric($property->available_size) == 1) {

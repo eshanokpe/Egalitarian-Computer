@@ -31,14 +31,8 @@ class BuyPropertyController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-        $user = User::find($request->user_id);
-        if (!$user) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'User not found',
-            ], 404);
-        }
-
+       
+        
         // Create the Buy
         $buy = Buy::create([
             'user_id' => $request->user_id,
@@ -51,7 +45,6 @@ class BuyPropertyController extends Controller
             'status' => $request->status,
         ]);
         
-
         return response()->json([
             'status' => 'success',
             'message' => 'Buy Properties created successfully',

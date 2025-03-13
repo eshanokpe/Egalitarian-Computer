@@ -19,7 +19,7 @@ class SellPropertyController extends Controller
     public function index(){ 
         $user = Auth::user();
        
-        $data['buyProperty'] = Buy::select(
+        $data['sellProperty'] = Buy::select(
             'property_id', 
             DB::raw('SUM(selected_size_land) as total_selected_size_land'),
             DB::raw('MAX(created_at) as latest_created_at') 
@@ -30,6 +30,13 @@ class SellPropertyController extends Controller
         ->where('user_email', $user->email)
         ->groupBy('property_id') 
         ->paginate(10);
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' =>  $data['sellProperty']
+            ]);
+        }
 
         return view('user.pages.properties.sell.index', $data); 
     }

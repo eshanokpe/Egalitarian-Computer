@@ -24,7 +24,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($buyProperty as $property)
+                            @forelse ($sellProperty as $property)
                             <tr>
                                 <td>
                                     <div class="properties__author d-flex align-items-center">

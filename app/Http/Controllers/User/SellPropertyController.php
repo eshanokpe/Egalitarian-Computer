@@ -44,7 +44,7 @@ class SellPropertyController extends Controller
     
     public function sellProperty(Request $request)
     {
-        $request->validate([
+        $request->validate([ 
             'remaining_size' => 'required',
             'property_slug' => 'required',
             'quantity' => 'required',
@@ -83,9 +83,20 @@ class SellPropertyController extends Controller
                 'status' => 'pending',
             ]);
 
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'We have received your request to sell the property.',
+                    'data' => $sell
+                ], 201);
+            }
+
             return redirect()->route('user.sell.history')->with('success', 'We have receive your prompt to sell the Property, your income will be transfer to your account.');
 
         } catch (\Exception $e) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Something went wrong: ' . $e->getMessage()], 500);
+            }
             return back()->with('error', 'Something went wrong:' . $e->getMessage());
         }
     }

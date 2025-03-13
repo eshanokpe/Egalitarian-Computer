@@ -84,9 +84,9 @@
                 <div class="cart__footer d-flex justify-content-end align-items-center mt-4">
                     
                     <div>
-                        <a href="#" class="solid__btn" id="make-payment-btn">Continue</a>
+                        <a href="#" class="solid__btn" id="make-payment-btn">Submit Request</a>
                     </div>
-                </div>
+                </div> 
                 <!-- Hidden Form to Pass Data for Payment -->
                 <form id="payment-form" action="{{ route('user.sell.property') }}" method="POST" style="display: none">
                     @csrf

@@ -79,7 +79,7 @@
                     <nav class="pagination justify-content-center">
                         <ul class="pagination__menu d-flex align-items-center justify-content-center">
                             <!-- Render pagination links dynamically -->
-                            @if ($buyProperty->onFirstPage())
+                            @if ($sellProperty->onFirstPage())
                                 <li class="pagination__menu--items pagination__arrow disabled">
                                     <span class="pagination__arrow-icon">
                                         <svg width="12" height="22" viewBox="0 0 12 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -89,7 +89,7 @@
                                 </li>
                             @else
                                 <li class="pagination__menu--items pagination__arrow">
-                                    <a href="{{ $buyProperty->previousPageUrl() }}" class="pagination__arrow-icon link">
+                                    <a href="{{ $sellProperty->previousPageUrl() }}" class="pagination__arrow-icon link">
                                         <svg width="12" height="22" viewBox="0 0 12 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M10.583 20.5832L0.999675 10.9998L10.583 1.4165" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
@@ -98,17 +98,17 @@
                             @endif
 
                             <!-- Page numbers -->
-                            @foreach ($buyProperty->links()->elements[0] as $page => $url)
+                            @foreach ($sellProperty->links()->elements[0] as $page => $url)
                                 <li class="pagination__menu--items">
-                                    <a href="{{ $url }}" class="pagination__menu--link {{ $page == $buyProperty->currentPage() ? 'active color-accent-1' : '' }}">
+                                    <a href="{{ $url }}" class="pagination__menu--link {{ $page == $sellProperty->currentPage() ? 'active color-accent-1' : '' }}">
                                         {{ $page }}
                                     </a>
                                 </li>
                             @endforeach
 
-                            @if ($buyProperty->hasMorePages())
+                            @if ($sellProperty->hasMorePages())
                                 <li class="pagination__menu--items pagination__arrow">
-                                    <a href="{{ $buyProperty->nextPageUrl() }}" class="pagination__arrow-icon link">
+                                    <a href="{{ $sellProperty->nextPageUrl() }}" class="pagination__arrow-icon link">
                                         <svg width="12" height="22" viewBox="0 0 12 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M1.00098 20.5832L10.5843 10.9998L1.00098 1.4165" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>

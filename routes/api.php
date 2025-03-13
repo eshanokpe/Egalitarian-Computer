@@ -43,7 +43,7 @@ Route::post('login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/properties', [PropertyController::class, 'index']);
     Route::get('/buy/assets', [PropertyController::class, 'buy']);
-    Route::get('/sell/assets', [SellPropertyController::class, 'buy']);
+    Route::get('/sell/assets', [SellPropertyController::class, 'index']);
     Route::get('/properties/{id}', [APIPropertyController::class, 'propertiesShow']);
 
     Route::get('/transactions', [TransactionController::class, 'index']);

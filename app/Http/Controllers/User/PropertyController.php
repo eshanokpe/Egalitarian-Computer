@@ -23,7 +23,7 @@ class PropertyController extends Controller
     public function __construct()
     {
         $this->middleware('auth'); 
-    }
+    } 
  
     public function index(Request $request){
         $user = Auth::user(); 
@@ -57,6 +57,13 @@ class PropertyController extends Controller
         ->where('user_email', $user->email)
         ->groupBy('property_id') 
         ->paginate(10);
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' => $buyProperty
+            ]);
+        }
 
         return view('user.pages.properties.buy', $data); 
     } 

@@ -41,6 +41,7 @@ Route::post('login', [LoginController::class, 'login']);
 // Protected routes (authentication required)
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/properties', [PropertyController::class, 'index']);
+    Route::get('/buy/assets', [PropertyController::class, 'buy']);
     Route::get('/properties/{id}', [APIPropertyController::class, 'propertiesShow']);
 
     Route::get('/transactions', [TransactionController::class, 'index']);

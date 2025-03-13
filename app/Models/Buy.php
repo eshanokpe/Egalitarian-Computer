@@ -12,7 +12,7 @@ class Buy extends Model
     protected $fillable = [ 
         'id',
         'user_id',
-        'user_email',
+        'user_email', 
         'property_id',
         'transaction_id',
         'selected_size_land', 

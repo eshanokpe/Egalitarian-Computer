@@ -61,7 +61,7 @@ class PropertyController extends Controller
         if (request()->wantsJson()) {
             return response()->json([
                 'success' => true,
-                'data' => $buyProperty
+                'data' =>  $data['buyProperty']
             ]);
         }
 

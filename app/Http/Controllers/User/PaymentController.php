@@ -111,7 +111,7 @@ class PaymentController extends Controller
                     'property_name' => $property->name,
                     'amount' => $amount,
                     'status' =>  $paymentDetails->data->status,
-                    'payment_method' => $channel,
+                    'payment_method' => 'card',
                     'reference' => $reference,
                     'transaction_state' => $paymentDetails->data->status,
                 ]);

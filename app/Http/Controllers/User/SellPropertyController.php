@@ -101,11 +101,11 @@ class SellPropertyController extends Controller
         }
     }
 
-    public function sellPropertyHistory()
+    public function sellPropertyHistory(Request $request)
     {
         $user = Auth::user();
-       
-        $data['sellProperties'] = Sell::select(
+
+        $sellProperties = Sell::select(
             'property_id', 'status',
             DB::raw('SUM(selected_size_land) as total_selected_size_land'),
             DB::raw('MAX(created_at) as latest_created_at') 
@@ -116,9 +116,20 @@ class SellPropertyController extends Controller
         ->where('user_email', $user->email)
         ->groupBy('property_id', 'status') 
         ->paginate(10);
-  
-        return view('user.pages.properties.sell.history' , $data);
+
+        // Check if request expects JSON (API/mobile)
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Sell Property History retrieved successfully',
+                'data' => $sellProperties,
+            ]);
+        }
+
+        // Otherwise, return the web view
+        return view('user.pages.properties.sell.history', ['sellProperties' => $sellProperties]);
     }
+
   
 }
  

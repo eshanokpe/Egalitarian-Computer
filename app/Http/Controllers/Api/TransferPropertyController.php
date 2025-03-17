@@ -19,7 +19,6 @@ class TransferPropertyController extends Controller
         $data['property'] = Property::with(['buys' => function ($query) use ($user) {
             $query->where('user_id', $user->id);
         }])
-        ->with('property')
         ->with('valuationSummary')
         ->where('id', $id)
         ->firstOrFail(); 

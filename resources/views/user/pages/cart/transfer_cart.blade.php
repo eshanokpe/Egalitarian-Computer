@@ -78,7 +78,7 @@
             <div class="dashboard__container dashboard__reviews--container">
                 <div class="cart__footer d-flex justify-content-between align-items-center mt-4">
                     <a href="{{ route('user.transfer') }}" class="solid__btn" style="background-color: #CC9933">
-                        View Transfer Properties
+                        View Transfer Properties 
                     </a>
                     <div>
                         <a href="#" class="solid__btn" id="make-payment-btn">Continue</a>

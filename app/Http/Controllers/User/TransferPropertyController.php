@@ -82,7 +82,12 @@ class TransferPropertyController extends Controller
             'reference' => $reference,
             'property_state' => $property->property_state,
         ];
-       
+        if ($request->wantsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $data,
+            ]);
+        }
 
         return view('user.pages.properties.transfer.recipient', compact('data')); 
     }

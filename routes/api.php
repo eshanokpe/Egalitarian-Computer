@@ -17,6 +17,7 @@ use App\Http\Controllers\User\Wallet\WalletTransferController;
 use App\Http\Controllers\User\Wallet\WalletController;
 use App\Http\Controllers\Api\PropertyController as APIPropertyController;
 use App\Http\Controllers\Api\TransactionController as APITransactionController;
+use App\Http\Controllers\User\TransferPropertyController;
 use App\Http\Controllers\User\SellPropertyController;
 
 
@@ -37,7 +38,7 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::get('/check/email', [RegisterController::class, 'checkEmail']);
 Route::post('login', [LoginController::class, 'login']);
  
-
+ 
  
 // Protected routes (authentication required)
 Route::middleware('auth:sanctum')->group(function () {
@@ -46,6 +47,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/sell/assets', [SellPropertyController::class, 'index']);
     Route::post('/sell/assets/request', [SellPropertyController::class, 'sellProperty']);
     Route::get('/sell/histories', [SellPropertyController::class, 'sellPropertyHistory']);
+
+    Route::get('/transfer/assets', [TransferPropertyController::class, 'index']);
+
 
     Route::get('/properties/{id}', [APIPropertyController::class, 'propertiesShow']);
 

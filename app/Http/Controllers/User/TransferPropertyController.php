@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\User;
-use App\Notifications\SenderTransferNotification;
+use App\Notifications\SenderTransferNotification; 
 use App\Notifications\RecipientSubmittedNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -34,6 +34,13 @@ class TransferPropertyController extends Controller
         ->where('user_email', $user->email)
         ->groupBy('property_id') 
         ->paginate(10);
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'data' =>  $data['sellProperty']
+            ]);
+        }
 
         return view('user.pages.properties.transfer.index', $data); 
     }

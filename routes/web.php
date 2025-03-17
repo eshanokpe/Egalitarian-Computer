@@ -22,7 +22,7 @@ use App\Http\Controllers\Auth\VerificationController;
 */
 require __DIR__.'/admin.php';
 require __DIR__.'/user.php';
-
+ 
   
 Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::get('/{page}', [PagesController::class, 'index'])->name('home.pages');

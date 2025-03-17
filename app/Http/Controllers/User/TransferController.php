@@ -11,12 +11,12 @@ class TransferController extends Controller
 {
     
     public function initiateTransfer(Request $request, PaystackService $paystackService)
-    {
+    { 
         $validated = $request->validate([
             'amount' => 'required|integer|min:1',
             'account_number' => 'required|string|max:50|exists:virtual_accounts,account_number',
             'reason' => 'nullable|string|max:255',
-        ]);
+        ]); 
 
         $amountInKobo = $validated['amount'] * 100; // Convert to kobo for NGN
         $accountNumber = $validated['account_number'];

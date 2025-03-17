@@ -24,7 +24,7 @@ class SellPropertyController extends Controller
             DB::raw('SUM(selected_size_land) as total_selected_size_land'),
             DB::raw('MAX(created_at) as latest_created_at') 
         )
-        ->with('property')
+        ->with('property') 
         ->with('valuationSummary')
         ->where('user_id', $user->id)
         ->where('user_email', $user->email)

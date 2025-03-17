@@ -51,8 +51,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/transfer/assets', [TransferPropertyController::class, 'index']);
     Route::get('/transfer/assets/details/{id}', [APITransferPropertyController::class, 'transferDetails']);
-    Route::get('/transfer/initiate', [TransferPropertyController::class, 'transferRecipient']);
-    Route::get('/transfer/recipient', [TransferPropertyController::class, 'transferRecipient']);
+    Route::post('/transfer/initiate', [TransferPropertyController::class, 'transferRecipient']);
+    // Route::get('/transfer/recipient', [TransferPropertyController::class, 'transferRecipient']);
 
 
 

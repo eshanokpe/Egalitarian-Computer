@@ -36,7 +36,7 @@ class CartController extends Controller
     }
 
     public function transfer($id){ 
-        $user = Auth::user(); 
+        $user = Auth::user();  
        
         $data['property'] = Property::with(['buys' => function ($query) use ($user) {
             $query->where('user_id', $user->id);

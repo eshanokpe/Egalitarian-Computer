@@ -56,7 +56,7 @@
                                     <span class="status__btn pending2"> 
                                         <a href="{{ route('user.properties.show', encrypt($property->property->id))}}">
                                         View</a>
-                                    </span>
+                                    </span> 
                                 </td>
                                 <td> 
                                     <span class="status__btn pending2 " style="background-color: #47008E; ">

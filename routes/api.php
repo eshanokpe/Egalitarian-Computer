@@ -17,6 +17,7 @@ use App\Http\Controllers\User\Wallet\WalletTransferController;
 use App\Http\Controllers\User\Wallet\WalletController;
 use App\Http\Controllers\Api\PropertyController as APIPropertyController;
 use App\Http\Controllers\Api\TransactionController as APITransactionController;
+use App\Http\Controllers\Api\TransferPropertyController as APITransferPropertyController;
 use App\Http\Controllers\User\TransferPropertyController;
 use App\Http\Controllers\User\SellPropertyController;
 
@@ -49,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/sell/histories', [SellPropertyController::class, 'sellPropertyHistory']);
 
     Route::get('/transfer/assets', [TransferPropertyController::class, 'index']);
+    Route::get('/transfer/assets/details/{id}', [APITransferPropertyController::class, 'transferDetails']);
 
 
     Route::get('/properties/{id}', [APIPropertyController::class, 'propertiesShow']);

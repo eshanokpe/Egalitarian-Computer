@@ -34,7 +34,7 @@ use App\Http\Controllers\User\Wallet\WalletTransferController;
 Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
      
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/transaction/report', [DashboardController::class, 'transactionReport'])->name('transactions');
+    Route::get('/transactions', [DashboardController::class, 'transactionReport'])->name('transactions');
 
     Route::get('/transaction/report', [TransactionController::class, 'index'])->name('transactions.index');
     Route::get('/transaction/show/{id}', [TransactionController::class, 'show'])->name('transaction.show');

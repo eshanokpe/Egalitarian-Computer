@@ -115,8 +115,15 @@ class TransferPropertyController extends Controller
         $data['recipientData'] = User::where('recipient_id', $recipientId)->first();
             
         if (!$data['recipientData']) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'This recipient does not exist.'], 404);
+            }
             return back()->with('error', 'This recipient does not exist.');
         } 
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'data' => $data]);
+        }
         
         return view('user.pages.properties.transfer.verifyRecipient', $data); 
 

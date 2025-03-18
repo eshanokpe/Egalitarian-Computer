@@ -60,7 +60,7 @@
                             <div class="edit__profile--step">
                                 <h4 class="setting__profile--title">Recipient Information</h4>
                                 {{-- <form action="{{ route('user.checkRecipient.transfer') }}" method="POST"> --}}
-                                    <form action="{{ route('user.verify.checkRecipient') }}" method="POST">
+                                    <form action="{{ route('user.transfer.checkRecipient') }}" method="POST">
                                     @csrf 
                                     <div class="setting__profile--inner">
                                         <input name="selected_size_land" id="selected_size_land" type="hidden" value="{{$data['metadata']['selected_size_land'] }}"/>

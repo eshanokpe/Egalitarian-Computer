@@ -51,7 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/transfer/assets', [TransferPropertyController::class, 'index']);
     Route::get('/transfer/assets/details/{id}', [APITransferPropertyController::class, 'transferDetails']);
-    Route::post('/transfer/initiate', [TransferPropertyController::class, 'transferRecipient']);
+    Route::post('/transfer/initiate', [TransferPropertyController::class, 'verifyRecipient']);
     // Route::get('/transfer/recipient', [TransferPropertyController::class, 'transferRecipient']);
 
 
@@ -63,7 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/wallet/deduct', [APIWalletController::class, 'deductBalance']);
     Route::get('/get/assets', [DashboardController::class, 'index']);
     Route::get('/get/faqs', [DashboardController::class, 'faqs']);
-
+  
     Route::post('/transactions', [APITransactionController::class, 'store']);
     Route::post('/buy/properties', [BuyPropertyController::class, 'store']);
 

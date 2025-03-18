@@ -45,7 +45,7 @@ class TransferPropertyController extends Controller
 
         return view('user.pages.properties.transfer.index', $data); 
     }
-    
+     
     public function transferRecipient(Request $request){
         $request->validate([
             'remaining_size' => 'required',

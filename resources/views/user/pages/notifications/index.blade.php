@@ -44,7 +44,8 @@
                                         </div> --}}
                                     
                                     @if($notification['data']['notification_status'] == 'Recipient Submitted Notification')
-                                        <h3 class="card-title">{{ $notification['data']['property_name'] }}</h3>
+                                        <h3 class="card-title">{{ $notification['data']['notification_status'] }}</h3>
+                                        <h5 class="card-title">{{ $notification['data']['property_name'] }}</h5>
                                         <div class="property-details">
                                             <!-- Status and Date -->
                                             <div class="d-flex justify-content-between align-items-center mt-3">
@@ -55,7 +56,7 @@
                                             <a href="{{ route('user.transfer.property.confirm', [
                                                 'propertyMode' => $notification['data']['property_mode'],
                                                 'slug' => $notification['data']['property_slug']
-                                            ]) }}" class="btn btn-success btn-sm">
+                                            ]) }}" class="btn btn-success btn-md">
                                                 Confirm Property
                                             </a>
                                         @endif

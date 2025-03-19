@@ -44,7 +44,9 @@
                                         </div> --}}
                                     
                                         @if($notification['data']['notification_status'] == 'Recipient Submitted Notification')
+                                            <a href="">
                                             <div class="card">
+                                                
                                                 <div class="card-body">
                                                     <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
                                                     <h5 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h5>
@@ -59,7 +61,9 @@
                                                         </a>
                                                     @endif
                                                 </div>
-                                            </div>
+                                                
+                                                </div>
+                                            </a>
                                         @endif
                                     
 

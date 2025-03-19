@@ -26,7 +26,7 @@
                 
                                 <!-- Notification Details -->
                                 <div class="notification-details flex-grow-1 ms-md-3">
-                                    @if($notification['data']['notification_status'] == 'WalletFundedNotification')
+                                    {{-- @if($notification['data']['notification_status'] == 'WalletFundedNotification')
                                         <h3 class="card-title">Wallet Funded</h3>
                                         <div class="property-details">
                                             <p><strong>Amount:</strong> ₦{{ number_format($notification['data']['amount'], 2) }}</p>
@@ -42,7 +42,7 @@
                                                 <p><strong>Increase:</strong> {{ $notification['data']['percentage_increase'] }}%</p>
                                             @endisset
                                         </div>
-                                    @endif
+                                    @endif --}}
 
                                     <!-- Status and Date -->
                                     <div class="d-flex justify-content-between align-items-center mt-3">

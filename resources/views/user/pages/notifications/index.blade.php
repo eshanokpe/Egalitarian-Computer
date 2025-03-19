@@ -47,8 +47,8 @@
                                            
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <div class="d-flex ">
-                                                        <div class="text-end">
+                                                    <div class="row ">
+                                                        <div class="col-6">
                                                             <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
                                                             <h5 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h5>
                                             
@@ -58,10 +58,12 @@
                                                         </div>
                                         
                                                     @if($notification['data']['status'] === 'pending' && isset($notification['data']['property_mode'], $notification['data']['property_slug']))
+                                                        <div class="col-6">
                                                         <div class="text-end">
                                                             <a href="" class="btn btn-success btn-md">
                                                                 Click here to confirm your transfer
                                                             </a>
+                                                        </div>
                                                         </div>
                                                     @endif
                                                     </div>

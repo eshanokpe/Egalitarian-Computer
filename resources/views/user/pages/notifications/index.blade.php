@@ -18,11 +18,11 @@
                         <div class="card notification-card mb-3">
                             <div class="card-body d-flex flex-column flex-md-row">
                                 <!-- Property Image -->
-                                @if(!empty($notification['data']['property_image']))
+                                {{-- @if(!empty($notification['data']['property_image']))
                                     <div class="notification-image mb-3 mb-md-0">
                                         <img src="{{ asset($notification['data']['property_image']) }}" alt="{{ $notification['data']['property_name'] }}" class="img-fluid rounded">
                                     </div>
-                                @endif
+                                @endif --}}
                 
                                 <!-- Notification Details -->
                                 <div class="notification-details flex-grow-1 ms-md-3">

@@ -116,7 +116,7 @@
                                                         <div class="col-6">
                                                             <div class="text-end">
                                                                 <p> <strong>Market Value:</strong> ₦{{ number_format( $notification['data']['total_price'] ) }} </p>
-                                                                <a href="{{ route('user.properties.show', encrypt($notification['data']['property_id'] ) ) }}" class="btn btn-success btn-md">
+                                                                <a href="{{ route('user.properties.show', encrypt($notification['data']['property_id'] ??'1') ) }}" class="btn btn-success btn-md">
                                                                     View more
                                                                 </a>
                                                                 @if($notification['data']['status'] == "pending")

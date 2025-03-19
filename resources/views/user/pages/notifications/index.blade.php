@@ -53,11 +53,14 @@
                                             </div>
                                         </div>
                                         @if($notification['data']['status'] === 'pending' && isset($notification['data']['property_mode'], $notification['data']['property_slug']))
-                                            <a href="{{ route('user.transfer.property.confirm', [
+                                            {{-- <a href="{{ route('user.transfer.property.confirm', [
                                                 'propertyMode' => $notification['data']['property_mode'],
                                                 'slug' => $notification['data']['property_slug']
                                             ]) }}" class="btn btn-success btn-md">
                                                 Confirm Property
+                                            </a> --}}
+                                            <a href="" class="btn btn-success btn-md">
+                                               Click here to confirm your transfer
                                             </a>
                                         @endif
                                     @endif

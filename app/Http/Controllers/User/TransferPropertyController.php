@@ -129,10 +129,10 @@ class TransferPropertyController extends Controller
 
     }
    
-    public function checkRecipientTransfer(Request $request, PaystackService $paystackService)
+    public function checkRecipientTransfer(Request $request)
     {
-      try{
-            // dd($request->all());
+        try {
+            // Validate the request
             $request->validate([
                 'selected_size_land' => 'required',
                 'property_slug' => 'required',
@@ -143,47 +143,54 @@ class TransferPropertyController extends Controller
 
             $user = Auth::user();
             $amount = $request->input('amount');
-            $propertyId  = $request->input('property_id');
+            $propertyId = $request->input('property_id');
             $recipientId = $request->input('recipient_id');
             $propertySlug = $request->input('property_slug');
             $landSize = $request->input('selected_size_land');
-            // dd($recipientId);
 
+            // Check if the recipient exists
             $customerCheck = User::where('id', $recipientId)->first();
-            // dd($customerCheck);
-            
             if (!$customerCheck) {
-                return back()->with('error', 'This recipient does not exist.');
-            } 
-       
-            // Check if the recipient is the same as the current user
-            if ($recipientId === $user->recipient_id) {
-                return back()->with('error', 'You cannot transfer the property to yourself.');
+                return $this->sendResponse('error', 'This recipient does not exist.', false);
             }
+
+            // Check if the recipient is the same as the current user
+            if ($recipientId === $user->id) {
+                return $this->sendResponse('error', 'You cannot transfer the property to yourself.', false);
+            }
+
+            // Fetch property data
             $propertyData = Property::where('id', $propertyId)->where('slug', $propertySlug)->first();
-        
-            // $reference = null;
+            if (!$propertyData) {
+                return $this->sendResponse('error', 'Property not found.', false);
+            }
+
+            // Generate a unique reference
             $reference = 'TRANS-' . strtoupper(Str::random(10));
-        
+
+            // Check available land size for transfer
             $buy = Buy::select(
                 'property_id', 'status',
                 DB::raw('SUM(selected_size_land) as total_selected_size_land'),
-                DB::raw('MAX(created_at) as latest_created_at') 
+                DB::raw('MAX(created_at) as latest_created_at')
             )
-            ->with('property')
-            ->where('user_id', $user->id)
-            ->where('user_email', $user->email)
-            ->groupBy('property_id', 'status') 
-            ->get();
+                ->with('property')
+                ->where('user_id', $user->id)
+                ->where('user_email', $user->email)
+                ->groupBy('property_id', 'status')
+                ->get();
+
             if ($buy->isEmpty()) {
-                return back()->with('error', 'Property not available for sale.');
+                return $this->sendResponse('error', 'Property not available for sale.', false);
             }
+
             foreach ($buy as $item) {
                 if ($item->total_selected_size_land < $landSize) {
-                    return back()->with('error', 'Insufficient land size available for transfer.');
+                    return $this->sendResponse('error', 'Insufficient land size available for transfer.', false);
                 }
             }
-        
+
+            // Create the transfer record
             $transfer = Transfer::create([
                 'property_id' => $propertyData->id,
                 'property_name' => $propertyData->name,
@@ -196,8 +203,8 @@ class TransferPropertyController extends Controller
                 'status' => 'pending',
                 'confirmation_status' => 'pending',
             ]);
-            // Update the Sell model, reducing the selected_size_land
-           
+
+            // Prepare transfer details for notifications
             $transferDetails = [
                 'property_id' => $propertyData->id,
                 'property_slug' => $propertyData->slug,
@@ -206,30 +213,49 @@ class TransferPropertyController extends Controller
                 'land_size' => $landSize,
                 'total_price' => $amount,
                 'reference' => $reference,
-                'sender_id' => $user->id, 
-                'recipient_id' => $recipientId, 
-                'property_mode' => 'transfer', 
+                'sender_id' => $user->id,
+                'recipient_id' => $recipientId,
+                'property_mode' => 'transfer',
                 'status' => 'pending',
             ];
-            // // Notify the user
+
+            // Notify the recipient
             $recipient = User::where('id', $recipientId)->first();
-           
             if ($recipient) {
                 $recipient->notify(new RecipientSubmittedNotification($transferDetails));
             }
 
-            // Notify the user (sender)
+            // Notify the sender
             $user->notify(new SenderTransferNotification($transferDetails));
 
-
-            return redirect()->route('user.transfer.history')
-            ->with(
-                'success', 
-                'We have receive your prompt to transfer the Property to the confirmed User ID. 
-                The recipient has been submitted. A notification has been sent to your account.'
-            );
+            // Return success response
+            return $this->sendResponse('success', 'We have received your request to transfer the Property. The recipient has been notified.', true, [
+                'redirect' => route('user.transfer.history'),
+                'transfer_details' => $transferDetails,
+            ]);
         } catch (\Exception $e) {
-            return back()->with('error', 'Something went wrong:' . $e->getMessage());
+            return $this->sendResponse('error', 'Something went wrong: ' . $e->getMessage(), false);
+        }
+    }
+
+
+    private function sendResponse($status, $message, $success, $additionalData = [])
+    {
+        if ($request->wantsJson() || $request->is('api/*')) {
+            // For API/mobile requests
+            return response()->json([
+                'success' => $success,
+                'status' => $status,
+                'message' => $message,
+                'data' => $additionalData,
+            ], $success ? 200 : 400);
+        } else {
+            // For web requests
+            if ($success) {
+                return redirect()->route('user.transfer.history')->with($status, $message);
+            } else {
+                return back()->with($status, $message);
+            }
         }
     }
 

@@ -40,5 +40,10 @@ class Transfer extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function valuationSummary()
+    {
+        return $this->hasOne(PropertyValuationSummary::class, 'property_id', 'property_id');
+    }
 }
  

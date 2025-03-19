@@ -64,7 +64,7 @@
                                     <div class="card-body">
                                         <p><strong>Name:</strong> {{ $sender->last_name }} {{ $sender->first_name }}</p>
                                         <p><strong>Email:</strong> {{ $sender->email }}</p>
-                                        <p><strong>ID:</strong> {{ $sender->recipient_id }}</p> 
+                                        {{-- <p><strong>ID:</strong> {{ $sender->recipient_id }}</p>  --}}
                                     </div>
                                 </div>
                                 <form action="{{ route('user.confirm.transfer.submit', ['slug' => $property->slug]) }}" method="POST">
@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <button type="submit" class="solid__btn add__property--btn">Confirm</button>
+                                                <button type="submit" class="solid__btn add__property--btn">Submit Request</button>
                                             </div> 
                                             <div class="col">
                                                 <a href="" class="solid__btn add__property--btn"  style="background-color:  #dc3545; ">Cancel</a>

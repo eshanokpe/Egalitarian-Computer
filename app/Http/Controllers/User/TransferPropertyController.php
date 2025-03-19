@@ -229,7 +229,7 @@ class TransferPropertyController extends Controller
             $user->notify(new SenderTransferNotification($transferDetails));
 
             // Return success response
-            return $this->sendResponse('success', 'We have received your request to transfer the Property. The recipient has been notified.', true, [
+            return $this->sendResponse($request, 'success', 'We have received your request to transfer the Property. The recipient has been notified.', true, [
                 'redirect' => route('user.transfer.history'),
                 'transfer_details' => $transferDetails,
             ]);

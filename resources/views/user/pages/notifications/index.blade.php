@@ -107,7 +107,7 @@
                                                         <div class="col-6">
                                                             <h3 class="card-title">Sender Transfer Notification</h3>
                                                             <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
-                                                            <h5 class="card-title text-primary"><b>Land Size:</b>{{ $notification['data']['land_size'] }} SQM</h5>
+                                                            <h5 class="card-title text-secondary"><b>Land Size:</b>{{ $notification['data']['land_size'] }} SQM</h5>
                                                         
                                                             <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
                                                                 <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
@@ -116,7 +116,7 @@
                                         
                                                         <div class="col-6">
                                                             <div class="text-end">
-                                                                <p> <strong>Total amount:</strong> ₦{{ number_format( $notification['data']['total_price'] ) }} </p>
+                                                                <p> <strong>Total Amount:</strong> ₦{{ number_format( $notification['data']['total_price'] ) }} </p>
                                                                 <a href="{{ route('user.properties.show', encrypt($notification['data']['property_id'] ??'1') ) }}" class="btn btn-success btn-md">
                                                                     View more
                                                                 </a>

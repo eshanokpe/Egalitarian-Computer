@@ -50,7 +50,7 @@
                                                     <div class="row ">
                                                         <div class="col-6">
                                                             <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
-                                                            <h5 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h5>
+                                                            <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
                                             
                                                             <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
                                                                 <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
@@ -78,7 +78,7 @@
                                                     <div class="row ">
                                                         <div class="col-6">
                                                             <h3 class="card-title">Property Valuation Notification</h3>
-                                                            <h5 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h5>
+                                                            <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
                                                         
                                                             <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
                                                                 <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
@@ -106,8 +106,8 @@
                                                     <div class="row ">
                                                         <div class="col-6">
                                                             <h3 class="card-title">Sender Transfer Notification</h3>
-                                                            <h5 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h5>
-                                                            <p class="card-title text-primary"><b>Land Size</b>{{ $notification['data']['land_size'] }} SQM</p>
+                                                            <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
+                                                            <h5 class="card-title text-primary"><b>Land Size:</b>{{ $notification['data']['land_size'] }} SQM</h5>
                                                         
                                                             <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
                                                                 <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>

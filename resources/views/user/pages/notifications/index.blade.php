@@ -44,26 +44,26 @@
                                         </div> --}}
                                     
                                         @if($notification['data']['notification_status'] == 'Recipient Submitted Notification')
-                                            <a href="">
+                                           
                                             <div class="card">
-                                                
-                                                <div class="card-body">
-                                                    <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
-                                                    <h5 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h5>
-                                    
-                                                    <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
-                                                        <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
-                                                    </div>
+                                                <a href="">
+                                                    <div class="card-body">
+                                                        <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
+                                                        <h5 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h5>
                                         
-                                                    @if($notification['data']['status'] === 'pending' && isset($notification['data']['property_mode'], $notification['data']['property_slug']))
-                                                        <a href="" class="btn btn-success btn-md">
-                                                            Click here to confirm your transfer
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                                
-                                                </div>
-                                            </a>
+                                                        <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                                                            <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
+                                                        </div>
+                                            
+                                                        @if($notification['data']['status'] === 'pending' && isset($notification['data']['property_mode'], $notification['data']['property_slug']))
+                                                            <a href="" class="btn btn-success btn-md">
+                                                                Click here to confirm your transfer
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                </a>
+                                            </div>
+                                           
                                         @endif
                                     
 

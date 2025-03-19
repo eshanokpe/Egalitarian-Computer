@@ -120,7 +120,7 @@
                                                                     View more
                                                                 </a>
                                                                 @if($notification['data']['status'] == "pending")
-                                                                    <div  class="btn btn-warming btn-md">
+                                                                    <div  class="btn btn-warning btn-md">
                                                                         Pending
                                                                     </div>
                                                                 @else

@@ -54,6 +54,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/transfer/initiate', [TransferPropertyController::class, 'transferRecipient']);
     Route::post('/transfer/verify', [TransferPropertyController::class, 'verifyRecipient']);
     Route::post('/transfer/recipient/initiate', [TransferPropertyController::class, 'checkRecipientTransfer']);
+    Route::post('/transfer/history', [TransferPropertyController::class, 'transferHistory']);
 
 
 

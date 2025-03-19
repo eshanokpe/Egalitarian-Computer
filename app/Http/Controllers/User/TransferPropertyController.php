@@ -259,7 +259,7 @@ class TransferPropertyController extends Controller
         }
     }
 
-    public function transferHistory(){ 
+    public function transferHistory(Request $request){ 
         $user = Auth::user();
        
         $data['transferProperty'] = Transfer::select(
@@ -268,10 +268,20 @@ class TransferPropertyController extends Controller
             DB::raw('MAX(created_at) as latest_created_at'), 
         )
         ->with('property')
+        ->with('valuationSummary')
         ->where('user_id', $user->id)
         ->where('user_email', $user->email)
         ->groupBy('property_id','status','land_size') 
         ->paginate(10);
+
+         // Check if request expects JSON (API/mobile)
+         if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Transfer Property History retrieved successfully',
+                'data' => $data['transferProperty'],
+            ]);
+        }
 
         return view('user.pages.properties.transfer.history', $data); 
     }

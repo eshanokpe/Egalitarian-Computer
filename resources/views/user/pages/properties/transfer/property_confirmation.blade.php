@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <button type="submit" class="solid__btn add__property--btn">Submit Request</button>
+                                                <button type="submit" class="solid__btn add__property--btn">Confirm</button>
                                             </div> 
                                             <div class="col">
                                                 <a href="" class="solid__btn add__property--btn"  style="background-color:  #dc3545; ">Cancel</a>

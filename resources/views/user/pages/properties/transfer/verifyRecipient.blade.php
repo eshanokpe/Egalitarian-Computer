@@ -75,7 +75,7 @@
                                             <small><b>{{ $recipientData->recipient_id}}</b></small>
                                         </div>
                                         
-                                        <button type="submit" class="solid__btn add__property--btn">Continue</button>
+                                        <button type="submit" class="solid__btn add__property--btn">Submit Transfer Request</button>
                                     </div>
                                 </form>
                             </div>

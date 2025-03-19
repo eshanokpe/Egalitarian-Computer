@@ -330,10 +330,12 @@ class TransferPropertyController extends Controller
         // Credit to recipient's wallet
         $recipientWallet->balance += $amount;
         $recipientWallet->save();
-        
 
         return redirect()->route('user.dashboard')->with('success', 'Amount transferred successfully!');
+
     }
+
+    
 
  
 }

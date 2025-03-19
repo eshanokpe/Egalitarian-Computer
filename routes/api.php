@@ -53,7 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/transfer/assets/details/{id}', [APITransferPropertyController::class, 'transferDetails']);
     Route::post('/transfer/initiate', [TransferPropertyController::class, 'transferRecipient']);
     Route::post('/transfer/verify', [TransferPropertyController::class, 'verifyRecipient']);
-    Route::post('/transfer/confirm/{slug}/submit', [TransferPropertyController::class, 'submitConfirmation']);
+    Route::post('/transfer/recipient/initiate', [TransferPropertyController::class, 'checkRecipientTransfer']);
 
 
 

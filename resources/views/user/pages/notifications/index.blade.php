@@ -51,14 +51,18 @@
                 
                                     <!-- Action Buttons -->
                                     <div class="mt-3">
-                                        @if(!empty($notification['data']['status']))
-                                            @if($notification['data']['status'] === 'pending')
-                                                <a href="{{ route('user.transfer.property.confirm', ['propertyMode' => $notification['data']['property_mode'], 'slug' => $notification['data']['property_slug']]) }}" class="btn btn-success btn-sm">
+                                        @if(!empty($notification['data']) && isset($notification['data']['status']))
+                                            @if($notification['data']['status'] === 'pending' && isset($notification['data']['property_mode'], $notification['data']['property_slug']))
+                                                <a href="{{ route('user.transfer.property.confirm', [
+                                                    'propertyMode' => $notification['data']['property_mode'],
+                                                    'slug' => $notification['data']['property_slug']
+                                                ]) }}" class="btn btn-success btn-sm">
                                                     Confirm Property
                                                 </a>
                                             @endif
                                         @endif
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>

@@ -57,8 +57,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/transfer/history', [TransferPropertyController::class, 'transferHistory']);
 
 
-
-
     Route::get('/properties/{id}', [APIPropertyController::class, 'propertiesShow']);
 
     Route::get('/transactions', [TransactionController::class, 'index']);

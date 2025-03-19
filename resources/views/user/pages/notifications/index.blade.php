@@ -43,27 +43,25 @@
                                             @endisset
                                         </div> --}}
                                     
-                                    @if($notification['data']['notification_status'] == 'Recipient Submitted Notification')
-                                        <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
-                                        <h5 class="card-title">{{ $notification['data']['property_name'] }}</h5>
-                                        <div class="property-details">
-                                            <!-- Status and Date -->
-                                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                                <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                                        @if($notification['data']['notification_status'] == 'Recipient Submitted Notification')
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
+                                                    <h5 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h5>
+                                    
+                                                    <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                                                        <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
+                                                    </div>
+                                        
+                                                    @if($notification['data']['status'] === 'pending' && isset($notification['data']['property_mode'], $notification['data']['property_slug']))
+                                                        <a href="" class="btn btn-success btn-md">
+                                                            Click here to confirm your transfer
+                                                        </a>
+                                                    @endif
+                                                </div>
                                             </div>
-                                        </div>
-                                        @if($notification['data']['status'] === 'pending' && isset($notification['data']['property_mode'], $notification['data']['property_slug']))
-                                            {{-- <a href="{{ route('user.transfer.property.confirm', [
-                                                'propertyMode' => $notification['data']['property_mode'],
-                                                'slug' => $notification['data']['property_slug']
-                                            ]) }}" class="btn btn-success btn-md">
-                                                Confirm Property
-                                            </a> --}}
-                                            <a href="" class="btn btn-success btn-md">
-                                               Click here to confirm your transfer
-                                            </a>
                                         @endif
-                                    @endif
+                                    
 
                                     
                 

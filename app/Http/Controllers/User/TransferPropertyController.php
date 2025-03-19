@@ -239,7 +239,7 @@ class TransferPropertyController extends Controller
     }
 
 
-    private function sendResponse($status, $message, $success, $additionalData = [])
+    private function sendResponse(Request $request, $status, $message, $success, $additionalData = [])
     {
         if ($request->wantsJson() || $request->is('api/*')) {
             // For API/mobile requests

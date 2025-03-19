@@ -186,7 +186,7 @@ class TransferPropertyController extends Controller
 
             foreach ($buy as $item) {
                 if ($item->total_selected_size_land < $landSize) {
-                    return $this->sendResponse($request,,'error', 'Insufficient land size available for transfer.', false);
+                    return $this->sendResponse($request, 'error', 'Insufficient land size available for transfer.', false);
                 }
             }
 

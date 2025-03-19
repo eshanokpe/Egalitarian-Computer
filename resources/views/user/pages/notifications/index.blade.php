@@ -44,7 +44,7 @@
                                         </div> --}}
                                     
                                     @if($notification['data']['notification_status'] == 'Recipient Submitted Notification')
-                                        <h3 class="card-title">{{ $notification['data']['notification_status'] }}</h3>
+                                        <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
                                         <h5 class="card-title">{{ $notification['data']['property_name'] }}</h5>
                                         <div class="property-details">
                                             <!-- Status and Date -->

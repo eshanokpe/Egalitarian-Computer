@@ -151,18 +151,18 @@ class TransferPropertyController extends Controller
             // Check if the recipient exists
             $customerCheck = User::where('id', $recipientId)->first();
             if (!$customerCheck) {
-                return $this->sendResponse('error', 'This recipient does not exist.', false);
+                return $this->sendResponse($request, 'error', 'This recipient does not exist.', false);
             }
 
             // Check if the recipient is the same as the current user
             if ($recipientId === $user->id) {
-                return $this->sendResponse('error', 'You cannot transfer the property to yourself.', false);
+                return $this->sendResponse($request, 'error', 'You cannot transfer the property to yourself.', false);
             }
 
             // Fetch property data
             $propertyData = Property::where('id', $propertyId)->where('slug', $propertySlug)->first();
             if (!$propertyData) {
-                return $this->sendResponse('error', 'Property not found.', false);
+                return $this->sendResponse($request, 'error', 'Property not found.', false);
             }
 
             // Generate a unique reference
@@ -181,12 +181,12 @@ class TransferPropertyController extends Controller
                 ->get();
 
             if ($buy->isEmpty()) {
-                return $this->sendResponse('error', 'Property not available for sale.', false);
+                return $this->sendResponse($request, 'error', 'Property not available for sale.', false);
             }
 
             foreach ($buy as $item) {
                 if ($item->total_selected_size_land < $landSize) {
-                    return $this->sendResponse('error', 'Insufficient land size available for transfer.', false);
+                    return $this->sendResponse($request,,'error', 'Insufficient land size available for transfer.', false);
                 }
             }
 
@@ -234,7 +234,7 @@ class TransferPropertyController extends Controller
                 'transfer_details' => $transferDetails,
             ]);
         } catch (\Exception $e) {
-            return $this->sendResponse('error', 'Something went wrong: ' . $e->getMessage(), false);
+            return $this->sendResponse($request,'error', 'Something went wrong: ' . $e->getMessage(), false);
         }
     }
 

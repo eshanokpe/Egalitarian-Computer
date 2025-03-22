@@ -437,7 +437,7 @@ class TransferPropertyController extends Controller
             'remaining_size' => $totalLandSize - $landSize, 
             'user_id' => $recipient->id,
             'user_email' => $recipient->email,
-            'total_price' => $amount,
+            'total_price' => $amount / 100,
             'status' => 'transfer',
         ]);
         // Deduct from sender's wallet
@@ -453,7 +453,7 @@ class TransferPropertyController extends Controller
             'property_name' => $propertyData->name,
             'status' => 'success',
             'payment_method' => 'transfer_assets',
-            'amount' => -$amount, // Deduct amount
+            'amount' => -$amount / 100, // Deduct amount
             'description' => 'Transfer to ' . $recipient->email,
             'reference' => null,
             'transaction_state' => 'sucess',
@@ -467,7 +467,7 @@ class TransferPropertyController extends Controller
             'property_name' => $propertyData->name,
             'status' => 'success',
             'payment_method' => 'transfer_assets',
-            'amount' => $amount, // Credit recipient
+            'amount' => $amount / 100, // Credit recipient
             'description' => 'Received from ' . $sender->email,
             'reference' => null,
             'transaction_state' =>null,

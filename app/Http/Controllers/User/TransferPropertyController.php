@@ -6,6 +6,7 @@ use App\Notifications\SenderTransferNotification;
 use App\Notifications\RecipientSubmittedNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Transaction;
 use DB; 
 use Auth;
 use Log; 

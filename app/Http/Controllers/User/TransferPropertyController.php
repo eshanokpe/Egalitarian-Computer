@@ -451,6 +451,8 @@ class TransferPropertyController extends Controller
             'payment_method' => 'card',
             'amount' => -$amount, // Deduct amount
             'description' => 'Transfer to ' . $recipient->email,
+            'reference' => null,
+            'transaction_state' => null,
         ]);
 
         // Create a transaction to credit recipient
@@ -461,6 +463,8 @@ class TransferPropertyController extends Controller
             'payment_method' => 'card',
             'amount' => $amount, // Credit recipient
             'description' => 'Received from ' . $sender->email,
+            'reference' => null,
+            'transaction_state' =>null,
         ]);
 
         // Credit to recipient's wallet

@@ -373,8 +373,23 @@ class TransferPropertyController extends Controller
             return redirect()->back()->withErrors(['error' => 'Invalid transfer amount']);
         }
        
-        $sendWallet = Wallet::where('user_id', $sender->id)->first();
-        $recipientWallet = Wallet::where('user_id', $recipient->id)->first();
+        $sendWalletBalance = Transaction::where('user_id', $sender->id)
+            ->where('email', $sender->email)
+            ->where('status', 'success')
+            ->where('payment_method', 'card')
+            ->sum('amount');
+
+        $recipientWalletBalance = Transaction::where('user_id', $recipient->id)
+            ->where('email', $recipient->email) // Fixed email issue
+            ->where('status', 'success')
+            ->where('payment_method', 'card')
+            ->sum('amount');
+         // Ensure sender has enough balance
+        if ($sendWalletBalance < $amount) {
+            return response()->json(['error' => 'Insufficient funds'], 400);
+        }
+        // $sendWallet = Wallet::where('user_id', $sender->id)->first();
+        // $recipientWallet = Wallet::where('user_id', $recipient->id)->first();
         
         // Check sender's wallet balance
         // if ($sendWallet->balance < $amount) {
@@ -385,36 +400,71 @@ class TransferPropertyController extends Controller
         // }
         
         $buy = Buy::select(
-            'property_id', 'status',
+            'id',
+            'property_id',
+            'status',
+            'selected_size_land',
             DB::raw('SUM(selected_size_land) as total_selected_size_land'),
             DB::raw('MAX(created_at) as latest_created_at') 
         )
         ->with('property')
         ->where('user_id', $sender->id)
         ->where('user_email', $sender->email)
-        ->groupBy('property_id', 'status') 
+        ->groupBy('id', 'property_id', 'status')
         ->get();
-        foreach ($buy as $item) {
-            $item->selected_size_land -= $landSize;
-            $item->save();
+        $totalLandSize = $buy->sum('selected_size_land');
+        if ($totalLandSize < $landSize) {
+            return response()->json(['error' => 'Insufficient land size'], 400);
         }
+        // Deduct land size from sender's purchases
+        foreach ($buy as $item) {
+            if ($item->selected_size_land >= $landSize) {
+                $item->selected_size_land -= $landSize;
+                $item->save();
+                break;
+            }
+        }
+        // foreach ($buy as $item) {
+        //     $item->selected_size_land -= $landSize;
+        //     $item->save();
+        // }
         $buy = Buy::create([
             'property_id' => $propertyId,
-            'transaction_id' => 1,
+            'transaction_id' => null,
             'selected_size_land' => $landSize,
-            'remaining_size' => '',
+            'remaining_size' => $totalLandSize - $landSize, 
             'user_id' => $recipient->id,
             'user_email' => $recipient->email,
             'total_price' => $amount,
-            'status' => 'tranfer',
+            'status' => 'transfer',
         ]);
         // Deduct from sender's wallet
-        $sendWallet->balance -= $amount;
-        $sendWallet->save();
+        // $sendWallet->balance -= $amount;
+        // $sendWallet->save();
+
+        // Create a transaction to deduct from sender
+        Transaction::create([
+            'user_id' => $sender->id,
+            'email' => $sender->email,
+            'status' => 'success',
+            'payment_method' => 'card',
+            'amount' => -$amount, // Deduct amount
+            'description' => 'Transfer to ' . $recipient->email,
+        ]);
+
+        // Create a transaction to credit recipient
+        Transaction::create([
+            'user_id' => $recipient->id,
+            'email' => $recipient->email,
+            'status' => 'success',
+            'payment_method' => 'card',
+            'amount' => $amount, // Credit recipient
+            'description' => 'Received from ' . $sender->email,
+        ]);
 
         // Credit to recipient's wallet
-        $recipientWallet->balance += $amount;
-        $recipientWallet->save();
+        // $recipientWallet->balance += $amount;
+        // $recipientWallet->save();
 
         // Send Confirmation Messages to Sender and Recipient
         $sender->notify(new TransferNotification($recipient, $amount, 'Sender'));

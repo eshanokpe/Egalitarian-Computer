@@ -423,6 +423,7 @@ class TransferPropertyController extends Controller
                 $item->selected_size_land -= $landSize;
                 $item->save();
                 break;
+
             }
         }
         // foreach ($buy as $item) {
@@ -442,25 +443,30 @@ class TransferPropertyController extends Controller
         // Deduct from sender's wallet
         // $sendWallet->balance -= $amount;
         // $sendWallet->save();
+        $propertyData = Property::where('id', $propertyId)->where('slug', $propertySlug)->first();
 
         // Create a transaction to deduct from sender
         Transaction::create([
             'user_id' => $sender->id,
             'email' => $sender->email,
+            'property_id' => $propertyId,
+            'property_name' => $propertyData->name,
             'status' => 'success',
-            'payment_method' => 'card',
+            'payment_method' => 'transfer_assets',
             'amount' => -$amount, // Deduct amount
             'description' => 'Transfer to ' . $recipient->email,
             'reference' => null,
-            'transaction_state' => null,
+            'transaction_state' => 'sucess',
         ]);
 
         // Create a transaction to credit recipient
         Transaction::create([
             'user_id' => $recipient->id,
             'email' => $recipient->email,
+            'property_id' => $propertyId,
+            'property_name' => $propertyData->name,
             'status' => 'success',
-            'payment_method' => 'card',
+            'payment_method' => 'transfer_assets',
             'amount' => $amount, // Credit recipient
             'description' => 'Received from ' . $sender->email,
             'reference' => null,

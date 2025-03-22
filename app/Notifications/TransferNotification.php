@@ -89,7 +89,7 @@ class TransferNotification extends Notification implements ShouldQueue
             ->subject('Property Transfer Confirmation')
             ->greeting("Hello {$notifiable->name},")
             ->line("Your transfer request has been successfully processed.")
-            ->line("**Amount:** {$this->amount}")
+            ->line("**Amount:** " . number_format($this->amount, 2))
             ->line("**{$this->type}:** {$this->user->name} ({$this->user->email})")
             ->action('View Details', url('/user/dashboard'))
             ->line('Thank you for using our service!');
@@ -98,7 +98,7 @@ class TransferNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message' => "Transfer of {$this->amount} was successful. {$this->type}: {$this->user->name}.",
+            'message' => "Transfer of " . number_format($this->amount, 2) ." was successful. {$this->type}: {$this->user->name}.",
             'url' => url('/user/dashboard')
         ];
     }
@@ -106,7 +106,7 @@ class TransferNotification extends Notification implements ShouldQueue
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'message' => "Transfer of {$this->amount} was successful. {$this->type}: {$this->user->name}.",
+            'message' => "Transfer of " . number_format($this->amount, 2) ." was successful. {$this->type}: {$this->user->name}.",
         ]);
     }
 }

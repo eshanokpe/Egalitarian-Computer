@@ -414,9 +414,9 @@ class TransferPropertyController extends Controller
         ->groupBy('id', 'property_id', 'status', 'selected_size_land')
         ->get();
         $totalLandSize = $buy->sum('selected_size_land');
-        if ($totalLandSize < $landSize) {
-            return response()->json(['error' => 'Insufficient land size'], 400);
-        }
+        // if ($totalLandSize < $landSize) {
+        //     return response()->json(['error' => 'Insufficient land size'], 400);
+        // }
         // Deduct land size from sender's purchases
         foreach ($buy as $item) {
             if ($item->selected_size_land >= $landSize) {

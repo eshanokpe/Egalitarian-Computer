@@ -375,7 +375,7 @@ class TransferPropertyController extends Controller
         $amount = $request->input('amount');
       
         // Validate sender existence
-        $sender = User::where('recipient_id', $senderId)->first();
+        $sender = User::where('id', $senderId)->first();
         if (!$sender) {
             if ($request->wantsJson()) {
                 return response()->json(['error' => 'Sender not found'], 404);

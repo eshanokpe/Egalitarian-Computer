@@ -452,7 +452,7 @@ class TransferPropertyController extends Controller
             'property_id' => $propertyId,
             'property_name' => $propertyData->name,
             'status' => 'success',
-            'payment_method' => 'transfer_assets',
+            'payment_method' => 'card',
             'amount' => -$amount / 100, // Deduct amount
             'description' => 'Transfer to ' . $recipient->email,
             'reference' => null,
@@ -466,7 +466,7 @@ class TransferPropertyController extends Controller
             'property_id' => $propertyId,
             'property_name' => $propertyData->name,
             'status' => 'success',
-            'payment_method' => 'transfer_assets',
+            'payment_method' => 'card',
             'amount' => $amount / 100, // Credit recipient
             'description' => 'Received from ' . $sender->email,
             'reference' => null,

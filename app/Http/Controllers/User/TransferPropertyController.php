@@ -287,6 +287,25 @@ class TransferPropertyController extends Controller
     }
     
     
+    public function confirmTransferr($propertyMode, $slug)
+    {
+        $user = Auth::user();
+
+       
+        $data['property'] = Property::where('slug', $slug)->first();
+
+        $sender = $user->notifications()
+        ->whereJsonContains('data->property_mode', $propertyMode)
+        ->whereJsonContains('data->recipient_id', $user->recipient_id)
+        ->whereJsonContains('data->property_slug', $slug)->first();
+        // dd($sender['data']);
+        $data['data'] = $sender['data'];
+        $data['sender'] = User::where('id', $sender['data']['sender_id'])->first();
+       
+
+        return view('user.pages.properties.transfer.property_confirmation', $data); 
+    }
+
     public function confirmTransfer(Request $request, $propertyMode, $slug)
     {
         
@@ -299,7 +318,7 @@ class TransferPropertyController extends Controller
 
         $senderNotification = $user->notifications()
             ->whereJsonContains('data->property_mode', $propertyMode)
-            ->whereJsonContains('data->recipient_id', $user->recipient_id)
+            ->whereJsonContains('data->recipient_id', $user->id)
             ->whereJsonContains('data->property_slug', $slug)
             ->first();
 

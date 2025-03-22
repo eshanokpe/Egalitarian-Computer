@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\User;
+use App\Notifications\TransferNotification; 
 use App\Notifications\SenderTransferNotification; 
 use App\Notifications\RecipientSubmittedNotification;
 use App\Http\Controllers\Controller;

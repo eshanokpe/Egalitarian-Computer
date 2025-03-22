@@ -289,19 +289,20 @@ class TransferPropertyController extends Controller
     
     public function confirmTransfer(Request $request, $propertyMode, $slug)
     {
+        
         $user = Auth::user();
 
-       
-        $data['property'] = Property::where('slug', $slug)->first();
+        $property = Property::where('slug', $slug)->first();
+        if (!$property) {
+            return $this->handleResponse($request, 'Property not found', 404);
+        }
 
-        $sender = $user->notifications()
-        ->whereJsonContains('data->property_mode', $propertyMode)
-        ->whereJsonContains('data->recipient_id', $user->recipient_id)
-        ->whereJsonContains('data->property_slug', $slug)->first();
-        // dd($sender['data']);
-        $data['data'] = $sender['data'];
-        $data['sender'] = User::where('id', $sender['data']['sender_id'])->first();
-       
+        $senderNotification = $user->notifications()
+            ->whereJsonContains('data->property_mode', $propertyMode)
+            ->whereJsonContains('data->recipient_id', $user->recipient_id)
+            ->whereJsonContains('data->property_slug', $slug)
+            ->first();
+
         if (!$senderNotification) {
             return $this->handleResponse($request, 'No transfer notification found', 404);
         }

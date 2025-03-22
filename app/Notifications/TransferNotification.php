@@ -33,7 +33,7 @@ class TransferNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Property Transfer Confirmation')
-            ->greeting("Hello {$notifiable->name},")
+            ->greeting("Hello {$notifiable->first_name} {$notifiable->last_name},")
             ->line("Your transfer request has been successfully processed.")
             ->line("**Amount:** " . number_format($this->amount / 100, 2, '.', ','))
             ->line("**{$this->type}:** {$this->user->name} ({$this->user->email})")

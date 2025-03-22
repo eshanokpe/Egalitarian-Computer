@@ -386,9 +386,9 @@ class TransferPropertyController extends Controller
             ->where('payment_method', 'card')
             ->sum('amount');
          // Ensure sender has enough balance
-        if ($sendWalletBalance < $amount) {
-            return response()->json(['error' => 'Insufficient funds'], 400);
-        }
+        // if ($sendWalletBalance < $amount) {
+        //     return response()->json(['error' => 'Insufficient funds'], 400);
+        // }
         // $sendWallet = Wallet::where('user_id', $sender->id)->first();
         // $recipientWallet = Wallet::where('user_id', $recipient->id)->first();
         

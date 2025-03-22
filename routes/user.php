@@ -90,6 +90,9 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('/{propertyMode}/confirm/{slug}', [TransferPropertyController::class, 'confirmTransfer'])->name('transfer.property.confirm');
     Route::post('/transfer/confirm/{slug}/submit', [TransferPropertyController::class, 'submitConfirmation'])->name('confirm.transfer.submit');
 
+    Route::get('/view/transfer/property/{recipentId}', [TransferPropertyController::class, 'viewTransferProperty'])->name('view.transfer.property');
+
+
     Route::get('properties/{id}/valuation', [PropertyController::class, 'valuation'])->name('properties.valuation');
     Route::get('properties/{id}/history', [PropertyController::class, 'propertyHistory'])->name('properties.history');
     Route::get('referral/index', [ReferralController::class, 'index'])->name('referral.index');

@@ -267,7 +267,7 @@ class TransferPropertyController extends Controller
             DB::raw('SUM(land_size) as total_land_size'),
             DB::raw('MAX(created_at) as latest_created_at'), 
         )
-        ->with('property')
+        ->with('property') 
         ->with('valuationSummary')
         ->where('user_id', $user->id)
         ->where('user_email', $user->email)
@@ -287,7 +287,7 @@ class TransferPropertyController extends Controller
     }
     
     
-    public function confirmTransfer($propertyMode, $slug)
+    public function confirmTransfer(Request $request, $propertyMode, $slug)
     {
         $user = Auth::user();
 
@@ -302,8 +302,33 @@ class TransferPropertyController extends Controller
         $data['data'] = $sender['data'];
         $data['sender'] = User::where('id', $sender['data']['sender_id'])->first();
        
+        if (!$senderNotification) {
+            return $this->handleResponse($request, 'No transfer notification found', 404);
+        }
+    
+        $sender = User::find($senderNotification['data']['sender_id']);
+    
+        $responseData = [
+            'property' => $property,
+            'data' => $senderNotification['data'],
+            'sender' => $sender,
+        ];
+    
+        // Return JSON for mobile, Blade view for web
+        return $this->handleResponse($request, $responseData);
+    }
 
-        return view('user.pages.properties.transfer.property_confirmation', $data); 
+    private function handleResponse(Request $request, $data, $status = 200)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['success' => $status === 200, 'data' => $data], $status);
+        }
+
+        if (is_string($data)) {
+            return redirect()->back()->with('error', $data);
+        }
+
+        return view('user.pages.properties.transfer.property_confirmation', $data);
     }
 
     public function submitConfirmation(Request $request, $slug){
@@ -371,7 +396,9 @@ class TransferPropertyController extends Controller
 
     }
 
-    
+    public function viewTransferProperty(Request $request, $recipentId){
+
+    }
 
  
 }

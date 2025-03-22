@@ -16,127 +16,113 @@
                        
                         @forelse ($notifications as $notification)
                         <div class="card notification-card mb-3">
-                            <div class="card-body d-flex flex-column flex-md-row">
-                                <!-- Property Image -->
-                                {{-- @if(!empty($notification['data']['property_image']))
-                                    <div class="notification-image mb-3 mb-md-0">
-                                        <img src="{{ asset($notification['data']['property_image']) }}" alt="{{ $notification['data']['property_name'] }}" class="img-fluid rounded">
-                                    </div>
-                                @endif --}}
+                            <div class=" d-flex flex-column flex-md-row">
+                                
                 
                                 <!-- Notification Details -->
                                 <div class="notification-details flex-grow-1 ms-md-3">
+
                                     @if($notification['data']['notification_status'] == 'WalletFundedNotification')
                                         <h3 class="card-title">Wallet Funded</h3>
                                         <div class="property-details">
-                                            <p><strong>Amount:</strong> ₦{{ number_format($notification['data']['amount'], 2) }}</p>
+                                            <p><strong>Funded Amount:</strong> ₦{{ number_format($notification['data']['amount'], 2) }}</p>
                                             <p><strong>New Balance:</strong> ₦{{ number_format($notification['data']['balance'], 2) }}</p>
                                         </div>
                                     @endif
-                                        {{-- <h3 class="card-title">{{ $notification['data']['property_name'] }}</h3>
-                                        <div class="property-details">
-                                            @isset($notification['data']['market_value'])
-                                                <p><strong>Market Value:</strong> ₦{{ number_format($notification['data']['market_value'], 2) }}</p>
-                                            @endisset
-                                            @isset($notification['data']['percentage_increase'])
-                                                <p><strong>Increase:</strong> {{ $notification['data']['percentage_increase'] }}%</p>
-                                            @endisset
-                                        </div> --}}
-                                    
-                                        @if($notification['data']['notification_status'] == 'Recipient Submitted Notification')
-                                           
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row ">
-                                                        <div class="col-6">
-                                                            <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
-                                                            <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
-                                            
-                                                            <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
-                                                                <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
-                                                            </div>
-                                                        </div>
                                         
-                                                    @if($notification['data']['status'] === 'pending' && isset($notification['data']['property_mode'], $notification['data']['property_slug']))
-                                                        <div class="col-6">
+                                    
+                                    @if($notification['data']['notification_status'] == 'Recipient Submitted Notification')
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row ">
+                                                    <div class="col-6">
+                                                        <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
+                                                        <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
+                                        
+                                                        <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                                                            <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
+                                                        </div>
+                                                    </div>
+                                    
+                                                @if($notification['data']['status'] === 'pending' && isset($notification['data']['property_mode'], $notification['data']['property_slug']))
+                                                    <div class="col-6">
+                                                    <div class="text-end">
+                                                        <a href="{{ route('user.notifications.show', encrypt($notification['id'] ) ) }}" class="btn btn-success btn-md">
+                                                            Click here to confirm your transfer
+                                                        </a>
+                                                    </div>
+                                                    </div>
+                                                @endif
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    @endif
+                                    @if($notification['data']['notification_status'] == 'PropertyValuationNotification')
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row ">
+                                                    <div class="col-6">
+                                                        <h3 class="card-title">Property Valuation Notification</h3>
+                                                        <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
+                                                    
+                                                        <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                                                            <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <div class="col-6">
                                                         <div class="text-end">
-                                                            <a href="" class="btn btn-success btn-md">
-                                                                Click here to confirm your transfer
+                                                            <p> <strong>Market Value:</strong> ₦{{ number_format( $notification['data']['market_value'] ) }} </p>
+                                                            <a href="{{ route('user.properties.show', encrypt($notification['data']['property_id'] ) ) }}" class="btn btn-success btn-md">
+                                                                View more
                                                             </a>
                                                         </div>
-                                                        </div>
-                                                    @endif
                                                     </div>
-                                                </div>
-                                               
-                                            </div>
-                                           
-                                        @endif
-                                        @if($notification['data']['notification_status'] == 'PropertyValuationNotification')
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row ">
-                                                        <div class="col-6">
-                                                            <h3 class="card-title">Property Valuation Notification</h3>
-                                                            <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
-                                                        
-                                                            <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
-                                                                <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
-                                                            </div>
-                                                        </div>
-                                        
-                                                        <div class="col-6">
-                                                            <div class="text-end">
-                                                                <p> <strong>Market Value:</strong> ₦{{ number_format( $notification['data']['market_value'] ) }} </p>
-                                                                <a href="{{ route('user.properties.show', encrypt($notification['data']['property_id'] ) ) }}" class="btn btn-success btn-md">
-                                                                    View more
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                
-                                                    </div>
-                                                </div>
                                             
+                                                </div>
                                             </div>
-                                        @endif
+                                        
+                                        </div>
+                                    @endif
 
-                                        @if($notification['data']['notification_status'] == 'Sender Transfer Notification')
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row ">
-                                                        <div class="col-6">
-                                                            <h3 class="card-title">Sender Transfer Notification</h3>
-                                                            <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
-                                                            <h5 class="card-title text-secondary"><b>Land Size:</b>{{ $notification['data']['land_size'] }} SQM</h5>
-                                                        
-                                                            <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
-                                                                <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
-                                                            </div>
+                                    @if($notification['data']['notification_status'] == 'Sender Transfer Notification')
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row ">
+                                                    <div class="col-6">
+                                                        <h3 class="card-title">Sender Transfer Notification</h3>
+                                                        <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
+                                                        <h5 class="card-title text-secondary"><b>Land Size:</b>{{ $notification['data']['land_size'] }} SQM</h5>
+                                                    
+                                                        <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                                                            <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
                                                         </div>
-                                        
-                                                        <div class="col-6">
-                                                            <div class="text-end">
-                                                                <p> <strong>Total Amount:</strong> ₦{{ number_format( $notification['data']['total_price'] ) }} </p>
-                                                                <a href="{{ route('user.properties.show', encrypt($notification['data']['property_id'] ??'1') ) }}" class="btn btn-success btn-md">
-                                                                    View more
-                                                                </a>
-                                                                @if($notification['data']['status'] == "pending")
-                                                                    <div  class="btn btn-warning btn-md">
-                                                                        Pending
-                                                                    </div>
-                                                                @else
-                                                                    <div  class="btn btn-success btn-md">
-                                                                        Accept
-                                                                    </div>
-                                                                @endforelse
-                                                            </div>
-                                                        </div>
-                                                
                                                     </div>
-                                                </div>
+                                    
+                                                    <div class="col-6">
+                                                        <div class="text-end">
+                                                            <p> <strong>Total Amount:</strong> ₦{{ number_format( $notification['data']['total_price'] ) }} </p>
+                                                            <a href="{{ route('user.properties.show', encrypt($notification['data']['property_id'] ??'1') ) }}" class="btn btn-success btn-md">
+                                                                View more
+                                                            </a>
+                                                            @if($notification['data']['status'] == "pending")
+                                                                <div  class="btn btn-warning btn-md">
+                                                                    Pending
+                                                                </div>
+                                                            @else
+                                                                <div  class="btn btn-success btn-md">
+                                                                    Accept
+                                                                </div>
+                                                            @endforelse
+                                                        </div>
+                                                    </div>
                                             
+                                                </div>
                                             </div>
-                                        @endif
+                                        
+                                        </div>
+                                    @endif
 
                                     
                 

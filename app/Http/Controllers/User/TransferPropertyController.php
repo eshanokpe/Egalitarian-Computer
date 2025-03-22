@@ -330,7 +330,7 @@ class TransferPropertyController extends Controller
     
         $responseData = [
             'property' => $property,
-            'data' => $senderNotification['data'],
+            'transferData' => $senderNotification['data'],
             'sender' => $sender,
         ];
     

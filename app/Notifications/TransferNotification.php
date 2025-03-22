@@ -45,7 +45,9 @@ class TransferNotification extends Notification implements ShouldQueue
     {
         return [
             'notification_status' => 'transferNotification',
-            'message' => "Transfer of " . number_format($this->amount / 100, 2, '.', ',') ." was successful. {$this->type}: {$this->user->name}.",
+            'status' => 'accepted',
+            'message' => "Transfer of Property Asset was successful. {$this->type}: {$this->user->name}",
+            'amount' => number_format($this->amount / 100, 2, '.', ','),
             // 'url' => url('/user/dashboard')
         ];
     }

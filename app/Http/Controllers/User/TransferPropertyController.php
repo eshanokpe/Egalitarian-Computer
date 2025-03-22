@@ -287,25 +287,6 @@ class TransferPropertyController extends Controller
     }
     
     
-    public function confirmTransferr($propertyMode, $slug)
-    {
-        $user = Auth::user();
-
-       
-        $data['property'] = Property::where('slug', $slug)->first();
-
-        $sender = $user->notifications()
-        ->whereJsonContains('data->property_mode', $propertyMode)
-        ->whereJsonContains('data->recipient_id', $user->recipient_id)
-        ->whereJsonContains('data->property_slug', $slug)->first();
-        // dd($sender['data']);
-        $data['data'] = $sender['data'];
-        $data['sender'] = User::where('id', $sender['data']['sender_id'])->first();
-       
-
-        return view('user.pages.properties.transfer.property_confirmation', $data); 
-    }
-
     public function confirmTransfer(Request $request, $propertyMode, $slug)
     {
         
@@ -395,12 +376,12 @@ class TransferPropertyController extends Controller
         $recipientWallet = Wallet::where('user_id', $recipient->id)->first();
         
         // Check sender's wallet balance
-        if ($sendWallet->balance < $amount) {
-            if ($request->wantsJson()) {
-                return response()->json(['error' => 'You do not has insufficient funds'], 404);
-            }
-            return redirect()->back()->with(['error' => 'You do not has insufficient funds']);
-        }
+        // if ($sendWallet->balance < $amount) {
+        //     if ($request->wantsJson()) {
+        //         return response()->json(['error' => 'You do not has insufficient funds'], 404);
+        //     }
+        //     return redirect()->back()->with(['error' => 'You do not has insufficient funds']);
+        // }
         
         $buy = Buy::select(
             'property_id', 'status',

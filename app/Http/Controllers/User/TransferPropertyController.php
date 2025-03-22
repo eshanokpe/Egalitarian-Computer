@@ -351,9 +351,22 @@ class TransferPropertyController extends Controller
         return view('user.pages.properties.transfer.property_confirmation', $data);
     }
 
+    
+
+    public function viewTransferProperty(Request $request, $recipentId){
+
+    }
+
     public function submitConfirmation(Request $request, $slug){
         // The authenticated user is the recipient
         $recipient = auth()->user();
+
+        $request->validate([
+            'land_size' => 'required|numeric|min:1',
+            'recipient_id' => 'required|exists:users,id',
+            'property_id' => 'required|exists:properties,id',
+            'amount' => 'required|numeric|min:1',
+        ]);
 
         // The sender ID comes from the request
         $landSize = $request->input('land_size');
@@ -412,14 +425,17 @@ class TransferPropertyController extends Controller
         $recipientWallet->balance += $amount;
         $recipientWallet->save();
 
+        // Send Confirmation Messages to Sender and Recipient
+        $sender->notify(new TransferNotification($recipient, $amount, 'Sender'));
+        $recipient->notify(new TransferNotification($sender, $amount, 'Recipient'));
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => 'Amount transferred successfully!'], 200);
+        }
+
         return redirect()->route('user.dashboard')->with('success', 'Amount transferred successfully!');
 
     }
-
-    public function viewTransferProperty(Request $request, $recipentId){
-
-    }
-
  
 }
  

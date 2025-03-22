@@ -55,7 +55,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/transfer/verify', [TransferPropertyController::class, 'verifyRecipient']);
     Route::post('/transfer/recipient/initiate', [TransferPropertyController::class, 'checkRecipientTransfer']);
     Route::get('/transfer/history', [TransferPropertyController::class, 'transferHistory']);
-    Route::get('/{propertyMode}/confirm/{slug}', [TransferPropertyController::class, 'confirmTransfer'])->name('transfer.property.confirm');
+    Route::get('/{propertyMode}/confirm/{slug}', [TransferPropertyController::class, 'confirmTransfer']);
+    Route::post('/transfer/confirm/{slug}/submit', [TransferPropertyController::class, 'submitConfirmation']);
 
 
 

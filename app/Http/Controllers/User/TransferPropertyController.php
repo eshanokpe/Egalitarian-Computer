@@ -377,11 +377,17 @@ class TransferPropertyController extends Controller
         // Validate sender existence
         $sender = User::where('recipient_id', $senderId)->first();
         if (!$sender) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Sender not found'], 404);
+            }
             return redirect()->back()->withErrors(['error' => 'Sender not found']);
         }
 
         // Validate transfer amount
         if ($amount <= 0) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Invalid transfer amount'], 404);
+            }
             return redirect()->back()->withErrors(['error' => 'Invalid transfer amount']);
         }
        
@@ -390,6 +396,9 @@ class TransferPropertyController extends Controller
         
         // Check sender's wallet balance
         if ($sendWallet->balance < $amount) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'You do not has insufficient funds'], 404);
+            }
             return redirect()->back()->with(['error' => 'You do not has insufficient funds']);
         }
         

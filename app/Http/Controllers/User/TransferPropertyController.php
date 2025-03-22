@@ -443,7 +443,7 @@ class TransferPropertyController extends Controller
         // Deduct from sender's wallet
         // $sendWallet->balance -= $amount;
         // $sendWallet->save();
-        $propertyData = Property::where('id', $propertyId)->where('slug', $propertySlug)->first();
+        $propertyData = Property::where('id', $propertyId)->first();
 
         // Create a transaction to deduct from sender
         Transaction::create([

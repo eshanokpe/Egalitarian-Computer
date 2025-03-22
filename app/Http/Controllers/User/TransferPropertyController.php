@@ -411,7 +411,7 @@ class TransferPropertyController extends Controller
         ->with('property')
         ->where('user_id', $sender->id)
         ->where('user_email', $sender->email)
-        ->groupBy('id', 'property_id', 'status')
+        ->groupBy('id', 'property_id', 'status', 'selected_size_land')
         ->get();
         $totalLandSize = $buy->sum('selected_size_land');
         if ($totalLandSize < $landSize) {

@@ -20,6 +20,8 @@ use App\Http\Controllers\Api\TransactionController as APITransactionController;
 use App\Http\Controllers\Api\TransferPropertyController as APITransferPropertyController;
 use App\Http\Controllers\User\TransferPropertyController;
 use App\Http\Controllers\User\SellPropertyController;
+use App\Http\Controllers\User\ReferralController;
+
 
 
 
@@ -58,7 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/{propertyMode}/confirm/{slug}', [TransferPropertyController::class, 'confirmTransfer']);
     Route::post('/transfer/confirm/{slug}/submit', [TransferPropertyController::class, 'submitConfirmation']);
 
-
+ 
 
     Route::get('/properties/{id}', [APIPropertyController::class, 'propertiesShow']);
 
@@ -86,7 +88,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('initiate/transfer', [WalletTransferController::class, 'initiateTransfer']);
     Route::get('get/wallet/transactions', [WalletTransferController::class, 'getWalletTransactions']);
 
-
+    //Referral
+    Route::get('get/referral', [ReferralController::class, 'index']);
+    
     
   
     Route::post('logout', [AuthController::class, 'logout']);

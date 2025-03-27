@@ -13,7 +13,7 @@ class ReferralController extends Controller
         $this->middleware('auth'); 
     }
    
-    public function index(){
+    public function index(Request $request){
         $data['user'] = Auth::user();
         $user = Auth::user();
 

@@ -268,7 +268,7 @@
                        
                     </div>
                     <ul class="recent__activity--message">
-                       
+                        
                         @if ($referralsMade->isNotEmpty())
                             @foreach ($referralsMade as $referral)
                                 <li class="recent__activity--message__list one d-flex justify-content-between">

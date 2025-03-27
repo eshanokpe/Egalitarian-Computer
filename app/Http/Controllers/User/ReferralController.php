@@ -17,7 +17,7 @@ class ReferralController extends Controller
         $data['user'] = Auth::user();
         $user = Auth::user();
 
-        $data['referralsMade'] = $user->referralsMade()->with('user', 'referrer')->take(6)->get();
+        $data['referralsMade'] = $user->referralsMade()->with('user', 'referrer', 'referred')->take(6)->get();
         $data['referralCount'] = $user->referralsMade()->count(); 
         $data['hasMoreReferrals'] = $data['referralsMade']->count() > 6;
 

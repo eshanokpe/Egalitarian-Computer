@@ -27,9 +27,7 @@ class ReferralLog extends Model
         return $this->belongsTo(User::class, 'referrer_id');
     }
 
-    /**
-     * Get the referred (user) associated with this referral log.
-     */
+    
     public function referred()
     {
         return $this->belongsTo(User::class, 'referred_id');

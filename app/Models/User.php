@@ -62,8 +62,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(WalletTransaction::class);
     }
-    // Relationship: Referrals received by this user (users who referred by this user)
-   
+    
 
 
 }

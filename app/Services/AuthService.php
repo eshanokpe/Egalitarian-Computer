@@ -16,6 +16,8 @@ use App\Mail\VerificationEmail;
 use Illuminate\Validation\Rules\Password;
 use App\Services\AuthService;
 use Illuminate\Validation\ValidationException;
+use App\Notifications\NewReferralSignupNotification;
+use App\Notifications\ReferralConnectionNotification;
  
 class AuthService
 {

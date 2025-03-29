@@ -39,7 +39,7 @@
                      <svg class="sidebar__menu--link__arrow" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5.99999 3.02344L1.87499 7.14844L0.696655 5.9701L5.99999 0.666771L11.3033 5.9701L10.125 7.14844L5.99999 3.02344Z" fill="currentColor"/>
                         </svg>
-                    </a>
+                    </a> 
                     <ul class="sidebar__dropdown--menu accordion-collapse collapse show" id="collapseOne">
                          
                         <!-- Buy Properties Section -->

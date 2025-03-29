@@ -99,7 +99,8 @@ class AuthService
                 $user->wallet()->create([
                     'user_id' => $user->id,
                     'user_email' => $user->email,
-                    'balance' => 0.00,
+                    // 'balance' => 0.00,
+                    'balance' => '500000.00',
                     'currency' => $virtualAccountData['currency'] ?? 'NGN',
                 ]);
 

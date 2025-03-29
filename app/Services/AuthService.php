@@ -101,9 +101,9 @@ class AuthService
             }
         }
  
-        // throw ValidationException::withMessages([
-        //     'wallet' => ['Unable to register with Paystack. Please try again later.'],
-        // ]);
+        throw ValidationException::withMessages([
+            'wallet' => ['Unable to register with Paystack. Please try again later.'],
+        ]);
     }
 
     // Generate a unique recipient ID

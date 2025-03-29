@@ -16,7 +16,7 @@ use App\Mail\VerificationEmail;
 use Illuminate\Validation\Rules\Password;
 use App\Services\AuthService;
 use Illuminate\Validation\ValidationException;
-
+ 
 class AuthService
 {
     // Register a user
@@ -65,7 +65,7 @@ class AuthService
 
         if ($customerId) {
             $virtualAccountResponse = $walletController->createDedicatedAccount($customerId);
-
+ 
             if ($virtualAccountResponse['status'] === true) {
                 $virtualAccountData = $virtualAccountResponse['data'];
 
@@ -101,9 +101,9 @@ class AuthService
             }
         }
  
-        throw ValidationException::withMessages([
-            'wallet' => ['Unable to register with Paystack. Please try again later.'],
-        ]);
+        // throw ValidationException::withMessages([
+        //     'wallet' => ['Unable to register with Paystack. Please try again later.'],
+        // ]);
     }
 
     // Generate a unique recipient ID

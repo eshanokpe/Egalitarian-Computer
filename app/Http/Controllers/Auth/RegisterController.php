@@ -63,7 +63,7 @@ class RegisterController extends Controller
             'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
             'referral_code' => 'nullable|string|exists:users,referral_code',
             'dob' => [
-                'required', 
+                'required',  
                 'date', 
                 'before:' . now()->subYears(18)->format('Y-m-d'),
             ]

@@ -8,7 +8,6 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\User;
 use App\Models\Property;
-use Illuminate\Mail\Markdown;
 
 class ReferredUserPurchasedNotification extends Notification implements ShouldQueue
 {
@@ -56,13 +55,10 @@ class ReferredUserPurchasedNotification extends Notification implements ShouldQu
             ->line('We wanted to let you know that because you were referred by ' . $referrerName . ',')
             ->line('they have earned a referral commission from your first property purchase.')
             ->line('Here are the details:')
-            ->line(new Markdown('
-                | Detail               | Information                  |
-                |----------------------|------------------------------|
-                | **Referrer**         | ' . $referrerName . ' |
-                | **Property**         | ' . e($this->property->name) . ' |
-                | **Your Benefit**     | You helped someone earn while making your own smart investment! |
-            '))
+            ->line('') // Empty line before table
+            ->line('**Referrer:** ' . $referrerName)
+            ->line('**Property:** ' . e($this->property->name))
+            ->line('**Your Benefit:** You helped someone earn while making your own smart investment!')
             ->action('View Your Purchase', route('user.purchases'))
             ->line('Thank you for being part of our community!')
             ->salutation('Best Regards,<br>' . config('app.name'));

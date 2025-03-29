@@ -60,7 +60,7 @@ class AuthService
                 'commission_amount' => 0, 
                 'commission_paid' => false,
                 'commission_paid_at' => null,
-                'status' => 'registered' 
+                'status' => 'registered', 
                 'property_id' => null,
                 'transaction_id' => null,
             ]);

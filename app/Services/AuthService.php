@@ -57,6 +57,12 @@ class AuthService
                 'referred_id' => $user->id,
                 'referral_code' => $data['referral_code'],
                 'referred_at' => now(),
+                'commission_amount' => 0, 
+                'commission_paid' => false,
+                'commission_paid_at' => null,
+                'status' => 'registered' 
+                'property_id' => null,
+                'transaction_id' => null,
             ]);
         }
 

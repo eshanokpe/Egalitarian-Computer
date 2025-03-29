@@ -11,6 +11,9 @@ use Yabacon\Paystack;
 use App\Models\Wallet;
 use App\Models\Property;  
 use App\Models\Transaction;   
+use App\Models\ReferralLog;
+use App\Notifications\ReferralCommissionEarnedNotification;
+use App\Notifications\ReferredUserPurchasedNotification;
 
 class PaymentController extends Controller
 {
@@ -90,8 +93,6 @@ class PaymentController extends Controller
                 'reference' => $request->get('reference'),
                 'trxref' => $request->get('trxref'),
             ]);
-            // dd($paymentDetails->data);
-            // $property = Property::find($paymentDetails->data->metadata->property_id);
             $property = Property::where('id', $paymentDetails->data->metadata->property_id)
             ->where('name', $paymentDetails->data->metadata->property_name)->first();
 
@@ -142,13 +143,10 @@ class PaymentController extends Controller
                 // Deduct from Wallet 
                 $wallet = $user->wallet;
                 if ($wallet) {
-                    $userBalance = $wallet->balance; // Directly access balance
-                    // dd($userBalance);
-                    // dd($amount);
+                    $userBalance = $wallet->balance;
                     // Check if the user has sufficient balance
                     if ($userBalance >= $amount) {
                         $v = $userBalance - $amount;
-                        // dd($v);
                         $wallet->update([
                             'balance' => $userBalance - $amount
                         ]); 
@@ -159,8 +157,8 @@ class PaymentController extends Controller
                     return redirect()->route('user.dashboard')->with('error', 'Wallet not found. Please contact support.');
                 }
 
-
-                
+                // Handle referral commission if this is user's first purchase
+                $this->processReferralCommission($user, $property, $amount, $transaction);
 
                 return redirect()->route('user.dashboard')->with('success', 'Payment successful!');
             }
@@ -178,5 +176,57 @@ class PaymentController extends Controller
         }
     }
 
-    
+    protected function processReferralCommission($user, $property, $amount, $transaction)
+    {
+        // Check if user has any previous purchases
+        $hasPreviousPurchases = Buy::where('user_id', $user->id)
+        ->where('id', '!=', $transaction->id)
+        ->exists();
+
+        if ($hasPreviousPurchases) {
+            return; // Skip if not first purchase
+        }
+
+        // Check if user was referred
+        $referralLog = ReferralLog::where('referred_id', $user->id)
+            ->where('status', ReferralLog::STATUS_REGISTERED)
+            ->first();
+        if ($referralLog) {
+            // Calculate 3% commission
+            $commissionAmount = $amount * 0.03;
+
+            // Update referral log
+            $referralLog->update([
+                'property_id' => $property->id,
+                'transaction_id' => $transaction->reference,
+                'commission_amount' => $commissionAmount,
+                'status' => ReferralLog::STATUS_PENDING,
+            ]);
+            // Credit referrer's wallet
+            $referrer = $referralLog->referrer;
+            if ($referrer && $referrer->wallet) {
+                $referrer->wallet->increment('balance', $commissionAmount);
+                // Create commission transaction
+                Transaction::create([
+                    'user_id' => $referrer->id,
+                    'amount' => $commissionAmount,
+                    'type' => 'referral_commission',
+                    'status' => 'completed',
+                    'description' => 'Commission from referral purchase',
+                    'reference' => 'COMM-'.Str::uuid(),
+                ]);
+                // Notify referrer
+                $referrer->notify(new ReferralCommissionEarnedNotification(
+                    $user,
+                    $property,
+                    $commissionAmount
+                ));
+                // Notify referred user
+                $user->notify(new ReferredUserPurchasedNotification(
+                    $referrer,
+                    $property
+                ));
+            }
+        }
+    }
 }

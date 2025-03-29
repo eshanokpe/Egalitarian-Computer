@@ -62,8 +62,41 @@ class User extends Authenticatable
     {
         return $this->hasMany(WalletTransaction::class);
     }
-    
 
+    public function successfulReferrals()
+    {
+        return $this->referrals()
+            ->where('status', ReferralLog::STATUS_PAID);
+    }
+
+    public function pendingReferrals()
+    {
+        return $this->referrals()
+            ->where('status', ReferralLog::STATUS_PENDING);
+    }
+
+    public function totalCommissionEarned()
+    {
+        return $this->referrals()
+            ->where('commission_paid', true)
+            ->sum('commission_amount');
+    }
+
+    public function potentialCommission()
+    {
+        return $this->referrals()
+            ->where('status', ReferralLog::STATUS_PENDING)
+            ->sum('commission_amount');
+    }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => trim($this->first_name . ' ' . $this->last_name),
+        );
+    }
+
+    
 
 }
  

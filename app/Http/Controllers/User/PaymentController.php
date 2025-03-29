@@ -180,7 +180,7 @@ class PaymentController extends Controller
     {
         // Check if user has any previous purchases
         $hasPreviousPurchases = Buy::where('user_id', $user->id)
-        ->where('id', '!=', $transaction->id)
+        ->where('transaction_id', '!=', $transaction->id)
         ->exists();
 
         if ($hasPreviousPurchases) {
@@ -198,7 +198,7 @@ class PaymentController extends Controller
             // Update referral log
             $referralLog->update([
                 'property_id' => $property->id,
-                'transaction_id' => $transaction->reference,
+                'transaction_id' => $transaction->id,
                 'commission_amount' => $commissionAmount,
                 'status' => ReferralLog::STATUS_PENDING,
             ]);
@@ -226,6 +226,9 @@ class PaymentController extends Controller
                     $referrer,
                     $property
                 ));
+            }else {
+                // Create a wallet if it doesn’t exist (optional)
+                $referrer->wallet()->create(['balance' => $commissionAmount]);
             }
         }
     }

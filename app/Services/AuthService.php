@@ -64,7 +64,14 @@ class AuthService
                 'property_id' => null,
                 'transaction_id' => null,
             ]);
+            // Notify referrer about new referral signup
+            $referrer->notify(new NewReferralSignupNotification($user));
+
+            // Notify new user about successful referral connection
+            $user->notify(new ReferralConnectionNotification($referrer));
         }
+        
+
 
         // Create a virtual account
         $customerId = $walletController->createVirtualAccountCustomer($user);

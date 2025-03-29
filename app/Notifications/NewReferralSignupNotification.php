@@ -33,7 +33,7 @@ class NewReferralSignupNotification extends Notification implements ShouldQueue
             ->greeting('Hello ' . e($notifiable->first_name) . '!')
             ->line('Congratulations! ' . $newUserName . ' just signed up using your referral link.')
             ->line('You will earn 3% commission when they make their first property purchase.')
-            // ->action('View Your Referrals', route('user.referrals'))
+            ->action('View Your Referrals', route('user.referrals.show'))
             ->line('Thank you for growing our community!');
     }
 
@@ -44,7 +44,7 @@ class NewReferralSignupNotification extends Notification implements ShouldQueue
         return [
             'notification_status' => 'new_referral',
             'message' => $newUserName . ' signed up using your referral',
-            'action_url' => route('user.referrals'),
+            'action_url' => route('user.referrals.show'),
             'action_text' => 'View Referrals'
         ];
     }

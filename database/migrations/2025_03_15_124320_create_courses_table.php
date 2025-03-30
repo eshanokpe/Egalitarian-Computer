@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
             $table->string('image');
-            $table->unsignedBigInteger('instructor_id');
+            $table->uuid('instructor_id');
             $table->foreign('instructor_id')->references('id')->on('instructors')->onDelete('cascade');
             $table->integer('students_count')->default(0);
             $table->integer('comments_count')->default(0);

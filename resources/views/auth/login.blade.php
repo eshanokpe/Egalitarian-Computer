@@ -97,8 +97,8 @@
                             {{-- </div> --}}
                             <p class="account__form--condition position-relative m-0">
                                 <label class="account__form--condition__label" for="condition">
-                                    I agree to all Terms & <span>Condition</span>
-                                    and Feeds
+                                    I agree to all  <span><a href="{{ route('home.pages','terms-of-use')}}">Terms of Use</a></span> 
+                                    and <span><a href="{{ route('home.pages', 'privacy-policy') }}">Privacy Policy</a></span>
                                 </label>
                                 <input required class="account__form--condition__input" name="remember" type="checkbox" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                 <span class="account__form--condition__checkmark"></span>

@@ -19,12 +19,19 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->string('image');
             $table->unsignedBigInteger('instructor_id');
-            $table->foreign('instructor_id')->references('id')->on('instructors')->onDelete('cascade');
             $table->integer('students_count')->default(0);
             $table->integer('comments_count')->default(0);
             $table->integer('rating')->default(0);
             $table->timestamps();
-        }); 
+        });
+        
+        // Add foreign key constraint separately
+        Schema::table('courses', function (Blueprint $table) {
+            $table->foreign('instructor_id')
+                  ->references('id')
+                  ->on('instructors')
+                  ->onDelete('cascade');
+        });
     }
 
     /**
@@ -32,6 +39,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('courses', function (Blueprint $table) {
+            $table->dropForeign(['instructor_id']);
+        });
+        
         Schema::dropIfExists('courses');
     }
 };

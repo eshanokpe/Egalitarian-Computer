@@ -29,7 +29,7 @@
             </div>
             <div>
                 <!-- intro block slide -->
-                <article class="intro-block-slide overlay bg-cover" style="background-image: url({{ asset('assets/images/img02.jpg')}});">
+                <article class="intro-block-slide overlay bg-cover" style="background-image: url({{ asset('assets/images/courses/img02.jpg')}});">
                     <div class="align-wrap container">
                         <div class="align">
                             <div class="anim">
@@ -50,7 +50,7 @@
             </div>
             <div>
                 <!-- intro block slide -->
-                <article class="intro-block-slide overlay bg-cover" style="background-image: url({{ asset('assets/images/img03.jpg')}});">
+                <article class="intro-block-slide overlay bg-cover" style="background-image: url({{ asset('assets/images/courses/img03.jpg')}});">
                     <div class="align-wrap container">
                         <div class="align">
                             <div class="anim">
@@ -117,7 +117,7 @@
                         <!-- popular post -->
                         <article class="popular-post">
                             <div class="aligncenter">
-                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img03.jpg')}}" alt="image description">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/courses/img03.jpg')}}" alt="image description">
                             </div>
                             <div>
                                 <strong class="bg-success text-white font-lato text-uppercase price-tag">$25.00</strong>
@@ -193,7 +193,7 @@
                         <!-- popular post -->
                         <article class="popular-post">
                             <div class="aligncenter">
-                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img05.jpg')}}" alt="image description">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/courses/img05.jpg')}}" alt="image description">
                             </div>
                             <div>
                                 <strong class="bg-primary text-white font-lato text-uppercase price-tag">$260.00</strong>
@@ -231,7 +231,7 @@
                         <!-- popular post -->
                         <article class="popular-post">
                             <div class="aligncenter">
-                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img02.jpg')}}" alt="image description">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/courses/img02.jpg')}}" alt="image description">
                             </div>
                             <div>
                                 <strong class="bg-primary text-white font-lato text-uppercase price-tag">$385.00</strong>
@@ -307,7 +307,7 @@
                         <!-- popular post -->
                         <article class="popular-post">
                             <div class="aligncenter">
-                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img04.jpg')}}" alt="image description">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/courses/img04.jpg')}}" alt="image description">
                             </div>
                             <div>
                                 <strong class="bg-primary text-white font-lato text-uppercase price-tag">$250.00</strong>

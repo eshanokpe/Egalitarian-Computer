@@ -210,7 +210,7 @@
                     <div class="col-xs-12 col-sm-6 col-lg-4">
                         <article class="popular-post">
                             <div class="aligncenter">
-                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img04.jpg')}}" alt="image description">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/courses/img04.jpg')}}" alt="image description">
                             </div>
                             <div>
                                 <strong class="bg-primary text-white font-lato text-uppercase price-tag">$250.00</strong>
@@ -246,7 +246,7 @@
                          <!-- popular post -->
                          <article class="popular-post">
                             <div class="aligncenter">
-                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/courses/img055.jpg')}}" alt="image description">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img055.jpg')}}" alt="image description">
                             </div>
                             <div>
                                 <strong class="bg-primary text-white font-lato text-uppercase price-tag">$250.00</strong>

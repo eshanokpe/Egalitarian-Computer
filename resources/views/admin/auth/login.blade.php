@@ -40,7 +40,7 @@
                         <div class="card-body">
                             <div class="text-center mb-3">
                                 <a href="#">
-                                    <img class="logo-auth"src="{{ asset('backend/images/logoo.png')}}" width="20" height="40" alt="">
+                                    <img class="logo-auth"src="{{ asset('assets/images/logoo.png')}}"  width="20" height="40" alt="">
                                 </a> 
                             </div>
 
@@ -52,9 +52,9 @@
                             <h4 class="text-center mb-4">Admin sign in</h4>
                             <form action="{{route('admin.login.submit')}}" method="POST">
                                 @csrf
-                                <div class="form-group mb-4">
+                                <div class="form-group mb-4"> 
                                     <label class="form-label" for="username">Email</label>
-                                    <input type="email" placeholder="Enter email" class="form-control @error('email') is-invalid @enderror" name="email" required autofocus>
+                                    <input type="email" value="admin@gmail.com" placeholder="Enter email" class="form-control @error('email') is-invalid @enderror" name="email" required autofocus>
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -69,7 +69,7 @@
                                <div class="form-group mb-3 mb-sm-4">
 									<label class="form-label">Password</label>
 									<div class="position-relative">
-                                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required>
+                                        <input value="adminadmin" type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required>
 										<span class="show-pass eye">
 											<i class="fa fa-eye-slash"></i>
 											<i class="fa fa-eye"></i>

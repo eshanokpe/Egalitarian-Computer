@@ -33,18 +33,120 @@
                         <!-- popular post -->
                         <article class="popular-post">
                             <div class="aligncenter">
-                                <img src="{{ asset('assets/images/img02.jpg')}}" alt="image description">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img03.jpg')}}" alt="image description">
                             </div>
                             <div>
-                                <strong class="bg-primary text-white font-lato text-uppercase price-tag">$99.00</strong>
+                                <strong class="bg-success text-white font-lato text-uppercase price-tag">$25.00</strong>
                             </div>
-                            <h3 class="post-heading"><a href="course-single.html">French for Beginners to Advanced Training</a></h3>
-                            <div class="post-author">
-                                <div class="alignleft rounded-circle no-shrink">
-                                    <a href="instructor-single.html"><img src="{{ asset('assets/images/img06.jpg')}}" class="rounded-circle" alt="image description"></a>
-                                </div>
-                                <h4 class="author-heading"><a href="instructor-single.html">Keny White</a></h4>
+                            <h3 class="post-heading"><a href="course-single.html">UI / UX</a></h3>
+                           
+                            <footer class="post-foot gutter-reset">
+                                <ul class="list-unstyled post-statuses-list">
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn fa-users no-shrink"><span class="sr-only">users</span></span>
+                                            <strong class="text fw-normal">150</strong>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn no-shrink fa-comments"><span class="sr-only">comments</span></span>
+                                            <strong class="text fw-normal">3</strong>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="star-rating list-unstyled">
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="far fa-star"><span class="sr-only">star</span></span></li>
+                                </ul>
+                            </footer>
+                        </article>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-4">
+                        <!-- popular post -->
+                        <article class="popular-post">
+                            <div class="aligncenter">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img04.jpg')}}" alt="image description">
                             </div>
+                            <div>
+                                <strong class="bg-primary text-white font-lato text-uppercase price-tag">$465.00</strong>
+                            </div>
+                            <h3 class="post-heading"><a href="#">Artificial Intelligent</a></h3>
+                          
+                            <footer class="post-foot gutter-reset">
+                                <ul class="list-unstyled post-statuses-list">
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn fa-users no-shrink"><span class="sr-only">users</span></span>
+                                            <strong class="text fw-normal">200</strong>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn no-shrink fa-comments"><span class="sr-only">comments</span></span>
+                                            <strong class="text fw-normal">3</strong>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="star-rating list-unstyled">
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="far fa-star-half"><span class="sr-only">star</span></span></li>
+                                </ul>
+                            </footer>
+                        </article>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-4">
+                        <!-- popular post -->
+                        <article class="popular-post">
+                            <div class="aligncenter">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img05.jpg')}}" alt="image description">
+                            </div>
+                            <div>
+                                <strong class="bg-primary text-white font-lato text-uppercase price-tag">$260.00</strong>
+                            </div>
+                            <h3 class="post-heading"><a href="#">Data Analysis Using Python</a></h3>
+                           
+                            <footer class="post-foot gutter-reset">
+                                <ul class="list-unstyled post-statuses-list">
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn fa-users no-shrink"><span class="sr-only">users</span></span>
+                                            <strong class="text fw-normal">48</strong>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn no-shrink fa-comments"><span class="sr-only">comments</span></span>
+                                            <strong class="text fw-normal">5</strong>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="star-rating list-unstyled">
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                </ul>
+                            </footer>
+                        </article>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-4">
+                        <article class="popular-post">
+                            <div class="aligncenter">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img02.jpg')}}" alt="image description">
+                            </div>
+                            <div>
+                                <strong class="bg-primary text-white font-lato text-uppercase price-tag">$385.00</strong>
+                            </div>
+                            <h3 class="post-heading"><a href="#">Machine Learning</a></h3>
+                          
                             <footer class="post-foot gutter-reset">
                                 <ul class="list-unstyled post-statuses-list">
                                     <li>
@@ -71,21 +173,15 @@
                         </article>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <!-- popular post -->
                         <article class="popular-post">
                             <div class="aligncenter">
-                                <img src="{{ asset('assets/images/img03.jpg')}}" alt="image description">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img03.jpg')}}" alt="image description">
                             </div>
                             <div>
-                                <strong class="bg-success text-white font-lato text-uppercase price-tag">Free</strong>
+                                <strong class="bg-success text-white font-lato text-uppercase price-tag">$155.00</strong>
                             </div>
-                            <h3 class="post-heading"><a href="course-single.html">Introduction to Mobile Apps Development</a></h3>
-                            <div class="post-author">
-                                <div class="alignleft no-shrink rounded-circle">
-                                    <a href="instructor-single.html"><img src="{{ asset('assets/images/img07.jpg')}}" class="rounded-circle" alt="image description"></a>
-                                </div>
-                                <h4 class="author-heading"><a href="instructor-single.html">Sarah Johnson</a></h4>
-                            </div>
+                            <h3 class="post-heading"><a href="#">Web Development</a></h3>
+                           
                             <footer class="post-foot gutter-reset">
                                 <ul class="list-unstyled post-statuses-list">
                                     <li>
@@ -112,21 +208,15 @@
                         </article>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-lg-4">
-                        <!-- popular post -->
                         <article class="popular-post">
                             <div class="aligncenter">
-                                <img src="{{ asset('assets/images/img04.jpg')}}" alt="image description">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img04.jpg')}}" alt="image description">
                             </div>
                             <div>
-                                <strong class="bg-primary text-white font-lato text-uppercase price-tag">$85.60</strong>
+                                <strong class="bg-primary text-white font-lato text-uppercase price-tag">$250.00</strong>
                             </div>
-                            <h3 class="post-heading"><a href="course-single.html">How to Become a Startup Founder</a></h3>
-                            <div class="post-author">
-                                <div class="alignleft no-shrink rounded-circle">
-                                    <a href="instructor-single.html"><img src="{{ asset('assets/images/img08.jpg')}}" class="rounded-circle" alt="image description"></a>
-                                </div>
-                                <h4 class="author-heading"><a href="instructor-single.html">Jhon Milton</a></h4>
-                            </div>
+                            <h3 class="post-heading"><a href="#">Web Development with Django</a></h3>
+                           
                             <footer class="post-foot gutter-reset">
                                 <ul class="list-unstyled post-statuses-list">
                                     <li>
@@ -152,8 +242,115 @@
                             </footer>
                         </article>
                     </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-4">
+                         <!-- popular post -->
+                         <article class="popular-post">
+                            <div class="aligncenter">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img055.jpg')}}" alt="image description">
+                            </div>
+                            <div>
+                                <strong class="bg-primary text-white font-lato text-uppercase price-tag">$250.00</strong>
+                            </div>
+                            <h3 class="post-heading"><a href="#">Python Development</a></h3>
+                          
+                            <footer class="post-foot gutter-reset">
+                                <ul class="list-unstyled post-statuses-list">
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn fa-users no-shrink"><span class="sr-only">users</span></span>
+                                            <strong class="text fw-normal">48</strong>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn no-shrink fa-comments"><span class="sr-only">comments</span></span>
+                                            <strong class="text fw-normal">5</strong>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="star-rating list-unstyled">
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                </ul>
+                            </footer>
+                        </article>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-4">
+                         <!-- popular post -->
+                         <article class="popular-post">
+                            <div class="aligncenter">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img056.png')}}" alt="image description">
+                            </div>
+                            <div>
+                                <strong class="bg-primary text-white font-lato text-uppercase price-tag">$385.00</strong>
+                            </div>
+                            <h3 class="post-heading"><a href="#">Computer Vision with OpenCV</a></h3>
+                          
+                            <footer class="post-foot gutter-reset">
+                                <ul class="list-unstyled post-statuses-list">
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn fa-users no-shrink"><span class="sr-only">users</span></span>
+                                            <strong class="text fw-normal">48</strong>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn no-shrink fa-comments"><span class="sr-only">comments</span></span>
+                                            <strong class="text fw-normal">5</strong>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="star-rating list-unstyled">
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                </ul>
+                            </footer>
+                        </article>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-4">
+                        <!-- popular post -->
+                        <article class="popular-post">
+                            <div class="aligncenter">
+                                <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img066.jpg')}}" alt="image description">
+                            </div>
+                            <div>
+                                <strong class="bg-primary text-white font-lato text-uppercase price-tag">$385.00</strong>
+                            </div>
+                            <h3 class="post-heading"><a href="#">MicroSoft Office - Word, Excel, PowerPoint & Access </a></h3>
+                          
+                            <footer class="post-foot gutter-reset">
+                                <ul class="list-unstyled post-statuses-list">
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn fa-users no-shrink"><span class="sr-only">users</span></span>
+                                            <strong class="text fw-normal">48</strong>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="fas icn no-shrink fa-comments"><span class="sr-only">comments</span></span>
+                                            <strong class="text fw-normal">5</strong>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="star-rating list-unstyled">
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                    <li><span class="fas fa-star"><span class="sr-only">star</span></span></li>
+                                </ul>
+                            </footer>
+                        </article>
+                    </div>
                     
-                   
                 </div>
                 <nav aria-label="Page navigation">
                     <!-- pagination -->

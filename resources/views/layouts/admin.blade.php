@@ -81,7 +81,7 @@
 
     <!-- Apex Chart -->
     <script src="{{ asset ('backend/vendor/apexchart/apexchart.js')}}"></script>
-    <!-- Vectormap -->
+    <!-- Vectormap --> 
     <script src="{{ asset ('backend/vendor/jqvmap/js/jquery.vmap.min.js')}}"></script>
     <script src="{{ asset ('backend/vendor/jqvmap/js/jquery.vmap.world.js')}}"></script>
     <script src="{{ asset ('backend/vendor/jqvmap/js/jquery.vmap.usa.js')}}"></script>

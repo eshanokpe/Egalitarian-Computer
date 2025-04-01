@@ -16,7 +16,7 @@
     ***********************************-->
     <div class="nav-header">
         <a href="{{ route('admin.index') }}" class="brand-logo"> 
-            <img class="logo"  src="{{ asset('assets/images/logoo.png')}}" alt="/" style=" width: 150px; height:40px; object-fit: cover; ">
+            <img class="logo"  src="{{ asset('assets/images/logoo.png')}}" alt="/" style=" width: 100px; height:60px; object-fit: cover; ">
         </a> 
 
         <div class="nav-control">

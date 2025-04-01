@@ -2,7 +2,7 @@
 <html>
 <head>
 	<!-- set the encoding of your site -->
-	<meta charset="utf-8">
+	<meta charset="utf-8"> 
 	<!-- set the viewport width and initial-scale on mobile devices -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- set the HandheldFriendly -->

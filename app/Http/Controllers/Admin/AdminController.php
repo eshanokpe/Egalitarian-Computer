@@ -13,12 +13,12 @@ use App\Http\Traits\AdminTrait;
  
 class AdminController extends Controller
 {
-    use AdminTrait; 
+   
     public function __construct()
-    { 
+    {
         $this->middleware('auth.admin');
     }
- 
+    
     public function index()
     { 
         $data['data'] = User::latest()->get();

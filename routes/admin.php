@@ -14,7 +14,7 @@ Route::prefix('admin')->group(function () {
     Route::middleware('auth.admin')->group(function () {
         Route::post('/settings/update-password', [AdminLoginController::class, 'updatePassword'])->name('admin.password.update');
         Route::get('/settings/show-password', [AdminLoginController::class, 'showChangePasswordForm'])->name('admin.show.password');
-        Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
         // Menu
         Route::get('/menu/create', [MenuController::class, 'creatMenu'])->name('admin.menu.create');
         Route::get('/manage/menu/index', [MenuController::class, 'indexMenu'])->name('admin.menu.index');

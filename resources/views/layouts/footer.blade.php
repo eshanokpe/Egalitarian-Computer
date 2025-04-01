@@ -99,7 +99,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-pull-6 col-sm-6">
                         <p><a href="#">Egaliterian Computer</a> | &copy; {{ date('Y') }} <a href="#"></a>, All rights reserved</p>
-                    </div>
+                    </div> 
                 </div>
             </div>
         </footer>

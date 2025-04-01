@@ -29,10 +29,10 @@ class AdminLoginController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-
+        
         if (Auth::guard('admin')->attempt($credentials)) {
-            // return redirect()->route('admin.index');
-            return redirect()->intended(route('admin.index'));
+            return redirect()->route('admin.index');
+            // return view('admin.dashboard');
         }
 
         return redirect()->back()->withInput($request->only('email'))->withErrors([

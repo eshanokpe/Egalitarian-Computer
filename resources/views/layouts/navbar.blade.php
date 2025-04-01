@@ -37,7 +37,7 @@
     <!-- header holder -->
     <div class="header-holder">
         <div class="container">
-            <div class="row">
+            <div class="row"> 
                 <div class="col-xs-6 col-sm-3">
                     <!-- logo -->
                     <div class="logo">

@@ -381,7 +381,8 @@
                 <div>
                     <div class="col-xs-12">
                         <!-- popular post -->
-                        <article class="popular-post">
+                        <article class="popular-post">   
+                            
                             <div class="aligncenter">
                                 <img style="max-height: 100%; max-width:100%; object-fix:cover; height:200px" src="{{ asset('assets/images/img056.png')}}" alt="image description">
                             </div>

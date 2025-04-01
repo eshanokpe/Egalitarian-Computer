@@ -11,6 +11,7 @@ use App\Http\Controllers\User\PropertyController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\TransactionController;
+use App\Http\Controllers\Api\PasscodeController;
 use App\Http\Controllers\Api\BuyPropertyController;
 use App\Http\Controllers\User\SecurityController;
 use App\Http\Controllers\User\Wallet\WalletTransferController;
@@ -75,8 +76,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/notifications', [NotificationController::class, 'index']);
 
-    Route::get('/get/userProfile', [ProfileController::class, 'index']);
-    Route::post('/update/profile', [ProfileController::class, 'update']);
+ 
+
     Route::put('/{id}/change-password', [SecurityController::class, 'changePasswordPost']);
     Route::put('/{id}/transaction/pin', [SecurityController::class, 'createTransactionPin']);
     Route::get('/{userId}/transaction/get/pin', [SecurityController::class, 'getTransactionPin']);
@@ -90,7 +91,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Referral
     Route::get('get/referral', [ReferralController::class, 'index']);
-    
+
+    Route::get('/get/userProfile', [ProfileController::class, 'index']);
+    Route::post('/update/profile', [ProfileController::class, 'update']);
+
+    // AppLock
+    Route::prefix('passcode')->group(function () {
+        Route::get('/status', [PasscodeController::class, 'checkStatus']);
+        Route::post('/set', [PasscodeController::class, 'setPasscode']);
+        Route::post('/verify', [PasscodeController::class, 'verifyPasscode']);
+        Route::post('/remove', [PasscodeController::class, 'removePasscode']);
+    });
     
   
     Route::post('logout', [AuthController::class, 'logout']);

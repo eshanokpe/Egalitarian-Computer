@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Exception; 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
  
 class ProfileController extends Controller
@@ -17,22 +19,105 @@ class ProfileController extends Controller
     }
 
     
- 
-    public function index() {
+    public function index() { 
         $user = Auth::user();
-        $user->load('virtualAccounts'); // Load the related virtual accounts
+        $user->load('virtualAccounts');
+        
     
         if (request()->wantsJson()) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Profile retrieved successfully!',
                 'user' => $user,
+                'isPasscodeSet' => !empty($user->app_passcode),
             ], 200);
         }
     
         return view('user.pages.profile.index', ['user' => $user]);
     }
     
+    public function setPasscode(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'passcode' => 'required|digits:4|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        
+        $user = Auth::user();
+        $user->app_passcode = Hash::make($request->passcode);
+        $user->save();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Passcode set successfully',
+        ]);
+    }
+
+    public function verifyPasscode(Request $request)
+    {
+        $request->validate([
+            'passcode' => 'required|digits:4',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        $user = Auth::user();
+        
+        if (!Hash::check($request->passcode, $user->app_passcode)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid passcode',
+            ], 401);
+        }
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Passcode verified',
+        ]);
+    }
+
+    public function removePasscode(Request $request)
+    {
+        $request->validate([
+            'passcode' => 'required|digits:4',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        
+        $user = Auth::user();
+        
+        if (!Hash::check($request->passcode, $user->app_passcode)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid passcode',
+            ], 401);
+        }
+        
+        $user->app_passcode = null;
+        $user->save();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Passcode removed successfully',
+        ]);
+    }
+        
 
     /**
      * Show the form for creating a new resource.

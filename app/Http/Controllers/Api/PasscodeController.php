@@ -29,7 +29,8 @@ class PasscodeController extends Controller
     public function setPasscode(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'passcode' => 'required|digits:4|confirmed',
+            'passcode' => 'required|digits:4',
+            'passcode_confirmation' => 'sometimes|required|same:passcode',
         ]);
 
         if ($validator->fails()) {

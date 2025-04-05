@@ -16,6 +16,7 @@ class User extends Authenticatable
     const AUTH_METHOD_PIN = 'pin';
     const AUTH_METHOD_BIOMETRIC = 'biometric';
     const AUTH_METHOD_BOTH = 'both';
+    const BIOMETRIC_FACE = 'face';
 
     protected $fillable = [
         'first_name',

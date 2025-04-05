@@ -123,7 +123,7 @@ class User extends Authenticatable
             self::AUTH_METHOD_BOTH
         ]);
     }
-    
+
     public function requiresBiometricAuth(): bool
     {
         return in_array($this->auth_method, [
@@ -141,7 +141,15 @@ class User extends Authenticatable
         ];
     }
 
-    
+    public function canUseBiometric()
+    {
+        // In a real app, you would check device capabilities here
+        // For now, we'll assume biometric is available if the user has it enabled
+        return in_array($this->auth_method, [
+            self::AUTH_METHOD_BIOMETRIC,
+            self::AUTH_METHOD_BOTH
+        ]);
+    }
 
 }
  

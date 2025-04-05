@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ContactDetials;
+use App\Models\Sociallink;
 use Auth;
 
 class HelpSupportController extends Controller
@@ -30,10 +31,12 @@ class HelpSupportController extends Controller
         $data['referralsMade'] = $data['user']->referralsMade()->with('user', 'referrer')->take(6)->get();
         $data['hasMoreReferrals'] = $data['referralsMade']->count() > 6;
 
+        $sociallink = Sociallink::first();
         $contactDetials = ContactDetials::first();
-        
+
         if (request()->wantsJson()) {
             return response()->json([
+                'sociallink' => $sociallink,
                 'contactDetials' => $contactDetials,
             ]);
         }

@@ -114,7 +114,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('helpsupport')->group(function () {
         Route::get('/contact-support', [HelpSupportController::class, 'contactSupport']);
-    });
+    }); 
   
     Route::post('logout', [AuthController::class, 'logout']);
 

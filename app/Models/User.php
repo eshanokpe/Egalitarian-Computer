@@ -118,18 +118,64 @@ class User extends Authenticatable
 
     public function requiresPinAuth(): bool
     {
-        return in_array($this->auth_method, [
-            self::AUTH_METHOD_PIN,
-            self::AUTH_METHOD_BOTH
-        ]);
+        return $this->auth_method === self::AUTH_METHOD_PIN || 
+              ($this->auth_method === self::AUTH_METHOD_BOTH && empty($this->app_passcode));
     }
 
     public function requiresBiometricAuth(): bool
     {
-        return in_array($this->auth_method, [
-            self::AUTH_METHOD_BIOMETRIC,
-            self::AUTH_METHOD_BOTH
+        return $this->hasBiometricEnabled() && 
+               ($this->auth_method === self::AUTH_METHOD_BIOMETRIC || 
+                $this->auth_method === self::AUTH_METHOD_BOTH);
+    }
+
+    public function hasBiometricEnabled(): bool
+    {
+        return !empty($this->biometric_enabled_at) && 
+               !empty($this->biometric_data);
+    }
+
+    public function canUseBiometric(): bool
+    {
+        return $this->hasBiometricEnabled() && 
+               in_array($this->auth_method, [
+                   self::AUTH_METHOD_BIOMETRIC,
+                   self::AUTH_METHOD_BOTH
+               ]);
+    }
+
+    public function supportedBiometricTypes(): array
+    {
+        return $this->biometric_data ?? [];
+    }
+
+    public function enableBiometric(array $biometricTypes): bool
+    {
+        if (empty($this->app_passcode)) {
+            return false;
+        }
+
+        $this->biometric_data = array_intersect($biometricTypes, [
+            self::BIOMETRIC_FACE,
+            self::BIOMETRIC_FINGERPRINT,
+            self::BIOMETRIC_IRIS
         ]);
+
+        $this->biometric_enabled_at = now();
+        return $this->save();
+    }
+
+    public function disableBiometric(): bool
+    {
+        $this->biometric_data = null;
+        $this->biometric_enabled_at = null;
+        
+        // If biometric was the only method, revert to PIN
+        if ($this->auth_method === self::AUTH_METHOD_BIOMETRIC) {
+            $this->auth_method = self::AUTH_METHOD_PIN;
+        }
+        
+        return $this->save();
     }
 
     public function securitySettings(): array
@@ -138,18 +184,11 @@ class User extends Authenticatable
             'auth_method' => $this->auth_method,
             'has_passcode' => !empty($this->app_passcode),
             'biometric_available' => $this->canUseBiometric(),
+            'supported_biometric_types' => $this->supportedBiometricTypes(),
+            'biometric_enabled' => $this->hasBiometricEnabled(),
         ];
     }
 
-    public function canUseBiometric()
-    {
-        // In a real app, you would check device capabilities here
-        // For now, we'll assume biometric is available if the user has it enabled
-        return in_array($this->auth_method, [
-            self::AUTH_METHOD_BIOMETRIC,
-            self::AUTH_METHOD_BOTH
-        ]);
-    }
 
 }
  

@@ -41,13 +41,7 @@ class AuthMethodController extends Controller
         ]);
     }
 
-    public function checkBiometricSupport()
-    {
-        return response()->json([
-            'biometric_available' => Auth::user()->canUseBiometric(),
-            'supported_types' => Auth::user()->supportedBiometricTypes()
-        ]);
-    }
+    
 
 
     public function show()

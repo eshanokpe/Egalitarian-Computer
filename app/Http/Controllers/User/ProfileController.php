@@ -9,7 +9,7 @@ use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+ 
  
 class ProfileController extends Controller
 {

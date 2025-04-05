@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      *
      * @return void
-     */
+     */ 
     public function boot() 
     {    
         View::share('menuItems', MenuItem::with('dropdownItems')->get()); 

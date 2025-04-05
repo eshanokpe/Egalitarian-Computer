@@ -21,11 +21,16 @@
                                     <div class="currency__card">
                                         <h1 class="dashboard__chart--title"> Hello, {{ auth::user()->last_name}} {{ auth::user()->first_name}} </h1>
                                         
-                                   
+                                    
                                         <div class="d-flex p-2">
                                             <div class="flex-shrink-0 align-self-center">
                                                 <a href="{{ $contactDetials->first_email }}">
                                                 <img src="{{ asset('assets/admin/img/dashboard/email.png')}}" alt="Buy" class="me-2" width="30">
+                                                </a>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3 align-self-center">
+                                                <a href="">
+                                                    <b>{{$contactDetials->first_address}}</b> 
                                                 </a>
                                             </div>
                                             <div class="flex-grow-1 ms-3 align-self-center">

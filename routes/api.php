@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\PropertyController;
 use App\Http\Controllers\User\DashboardController;
-use App\Http\Controllers\User\NotificationController;
+use App\Http\Controllers\User\NotificationController; 
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Api\PasscodeController;
 use App\Http\Controllers\Api\AuthMethodController;
@@ -23,6 +23,8 @@ use App\Http\Controllers\Api\TransferPropertyController as APITransferPropertyCo
 use App\Http\Controllers\User\TransferPropertyController;
 use App\Http\Controllers\User\SellPropertyController;
 use App\Http\Controllers\User\ReferralController;
+use App\Http\Controllers\User\HelpSupportController; 
+
 
 
 
@@ -108,6 +110,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/show', [AuthMethodController::class, 'show']);
         Route::put('/update', [AuthMethodController::class, 'update']);
         Route::get('/biometric-support', [AuthMethodController::class, 'checkBiometricSupport']);
+    });
+
+    Route::prefix('helpsupport')->group(function () {
+        Route::get('/contact-support', [HelpSupportController::class, 'contactSupport']);
     });
   
     Route::post('logout', [AuthController::class, 'logout']);

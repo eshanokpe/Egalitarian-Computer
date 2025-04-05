@@ -15,33 +15,66 @@ class AuthMethodController extends Controller
         $validated = $request->validate([
             'auth_method' => [
                 'required',
+                'string',
                 Rule::in([User::AUTH_METHOD_PIN, User::AUTH_METHOD_BIOMETRIC, User::AUTH_METHOD_BOTH])
-            ]
+            ],
+            'biometric_types' => 'nullable|array',
+            'biometric_types.*' => 'string|in:'.implode(',', [
+                User::BIOMETRIC_FACE, 
+                User::BIOMETRIC_FINGERPRINT,
+                User::BIOMETRIC_IRIS
+            ])
         ]);
 
         $user = Auth::user();
         
-        // Additional validation for biometric
         if (in_array($validated['auth_method'], [User::AUTH_METHOD_BIOMETRIC, User::AUTH_METHOD_BOTH])) {
+            // Validate PIN is set
             if (empty($user->app_passcode)) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Please set a PIN first before enabling biometric authentication'
                 ], 422);
             }
+
+            // Validate biometric types are provided
+            if (empty($validated['biometric_types'])) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'No supported biometric methods provided'
+                ], 422);
+            }
+
+            // Enable biometric
+            $user->enableBiometric($validated['biometric_types']);
+        } else {
+            // Disable biometric if switching to PIN-only
+            $user->disableBiometric();
         }
 
-        $user->update(['auth_method' => $validated['auth_method']]);
+        $user->auth_method = $validated['auth_method'];
+        $user->save();
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Authentication method updated',
-            'method' => $user->auth_method,
-            'security_settings' => $user->securitySettings()
+            'message' => 'Authentication method updated successfully',
+            'data' => $user->securitySettings()
         ]);
     }
 
-    
+    public function checkBiometricSupport()
+    {
+        $user = Auth::user();
+        
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'biometric_available' => $user->canUseBiometric(),
+                'supported_types' => $user->supportedBiometricTypes(),
+                'is_configured' => $user->hasBiometricEnabled()
+            ]
+        ]);
+    }
 
 
     public function show()
@@ -49,10 +82,8 @@ class AuthMethodController extends Controller
         $user = Auth::user();
         
         return response()->json([
-            'method' => $user->auth_method,
-            'requires_pin' => $user->requiresPinAuth(),
-            'requires_biometric' => $user->requiresBiometricAuth(),
-            'has_passcode_set' => !empty($user->app_passcode)
+            'status' => 'success',
+            'data' => $user->securitySettings()
         ]);
     }
 }

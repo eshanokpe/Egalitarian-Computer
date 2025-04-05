@@ -14,7 +14,7 @@ use App\Models\Terms;
 use App\Models\Privacy;
 use App\Models\Property;
 use App\Models\Sociallink;
-use App\Models\MenuItem;
+use App\Models\MenuItem; 
 use App\Models\VisionMission;
 use App\Models\ContactDetials;
 

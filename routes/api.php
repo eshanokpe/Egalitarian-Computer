@@ -112,8 +112,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/biometric-support', [AuthMethodController::class, 'checkBiometricSupport']);
     });
 
-    Route::prefix('helpsupport')->group(function () {
-        Route::get('/contact-support', [HelpSupportController::class, 'contactSupport']);
+    Route::prefix('about')->group(function () {
+        Route::get('/index', [HelpSupportController::class, 'contactSupport']);
     }); 
   
     Route::post('logout', [AuthController::class, 'logout']);

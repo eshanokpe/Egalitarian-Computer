@@ -154,7 +154,7 @@ class SecurityController extends Controller
                         'has_pin' => false,
                         'message' => 'No transaction PIN set for this user',
                     ],
-                ]);
+                ]); 
             }
 
             // Validate the request

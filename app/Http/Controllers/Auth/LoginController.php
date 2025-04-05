@@ -58,7 +58,7 @@ class LoginController extends Controller
                         'user' => $user,
                         'token' => Auth::user()->createToken('dohmayn')->plainTextToken, // For API Token
                     ], 200);
-                }
+                } 
                 return redirect()->route('user.dashboard');
             }
             Auth::logout();

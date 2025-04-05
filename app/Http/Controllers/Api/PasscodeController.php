@@ -31,7 +31,7 @@ class PasscodeController extends Controller
         $validator = Validator::make($request->all(), [
             'passcode' => 'required|digits:4',
             'passcode_confirmation' => 'sometimes|required|same:passcode',
-        ]);
+        ]);  
 
         if ($validator->fails()) {
             return response()->json([

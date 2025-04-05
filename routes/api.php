@@ -12,6 +12,7 @@ use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Api\PasscodeController;
+use App\Http\Controllers\Api\AuthMethodController;
 use App\Http\Controllers\Api\BuyPropertyController;
 use App\Http\Controllers\User\SecurityController;
 use App\Http\Controllers\User\Wallet\WalletTransferController;
@@ -102,7 +103,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/verify', [PasscodeController::class, 'verifyPasscode']);
         Route::post('/remove', [PasscodeController::class, 'removePasscode']);
     });
-    
+
+    Route::prefix('biometric')->group(function () {
+        Route::get('/show', [AuthMethodController::class, 'show']);
+        Route::put('/update', [AuthMethodController::class, 'update']);
+        Route::get('/biometric-support', [AuthMethodController::class, 'checkBiometricSupport']);
+    });
   
     Route::post('logout', [AuthController::class, 'logout']);
 

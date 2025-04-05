@@ -11,7 +11,12 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
- 
+
+    // Constants for auth methods
+    const AUTH_METHOD_PIN = 'pin';
+    const AUTH_METHOD_BIOMETRIC = 'biometric';
+    const AUTH_METHOD_BOTH = 'both';
+
     protected $fillable = [
         'first_name',
         'last_name', 
@@ -21,7 +26,7 @@ class User extends Authenticatable
         'dob',
         'recipient_id',
         'profile_image', 
-        'referral_code',
+        'referral_code', 
         'referred_by',
         'transaction_pin',
         'hide_balance',
@@ -31,10 +36,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'app_passcode',
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'hide_balance' => 'boolean',
     ];
 
     public function virtualAccounts()
@@ -95,6 +102,43 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn () => trim($this->first_name . ' ' . $this->last_name),
         );
+    }
+
+    protected function authMethod(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ?? self::AUTH_METHOD_PIN,
+            set: fn ($value) => in_array($value, [
+                self::AUTH_METHOD_PIN, 
+                self::AUTH_METHOD_BIOMETRIC,
+                self::AUTH_METHOD_BOTH
+            ]) ? $value : self::AUTH_METHOD_PIN
+        );
+    }
+
+    public function requiresPinAuth(): bool
+    {
+        return in_array($this->auth_method, [
+            self::AUTH_METHOD_PIN,
+            self::AUTH_METHOD_BOTH
+        ]);
+    }
+    
+    public function requiresBiometricAuth(): bool
+    {
+        return in_array($this->auth_method, [
+            self::AUTH_METHOD_BIOMETRIC,
+            self::AUTH_METHOD_BOTH
+        ]);
+    }
+
+    public function securitySettings(): array
+    {
+        return [
+            'auth_method' => $this->auth_method,
+            'has_passcode' => !empty($this->app_passcode),
+            'biometric_available' => $this->canUseBiometric(),
+        ];
     }
 
     

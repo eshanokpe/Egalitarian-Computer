@@ -36,7 +36,7 @@ class HelpSupportController extends Controller
         $data['hasMoreReferrals'] = $data['referralsMade']->count() > 6;
 
         $terms = Terms::first();
-        $about = About::first()
+        $about = About::first();
         $privacy = Privacy::first();
         $sociallink = Sociallink::first();
         $visionMission = VisionMission::first();

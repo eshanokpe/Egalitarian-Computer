@@ -66,12 +66,7 @@
                                             <span class="properties__views">{{$item->available_size}} SQM </span>
                                         </td>
                                         <td>
-                                            <span class="sales__report--status pending2"><a href="{{ route('user.properties.show', encrypt($item->id))}}">View</a></span>
-
-                                        </td>
-                                        <td>
                                             @if($item->status === 'sold out')
-                                               
                                                 <span class="status__btn " style="color:#fff; background-color:#47008E ">
                                                     <a href="{{ route('user.offerPrice', encrypt($item->id))}}" 
                                                         style=" color: #fff; border: none;  cursor: pointer;">
@@ -88,6 +83,11 @@
                                             @endif
 
                                         </td>
+                                        <td>
+                                            <span class="sales__report--status pending2"><a href="{{ route('user.properties.show', encrypt($item->id))}}">View</a></span>
+
+                                        </td>
+                  
                                     </tr>
                                 @empty
                                     <p>No data available</p>

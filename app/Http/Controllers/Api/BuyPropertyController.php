@@ -28,10 +28,10 @@ class BuyPropertyController extends Controller
             'property_id' => 'required|integer|exists:properties,id',
             'selected_size_land' => 'required|string',
             'total_price' => 'required|numeric|min:0',
-            'remaining_size' => 'required|string',
+            'remaining_size' => 'required|string', 
             'status' => 'required|string',
         ]); 
-
+ 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',

@@ -69,8 +69,8 @@ class WebhookController extends Controller
                 'amount' => $amount,
                 'reference' => $reference,
                 'status' => $status,
-                'description' => 'Fund added to wallet',
-                'payment_method' => 'Transfer',
+                'description' => '',
+                'payment_method' => 'card',
                 'recipient_name' => $customerName,
             ]);
             // Trigger the notification

@@ -12,7 +12,7 @@ use App\Models\Transaction;
 use App\Models\ReferralLog;
 use App\Notifications\ReferralCommissionEarnedNotification;
 use App\Notifications\ReferredUserPurchasedNotification;
-
+ 
 class BuyPropertyController extends Controller
 {
     /**
@@ -30,7 +30,7 @@ class BuyPropertyController extends Controller
             'total_price' => 'required|numeric|min:0',
             'remaining_size' => 'required|string',
             'status' => 'required|string',
-        ]);
+        ]); 
 
         if ($validator->fails()) {
             return response()->json([
@@ -38,7 +38,7 @@ class BuyPropertyController extends Controller
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
             ], 422);
-        }
+        } 
        
         $user = Auth::user();
 

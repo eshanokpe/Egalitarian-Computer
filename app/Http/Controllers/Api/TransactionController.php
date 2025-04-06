@@ -31,7 +31,7 @@ class TransactionController extends Controller
                 'message' => 'Validation failed',
                 'errors' => $validator->errors(),
             ], 422);
-        }
+        } 
 
         // Create the transaction
         $transaction = Transaction::create($request->all());

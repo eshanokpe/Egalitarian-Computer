@@ -51,15 +51,32 @@ class WebhookController extends Controller
         // Example: Process the payment data
         Log::info('Charge Successful', (array) $data);
 
+        // Check metadata for mobile app identifier
+        $isMobileApp = isset($data->metadata->source) && 
+        $data->metadata->source === 'mobile_app';
+
+        if ($isMobileApp) {
+            Log::info("Skipping mobile app payment: {$data->reference}");
+            return;
+        }
+
+        // Rest of your webhook processing...
+        $user = User::where('email', $data->customer->email)->first();
+        if (!$user) {
+            Log::warning("User not found: {$data->customer->email}");
+            return;
+        }
+
         $email = $data->customer->email;
         $amount = $data->amount / 100; // Convert amount to Naira (Paystack sends amount in kobo)
         $reference = $data->reference;
         $status = $data->status;
-        $customerName = $data->customer->first_name;
+        $customerName = $data->customer->first_name . ' ' . $data->customer->last_name;
 
         $user = User::where('email', $email)->first();
         if ($user) {
             // Update the wallet balance
+            $amount = $data->amount / 100;
             $user->wallet->increment('balance', $amount); 
  
             // Log the transaction
@@ -69,9 +86,11 @@ class WebhookController extends Controller
                 'amount' => $amount,
                 'reference' => $reference,
                 'status' => $status,
-                'description' => '',
-                'payment_method' => 'card',
+                'description' => 'Fund added to wallet',
+                'payment_method' => 'Transfer',
                 'recipient_name' => $customerName,
+                'source' => 'web',
+                'metadata' => json_encode($data->metadata ?? null),
             ]);
             // Trigger the notification
             $newBalance = $user->wallet->balance;

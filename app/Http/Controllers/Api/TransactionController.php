@@ -34,6 +34,17 @@ class TransactionController extends Controller
             ], 422);
         } 
 
+        // Check if transaction already exists
+        // $existing = Transaction::where('reference', $request->reference)->first();
+        // if ($existing) {
+        //     return response()->json(['message' => 'Transaction already processed'], 409);
+        // }
+
+        // 2. Check for duplicate transaction
+        if (Transaction::where('reference', $request->reference)->exists()) {
+            return response()->json(['error' => 'Transaction already exists'], 409);
+        }
+
         // Create the transaction
         $transaction = Transaction::create($request->all());
 

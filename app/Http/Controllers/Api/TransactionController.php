@@ -23,6 +23,7 @@ class TransactionController extends Controller
             'reference' => 'required|string|unique:transactions,reference',
             'transaction_state' => 'required|string',
             'status' => 'required|string',
+            'source' => 'nullable|in:web,mobile_app', 
         ]);
 
         if ($validator->fails()) {

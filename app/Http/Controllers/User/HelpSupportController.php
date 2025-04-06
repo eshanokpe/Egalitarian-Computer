@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ContactDetials;
 use App\Models\Sociallink;
+use App\Models\VisionMission;
 use App\Models\Privacy;
+use App\Models\About;
 use App\Models\Terms;
 use Auth;
 
@@ -34,15 +36,19 @@ class HelpSupportController extends Controller
         $data['hasMoreReferrals'] = $data['referralsMade']->count() > 6;
 
         $terms = Terms::first();
+        $about = About::first()
         $privacy = Privacy::first();
         $sociallink = Sociallink::first();
+        $visionMission = VisionMission::first();
         $contactDetials = ContactDetials::first();
 
         if (request()->wantsJson()) {
             return response()->json([
                 'terms' => $terms,
+                'about' => $about,
                 'privacy' => $privacy,
                 'sociallink' => $sociallink,
+                'visionMission' => $visionMission,
                 'contactDetials' => $contactDetials,
             ]);
         }

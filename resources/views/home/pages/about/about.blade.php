@@ -47,7 +47,7 @@
                                 </h3>
                                 {{-- <h2 class="section__heading--title">Dream living Spaces Setting New Build</h2> --}}
                                 <p class="section__heading--desc">
-                                    {!! $about->content !!}
+                                    {!! $about->content !!} 
                                 </p>
                             </div>
                            

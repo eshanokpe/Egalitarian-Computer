@@ -31,6 +31,10 @@ class Transaction extends Model
         'bank_name',
     ]; 
 
+    protected $casts = [
+        'metadata' => 'array' // This automatically converts to/from JSON
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }

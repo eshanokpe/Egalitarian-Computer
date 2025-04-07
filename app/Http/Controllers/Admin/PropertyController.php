@@ -15,7 +15,7 @@ use App\Models\PropertyValuationPrediction;
 use App\Notifications\PropertyValuationNotification;
 use App\Notifications\PropertyValuationPredictionNotification;
 
-
+ 
 class PropertyController extends Controller
 {
      
@@ -258,9 +258,26 @@ class PropertyController extends Controller
         ->get(); 
 
         $data['initialValueSum'] = PropertyValuationSummary::where('property_id', $propertyId)->value('initial_value_sum') ?? 0;
-    
+       
         $data['valueSum'] = $this->calculateValuationSums($data['propertyValuation']);
         $data['marketValueSum'] = $data['valueSum']['marketValueSum'];
+        
+        // Calculate cumulative market_value sums
+        $cumulativeMarketSum = 0;
+        $data['comparisonData'] = $data['propertyValuation']->map(function ($valuation) use (&$cumulativeMarketSum) {
+            $cumulativeMarketSum += $valuation->market_value;
+            
+            return [
+                'date' => $valuation->created_at->format('Y-m-d'), // Format for ApexCharts
+                'market_value' => $cumulativeMarketSum, // Cumulative sum
+                'initial_value_sum' => $valuation->initial_value ?? 0, // Adjust if needed
+            ];
+        });
+
+        // Get the latest market_value (last record)
+        $latestMarketValue = $data['propertyValuation']->last()->market_value ?? 0;
+        
+        // dd($data['comparisonData']); 
         $percentage_value = 0;
         if ($data['initialValueSum'] > 0) {
             $percentage_value = ceil((($data['marketValueSum'] - $data['initialValueSum']) / $data['initialValueSum']) * 100);
@@ -286,7 +303,7 @@ class PropertyController extends Controller
         }); 
 
         $data['valuationData'] = $valuationData;
-        return view('admin.home.properties.evaluate', $data);
+        return view('admin.home.properties.evaluation.evaluate', $data);
     }
 
     public function valuationUpdate(Request $request, $id){
@@ -374,7 +391,7 @@ class PropertyController extends Controller
             $user->notify(new PropertyValuationNotification($property, $percentageIncrease));
         }
         
-        return redirect()->route('admin.properties.evaluate', encrypt($property->id))
+        return redirect()->route('admin.properties.evaluation.evaluate', encrypt($property->id))
         ->with('success', 'Properties Valuation updated successfully!')
         ;
     }
@@ -501,14 +518,14 @@ class PropertyController extends Controller
         $data['propertyValuation'] = PropertyValuation::findOrFail($propertyId);
         $data['property'] = Property::findOrFail($data['propertyValuation']->property_id);
    
-        return view('admin.home.properties.edit-evaluation', $data);
+        return view('admin.home.properties.evaluation.edit-evaluation', $data);
     }
 
     public function valuationPredictionEdit($id){
         $propertyId = decrypt($id); 
         $data['propertyValuationPrediction'] = PropertyValuationPrediction::findOrFail($propertyId);
         $data['property'] = Property::findOrFail($data['propertyValuationPrediction']->property_id);
-        return view('admin.home.properties.edit-evaluation-prediction', $data);
+        return view('admin.home.properties.evaluation.edit-evaluation-prediction', $data);
     }
 
     
@@ -564,7 +581,7 @@ class PropertyController extends Controller
         $data['categories'] = NeighborhoodCategory::all();
         $data['neighborhoods'] = Neighborhood::with(['property', 'category'])->get();
        
-        return view('admin.home.properties.neighborhood', $data);
+        return view('admin.home.properties.neighborhood.neighborhood', $data);
     }
 
     public function storeNeighborhood(Request $request)
@@ -595,7 +612,7 @@ class PropertyController extends Controller
         // dd();
         $data['property'] = Property::findOrFail($data['neighborhood']->property_id);
 
-        return view('admin.home.properties.edit-neighborhood', $data);
+        return view('admin.home.properties.neighborhood.edit-neighborhood', $data);
     }
 
     public function updateNeighborhood(Request $request, $id)
@@ -621,7 +638,7 @@ class PropertyController extends Controller
     public function neighborhoodCategory(){
         $data['categories'] = NeighborhoodCategory::all();
         $data['editNeighborhoodCategory'] = null;
-        return view('admin.home.properties.neighborhoodCategory', $data);
+        return view('admin.home.properties.neighborhood.neighborhoodCategory', $data);
     }
 
     public function neighborhoodCategoryStore(Request $request)
@@ -640,7 +657,7 @@ class PropertyController extends Controller
     public function neighborhoodCategoryEdit($id){
         $data['editNeighborhoodCategory'] = NeighborhoodCategory::findOrFail(decrypt($id));
         $data['categories'] = NeighborhoodCategory::all();
-        return view('admin.home.properties.neighborhoodCategory', $data);
+        return view('admin.home.properties.neighborhood.neighborhoodCategory', $data);
     }
 
     public function neighborhoodCategoryDelete($id){

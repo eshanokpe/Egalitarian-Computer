@@ -142,7 +142,7 @@ Route::prefix('admin')->group(function () {
         Route::get('faq/{id}/edit', [FAQController::class, 'edit'])->name('admin.faq.edit');
         Route::put('faq/{id}', [FAQController::class, 'update'])->name('admin.faq.update');
         Route::get('faq/{id}', [FAQController::class, 'destroy'])->name('admin.faq.destroy');
-       
+        
         //Social Links 
         Route::name('admin.')->group(function () {
                 Route::get('/sociallinks/index', [SociallinkController::class, 'index'])->name('socialLink.index');

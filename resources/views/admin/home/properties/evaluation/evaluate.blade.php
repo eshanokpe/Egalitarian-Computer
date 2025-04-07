@@ -179,20 +179,35 @@
                                         
                                         <script>
                                             document.addEventListener('DOMContentLoaded', function () {
-                                                var valuationData = @json($valuationData); // Pass the valuation data to JavaScript
-                                        
-                                                var dates = valuationData.map(function(item) { return item.date; });
-                                                var prices = valuationData.map(function(item) { return item.price; });
-                                        
+                                               // Get PHP data
+                                            const comparisonData = @json($comparisonData);
+                                            
+                                            // Prepare series data
+                                            const marketValues = comparisonData.map(item => ({
+                                                x: new Date(item.date).getTime(), // Convert to timestamp
+                                                y: item.market_value
+                                            }));
+                                            
+                                            const initialValues = comparisonData.map(item => ({
+                                                x: new Date(item.date).getTime(),
+                                                y: item.initial_value
+                                            }));
+                                                                                                                    
                                                 var options = {
                                                     chart: {
                                                         type: 'line', // Line chart
                                                         height: 350,
                                                     },
-                                                    series: [{
-                                                        name: 'Price',
-                                                        data: prices, // Property prices (current_price or market_value)
-                                                    }],
+                                                    series: [
+                                                        {
+                                                            name: 'Current Price',
+                                                            data: marketValues
+                                                        },
+                                                        {
+                                                            name: 'Initial Value',
+                                                            data: initialValues
+                                                        }
+                                                    ],
                                                     plotOptions: {
                                                         bar: {
                                                             horizontal: false,
@@ -221,8 +236,15 @@
                                                     colors: ["#a4b1c3", "#6f7b8b"],
 
                                                     xaxis: {
-                                                        categories: dates, // X-axis values (dates)
-                                                        
+                                                        type: 'datetime',
+                                                        labels: {
+                                                            formatter: function(value) {
+                                                                return new Date(value).toLocaleDateString('en-US', {
+                                                                    month: 'short',
+                                                                    day: '2-digit'
+                                                                });
+                                                            }
+                                                        }
                                                     },
                                                     yaxis: {
                                                         title: {

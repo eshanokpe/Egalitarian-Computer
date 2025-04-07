@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use Cache;
+use App\Models\UserActivity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -45,12 +47,24 @@ class LoginController extends Controller
         $this->validateLogin($request);
 
         $credentials = $this->credentials($request);
-
+        
         // Attempt to log in with credentials
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
             if (Auth::user()->hasVerifiedEmail()) {
-                $user = Auth::user();
+                $user->update([
+                    'last_login_at' => now(),
+                    'last_login_ip' => $request->ip(),
+                ]);
+                Cache::put('user-is-online-' . $user->id, true, now()->addMinutes(5));
+
                 $user->load('virtualAccounts');
+                // Log user activity
+                UserActivity::create([
+                    'user_id' => $user->id,
+                    'activity' => 'logged in',
+                    'ip_address' => $request->ip(),
+                ]);
                 
                 if ($request->wantsJson()) {
                     return response()->json([ 
@@ -89,4 +103,27 @@ class LoginController extends Controller
             $this->username() => 'Your account has not been verified. Please check your email to verify your account.',
         ]);
     }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+        Cache::forget('user-is-online-' . $user->id);
+        $user->tokens()->delete();
+        Auth::logout();
+        UserActivity::create([
+            'user_id' => $user->id,
+            'activity' => 'logged out',
+            'ip_address' => $request->ip(),
+        ]);
+        // Invalidate and regenerate session
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Logged out successfully.'], 200);
+        }
+
+        return redirect('/login');
+    }
+
 }

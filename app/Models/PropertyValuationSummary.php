@@ -9,7 +9,7 @@ class PropertyValuationSummary extends Model
 {
     use HasFactory;  
  
-    protected $fillable = [
+    protected $fillable = [ 
         'id',
         'property_id', 
         'property_valuation_id', 

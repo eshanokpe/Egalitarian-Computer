@@ -23,7 +23,7 @@ class User extends Authenticatable
     const BIOMETRIC_IRIS = 'iris';
 
     protected $fillable = [
-        'first_name',
+        'first_name', 
         'last_name', 
         'email',
         'password',

@@ -17,10 +17,10 @@
                                 </li><!--end nav-item-->
                                 <li class="breadcrumb-item"><a href="#">Dashboard</a>
                                 </li><!--end nav-item-->
-                                <li class="breadcrumb-item active">Analytics</li>
+                                <li class="breadcrumb-item active">Dashboard</li>
                             </ol>
                         </div>
-                        <h4 class="page-title">Analytics</h4>
+                        <h4 class="page-title">Dashboard</h4>
                     </div><!--end page-title-box-->
                 </div><!--end col-->
             </div>
@@ -31,14 +31,12 @@
                     <div class="card overflow-hidden">
                         <div class="card-body">
                             <div class="pt-3">
-                                <h3 class="text-dark text-center font-24 fw-bold line-height-lg">Unikit
-                                <br>Multi Application</h3>
-                                <div class="text-center text-muted font-16 fw-bold pt-3 pb-1">We Design and Develop Clean and High Quality Web Applications</div>
+                                <h3 class="text-dark text-center font-24 fw-bold line-height-lg">Users</h3>
+                                <div class="text-center text-muted font-16 fw-bold pt-3 pb-1">{{ $users }}</div>
                                
                                 <div class="text-center py-3 mb-3">
-                                    <a href="#" class="btn btn-primary">Buy Now</a>
-                                </div>
-                                <img src="assets/images/small/business.png" alt="" class="img-fluid px-3 mb-2">
+                                    <a href="{{ route('admin.users') }}" class="btn btn-primary">View more</a>
+                                </div> 
                             </div>
                         </div><!--end card-body--> 
                     </div><!--end card-->                            
@@ -48,57 +46,64 @@
                         <div class="col-lg-3 col-md-6">
                             <div class="card overflow-hidden">
                                 <div class="card-body">
-                                    <div class="row d-flex">
-                                        <div class="col-3">
-                                            <i class="ti ti-users font-36 align-self-center text-dark"></i>
-                                        </div><!--end col-->
-                                        <div class="col-12 ms-auto align-self-center">
-                                            <div id="dash_spark_1" class="mb-3"></div>
-                                        </div><!--end col-->
-                                        <div class="col-12 ms-auto align-self-center">
-                                            <h3 class="text-dark my-0 font-22 fw-bold">24000</h3>
-                                            <p class="text-muted mb-0 fw-semibold">Sessions</p>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
+                                    <a href="{{ route('admin.properties.index') }}">
+                                        <div class="row d-flex">
+                                            <div class="col-3">
+                                                <i class="ti ti-building-store font-36 align-self-center text-dark"></i>
+                                            </div><!--end col-->
+                                            <div class="col-12 ms-auto align-self-center">
+                                                <br/>
+                                                <br/>
+                                            </div><!--end col-->
+                                            <div class="col-12 ms-auto align-self-center">
+                                                <h3 class="text-dark my-0 font-22 fw-bold">{{ $properties }}</h3>
+                                                <p class="text-muted mb-0 fw-semibold">Properties</p>
+                                            </div><!--end col-->
+                                        </div><!--end row-->
+                                    </a>
                                 </div><!--end card-body--> 
                             </div><!--end card-->                                     
                         </div> <!--end col--> 
                         <div class="col-lg-3 col-md-6">
                             <div class="card overflow-hidden">
                                 <div class="card-body">
-                                    <div class="row d-flex">
-                                        <div class="col-3">
-                                            <i class="ti ti-clock font-36 align-self-center text-dark"></i>
-                                        </div><!--end col-->
-                                        <div class="col-auto ms-auto align-self-center">
-                                            <span class="badge badge-soft-success px-2 py-1 font-11">Active</span>
-                                        </div><!--end col-->
-                                        <div class="col-12 ms-auto align-self-center">
-                                            <div id="dash_spark_2" class="mb-3"></div>
-                                        </div><!--end col-->
-                                        <div class="col-12 ms-auto align-self-center">
-                                            <h3 class="text-dark my-0 font-22 fw-bold">00:18</h3>
-                                            <p class="text-muted mb-0 fw-semibold">Avg.Sessions</p>
-                                        </div><!--end col-->
-                                    </div><!--end row-->
+                                    <a href="#">
+                                        <div class="row d-flex">
+                                            <div class="col-3">
+                                                <i class="ti ti-shopping-cart font-36 align-self-center text-dark"></i>
+                                            </div>
+                                            
+                                            <div class="col-12 ms-auto align-self-center">
+                                                <br/>
+                                                <br/>
+                                            </div><!--end col-->
+                                            <div class="col-12 ms-auto align-self-center">
+                                                <h3 class="text-dark my-0 font-22 fw-bold">0</h3>
+                                                <p class="text-muted mb-0 fw-semibold">Buys</p>
+                                            </div><!--end col-->
+                                        </div><!--end row-->
+                                    </a>
                                 </div><!--end card-body--> 
                             </div><!--end card-->                                     
                         </div> <!--end col--> 
                         <div class="col-lg-3 col-md-6">
                             <div class="card overflow-hidden">
                                 <div class="card-body">
+                                    <a href="#">
                                     <div class="row d-flex">
                                         <div class="col-3">
-                                            <i class="ti ti-activity font-36 align-self-center text-dark"></i>
+                                            <i class="ti ti-cash font-36 align-self-center text-dark"></i>
                                         </div><!--end col-->
                                         <div class="col-12 ms-auto align-self-center">
-                                            <div id="dash_spark_3" class="mb-3"></div>
+                                            <br/>
+                                            <br/>
                                         </div><!--end col-->
                                         <div class="col-12 ms-auto align-self-center">
-                                            <h3 class="text-dark my-0 font-22 fw-bold">$2400</h3>
-                                            <p class="text-muted mb-0 fw-semibold">Bounce Rate</p>
+                                            <h3 class="text-dark my-0 font-22 fw-bold">0</h3>
+                                            <p class="text-muted mb-0 fw-semibold">Sell</p>
                                         </div><!--end col-->
                                     </div><!--end row-->
+                                    </a>
                                 </div><!--end card-body--> 
                             </div><!--end card-->                                     
                         </div> <!--end col--> 
@@ -107,19 +112,20 @@
                             <div class="card overflow-hidden">
                                 <div class="card-body">
                                     <div class="row d-flex">
-                                        <div class="col-3">
-                                            <i class="ti ti-confetti font-36 align-self-center text-dark"></i>
-                                        </div><!--end col-->
-                                        <div class="col-auto ms-auto align-self-center">
-                                            <span class="badge badge-soft-danger px-2 py-1 font-11">-2%</span>
-                                        </div><!--end col-->
-                                        <div class="col-12 ms-auto align-self-center">
-                                            <div id="dash_spark_4" class="mb-3"></div>
-                                        </div><!--end col-->
-                                        <div class="col-12 ms-auto align-self-center">
-                                            <h3 class="text-dark my-0 font-22 fw-bold">85000</h3>
-                                            <p class="text-muted mb-0 fw-semibold">Goal Completions</p>
-                                        </div><!--end col-->
+                                        <a href="#">
+                                            <div class="col-3">
+                                                <i class="ti ti-repeat font-36 align-self-center text-dark"></i>
+                                            </div><!--end col-->
+                                            
+                                            <div class="col-12 ms-auto align-self-center">
+                                                <br/>
+                                                <br/>
+                                            </div><!--end col-->
+                                            <div class="col-12 ms-auto align-self-center">
+                                                <h3 class="text-dark my-0 font-22 fw-bold">0</h3>
+                                                <p class="text-muted mb-0 fw-semibold">Transfer</p>
+                                            </div><!--end col-->
+                                        </a>
                                     </div><!--end row-->
                                 </div><!--end card-body--> 
                             </div><!--end card-->                                     

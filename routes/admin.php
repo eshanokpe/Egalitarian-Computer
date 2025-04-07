@@ -1,6 +1,10 @@
 <?php 
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\BuyController;
+use App\Http\Controllers\Admin\SellController;
+use App\Http\Controllers\Admin\TransferController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TermsController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Admin\AdminController;
@@ -13,7 +17,7 @@ use App\Http\Controllers\Admin\FAQController;
 use App\Http\Controllers\Admin\PropertyHistoryController;
 use App\Http\Controllers\Admin\PropertyController as AdminPropertyController;
 
- 
+  
 Route::redirect('/admin/dashboard', '/admin');
 // Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.index');
 
@@ -139,12 +143,23 @@ Route::prefix('admin')->group(function () {
         Route::put('faq/{id}', [FAQController::class, 'update'])->name('admin.faq.update');
         Route::get('faq/{id}', [FAQController::class, 'destroy'])->name('admin.faq.destroy');
        
-       //Social Links 
-       Route::name('admin.')->group(function () {
-            Route::get('/sociallinks/index', [SociallinkController::class, 'index'])->name('socialLink.index');
-            Route::post('/settings/store/social-links', [SociallinkController::class, 'storeSocialLinks'])->name('settings.storeSocialLinks');
-            Route::put('/settings/update/social-links/{id}', [SociallinkController::class, 'updateSocialLinks'])->name('settings.updateSocialLinks');
-       });
+        //Social Links 
+        Route::name('admin.')->group(function () {
+                Route::get('/sociallinks/index', [SociallinkController::class, 'index'])->name('socialLink.index');
+                Route::post('/settings/store/social-links', [SociallinkController::class, 'storeSocialLinks'])->name('settings.storeSocialLinks');
+                Route::put('/settings/update/social-links/{id}', [SociallinkController::class, 'updateSocialLinks'])->name('settings.updateSocialLinks');
+        });
+
+        Route::name('admin.')->group(function () {
+            Route::get('user/index', [UserController::class, 'index'])->name('users');
+            Route::get('user/{id}/show', [UserController::class, 'edit'])->name('users.show');
+            Route::get('user/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+        });
+
+       Route::get('buy/index', [BuyController::class, 'index'])->name('admin.buy');
+       Route::get('transfer/index', [Transferontroller::class, 'index'])->name('admin.transfer');
+       Route::get('sell/index', [SellController::class, 'index'])->name('admin.sell');
+
         
     });  
 }); 

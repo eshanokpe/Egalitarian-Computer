@@ -40,10 +40,10 @@
                 <ul class="navbar-nav tab-pane active" id="Main" role="tabpanel">
                     <li class="menu-label mt-0 text-primary font-12 fw-semibold">M<span>ain</span><br><span class="font-10 text-secondary fw-normal">Unique Dashboard</span></li>                    
                     <li class="nav-item">
-                        <a class="nav-link" href="#sidebarAnalytics" role="button"
+                        <a class="nav-link" href="{{ route('admin.users')}}" role="button"
                             aria-expanded="false" aria-controls="sidebarAnalytics">
                             <i class="ti ti-stack menu-icon"></i>
-                            <span>Analytics</span>
+                            <span>Users</span>
                         </a>
                     </li><!--end nav-item-->
 

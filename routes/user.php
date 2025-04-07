@@ -42,7 +42,7 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     
     Route::get('/properties', [PropertyController::class, 'index'])->name('properties');
      
-    Route::get('/buy', [PropertyController::class, 'buy'])->name('buy');  
+    Route::get('/buy', [PropertyController::class, 'buy'])->name('buy');   
     Route::get('/offer/price/{id}', [PropertyController::class, 'offerPrice'])->name('offerPrice'); 
     Route::post('/offer/price/post', [PropertyController::class, 'offerPricePost'])->name('offerPrice.post'); 
   
@@ -71,9 +71,13 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('/cart/{id}', [CartController::class, 'index'])->name('cart.index');
     Route::get('/cart/sell/{id}', [CartController::class, 'sell'])->name('cart.sell.index'); 
     Route::get('/cart/transfer/{id}', [CartController::class, 'transfer'])->name('cart.transfer.index');
-
-    Route::post('/pay', [PaymentController::class, 'initializePayment'])->name('payment.initiate');
+ 
+    Route::post('/pay', [PaymentController::class, 'initializePayment'])->name('payment.initiate'); 
     Route::get('/payment/callback', [PaymentController::class, 'paymentCallback'])->name('payment.callback');
+
+    
+    Route::get('/purchases', [DashboardController::class, 'purchases'])->name('purchases');
+
 
     Route::get('/sell', [SellPropertyController::class, 'index'])->name('sell');
     Route::post('/sell/property', [SellPropertyController::class, 'sellProperty'])->name('sell.property');
@@ -108,7 +112,7 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::post('create-recipient', [WalletTransferController::class, 'createRecipient'])->name('wallet.createRecipient');
     Route::post('initiate-transfer', [WalletTransferController::class, 'initiateTransfer'])->name('wallet.initiateTransfer');
     Route::post('verifyOtp', [WalletTransferController::class, 'verifyOtp'])->name('wallet.verifyOtp');
- 
+  
     Route::get('payment/history', [WalletController::class, 'paymentHistory'])->name('payment.history');
 
     

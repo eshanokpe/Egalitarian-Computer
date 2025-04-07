@@ -29,13 +29,13 @@ class DashboardController extends Controller
         
         $data['totalAmount'] = Transaction::where('user_id', $user->id)
                                             ->where('email', $user->email)
-                                            ->where('status', 'success')
-                                            ->where('payment_method', 'card')
+                                            // ->where('status', 'success')
+                                            // ->where('payment_method', 'wallet')
                                             ->sum('amount');
 
         $data['totalTransactionsAssets'] = Transaction::where('user_id', $user->id)
                                             ->where('email', $user->email)
-                                            ->where('payment_method', 'card')
+                                            //  ->where('payment_method', 'wallet')
                                             ->where('status', 'success')->count();
                                             
         $data['user'] = User::where('id', $user->id)
@@ -150,5 +150,11 @@ class DashboardController extends Controller
             'data' => $faqs,
         ], 200);
 
+    }
+
+    public function purchases(){
+        $purchases = Transaction::where('user_id', auth()->id())->get();
+        // dd($purchases);
+        return view('user.pages.success.index',compact('purchases'));
     }
 }

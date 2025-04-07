@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use Auth;
+use Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Buy;  
-use Yabacon\Paystack;  
 use App\Models\Wallet;
 use App\Models\Property;  
 use App\Models\Transaction;   
@@ -17,72 +17,176 @@ use App\Notifications\ReferredUserPurchasedNotification;
 
 class PaymentController extends Controller
 {
-    protected $paystack;
-
-    public function __construct()
-    {
-        $this->middleware('auth'); 
-        $this->paystack = new Paystack(env('PAYSTACK_SECRET_KEY')); // Initialize Paystack
-    }
+   
 
     public function initializePayment(Request $request)
     {
-        
         $request->validate([
             'remaining_size' => 'required',
             'property_slug' => 'required',
             'quantity' => 'required',
             'total_price' => 'required|numeric|min:1',
+            'transaction_pin' => 'required|digits:4' // Make PIN mandatory
         ]);
+    
         $user = Auth::user();
-        $propertySlug  = $request->input('property_slug');
-        $property = Property::where('slug', $propertySlug)->first();
-        // Check if the property exists
-        if (!$property) {
-            return back()->with('error', 'Property not found.');
-        }
-        // Check if the user has enough balance
         
-        $wallet = $user->wallet; // Access the wallet via relationship
-        $amount = $request->input('total_price');
-
-        // Ensure wallet exists and check the balance
-        if (!$wallet || $wallet->balance < $amount) {
-            return back()->with('error', 'Insufficient funds in your wallet. Please add funds to proceed.');
+        // 1. FIRST CHECK: Verify if PIN is required and set
+        if (config('app.enable_transaction_pin')) {
+            if (empty($user->transaction_pin)) {
+                return $this->errorResponse('Please set your transaction PIN first.', 403, [
+                    'redirect_url' => route('user.transaction.pin'),
+                    'requires_pin_setup' => true
+                ]);
+            }
         }
-
-        // Generate a unique transaction reference
+    
+        // 2. SECOND CHECK: Verify the provided PIN
+        if (!Hash::check($request->transaction_pin, $user->transaction_pin)) {
+            // Track failed attempts
+            $user->increment('failed_pin_attempts');
+            $user->update(['last_failed_pin_attempt' => now()]);
+            
+            $remainingAttempts = max(0, 3 - $user->failed_pin_attempts);
+            
+            if ($remainingAttempts <= 0) {
+                $lockoutTime = now()->addMinutes(15);
+                $user->update(['pin_locked_until' => $lockoutTime]);
+                
+                return $this->errorResponse('Too many failed attempts. Try again after 15 minutes.', 429, [
+                    'lockout_time' => $lockoutTime->toDateTimeString()
+                ]);
+            }
+            
+            return $this->errorResponse('Invalid transaction PIN', 401, [
+                'attempts_remaining' => $remainingAttempts
+            ]);
+        }
+    
+        // Reset attempt counter on successful verification
+        $user->update([
+            'failed_pin_attempts' => 0,
+            'last_failed_pin_attempt' => null,
+            'pin_locked_until' => null
+        ]);
+    
+        // 3. Process property and payment
+        $property = Property::where('slug', $request->property_slug)->first();
+        if (!$property) {
+            return $this->errorResponse('Property not found.', 404);
+        }
+    
+        $amount = $request->total_price;
+        $selectedSizeLand = $request->quantity;
+        $remainingSize = $request->remaining_size;
+    
+        // Check wallet balance
+        $wallet = $user->wallet;
+        if (!$wallet || $wallet->balance < $amount) {
+            return $this->errorResponse('Insufficient funds in your wallet. Please add funds to proceed.', 400);
+        }
+    
+        // Generate transaction reference
         $reference = 'DOHREF-' . time() . '-' . strtoupper(Str::random(8));
-
-        $selectedSizeLand  = $request->input('quantity');
-        $remainingSize  = $request->input('remaining_size');
-        $amount  = $request->input('total_price');
-
-        $propertyId  = $property->id;
-        $propertyName  =  $property->name;
-        $propertyData = Property::where('id', $propertyId)->where('name', $propertyName)->first();
-        // Prepare the data to send to Paystack
-        $data = [
-            'amount' => $amount * 100, 
+    
+        // Deduct from wallet
+        $wallet->balance -= $amount;
+        $wallet->save();
+    
+        // Create transaction record
+        $transaction = Transaction::create([
+            'user_id' => $user->id,
             'email' => $user->email,
+            'amount' => $amount,
+            'reference' => $reference,
+            'status' => 'completed',
+            'source' => $request->is('api/*') ? 'api' : 'web',
+            'payment_method' => 'wallet',
             'metadata' => [
-                'property_id' => $propertyData->id,
-                'property_name' => $propertyData->name,
+                'property_id' => $property->id,
+                'property_name' => $property->name,
                 'remaining_size' => $remainingSize,
                 'selected_size_land' => $selectedSizeLand,
             ],
-            'reference' => $reference,
-            'property_state' => $property->property_state,
-            'callback_url' => route('user.payment.callback'),
-        ];
-       
-        try {
-            $response = $this->paystack->transaction->initialize($data);
-
-            return redirect($response->data->authorization_url);
-        } catch (\Exception $e) {
-            return back()->with('error', 'Unable to initiate payment: ' . $e->getMessage());
+        ]);
+    
+        // Process property purchase
+        $buy = Buy::create([
+            'user_id' => $user->id,
+            'user_email' => $user->email,
+            'property_id' => $property->id,
+            'size' => $selectedSizeLand,
+            'total_price' => $amount,
+            'transaction_id' => $transaction->id,
+            'selected_size_land' => $selectedSizeLand,
+            'remaining_size' => $remainingSize - $selectedSizeLand,
+            'status' => 'available',
+        ]);
+    
+        // Update property status
+        $property->price -= $selectedSizeLand;
+        if ($property->price <= 0) {
+            $property->status = 'sold out';
+            $buy->status = 'sold out';
+            $buy->save();
         }
+        $property->save();
+    
+        // Process referral commission
+        $this->processReferralCommission($user, $property, $amount, $transaction);
+    
+        return $this->successResponse([
+            'message' => 'Payment successful',
+            'transaction_reference' => $reference,
+            'remaining_balance' => $wallet->balance,
+            'purchase_details' => $buy,
+            'property_status' => $property->status,
+        ]);
+    }
+
+    // Helper methods for PIN attempt tracking
+    private function getRemainingAttempts($user)
+    {
+        $maxAttempts = config('auth.pin.max_attempts', 3);
+        $attempts = $user->failed_pin_attempts ?? 0;
+        return max(0, $maxAttempts - $attempts - 1);
+    }
+
+    private function getLockoutTime($user)
+    {
+        $lastAttempt = $user->last_failed_pin_attempt;
+        if (!$lastAttempt) return null;
+        
+        $lockoutMinutes = config('auth.pin.lockout_minutes', 15);
+        return $lastAttempt->addMinutes($lockoutMinutes);
+    }
+    private function resetPinAttempts($user)
+    {
+        $user->update([
+            'failed_pin_attempts' => 0,
+            'last_failed_pin_attempt' => null
+        ]);
+    }
+
+    protected function errorResponse($message, $statusCode)
+    {
+        if (request()->expectsJson() || request()->is('api/*')) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $message,
+            ], $statusCode);
+        }
+
+        return back()->with('error', $message);
+    }
+
+    protected function successResponse($data)
+    {
+        if (request()->expectsJson() || request()->is('api/*')) {
+            return response()->json(array_merge(['status' => 'success'], $data));
+        }
+
+        return redirect()->route('user.purchases')->with('success', $data['message']);
     }
    
     public function paymentCallback(Request $request)
@@ -112,7 +216,7 @@ class PaymentController extends Controller
                     'property_name' => $property->name,
                     'amount' => $amount,
                     'status' =>  $paymentDetails->data->status,
-                    'payment_method' => 'card',
+                    'payment_method' => 'card', 
                     'reference' => $reference,
                     'transaction_state' => $paymentDetails->data->status,
                 ]);
@@ -128,34 +232,7 @@ class PaymentController extends Controller
                     'status' => 'available',
                 ]);
                 
-                // if (is_numeric($property->available_size) && is_numeric($property->available_size) == 1) {
-                //     $property->update([
-                //         'status' => 'sold out',
-                //     ]);
-                // }
-            
-                // if (is_numeric($buy->remaining_size) && ($property->available_size) == 1) {
-                //     $buy->update([
-                //         'status' => 'sold out',
-                //     ]);
-                // }
-                $user = Auth::user();
-                // Deduct from Wallet 
-                $wallet = $user->wallet;
-                if ($wallet) {
-                    $userBalance = $wallet->balance;
-                    // Check if the user has sufficient balance
-                    if ($userBalance >= $amount) {
-                        $v = $userBalance - $amount;
-                        $wallet->update([
-                            'balance' => $userBalance - $amount
-                        ]); 
-                    } else {
-                        return redirect()->route('user.dashboard')->with('error', 'Insufficient wallet balance.');
-                    }
-                } else {
-                    return redirect()->route('user.dashboard')->with('error', 'Wallet not found. Please contact support.');
-                }
+                
 
                 // Handle referral commission if this is user's first purchase
                 $this->processReferralCommission($user, $property, $amount, $transaction);

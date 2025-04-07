@@ -27,6 +27,7 @@ return [
     | services the application utilizes. Set this in your ".env" file.
     |
     */
+    'enable_transaction_pin' => env('TRANSACTION_PIN_ENABLED', true),
 
     'env' => env('APP_ENV', 'production'),
 

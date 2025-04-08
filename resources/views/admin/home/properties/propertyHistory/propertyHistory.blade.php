@@ -149,10 +149,10 @@
                                         <div class="row"> 
                                             <div class="mb-3">
                                                 <label for="previous_year">Previous Year</label>
-                                                <select class="form-select" name="previous_year" id="previous_year" required>
+                                                <select name="previous_year" id="previous_year" class="form-select" required>
                                                     @php
                                                         $currentYear = now()->year;
-                                                        $startYear = $currentYear - 10;
+                                                        $startYear = 2004;
                                                     @endphp
                                             
                                                     @for ($year = $startYear; $year <= $currentYear; $year++)
@@ -168,6 +168,7 @@
                                                     </div>
                                                 @enderror
                                             </div>
+                                            
                                             
 
                                             <div class="mb-3">

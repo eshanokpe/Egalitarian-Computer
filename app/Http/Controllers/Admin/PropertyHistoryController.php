@@ -37,33 +37,32 @@ class PropertyHistoryController extends Controller
         $validatedData = $request->validate([
             'property_id' => 'required|exists:properties,id',
             'updated_price' => 'required|string|min:1',
-        ]);
+        ]); 
 
         // Fetch the property and previous price
         $property = Property::findOrFail($validatedData['property_id']);
-        $previousPrice = $property->history()->latest()->first();
+        $previous = $property->history()->latest()->first();
 
-        if (!$previousPrice) {
-            return redirect()->back()->withErrors(['previous_price' => 'No previous price available for this property.']);
-        }
-
-        // Calculate the percentage increase
         $updatedPrice = (float) str_replace(',', '', $validatedData['updated_price']);
-        $percentageIncrease = (($updatedPrice - $previousPrice->previous_price) / $previousPrice->previous_price) * 100;
-        $year = $request->input('updated_year', Carbon::now()->year);
 
-        // $propertyHistory = PropertyPriceUpdate::create([
-        //     'property_id' => $validatedData['property_id'],
-        //     'previous_year' => $previousPrice->previous_year, // Assuming this is fetched from previous data
-        //     'previous_price' => $previousPrice->previous_price,
-        //     'updated_price' => $updatedPrice,
-        //     'percentage_increase' => $percentageIncrease,
-        //     'updated_year' => $year,
-        // ]);
+        if ($previous) {
+            $previousPriceValue = $previous->updated_price;  // Assuming "updated_price" is the previous price
+            $previousYear = $previous->updated_year;
+        } else {
+            $previousPriceValue = 0.00;
+            $previousYear = now()->subYear()->year;
+        }
+        // Safely calculate percentage increase
+        $percentageIncrease = $previousPriceValue > 0
+        ? (($updatedPrice - $previousPriceValue) / $previousPriceValue) * 100
+        : 0;
+        $year = $request->input('previous_year', Carbon::now()->year);
+
+        
         PropertyPriceUpdate::create([
             'property_id' => $validatedData['property_id'],
-            'previous_price' => $previousPrice->previous_price,
-            'previous_year' => $previousPrice->previous_year,
+            'previous_price' => $previousPriceValue,
+            'previous_year' => $previousYear,
             'updated_price' => $updatedPrice,
             'percentage_increase' => $percentageIncrease,
             'updated_year' => $year,

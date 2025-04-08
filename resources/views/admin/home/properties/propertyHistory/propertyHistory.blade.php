@@ -135,58 +135,67 @@
                                     <h4 class="card-title">Add Property History Details for {{ $property->name }} </h4>
                                 </div>
                                 <div class="card-body">
+                                    @php
+                                        $defaultPreviousYear = now()->subYear()->year;
+                                        $defaultPreviousPrice = 0.00;
+                                        $actualPreviousYear = $previousPrice->previous_year ?? $defaultPreviousYear;
+                                        $actualPreviousPrice = $previousPrice->updated_price ?? $defaultPreviousPrice;
+                                    @endphp
+
                                     <form method="POST" action="{{ route('admin.properties.propertyHistory.store') }}" enctype="multipart/form-data">
                                         @csrf
-                                        <input type="hidden" class="form-control" name="property_id" value="{{ $property->id}}" placeholder="Enter Valuation type" required>
+                                        <input type="hidden" class="form-control" name="property_id" value="{{ $property->id }}" required>
 
                                         <div class="row"> 
                                             <div class="mb-3">
-                                                <label for="exampleInputEmail1">Pevious Year</label>
-                                                <input type="text" class="form-control" 
-                                                value="{{$previousPrice->previous_year }}" disabled
-                                                name="previous_year"  required>
+                                                <label for="previous_year">Previous Year</label>
+                                                <select class="form-select" name="previous_year" id="previous_year" required>
+                                                    @php
+                                                        $currentYear = now()->year;
+                                                        $startYear = $currentYear - 10;
+                                                    @endphp
+                                            
+                                                    @for ($year = $startYear; $year <= $currentYear; $year++)
+                                                        <option value="{{ $year }}" {{ $year == $actualPreviousYear ? 'selected' : '' }}>
+                                                            {{ $year }}
+                                                        </option>
+                                                    @endfor
+                                                </select>
+                                            
                                                 @error('previous_year')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
                                             </div>
+                                            
+
                                             <div class="mb-3">
-                                                <label for="exampleInputEmail1">Previous Price</label>
+                                                <label>Previous Price</label>
                                                 <input type="text" class="form-control" 
-                                                value="₦{{ number_format($previousPrice->updated_price, 2) }}" disabled
-                                                id="previous_price"
-                                                name="previous_price"  required>
+                                                    value="₦{{ number_format($actualPreviousPrice, 2) }}" 
+                                                    id="previous_price_display"
+                                                    name="previous_price_display" disabled>
+                                                <input type="hidden" name="previous_price" value="{{ $actualPreviousPrice }}">
                                                 @error('previous_price')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
                                             </div>
+
                                             <div class="mb-3">
-                                                <label for="exampleInputEmail1">Enter New Price </label>
+                                                <label>Enter New Price</label>
                                                 <input type="text" placeholder="Enter New Price" class="form-control" name="updated_price" id="updated_price" required>
+                                                @error('updated_price')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
-                                             @error('updated_price')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', function () {
-                                                    var updatedPriceInput = document.getElementById('updated_price');
-                                                    updatedPriceInput.addEventListener('input', function (e) {
-                                                        var value = e.target.value.replace(/,/g, '');
-                                                        if (!isNaN(value)) {
-                                                            e.target.value = new Intl.NumberFormat().format(value);
-                                                        }
-                                                    });
-                                                });
-                                            </script>
 
                                             <div class="mb-3">
-                                                <label for="priceIncrease">Price Increase (%)</label>
+                                                <label>Price Increase (%)</label>
                                                 <input 
                                                     type="text" 
                                                     class="form-control" 
@@ -195,34 +204,38 @@
                                                     placeholder="Price Increase" 
                                                     readonly>
                                             </div>
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', function () {
-                                                    var previousPrice = {{ $previousPrice->updated_price }};
-                                                    var updatedPriceInput = document.getElementById('updated_price');
-                                                    var priceIncreaseInput = document.getElementById('priceIncrease');
 
-                                                    updatedPriceInput.addEventListener('input', function (e) {
-                                                        var value = e.target.value.replace(/,/g, '');
-                                                        if (!isNaN(value) && value !== '') {
-                                                            var updatedPrice = parseFloat(value);
-                                                            var percentageIncrease = ((updatedPrice - previousPrice) / previousPrice) * 100;
-                                                            priceIncreaseInput.value = percentageIncrease.toFixed(2);
-                                                        } else {
-                                                            priceIncreaseInput.value = '';
-                                                        }
-                                                    });
-                                                });
-                                            </script>
-
-                                            <div class=" mb-3">
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-6">
-                                                    <button type="submit" class="btn btn-primary">Save </button>
-                                                </div>
+                                            <div class="mb-3">
+                                                <button type="submit" class="btn btn-primary">Save</button>
                                             </div>
                                         </div>
                                     </form>
-                                    
+
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function () {
+                                            const updatedPriceInput = document.getElementById('updated_price');
+                                            const priceIncreaseInput = document.getElementById('priceIncrease');
+                                            const previousPrice = {{ $actualPreviousPrice }};
+
+                                            updatedPriceInput.addEventListener('input', function (e) {
+                                                let rawValue = e.target.value.replace(/,/g, '');
+                                                if (!isNaN(rawValue) && rawValue !== '') {
+                                                    const numericValue = parseFloat(rawValue);
+                                                    e.target.value = new Intl.NumberFormat().format(numericValue);
+
+                                                    if (previousPrice > 0) {
+                                                        const percentageIncrease = ((numericValue - previousPrice) / previousPrice) * 100;
+                                                        priceIncreaseInput.value = percentageIncrease.toFixed(2);
+                                                    } else {
+                                                        priceIncreaseInput.value = '';
+                                                    }
+                                                } else {
+                                                    priceIncreaseInput.value = '';
+                                                }
+                                            });
+                                        });
+                                    </script>
+
                                 </div>
                             </div>
                    

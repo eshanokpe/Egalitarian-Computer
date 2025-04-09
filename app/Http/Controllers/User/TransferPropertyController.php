@@ -687,16 +687,13 @@ class TransferPropertyController extends Controller
         // $sendWallet->save();
         $propertyData = Property::where('id', $propertyId)->first();
 
-        
         // Deduct from sender's wallet
-        $sendWallet->balance -= $amount / 100;
+        $sendWallet->balance += $amount / 100;
         $sendWallet->save();
 
         // Credit recipient's wallet
-        $recipientWallet->balance += $amount / 100;
+        $recipientWallet->balance -= $amount / 100;
         $recipientWallet->save();
-
-        // $reference = 'TRXDOHREF-' . time() . Str::random(8) . strtoupper(Str::random(4));  // Extra randomization
 
         $reference = 'TRXDOHREF-' . strtoupper(Str::random(8));
 

@@ -48,9 +48,9 @@ class RecipientSubmittedNotification extends Notification implements ShouldQueue
 
         return (new MailMessage)
             ->subject('Accept Your Asset Transfer')
-            ->greeting('Dear ' . $notifiable->name . ',')
+            ->greeting('Dear ' . $notifiable->full_name . ',')
             ->line('You have received an asset transfer of *₦' . $formattedPrice . '* from *' . $senderName . '* via Dohmayn. To complete the transaction, please follow the steps below to accept the transfer:')
-            ->line('')
+            ->line('') 
             ->line('1. *Log in* to your Dohmayn account')
             ->line('2. Navigate to the *Transfers* section')
             ->line('3. Locate the pending transfer from *' . $senderName . '*')

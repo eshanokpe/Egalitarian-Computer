@@ -689,12 +689,12 @@ class TransferPropertyController extends Controller
 
         
         // Deduct from sender's wallet
-        // $sendWallet->balance -= $amount / 100;
-        // $sendWallet->save();
+        $sendWallet->balance -= $amount / 100;
+        $sendWallet->save();
 
         // Credit recipient's wallet
-        // $recipientWallet->balance += $amount / 100;
-        // $recipientWallet->save();
+        $recipientWallet->balance += $amount / 100;
+        $recipientWallet->save();
 
         // $reference = 'TRXDOHREF-' . time() . Str::random(8) . strtoupper(Str::random(4));  // Extra randomization
 

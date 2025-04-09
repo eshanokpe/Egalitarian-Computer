@@ -653,12 +653,12 @@ class TransferPropertyController extends Controller
         ->get();
         $totalLandSize = $buy->sum('selected_size_land');
         // dd($landSize);
-        if ($landSize < $totalLandSize) {
-            if ($request->wantsJson()) {
-                return response()->json(['error' => 'Insufficient land size'], 400);
-            }
-            return redirect()->back()->with(['error' => 'Insufficient land size']);
-        }
+        // if ($landSize < $totalLandSize) {
+        //     if ($request->wantsJson()) {
+        //         return response()->json(['error' => 'Insufficient land size'], 400);
+        //     }
+        //     return redirect()->back()->with(['error' => 'Insufficient land size']);
+        // }
         // Deduct land size from sender's purchases
         foreach ($buy as $item) {
             if ($item->selected_size_land >= $landSize) {

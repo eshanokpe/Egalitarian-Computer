@@ -8,7 +8,7 @@ use App\Models\Property;
 use App\Models\CustomNotification; 
 
 class NotificationController extends Controller
-{
+{ 
     
     public function index(Request $request)
     { 
@@ -46,17 +46,18 @@ class NotificationController extends Controller
         );
     }
 
-    public function show($id)
+    public function show($encryptedId)
     {
-        $notification = auth()->user()->notifications()->findOrFail($id);
+        $id = decrypt($encryptedId);
+        $notification = CustomNotification::findOrFail($id);
+        // dd($id);
 
         // Mark the notification as read
         if ($notification->unread()) {
             $notification->markAsRead();
         }
-        $notification = auth()->user()->notifications()->paginate(10);
 
-        return view('user.pages.notifications.index', ['notifications' => $notification]);
+        return view('user.pages.notifications.show', ['notification' => $notification]);
     }
 
 }

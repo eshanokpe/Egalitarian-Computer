@@ -216,13 +216,13 @@
                                        Account number
                                     </h4> 
                                     <span class="currency__card--amount" style="margin-top: -15px"> 
-                                        {{ $user->virtualAccounts->first()->account_number}}
+                                        {{ $user->virtualAccounts->first()->account_number ?? ''}}
                                     </span>
                                     <h4 class="currency__card--title">
                                         Account Bank
                                     </h4>
                                      <span class="currency__card--amount"  style="margin-top: -15px"> 
-                                        {{ $user->virtualAccounts->first()->bank_name}}
+                                        {{ $user->virtualAccounts->first()->bank_name ?? ''}}
                                     </span>
                                     <h4 class="currency__card--title">
                                         Recipient ID

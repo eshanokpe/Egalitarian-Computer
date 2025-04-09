@@ -13,15 +13,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    // Constants for auth methods
-    const AUTH_METHOD_PIN = 'pin';
-    const AUTH_METHOD_BIOMETRIC = 'biometric';
-    const AUTH_METHOD_BOTH = 'both';
-    
-    // Biometric types constants
-    const BIOMETRIC_FACE = 'face';
-    const BIOMETRIC_FINGERPRINT = 'fingerprint';
-    const BIOMETRIC_IRIS = 'iris';
 
     protected $fillable = [
         'first_name', 
@@ -154,7 +145,7 @@ class User extends Authenticatable
         return !empty($this->biometric_enabled_at) && 
                !empty($this->biometric_data);
     }
-
+ 
     public function canUseBiometric(): bool
     {
         return $this->hasBiometricEnabled() && 

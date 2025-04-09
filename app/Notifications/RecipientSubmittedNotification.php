@@ -6,10 +6,13 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\User;
 
-class RecipientSubmittedNotification extends Notification
+class RecipientSubmittedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
+    public $transferDetails;
 
     /**
      * Create a new notification instance.
@@ -38,10 +41,36 @@ class RecipientSubmittedNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
+    public function toMail($notifiable)
+    {
+        $formattedPrice = number_format($this->transferDetails['total_price']/100, 2);
+        $senderName = User::find($this->transferDetails['sender_id'])->name;
+
+        return (new MailMessage)
+            ->subject('Accept Your Asset Transfer')
+            ->greeting('Dear ' . $notifiable->name . ',')
+            ->line('You have received an asset transfer of *₦' . $formattedPrice . '* from *' . $senderName . '* via Dohmayn. To complete the transaction, please follow the steps below to accept the transfer:')
+            ->line('')
+            ->line('1. *Log in* to your Dohmayn account')
+            ->line('2. Navigate to the *Transfers* section')
+            ->line('3. Locate the pending transfer from *' . $senderName . '*')
+            ->line('4. Click on *Accept* to confirm the transfer')
+            ->line('')
+            ->line('If you do not accept the transfer within *48 hours*, the asset will be returned to the sender.')
+            ->line('')
+            ->line('If you have any questions or need assistance, feel free to contact our support team.')
+            ->line('')
+            ->line('Thank you for using Dohmayn!')
+            ->salutation('Best regards,<br>Dohmayn Support Team');
+    }
+ 
     public function toDatabase($notifiable)
     {
+        $senderName = User::find($this->transferDetails['sender_id'])->name;
+        $formattedPrice = number_format($this->transferDetails['total_price']/100, 2);
+        
         return [
-            'notification_status' => 'Recipient Submitted Notification',
+            'notification_status' => 'recipientSubmittedNotification', 
             'property_id' => $this->transferDetails['property_id'],
             'property_slug' => $this->transferDetails['property_slug'],
             'property_name' => $this->transferDetails['property_name'],
@@ -54,49 +83,24 @@ class RecipientSubmittedNotification extends Notification
             'sender_id' => $this->transferDetails['sender_id'],
             'recipient_id' => $this->transferDetails['recipient_id'],
             'property_mode' => 'transfer', 
-            'message' => $notifiable->id === $this->transferDetails['sender_id']
-                ? 'You have initiated a property transfer.'
-                : 'You have received a property transfer.',
+            'message' => 'You have received ₦' . $formattedPrice . ' asset transfer from ' . $senderName . '. Please accept the transfer.',
         ];
     }
 
-    public function toMail($notifiable)
-    {
-        $message = $notifiable->id === $this->transferDetails['sender_id']
-            ? 'You have initiated a property transfer.'
-            : 'You have received a property transfer.';
-        $formattedPrice = number_format($this->transferDetails['total_price']/100, 2);
-        return (new MailMessage)
-            ->subject('Property Transfer Notification')
-            ->line($message)
-            ->line('Property Name: ' . $this->transferDetails['property_name'])
-            ->line('Land Size: ' . $this->transferDetails['land_size'] .' SQM')
-            ->line('Total Price: ₦' . $formattedPrice)
-            ->line('Reference: ' . $this->transferDetails['reference'])
-            ->action('View Property', url('/property/' . $this->transferDetails['property_slug']))
-            ->line('Thank you for using our platform!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
-        return [ 
+        $senderName = User::find($this->transferDetails['sender_id'])->name;
+        
+        return [  
             'notification_status' => 'RecipientSubmittedNotification',
             'property_id' => $this->transferDetails['property_id'],
             'property_slug' => $this->transferDetails['property_slug'],
             'property_name' => $this->transferDetails['property_name'],
             'property_image' => $this->transferDetails['property_image'],
             'land_size' => $this->transferDetails['land_size'],
-            'total_price' => $this->transferDetails['total_price'],
+            'total_price' => $this->transferDetails['total_price']/100,
             'reference' => $this->transferDetails['reference'],
-            'message' => $notifiable->id === $this->transferDetails['sender_id']
-                ? 'You have initiated a property transfer.'
-                : 'You have received a property transfer.',
+            'message' => 'You have received an asset transfer of ₦' . number_format($this->transferDetails['total_price']/100, 2) . ' from ' . $senderName . ' via Dohmayn. Please accept the transfer to complete the transaction.',
         ];
     }
 }

@@ -66,7 +66,7 @@
                                         <p><strong>Email:</strong> {{ $sender->email }}</p>
                                         {{-- <p><strong>ID:</strong> {{ $sender->recipient_id }}</p>  --}}
                                     </div>
-                                </div>
+                                </div>  
                                 <form action="{{ route('user.confirm.transfer.submit', ['slug' => $property->slug]) }}" method="POST">
                                     @csrf
                                     <div class="setting__profile--inner">

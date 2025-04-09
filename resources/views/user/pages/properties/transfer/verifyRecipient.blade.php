@@ -72,12 +72,23 @@
                                             <label class="add__listing--input__label" for="email">Recipient Details</label>
                                             <input required class="add__listing--input__field mb-10" id="name" name="recipient_id" disabled placeholder="Recipient ID" type="text" value="{{ $recipientData->last_name.' '.$recipientData->first_name }}">
                                             <input required class="add__listing--input__field mb-10" id="name" name="recipient_id" disabled placeholder="Recipient ID" type="text" value="{{ $recipientData->email}}">
-                                            <small><b>{{ $recipientData->recipient_id}}</b></small>
-                                        </div>
+                                        </div> 
+                                        <div class="add__listing--input__box mb-20">
+                                            <label class="add__listing--input__label" for="email">Enter 4-digit Transaction PIN</label>
+                                            <input required class="add__listing--input__field mb-10" 
+                                            id="transaction_pin"  name="transaction_pin"  maxlength="4"
+                                            placeholder="****" type="password" inputmode="numeric" pattern="\d{4}" required
+                                            >
+                                        </div> 
+                                       
                                         
                                         <button type="submit" class="solid__btn add__property--btn">Submit Transfer Request</button>
                                     </div>
                                 </form>
+                                <!-- Payment Form -->
+                                
+
+
                             </div>
                         </div>
                         {{-- <a href="#" class="solid__btn" id="make-payment-btn">Continue</a> --}}
@@ -89,6 +100,13 @@
         </main>
     </div>
 </div>
-
+<script>
+    // Redirect user to set PIN if not set
+    @auth
+        @if (!auth()->user()->transaction_pin)
+            window.location.href = "{{ route('user.transaction.pin') }}";  // Redirect to the PIN setup page
+        @endif
+    @endauth 
+</script>
 
 @endsection

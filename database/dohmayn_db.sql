@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 09, 2025 at 09:13 PM
+-- Generation Time: Apr 09, 2025 at 12:07 PM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -101,7 +101,14 @@ INSERT INTO `buys` (`id`, `user_id`, `user_email`, `property_id`, `transaction_i
 (18, 10, 'eshanokpe@gmail.com', 1, 18, '1', '300', 209998.00, 'available', '2024-12-16 20:24:04', '2024-12-16 20:24:04'),
 (19, 10, 'eshanokpe@gmail.com', 1, 20, '1', '300', 209998.00, 'available', '2024-12-16 20:30:27', '2024-12-16 20:30:27'),
 (20, 11, 'eshanokpe77@gmail.com', 1, 1, '1', '', 20999800.00, 'tranfer', '2024-12-22 17:36:12', '2024-12-22 17:36:12'),
-(21, 26, 'eshanokpe@gmail.com', 1, 21, '1', '300', 289000.00, 'sold', '2025-01-12 06:29:28', '2025-01-12 06:29:28');
+(21, 26, 'eshanokpe@gmail.com', 1, 21, '1', '300', 289000.00, 'sold', '2025-01-12 06:29:28', '2025-01-12 06:29:28'),
+(22, 29, 'eshanokpe77@gmail.com', 1, 27, '1', '300', 25800.00, 'available', '2025-04-07 04:56:56', '2025-04-07 04:56:56'),
+(23, 29, 'eshanokpe77@gmail.com', 1, 28, '1', '299', 25800.00, 'sold out', '2025-04-07 07:56:27', '2025-04-07 07:56:27'),
+(24, 29, 'eshanokpe77@gmail.com', 1, 29, '1', '299', 25800.00, 'available', '2025-04-07 07:57:12', '2025-04-07 07:57:12'),
+(25, 29, 'eshanokpe77@gmail.com', 1, 30, '1', '299', 25800.00, 'available', '2025-04-07 08:14:50', '2025-04-07 08:14:50'),
+(26, 29, 'eshanokpe77@gmail.com', 1, 31, '1', '299', 25800.00, 'available', '2025-04-07 08:17:04', '2025-04-07 08:17:04'),
+(27, 29, 'eshanokpe77@gmail.com', 1, 32, '1', '299', 25800.00, 'available', '2025-04-07 08:25:53', '2025-04-07 08:25:53'),
+(28, 29, 'eshanokpe77@gmail.com', 1, 33, '1', '299', 25800.00, 'available', '2025-04-07 08:27:48', '2025-04-07 08:27:48');
 
 -- --------------------------------------------------------
 
@@ -279,7 +286,42 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (33, '2025_01_08_175124_create_property_valuation_predictions_table', 29),
 (34, '2025_01_18_214723_create_property_valuation_summaries_table', 30),
 (35, '2025_01_26_193221_add_recipient_details_to_transactions_table', 31),
-(36, '2025_01_26_215701_add_recipient_details_to_transactions_table', 32);
+(36, '2025_01_26_215701_add_recipient_details_to_transactions_table', 32),
+(37, '2025_03_29_085433_add_commission_to_referral_logs', 33),
+(38, '2025_03_29_090836_add_status_to_referral_logs', 34),
+(39, '2025_04_01_195146_add_app_passcode_to_users_table', 35),
+(40, '2025_04_05_041851_add_auth_method_to_users_table', 36),
+(41, '2025_04_05_063547_add_auth_method_fields_to_users_table', 37),
+(42, '2025_04_06_064315_add_source_to_transactions_table', 38),
+(43, '2025_04_06_121957_add_metadata_to_transactions_table', 39),
+(44, '2025_04_07_085445_add_pin_columns_to_users_table', 40),
+(45, '2025_04_07_185927_create_user_activities_table', 41),
+(46, '2025_04_07_190130_add_last_login_to_users_table', 41),
+(47, '2025_04_07_192341_create_permission_tables', 42);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_permissions`
+--
+
+CREATE TABLE `model_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_roles`
+--
+
+CREATE TABLE `model_has_roles` (
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -353,23 +395,46 @@ CREATE TABLE `notifications` (
 
 INSERT INTO `notifications` (`id`, `type`, `notifiable_type`, `notifiable_id`, `data`, `read_at`, `created_at`, `updated_at`) VALUES
 ('0ca83616-d173-4c09-a249-9d94fe200bb9', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 17, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"835800.00\",\"future_date\":\"11 April, 2025\",\"percentage_increase\":543}', NULL, '2025-01-22 22:29:28', '2025-01-22 22:29:28'),
+('0d099868-030e-4b2d-abd8-7d1f69e64fd5', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 30, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"500000.00\",\"percentage_increase\":234}', NULL, '2025-04-08 08:19:09', '2025-04-08 08:19:09'),
+('1cd3bade-8a92-4677-bc50-de0d5580d32d', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 19, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"250000.00\",\"percentage_increase\":67}', NULL, '2025-04-08 08:18:35', '2025-04-08 08:18:35'),
 ('1ecda09b-7f35-4987-8297-743fa56dd263', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 31, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"835800.00\",\"future_date\":\"11 April, 2025\",\"percentage_increase\":543}', NULL, '2025-01-22 22:29:46', '2025-01-22 22:29:46'),
 ('271a2cc6-4977-4746-a4ca-59245a6e2593', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 15, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"835800.00\",\"future_date\":\"11 April, 2025\",\"percentage_increase\":543}', NULL, '2025-01-22 22:29:27', '2025-01-22 22:29:27'),
 ('34890cd6-fd97-4a11-a8da-9708d9590825', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 29, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"835800.00\",\"future_date\":\"11 April, 2025\",\"percentage_increase\":543}', NULL, '2025-01-22 22:29:43', '2025-01-22 22:29:43'),
+('3d3190c0-14a6-4b94-bae0-d0bd8aa30b93', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 15, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"500000.00\",\"percentage_increase\":234}', NULL, '2025-04-08 08:18:53', '2025-04-08 08:18:53'),
 ('3d36b046-5a98-405b-aa2f-bc470196cf00', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 12, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"835800.00\",\"future_date\":\"11 April, 2025\",\"percentage_increase\":543}', NULL, '2025-01-22 22:29:25', '2025-01-22 22:29:25'),
 ('481e3dc5-b326-4973-92c2-5d589d197712', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 31, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"845800.00\",\"future_date\":\"23 January, 2025\",\"percentage_increase\":551}', NULL, '2025-01-22 22:26:18', '2025-01-22 22:26:18'),
+('543a61b6-e4f1-4d26-ac2e-c831d403840f', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 12, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"250000.00\",\"percentage_increase\":67}', NULL, '2025-04-08 08:18:25', '2025-04-08 08:18:25'),
+('570c49f1-b889-47a7-bc9a-c165ea6b37e3', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 18, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"250000.00\",\"percentage_increase\":67}', NULL, '2025-04-08 08:18:33', '2025-04-08 08:18:33'),
+('59212aea-34b0-4303-851f-3a204c32fba7', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 26, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"250000.00\",\"percentage_increase\":67}', NULL, '2025-04-08 08:18:37', '2025-04-08 08:18:37'),
+('5c8970b1-ca4f-4be2-a9bb-a32b1ecec7cb', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 29, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"250000.00\",\"percentage_increase\":67}', NULL, '2025-04-08 08:18:39', '2025-04-08 08:18:39'),
+('5d541dc2-035c-4c86-a658-9c9b2ebe3a33', 'App\\Notifications\\RecipientSubmittedNotification', 'App\\Models\\User', 12, '{\"notification_status\":\"Recipient Submitted Notification\",\"property_id\":1,\"property_slug\":\"luxury-family-home-update-nn\",\"property_name\":\"Luxury Family Home update nn\",\"property_image\":\"assets\\/images\\/property\\/1731843706_IMG_3459 (1).png\",\"land_size\":\"1\",\"total_price\":\"2580000\",\"status\":\"pending\",\"created_date\":\"2025-04-08T18:49:11.516448Z\",\"reference\":\"TRANS-ZGUQM7MMCU\",\"sender_id\":26,\"recipient_id\":\"12\",\"property_mode\":\"transfer\",\"message\":\"You have received \\u20a625,800.00 asset transfer from . Please accept the transfer.\"}', NULL, '2025-04-08 17:49:11', '2025-04-08 17:49:11'),
 ('5d586777-5a66-48b8-b413-bc180caa7292', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 15, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"845800.00\",\"future_date\":\"23 January, 2025\",\"percentage_increase\":551}', NULL, '2025-01-22 22:25:59', '2025-01-22 22:25:59'),
+('5f56fc9f-9caa-4d15-b9d1-c9a41f770972', 'App\\Notifications\\RecipientSubmittedNotification', 'App\\Models\\User', 12, '{\"notification_status\":\"Recipient Submitted Notification\",\"property_id\":1,\"property_slug\":\"luxury-family-home-update-nn\",\"property_name\":\"Luxury Family Home update nn\",\"property_image\":\"assets\\/images\\/property\\/1731843706_IMG_3459 (1).png\",\"land_size\":\"1\",\"total_price\":\"2580000\",\"status\":\"pending\",\"created_date\":\"2025-04-08T18:37:27.668336Z\",\"reference\":\"TRANS-PAPPMVGFDV\",\"sender_id\":26,\"recipient_id\":\"12\",\"property_mode\":\"transfer\",\"message\":\"You have received \\u20a625,800.00 asset transfer from . Please accept the transfer.\"}', NULL, '2025-04-08 17:37:27', '2025-04-08 17:37:27'),
+('624b9a40-dc28-48c9-8a51-4955562f6958', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 12, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"500000.00\",\"percentage_increase\":234}', NULL, '2025-04-08 08:18:50', '2025-04-08 08:18:50'),
+('685fd241-b8ed-440a-906f-ab581ee75cf1', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 18, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"500000.00\",\"percentage_increase\":234}', NULL, '2025-04-08 08:18:59', '2025-04-08 08:18:59'),
 ('6a44e422-6380-4665-a7cf-4fd307397330', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 19, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"835800.00\",\"future_date\":\"11 April, 2025\",\"percentage_increase\":543}', NULL, '2025-01-22 22:29:37', '2025-01-22 22:29:37'),
 ('6eb24c72-a333-41a1-b17e-e7540896e0c5', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 19, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"845800.00\",\"future_date\":\"23 January, 2025\",\"percentage_increase\":551}', NULL, '2025-01-22 22:26:07', '2025-01-22 22:26:07'),
 ('7c1f244e-2631-4ca9-83a1-02a3afb03b0f', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 12, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"845800.00\",\"future_date\":\"23 January, 2025\",\"percentage_increase\":551}', NULL, '2025-01-22 22:25:56', '2025-01-22 22:25:56'),
+('7d3b8f35-24aa-4836-ad73-219c287ab5d4', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 29, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"500000.00\",\"percentage_increase\":234}', NULL, '2025-04-08 08:19:07', '2025-04-08 08:19:07'),
+('7f4fb1fc-1666-4511-ae7b-7253b2db962a', 'App\\Notifications\\SenderTransferNotification', 'App\\Models\\User', 26, '{\"notification_status\":\"senderTransferNotification\",\"property_name\":\"Luxury Family Home update nn\",\"land_size\":\"1\",\"total_price\":25800,\"reference\":\"TRANS-ZGUQM7MMCU\",\"status\":\"pending\",\"message\":\"You have initiated a property transfer. Please wait for recipient to accept.\"}', NULL, '2025-04-08 17:49:14', '2025-04-08 17:49:14'),
 ('8601fd8c-c18a-45bd-bd55-eb2f16cc5a1a', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 30, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"835800.00\",\"future_date\":\"11 April, 2025\",\"percentage_increase\":543}', NULL, '2025-01-22 22:29:44', '2025-01-22 22:29:44'),
 ('87ad5b79-6fcf-4494-ae77-083a3a778518', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 31, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"840800.00\",\"future_date\":\"23 May, 2025\",\"percentage_increase\":547}', NULL, '2025-01-22 22:24:22', '2025-01-22 22:24:22'),
 ('8b6f230d-34b9-4c7e-bbed-3ae2e0b82337', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 30, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"840800.00\",\"future_date\":\"23 May, 2025\",\"percentage_increase\":547}', NULL, '2025-01-22 22:24:15', '2025-01-22 22:24:15'),
 ('8f020526-d2aa-44b8-9c33-2e179bef4737', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 26, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"845800.00\",\"future_date\":\"23 January, 2025\",\"percentage_increase\":551}', NULL, '2025-01-22 22:26:10', '2025-01-22 22:26:10'),
 ('8f7a5bf2-b147-4f8c-aee0-75f36a720ead', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 18, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"845800.00\",\"future_date\":\"23 January, 2025\",\"percentage_increase\":551}', NULL, '2025-01-22 22:26:05', '2025-01-22 22:26:05'),
+('8ff893cb-71d9-4b12-9f91-d791c7e14050', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 31, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"500000.00\",\"percentage_increase\":234}', NULL, '2025-04-08 08:19:12', '2025-04-08 08:19:12'),
+('9550fe6f-5486-40f8-bba8-18e4c145ddc6', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 15, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"250000.00\",\"percentage_increase\":67}', NULL, '2025-04-08 08:18:28', '2025-04-08 08:18:28'),
 ('a7238c76-a57b-4eca-aed6-b98a97c0fc15', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 18, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"835800.00\",\"future_date\":\"11 April, 2025\",\"percentage_increase\":543}', NULL, '2025-01-22 22:29:34', '2025-01-22 22:29:34'),
 ('b1b4b5a4-be94-4a4e-9b24-c9074c3de7dd', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 30, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"845800.00\",\"future_date\":\"23 January, 2025\",\"percentage_increase\":551}', NULL, '2025-01-22 22:26:15', '2025-01-22 22:26:15'),
+('b2b94d49-f9c1-4745-9696-235267454546', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 31, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"250000.00\",\"percentage_increase\":67}', NULL, '2025-04-08 08:18:43', '2025-04-08 08:18:43'),
+('b7ec0a35-4afa-4bc6-b819-f14785772aca', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 30, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"250000.00\",\"percentage_increase\":67}', NULL, '2025-04-08 08:18:41', '2025-04-08 08:18:41'),
+('c2344659-8d19-4d6c-bad4-cff6cc33a1d4', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 17, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"500000.00\",\"percentage_increase\":234}', NULL, '2025-04-08 08:18:57', '2025-04-08 08:18:57'),
 ('c9f54c7f-980d-4a7e-a8d8-66a34beff495', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 29, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"845800.00\",\"future_date\":\"23 January, 2025\",\"percentage_increase\":551}', NULL, '2025-01-22 22:26:13', '2025-01-22 22:26:13'),
+('cf15444c-c6ee-4030-ae91-e00307288f67', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 26, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"500000.00\",\"percentage_increase\":234}', NULL, '2025-04-08 08:19:04', '2025-04-08 08:19:04'),
+('cfac6f91-009f-44f8-86d8-d15a1543ab17', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 19, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"500000.00\",\"percentage_increase\":234}', NULL, '2025-04-08 08:19:02', '2025-04-08 08:19:02'),
+('d99e3899-7729-45be-b049-b5fa68bd8ff8', 'App\\Notifications\\SenderTransferNotification', 'App\\Models\\User', 26, '{\"notification_status\":\"senderTransferNotification\",\"property_name\":\"Luxury Family Home update nn\",\"land_size\":\"1\",\"total_price\":25800,\"reference\":\"TRANS-W82YOYLHEZ\",\"status\":\"pending\",\"message\":\"You have initiated a property transfer. Please wait for recipient to accept.\"}', NULL, '2025-04-08 17:38:47', '2025-04-08 17:38:47'),
+('d9e282a7-a7e9-442a-9e69-25d052f8ac90', 'App\\Notifications\\PropertyValuationNotification', 'App\\Models\\User', 17, '{\"notification_status\":\"Property Valuation Notification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"market_value\":\"250000.00\",\"percentage_increase\":67}', NULL, '2025-04-08 08:18:30', '2025-04-08 08:18:30'),
+('e22eac61-2f91-40bf-b612-ad9f62b51a9c', 'App\\Notifications\\RecipientSubmittedNotification', 'App\\Models\\User', 12, '{\"notification_status\":\"Recipient Submitted Notification\",\"property_id\":1,\"property_slug\":\"luxury-family-home-update-nn\",\"property_name\":\"Luxury Family Home update nn\",\"property_image\":\"assets\\/images\\/property\\/1731843706_IMG_3459 (1).png\",\"land_size\":\"1\",\"total_price\":\"2580000\",\"status\":\"pending\",\"created_date\":\"2025-04-08T18:38:45.148543Z\",\"reference\":\"TRANS-W82YOYLHEZ\",\"sender_id\":26,\"recipient_id\":\"12\",\"property_mode\":\"transfer\",\"message\":\"You have received \\u20a625,800.00 asset transfer from . Please accept the transfer.\"}', NULL, '2025-04-08 17:38:45', '2025-04-08 17:38:45'),
 ('e28e8f52-4e03-45a8-9238-768331fb94e0', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 26, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"835800.00\",\"future_date\":\"11 April, 2025\",\"percentage_increase\":543}', NULL, '2025-01-22 22:29:40', '2025-01-22 22:29:40'),
 ('e3543847-74e0-472d-a55d-b45a71413ed9', 'App\\Notifications\\PropertyValuationPredictionNotification', 'App\\Models\\User', 17, '{\"notification_status\":\"PropertyValuationPredictionNotification\",\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"current_market_value\":\"825800.00\",\"future_market_value\":\"845800.00\",\"future_date\":\"23 January, 2025\",\"percentage_increase\":551}', NULL, '2025-01-22 22:26:02', '2025-01-22 22:26:02');
 
@@ -405,6 +470,20 @@ CREATE TABLE `password_resets` (
   `email` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `permissions`
+--
+
+CREATE TABLE `permissions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `guard_name` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -515,7 +594,7 @@ CREATE TABLE `properties` (
 --
 
 INSERT INTO `properties` (`id`, `name`, `slug`, `description`, `location`, `state`, `city`, `country`, `price`, `lunch_price`, `percentage_increase`, `size`, `available_size`, `gazette_number`, `tenure_free`, `property_images`, `payment_plan`, `brochure`, `contract_deed`, `land_survey`, `video_link`, `google_map`, `year`, `status`, `property_state`, `created_at`, `updated_at`, `neighborhood_category_id`) VALUES
-(1, 'Luxury Family Home update nn', 'luxury-family-home-update-nn', '<p class=\"project__details--desc mb-20\">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat qui ducimus illum modi? perspiciatis accusamus soluta perferendis, ad illum, nesciunt, reiciendis iusto et cupidit Repudiandae provident to consectetur, sapiente, libero iure necessitatibus corporis nulla voluptate, quisquam aut perspiciatis? Fugiat labore aspernatur eius, perspiciatis ut molestiae, delectus rem.</p>\r\n<p class=\"project__details--desc m-0\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulv inar dapibus leo. Ut enim ad minim veniam. when an unknown printer took a galley of type and scrambled it to make a type specimen book.<br />Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat. There are many variations of passages.n</p>\r\n<h3 class=\"project__details--ui__content--title\">This event will allow participants to:</h3>\r\n<ul class=\"project__details--ui__content--wrapper\">\r\n<li class=\"project__details--ui__desc\">&nbsp;Business\'s managers, leaders</li>\r\n<li class=\"project__details--ui__desc\">&nbsp;Downloadable lectures, code and design assets for all projects</li>\r\n<li class=\"project__details--ui__desc\">&nbsp;Anyone who is finding a chance to get the promotion</li>\r\n</ul>', '1421 San Pedro St', 'Jigawa', 'IKORODU(Laspotech)', 'Nigeria', '251800.00', 130000, 94, '300', '300', '73/73/1996, Source (OSSG Lagos state)', 'Freehold', 'assets/images/property/1731843706_IMG_3459 (1).png', 'assets/images/property/1731795234_featured-grid2.jpg', 'assets/images/property/1731795234_featured-grid3.jpg', 'assets/images/property/1732440393_Hamoj_Ogombo N_page-0001.jpg', 'assets/images/property/1731846463_Hamoj_Ogombo N_page-0001.jpg', 'https://www.youtube.com/embed/V7LOVb3iAKA?si=hjweiHidvSjt6cp1', 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d19868.373358018045!2d-0.11951900000000001!3d51.503186!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604b900d26973%3A0x4291f3172409ea92!2slastminute.com%20London%20Eye!5e0!3m2!1sen!2sus!4v1699801088151!5m2!1sen!2sus', '2023', 'available', NULL, '2024-11-16 21:13:54', '2025-01-19 16:57:44', NULL);
+(1, 'Luxury Family Home update nn', 'luxury-family-home-update-nn', '<p class=\"project__details--desc mb-20\">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat qui ducimus illum modi? perspiciatis accusamus soluta perferendis, ad illum, nesciunt, reiciendis iusto et cupidit Repudiandae provident to consectetur, sapiente, libero iure necessitatibus corporis nulla voluptate, quisquam aut perspiciatis? Fugiat labore aspernatur eius, perspiciatis ut molestiae, delectus rem.</p>\r\n<p class=\"project__details--desc m-0\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulv inar dapibus leo. Ut enim ad minim veniam. when an unknown printer took a galley of type and scrambled it to make a type specimen book.<br />Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat. There are many variations of passages.n</p>\r\n<h3 class=\"project__details--ui__content--title\">This event will allow participants to:</h3>\r\n<ul class=\"project__details--ui__content--wrapper\">\r\n<li class=\"project__details--ui__desc\">&nbsp;Business\'s managers, leaders</li>\r\n<li class=\"project__details--ui__desc\">&nbsp;Downloadable lectures, code and design assets for all projects</li>\r\n<li class=\"project__details--ui__desc\">&nbsp;Anyone who is finding a chance to get the promotion</li>\r\n</ul>', '1421 San Pedro St', 'Jigawa', 'IKORODU(Laspotech)', 'Nigeria', '500000.00', 150000, 233, '300', '300', '73/73/1996, Source (OSSG Lagos state)', 'Freehold', 'assets/images/property/1731843706_IMG_3459 (1).png', 'assets/images/property/1731795234_featured-grid2.jpg', 'assets/images/property/1731795234_featured-grid3.jpg', 'assets/images/property/1732440393_Hamoj_Ogombo N_page-0001.jpg', 'assets/images/property/1731846463_Hamoj_Ogombo N_page-0001.jpg', 'https://www.youtube.com/embed/V7LOVb3iAKA?si=hjweiHidvSjt6cp1', 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d19868.373358018045!2d-0.11951900000000001!3d51.503186!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604b900d26973%3A0x4291f3172409ea92!2slastminute.com%20London%20Eye!5e0!3m2!1sen!2sus!4v1699801088151!5m2!1sen!2sus', '2023', 'available', NULL, '2024-11-16 21:13:54', '2025-04-08 08:18:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -541,11 +620,10 @@ CREATE TABLE `property_price_updates` (
 --
 
 INSERT INTO `property_price_updates` (`id`, `property_id`, `previous_price`, `previous_percentage_increase`, `previous_year`, `updated_price`, `percentage_increase`, `updated_year`, `created_at`, `updated_at`) VALUES
-(6, 1, 260000.00, 100, '2023', 260000.00, 100, '2025', '2025-01-08 16:31:13', '2025-01-08 16:31:13'),
-(7, 1, 260000.00, NULL, '2023', 280000.00, 8, '2039', '2025-01-23 19:30:45', '2025-01-24 04:13:52'),
-(8, 1, 260000.00, NULL, '2023', 265000.00, 2, '2025', '2025-01-24 02:59:52', '2025-01-24 04:13:06'),
-(9, 1, 260000.00, NULL, '2023', 265000.00, 2, '2025', '2025-01-24 03:00:24', '2025-01-24 03:00:24'),
-(11, 1, 260000.00, NULL, '2023', 268000.00, 3, '2026', '2025-01-24 03:03:34', '2025-02-18 07:56:14');
+(17, 1, 0.00, NULL, '2024', 200.00, 0, '2025', '2025-04-08 08:54:53', '2025-04-08 08:54:53'),
+(18, 1, 200.00, NULL, '2025', 300.00, 50, '2025', '2025-04-08 09:01:00', '2025-04-08 09:01:00'),
+(19, 1, 300.00, NULL, '2025', 320.00, 7, '2025', '2025-04-08 09:01:12', '2025-04-08 09:01:12'),
+(20, 1, 320.00, NULL, '2025', 350.00, 9, '2022', '2025-04-08 09:01:58', '2025-04-08 09:01:58');
 
 -- --------------------------------------------------------
 
@@ -569,9 +647,7 @@ CREATE TABLE `property_valuations` (
 --
 
 INSERT INTO `property_valuations` (`id`, `property_id`, `valuation_type`, `current_price`, `market_value`, `percentage_increase`, `created_at`, `updated_at`) VALUES
-(5, 1, 'Education', 240000.00, 251800.00, 5.00, '2024-12-29 10:41:55', '2025-01-19 16:57:44'),
-(10, 1, 'testing', 280000.00, 285000.00, 2.00, '2025-01-12 05:53:10', '2025-01-12 05:53:10'),
-(11, 1, 'test2', 285000.00, 289000.00, 2.00, '2025-01-12 06:07:48', '2025-01-12 06:07:48');
+(15, 1, 'testing', 200000.00, 500000.00, 150.00, '2025-04-08 08:18:44', '2025-04-08 08:18:44');
 
 -- --------------------------------------------------------
 
@@ -589,17 +665,6 @@ CREATE TABLE `property_valuation_predictions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `property_valuation_predictions`
---
-
-INSERT INTO `property_valuation_predictions` (`id`, `property_id`, `future_date`, `current_price`, `future_market_value`, `percentage_increase`, `created_at`, `updated_at`) VALUES
-(5, 1, '2025-01-22', 825800.00, 835900.00, 2.00, '2025-01-22 21:23:31', '2025-01-22 22:18:33'),
-(6, 1, '2025-05-23', 825800.00, 840800.00, 2.00, '2025-01-22 22:22:21', '2025-01-22 22:22:21'),
-(7, 1, '2025-05-23', 825800.00, 840800.00, 2.00, '2025-01-22 22:23:20', '2025-01-22 22:23:20'),
-(8, 1, '2025-01-23', 825800.00, 845800.00, 3.00, '2025-01-22 22:25:41', '2025-01-22 22:25:41'),
-(9, 1, '2025-04-11', 825800.00, 835800.00, 2.00, '2025-01-22 22:29:07', '2025-01-22 22:29:07');
 
 -- --------------------------------------------------------
 
@@ -623,7 +688,9 @@ CREATE TABLE `property_valuation_summaries` (
 --
 
 INSERT INTO `property_valuation_summaries` (`id`, `property_id`, `property_valuation_id`, `initial_value_sum`, `current_value_sum`, `percentage_value`, `created_at`, `updated_at`) VALUES
-(1, 1, 5, 825550.00, 825800.00, 1, '2025-01-18 21:59:52', '2025-01-19 16:57:44');
+(1, 1, 5, 25550.00, 25800.00, 1, '2025-01-18 21:59:52', '2025-01-19 16:57:44'),
+(2, 1, 14, 2000000.00, NULL, 0, '2025-04-08 08:18:17', '2025-04-08 08:18:17'),
+(3, 1, 15, 200000.00, NULL, 0, '2025-04-08 08:18:44', '2025-04-08 08:18:44');
 
 -- --------------------------------------------------------
 
@@ -637,8 +704,39 @@ CREATE TABLE `referral_logs` (
   `referred_id` bigint(20) UNSIGNED DEFAULT NULL,
   `referral_code` varchar(255) NOT NULL,
   `referred_at` timestamp NULL DEFAULT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'registered' COMMENT 'registered, purchased, commission_pending, paid, cancelled',
+  `commission_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `commission_paid` tinyint(1) NOT NULL DEFAULT 0,
+  `commission_paid_at` timestamp NULL DEFAULT NULL,
+  `property_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `transaction_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `guard_name` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_has_permissions`
+--
+
+CREATE TABLE `role_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -716,6 +814,8 @@ INSERT INTO `terms` (`id`, `content`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `transactions` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `source` varchar(255) NOT NULL DEFAULT 'web',
+  `metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`metadata`)),
   `property_id` text DEFAULT NULL,
   `property_name` text DEFAULT NULL,
   `user_id` text NOT NULL,
@@ -740,24 +840,32 @@ CREATE TABLE `transactions` (
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `property_id`, `property_name`, `user_id`, `reference`, `status`, `amount`, `email`, `payment_method`, `description`, `transaction_state`, `paid_at`, `created_at`, `updated_at`, `recipient_name`, `recipient_code`, `account_number`, `account_name`, `bank_name`) VALUES
-(8, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732915350-AMDVIZJH', 'success', 150000.00, 'eshanokpe@gmail.com', 'card', NULL, NULL, '2024-11-29 21:23:33', '2024-11-29 20:22:30', '2024-11-29 20:23:33', NULL, NULL, NULL, NULL, NULL),
-(9, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732916543-QHHOU186', 'pending', 150000.00, 'eshanokpe@gmail.com', '', NULL, NULL, '2024-11-29 21:42:23', '2024-11-29 20:42:23', '2024-11-29 20:42:23', NULL, NULL, NULL, NULL, NULL),
-(10, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732917272-UZDJYIRH', 'success', 150000.00, 'eshanokpe@gmail.com', 'card', NULL, NULL, '2024-11-29 21:54:52', '2024-11-29 20:54:32', '2024-11-29 20:54:52', NULL, NULL, NULL, NULL, NULL),
-(11, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732917712-HCQW4KWB', 'success', 150000.00, 'eshanokpe@gmail.com', 'card', NULL, NULL, '2024-11-29 22:02:36', '2024-11-29 21:01:52', '2024-11-29 21:02:36', NULL, NULL, NULL, NULL, NULL),
-(12, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732918286-FKPRHUPX', 'pending', 300000.00, 'eshanokpe@gmail.com', '', NULL, NULL, '2024-11-29 22:11:26', '2024-11-29 21:11:26', '2024-11-29 21:11:26', NULL, NULL, NULL, NULL, NULL),
-(13, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732918412-S1W2U1Y5', 'success', 150000.00, 'eshanokpe@gmail.com', 'card', NULL, NULL, '2024-11-29 22:13:54', '2024-11-29 21:13:32', '2024-11-29 21:13:54', NULL, NULL, NULL, NULL, NULL),
-(14, '1', 'Luxury Family Home update nn', '11', 'PROREF-1734208371-MYZPJDVY', 'pending', 209998.00, 'eshanokpe77@gmail.com', '', NULL, NULL, '2024-12-14 20:32:51', '2024-12-14 19:32:51', '2024-12-14 19:32:51', NULL, NULL, NULL, NULL, NULL),
-(15, '1', 'Luxury Family Home update nn', '10', 'PROREF-1734269135-QV87OJRH', 'success', 209998.00, 'eshanokpe@gmail.com', 'card', NULL, NULL, '2024-12-15 13:25:51', '2024-12-15 12:25:35', '2024-12-15 12:25:51', NULL, NULL, NULL, NULL, NULL),
-(16, '1', 'Luxury Family Home update nn', '10', 'PROREF-1734273566-VWOVKG59', 'pending', 209998.00, 'eshanokpe@gmail.com', '', NULL, NULL, '2024-12-15 14:39:26', '2024-12-15 13:39:26', '2024-12-15 13:39:26', NULL, NULL, NULL, NULL, NULL),
-(17, '1', 'Luxury Family Home update nn', '10', 'PROREF-1734273570-PSDDR0GI', 'pending', 209998.00, 'eshanokpe@gmail.com', '', NULL, NULL, '2024-12-15 14:39:31', '2024-12-15 13:39:31', '2024-12-15 13:39:31', NULL, NULL, NULL, NULL, NULL),
-(18, '1', 'Luxury Family Home update nn', '10', 'PROREF-1734384155-BSUMNK8G', 'success', 209998.00, 'eshanokpe@gmail.com', 'card', NULL, 'success', '2024-12-16 21:24:04', '2024-12-16 20:24:04', '2024-12-16 20:24:04', NULL, NULL, NULL, NULL, NULL),
-(20, '1', 'Luxury Family Home update nn', '10', 'PROREF-1734384592-2ETT9RUM', 'success', 209998.00, 'eshanokpe@gmail.com', 'card', NULL, 'success', '2024-12-16 21:30:27', '2024-12-16 20:30:27', '2024-12-16 20:30:27', NULL, NULL, NULL, NULL, NULL),
-(21, '1', 'Luxury Family Home update nn', '26', 'PROREF-1736666951-VMUW0MAP', 'success', 289000.00, 'eshanokpe@gmail.com', 'card', NULL, 'success', '2025-01-12 07:29:28', '2025-01-12 06:29:28', '2025-01-12 06:29:28', NULL, NULL, NULL, NULL, NULL),
-(22, NULL, NULL, '29', '100004250115024631125459445989', 'success', 100.00, 'eshanokpe77@gmail.com', 'Transfer', 'Fund added to wallet', NULL, '2025-01-15 02:46:38', '2025-01-15 01:46:38', '2025-01-15 01:46:38', NULL, NULL, NULL, NULL, NULL),
-(23, NULL, NULL, '29', '100004250115024410125460526672', 'success', 100.00, 'eshanokpe77@gmail.com', 'Transfer', 'Fund added to wallet', NULL, '2025-01-15 02:51:17', '2025-01-15 01:51:17', '2025-01-15 01:51:17', NULL, NULL, NULL, NULL, NULL),
-(24, NULL, NULL, '29', '100004250115024152125459444430', 'success', 100.00, 'eshanokpe77@gmail.com', 'Transfer', 'Fund added to wallet', NULL, '2025-01-15 02:51:25', '2025-01-15 01:51:25', '2025-01-15 01:51:25', NULL, NULL, NULL, NULL, NULL),
-(25, NULL, NULL, '29', '100004250115083416125467508100', 'success', 100.00, 'eshanokpe77@gmail.com', 'Transfer', 'Fund added to wallet', NULL, '2025-01-15 08:34:24', '2025-01-15 07:34:24', '2025-01-15 07:34:24', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `transactions` (`id`, `source`, `metadata`, `property_id`, `property_name`, `user_id`, `reference`, `status`, `amount`, `email`, `payment_method`, `description`, `transaction_state`, `paid_at`, `created_at`, `updated_at`, `recipient_name`, `recipient_code`, `account_number`, `account_name`, `bank_name`) VALUES
+(8, 'web', NULL, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732915350-AMDVIZJH', 'success', 150000.00, 'eshanokpe@gmail.com', 'card', NULL, NULL, '2024-11-29 21:23:33', '2024-11-29 20:22:30', '2024-11-29 20:23:33', NULL, NULL, NULL, NULL, NULL),
+(9, 'web', NULL, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732916543-QHHOU186', 'pending', 150000.00, 'eshanokpe@gmail.com', '', NULL, NULL, '2024-11-29 21:42:23', '2024-11-29 20:42:23', '2024-11-29 20:42:23', NULL, NULL, NULL, NULL, NULL),
+(10, 'web', NULL, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732917272-UZDJYIRH', 'success', 150000.00, 'eshanokpe@gmail.com', 'card', NULL, NULL, '2024-11-29 21:54:52', '2024-11-29 20:54:32', '2024-11-29 20:54:52', NULL, NULL, NULL, NULL, NULL),
+(11, 'web', NULL, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732917712-HCQW4KWB', 'success', 150000.00, 'eshanokpe@gmail.com', 'card', NULL, NULL, '2024-11-29 22:02:36', '2024-11-29 21:01:52', '2024-11-29 21:02:36', NULL, NULL, NULL, NULL, NULL),
+(12, 'web', NULL, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732918286-FKPRHUPX', 'pending', 300000.00, 'eshanokpe@gmail.com', '', NULL, NULL, '2024-11-29 22:11:26', '2024-11-29 21:11:26', '2024-11-29 21:11:26', NULL, NULL, NULL, NULL, NULL),
+(13, 'web', NULL, '1', 'Luxury Family Home update nn', '22', 'PROREF-1732918412-S1W2U1Y5', 'success', 150000.00, 'eshanokpe@gmail.com', 'card', NULL, NULL, '2024-11-29 22:13:54', '2024-11-29 21:13:32', '2024-11-29 21:13:54', NULL, NULL, NULL, NULL, NULL),
+(14, 'web', NULL, '1', 'Luxury Family Home update nn', '11', 'PROREF-1734208371-MYZPJDVY', 'pending', 209998.00, 'eshanokpe77@gmail.com', '', NULL, NULL, '2024-12-14 20:32:51', '2024-12-14 19:32:51', '2024-12-14 19:32:51', NULL, NULL, NULL, NULL, NULL),
+(15, 'web', NULL, '1', 'Luxury Family Home update nn', '10', 'PROREF-1734269135-QV87OJRH', 'success', 209998.00, 'eshanokpe@gmail.com', 'card', NULL, NULL, '2024-12-15 13:25:51', '2024-12-15 12:25:35', '2024-12-15 12:25:51', NULL, NULL, NULL, NULL, NULL),
+(16, 'web', NULL, '1', 'Luxury Family Home update nn', '10', 'PROREF-1734273566-VWOVKG59', 'pending', 209998.00, 'eshanokpe@gmail.com', '', NULL, NULL, '2024-12-15 14:39:26', '2024-12-15 13:39:26', '2024-12-15 13:39:26', NULL, NULL, NULL, NULL, NULL),
+(17, 'web', NULL, '1', 'Luxury Family Home update nn', '10', 'PROREF-1734273570-PSDDR0GI', 'pending', 209998.00, 'eshanokpe@gmail.com', '', NULL, NULL, '2024-12-15 14:39:31', '2024-12-15 13:39:31', '2024-12-15 13:39:31', NULL, NULL, NULL, NULL, NULL),
+(18, 'web', NULL, '1', 'Luxury Family Home update nn', '10', 'PROREF-1734384155-BSUMNK8G', 'success', 209998.00, 'eshanokpe@gmail.com', 'card', NULL, 'success', '2024-12-16 21:24:04', '2024-12-16 20:24:04', '2024-12-16 20:24:04', NULL, NULL, NULL, NULL, NULL),
+(20, 'web', NULL, '1', 'Luxury Family Home update nn', '10', 'PROREF-1734384592-2ETT9RUM', 'success', 209998.00, 'eshanokpe@gmail.com', 'card', NULL, 'success', '2024-12-16 21:30:27', '2024-12-16 20:30:27', '2024-12-16 20:30:27', NULL, NULL, NULL, NULL, NULL),
+(21, 'web', NULL, '1', 'Luxury Family Home update nn', '26', 'PROREF-1736666951-VMUW0MAP', 'success', 289000.00, 'eshanokpe@gmail.com', 'card', NULL, 'success', '2025-01-12 07:29:28', '2025-01-12 06:29:28', '2025-01-12 06:29:28', NULL, NULL, NULL, NULL, NULL),
+(22, 'web', NULL, NULL, NULL, '29', '100004250115024631125459445989', 'success', 100.00, 'eshanokpe77@gmail.com', 'Transfer', 'Fund added to wallet', NULL, '2025-01-15 02:46:38', '2025-01-15 01:46:38', '2025-01-15 01:46:38', NULL, NULL, NULL, NULL, NULL),
+(23, 'web', NULL, NULL, NULL, '29', '100004250115024410125460526672', 'success', 100.00, 'eshanokpe77@gmail.com', 'Transfer', 'Fund added to wallet', NULL, '2025-01-15 02:51:17', '2025-01-15 01:51:17', '2025-01-15 01:51:17', NULL, NULL, NULL, NULL, NULL),
+(24, 'web', NULL, NULL, NULL, '29', '100004250115024152125459444430', 'success', 100.00, 'eshanokpe77@gmail.com', 'Transfer', 'Fund added to wallet', NULL, '2025-01-15 02:51:25', '2025-01-15 01:51:25', '2025-01-15 01:51:25', NULL, NULL, NULL, NULL, NULL),
+(25, 'web', NULL, NULL, NULL, '29', '100004250115083416125467508100', 'success', 100.00, 'eshanokpe77@gmail.com', 'Transfer', 'Fund added to wallet', NULL, '2025-01-15 08:34:24', '2025-01-15 07:34:24', '2025-01-15 07:34:24', NULL, NULL, NULL, NULL, NULL),
+(26, 'web', '{\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"remaining_size\":\"300\",\"selected_size_land\":\"1\"}', NULL, NULL, '29', 'DOHREF-1744005301-ES4OQW6P', 'completed', 25800.00, 'eshanokpe77@gmail.com', 'wallet', NULL, NULL, '2025-04-07 05:55:01', '2025-04-07 04:55:01', '2025-04-07 04:55:01', NULL, NULL, NULL, NULL, NULL),
+(27, 'web', '{\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"remaining_size\":\"300\",\"selected_size_land\":\"1\"}', NULL, NULL, '29', 'DOHREF-1744005416-U0YCJA2B', 'completed', 25800.00, 'eshanokpe77@gmail.com', 'wallet', NULL, NULL, '2025-04-07 05:56:56', '2025-04-07 04:56:56', '2025-04-07 04:56:56', NULL, NULL, NULL, NULL, NULL),
+(28, 'web', '{\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"remaining_size\":\"300\",\"selected_size_land\":\"1\"}', NULL, NULL, '29', 'DOHREF-1744016187-GOUVW1NX', 'completed', 25800.00, 'eshanokpe77@gmail.com', 'wallet', NULL, NULL, '2025-04-07 08:56:27', '2025-04-07 07:56:27', '2025-04-07 07:56:27', NULL, NULL, NULL, NULL, NULL),
+(29, 'web', '{\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"remaining_size\":\"300\",\"selected_size_land\":\"1\"}', NULL, NULL, '29', 'DOHREF-1744016232-VMX8RAWT', 'completed', 25800.00, 'eshanokpe77@gmail.com', 'wallet', NULL, NULL, '2025-04-07 08:57:12', '2025-04-07 07:57:12', '2025-04-07 07:57:12', NULL, NULL, NULL, NULL, NULL),
+(30, 'web', '{\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"remaining_size\":\"300\",\"selected_size_land\":\"1\"}', NULL, NULL, '29', 'DOHREF-1744017290-XHJZU1DX', 'completed', 25800.00, 'eshanokpe77@gmail.com', 'wallet', NULL, NULL, '2025-04-07 09:14:50', '2025-04-07 08:14:50', '2025-04-07 08:14:50', NULL, NULL, NULL, NULL, NULL),
+(31, 'web', '{\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"remaining_size\":\"300\",\"selected_size_land\":\"1\"}', NULL, NULL, '29', 'DOHREF-1744017424-GZYUNDQG', 'completed', 25800.00, 'eshanokpe77@gmail.com', 'wallet', NULL, NULL, '2025-04-07 09:17:04', '2025-04-07 08:17:04', '2025-04-07 08:17:04', NULL, NULL, NULL, NULL, NULL),
+(32, 'web', '{\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"remaining_size\":\"300\",\"selected_size_land\":\"1\"}', NULL, NULL, '29', 'DOHREF-1744017953-PK66BQ5C', 'completed', 25800.00, 'eshanokpe77@gmail.com', 'wallet', NULL, NULL, '2025-04-07 09:25:53', '2025-04-07 08:25:53', '2025-04-07 08:25:53', NULL, NULL, NULL, NULL, NULL),
+(33, 'web', '{\"property_id\":1,\"property_name\":\"Luxury Family Home update nn\",\"remaining_size\":\"300\",\"selected_size_land\":\"1\"}', NULL, NULL, '29', 'DOHREF-1744018068-TJV1XMRZ', 'completed', 25800.00, 'eshanokpe77@gmail.com', 'wallet', NULL, NULL, '2025-04-07 09:27:48', '2025-04-07 08:27:48', '2025-04-07 08:27:48', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -813,7 +921,6 @@ INSERT INTO `transfers` (`id`, `property_id`, `property_name`, `land_size`, `use
 (40, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-YWNKVU6U5G', '29', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 17:34:11', '2025-01-12 17:34:11'),
 (41, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-5VLNJBIOLB', '29', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 17:35:20', '2025-01-12 17:35:20'),
 (42, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-OTJCPK0ZXC', '19', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 17:38:25', '2025-01-12 17:38:25'),
-(43, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-HL7A6R2KVQ', '19', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 17:39:28', '2025-01-12 17:39:28'),
 (44, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-RPSCFX59BJ', '29', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 17:41:42', '2025-01-12 17:41:42'),
 (45, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-YMWOTZQRYV', '19', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 17:46:27', '2025-01-12 17:46:27'),
 (46, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-O6NZ9X0JHH', '29', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 17:48:10', '2025-01-12 17:48:10'),
@@ -821,7 +928,10 @@ INSERT INTO `transfers` (`id`, `property_id`, `property_name`, `land_size`, `use
 (48, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-WIYMUSG8NE', '29', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 18:01:30', '2025-01-12 18:01:30'),
 (49, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-H6CTBSCD4J', '19', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 18:09:57', '2025-01-12 18:09:57'),
 (50, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-UANJHDEAW2', '29', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 18:17:11', '2025-01-12 18:17:11'),
-(51, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-5UTMRUYAFQ', '19', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 18:22:03', '2025-01-12 18:22:03');
+(51, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-5UTMRUYAFQ', '19', 28900000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-01-12 18:22:03', '2025-01-12 18:22:03'),
+(52, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-PAPPMVGFDV', '12', 2580000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-04-08 17:37:22', '2025-04-08 17:37:22'),
+(53, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-W82YOYLHEZ', '12', 2580000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-04-08 17:38:39', '2025-04-08 17:38:39'),
+(54, 1, 'Luxury Family Home update nn', 1, 26, 'eshanokpe@gmail.com', 'TRANS-ZGUQM7MMCU', '12', 2580000.00, 'pending', 'pending', NULL, NULL, NULL, '2025-04-08 17:49:03', '2025-04-08 17:49:03');
 
 -- --------------------------------------------------------
 
@@ -844,25 +954,59 @@ CREATE TABLE `users` (
   `referral_code` text DEFAULT NULL,
   `referred_by` text DEFAULT NULL,
   `transaction_pin` text DEFAULT NULL,
+  `failed_pin_attempts` int(11) NOT NULL DEFAULT 0,
   `hide_balance` tinyint(1) DEFAULT 0,
+  `app_passcode` varchar(255) DEFAULT NULL,
+  `auth_method` varchar(255) NOT NULL DEFAULT 'pin',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `biometric_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Stores supported biometric types as JSON' CHECK (json_valid(`biometric_data`)),
+  `biometric_enabled_at` timestamp NULL DEFAULT NULL COMMENT 'When biometric was enabled',
+  `last_failed_pin_attempt` timestamp NULL DEFAULT NULL,
+  `pin_locked_until` timestamp NULL DEFAULT NULL,
+  `last_login_at` timestamp NULL DEFAULT NULL,
+  `last_login_ip` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `dob`, `email_verified_at`, `phone`, `recipient_id`, `profile_image`, `password`, `remember_token`, `referral_code`, `referred_by`, `transaction_pin`, `hide_balance`, `created_at`, `updated_at`) VALUES
-(12, 'Belle', 'Bright', 'somuguf@mailinator.com', NULL, NULL, '23456789876', 'DOHMAYN-33376-PCXKYCT1PT', NULL, '$2y$10$mDDtvVhWILdDemvHfToC5OFJS.7mR9DX1075JO5rrQQEllTHeKpwW', NULL, 'DOHMAYN-6771772F1E5D20.10516972', '10', NULL, 0, '2024-12-29 15:22:07', '2024-12-29 15:22:07'),
-(15, 'Eric', 'Ewing', 'pezyjelu@mailinator.com', NULL, NULL, '+12323343344', 'DOHMAYN-56464-9IGTSFWFV2', NULL, '$2y$10$0eDmVFgeySZ4SGoXvTAjEeP197LJNJfxGk29VXYoTuEnQG4x5yjza', NULL, '461F6919', '10', NULL, 0, '2024-12-29 15:27:00', '2024-12-29 15:27:00'),
-(17, 'Quail', 'Mccoy', 'qafugimawi@mailinator.com', NULL, NULL, '+1223332323232', 'DOHMAYN-91546-Q2USTATFPH', NULL, '$2y$10$ZoHkdF1vV0VPSateUF5Ge.IN2NMLVXeixduDxSHZa5j1dJ.jiJuBG', NULL, '38C0F2C2', NULL, NULL, 0, '2024-12-29 15:35:28', '2024-12-29 15:35:28'),
-(18, 'Daria', 'Lane', 'weca@mailinator.com', NULL, NULL, '+1 (561) 561-4617', 'DOHMAYN-64603-JMTXG6XSNR', NULL, '$2y$10$.xxHMG8a/w.TS5vpDQ8at.Ypnuc/XsTQy.87cQKnZpHK07/1O3egi', NULL, '92A643E3', NULL, NULL, 0, '2024-12-29 15:39:47', '2024-12-29 15:39:47'),
-(19, 'Jana', 'Daniels', 'jotyqivazu@mailinator.com', NULL, '2025-01-12 07:31:56', '+1 (515) 572-9647', 'DOHMAYN-63922-AHQL1CXGM5', NULL, '$2y$10$SbvrXLgnrZ/NIcaO/d512.erIx.BHaM2ZM1glAY0CJr.RAbN4plM6', NULL, '6EE90E6F', NULL, NULL, 0, '2024-12-29 15:50:00', '2024-12-29 15:50:00'),
-(26, 'Eshanokpe', 'Daniel', 'eshanokpe@gmail.com', '1990-09-15', '2025-01-12 03:26:26', '+23481392679600', 'DOHMAYN-63189-UMYGSTQC5B', NULL, '$2y$10$Uf4G.XK2DEN3mq6DBOfV5e71LTWgRysXK3cyh0t8UYtU0AlA76AWO', NULL, 'DOHMAYNR0IC2X', NULL, '$2y$10$70iqbCPK0GvtBT245WMGzu2jAfyUfk60Z5G/f1Z7dlU4O6GGvBygW', 0, '2025-01-12 03:22:04', '2025-01-19 00:11:23'),
-(29, 'Dannic', 'Code', 'eshanokpe77@gmail.com', NULL, '2025-01-12 17:34:51', '+23481392', 'DOHMAYN-50134-YF6MNUO2Y2', NULL, '$2y$10$AQfMc16VPL6YUQiLFdJvzuJt0U.syXfx5uADuiTJ7cm3saS6vxAzK', NULL, 'DOHMAYNDAN5ZF', NULL, NULL, 0, '2025-01-12 16:33:30', '2025-01-12 16:33:30'),
-(30, 'Leslie', 'Ingram', 'hini@mailinator.com', NULL, NULL, '+1 (479) 497-1169', 'DOHMAYN-78177-RFON4EO6UJ', NULL, '$2y$10$jvHtFogNn6mGthX8Z7Du4uJNCMBecxej5qzlOlFLXS4wQaWYzZmoe', NULL, 'DOHMAYNIFHIP9', NULL, NULL, 0, '2025-01-16 17:31:14', '2025-01-16 17:31:14'),
-(31, 'Hector', 'Sandoval', 'pazupiby@mailinator.com', '1989-02-15', NULL, '+1 (444) 431-2052', 'DOHMAYN-94260-DTLTFO21D7', NULL, '$2y$10$RTCt3m6XfopSpHVH2zd6NuNqYmqiXeLXVgfOEMb3Rf1wEppwq8lyO', NULL, 'DOHMAYNZNWZ2G', NULL, NULL, 0, '2025-01-16 17:33:41', '2025-01-16 17:33:41');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `dob`, `email_verified_at`, `phone`, `recipient_id`, `profile_image`, `password`, `remember_token`, `referral_code`, `referred_by`, `transaction_pin`, `failed_pin_attempts`, `hide_balance`, `app_passcode`, `auth_method`, `created_at`, `updated_at`, `biometric_data`, `biometric_enabled_at`, `last_failed_pin_attempt`, `pin_locked_until`, `last_login_at`, `last_login_ip`) VALUES
+(12, 'Belle', 'Bright', 'somuguf@mailinator.com', NULL, NULL, '23456789876', 'DOHMAYN-33376-PCXKYCT1PT', NULL, '$2y$10$mDDtvVhWILdDemvHfToC5OFJS.7mR9DX1075JO5rrQQEllTHeKpwW', NULL, 'DOHMAYN-6771772F1E5D20.10516972', '10', NULL, 0, 0, NULL, 'pin', '2024-12-29 15:22:07', '2024-12-29 15:22:07', NULL, NULL, NULL, NULL, NULL, NULL),
+(15, 'Eric', 'Ewing', 'pezyjelu@mailinator.com', NULL, NULL, '+12323343344', 'DOHMAYN-56464-9IGTSFWFV2', NULL, '$2y$10$0eDmVFgeySZ4SGoXvTAjEeP197LJNJfxGk29VXYoTuEnQG4x5yjza', NULL, '461F6919', '10', NULL, 0, 0, NULL, 'pin', '2024-12-29 15:27:00', '2024-12-29 15:27:00', NULL, NULL, NULL, NULL, NULL, NULL),
+(17, 'Quail', 'Mccoy', 'qafugimawi@mailinator.com', NULL, NULL, '+1223332323232', 'DOHMAYN-91546-Q2USTATFPH', NULL, '$2y$10$ZoHkdF1vV0VPSateUF5Ge.IN2NMLVXeixduDxSHZa5j1dJ.jiJuBG', NULL, '38C0F2C2', NULL, NULL, 0, 0, NULL, 'pin', '2024-12-29 15:35:28', '2024-12-29 15:35:28', NULL, NULL, NULL, NULL, NULL, NULL),
+(18, 'Daria', 'Lane', 'weca@mailinator.com', NULL, NULL, '+1 (561) 561-4617', 'DOHMAYN-64603-JMTXG6XSNR', NULL, '$2y$10$.xxHMG8a/w.TS5vpDQ8at.Ypnuc/XsTQy.87cQKnZpHK07/1O3egi', NULL, '92A643E3', NULL, NULL, 0, 0, NULL, 'pin', '2024-12-29 15:39:47', '2024-12-29 15:39:47', NULL, NULL, NULL, NULL, NULL, NULL),
+(19, 'Jana', 'Daniels', 'jotyqivazu@mailinator.com', NULL, '2025-01-12 07:31:56', '+1 (515) 572-9647', 'DOHMAYN-63922-AHQL1CXGM5', NULL, '$2y$10$SbvrXLgnrZ/NIcaO/d512.erIx.BHaM2ZM1glAY0CJr.RAbN4plM6', NULL, '6EE90E6F', NULL, NULL, 0, 0, NULL, 'pin', '2024-12-29 15:50:00', '2024-12-29 15:50:00', NULL, NULL, NULL, NULL, NULL, NULL),
+(26, 'Eshanokpe', 'Daniel', 'eshanokpe@gmail.com', '1990-09-15', '2025-01-12 03:26:26', '+23481392679600', 'DOHMAYN-63189-UMYGSTQC5B', NULL, '$2y$10$Uf4G.XK2DEN3mq6DBOfV5e71LTWgRysXK3cyh0t8UYtU0AlA76AWO', NULL, 'DOHMAYNR0IC2X', NULL, '$2y$10$70iqbCPK0GvtBT245WMGzu2jAfyUfk60Z5G/f1Z7dlU4O6GGvBygW', 1, 0, NULL, 'pin', '2025-01-12 03:22:04', '2025-04-08 17:37:00', NULL, NULL, NULL, NULL, NULL, NULL),
+(29, 'Dannic', 'Code', 'eshanokpe77@gmail.com', NULL, '2025-01-12 17:34:51', '+23481392', 'DOHMAYN-50134-YF6MNUO2Y2', NULL, '$2y$10$AQfMc16VPL6YUQiLFdJvzuJt0U.syXfx5uADuiTJ7cm3saS6vxAzK', NULL, 'DOHMAYNDAN5ZF', NULL, '$2y$10$zk2JqlIZm3AhDGFIj1XB2u/YveMcM4z5D7ezR6fSiCFVJs4f5eIb6', 3, 0, NULL, 'pin', '2025-01-12 16:33:30', '2025-04-08 14:31:12', NULL, NULL, NULL, NULL, NULL, NULL),
+(30, 'Leslie', 'Ingram', 'hini@mailinator.com', NULL, NULL, '+1 (479) 497-1169', 'DOHMAYN-78177-RFON4EO6UJ', NULL, '$2y$10$jvHtFogNn6mGthX8Z7Du4uJNCMBecxej5qzlOlFLXS4wQaWYzZmoe', NULL, 'DOHMAYNIFHIP9', NULL, NULL, 0, 0, NULL, 'pin', '2025-01-16 17:31:14', '2025-01-16 17:31:14', NULL, NULL, NULL, NULL, NULL, NULL),
+(31, 'Hector', 'Sandoval', 'pazupiby@mailinator.com', '1989-02-15', NULL, '+1 (444) 431-2052', 'DOHMAYN-94260-DTLTFO21D7', NULL, '$2y$10$RTCt3m6XfopSpHVH2zd6NuNqYmqiXeLXVgfOEMb3Rf1wEppwq8lyO', NULL, 'DOHMAYNZNWZ2G', NULL, NULL, 0, 0, NULL, 'pin', '2025-01-16 17:33:41', '2025-01-16 17:33:41', NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_activities`
+--
+
+CREATE TABLE `user_activities` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `activity` varchar(255) NOT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_activities`
+--
+
+INSERT INTO `user_activities` (`id`, `user_id`, `activity`, `ip_address`, `created_at`, `updated_at`) VALUES
+(1, 26, 'logged in', '127.0.0.1', '2025-04-07 18:47:48', '2025-04-07 18:47:48'),
+(2, 29, 'logged in', '127.0.0.1', '2025-04-08 12:39:11', '2025-04-08 12:39:11'),
+(3, 26, 'logged in', '127.0.0.1', '2025-04-08 17:35:07', '2025-04-08 17:35:07'),
+(4, 26, 'logged in', '127.0.0.1', '2025-04-08 17:35:19', '2025-04-08 17:35:19');
 
 -- --------------------------------------------------------
 
@@ -943,7 +1087,7 @@ INSERT INTO `wallets` (`id`, `user_id`, `user_email`, `balance`, `currency`, `cr
 (4, 18, 'weca@mailinator.com', 500000.00, 'NGN', '2024-12-29 15:39:50', '2024-12-29 15:39:50'),
 (5, 19, 'jotyqivazu@mailinator.com', 500000.00, 'NGN', '2024-12-29 15:50:04', '2024-12-29 15:50:04'),
 (6, 26, 'eshanokpe@gmail.com', 211000.00, 'NGN', '2025-01-12 03:22:05', '2025-01-12 06:29:28'),
-(7, 29, 'eshanokpe77@gmail.com', 400.00, 'NGN', '2025-01-12 16:33:35', '2025-01-15 07:34:24'),
+(7, 29, 'eshanokpe77@gmail.com', 167800.00, 'NGN', '2025-01-12 16:33:35', '2025-04-07 08:27:48'),
 (8, 30, 'hini@mailinator.com', 0.00, 'NGN', '2025-01-16 17:31:19', '2025-01-16 17:31:19'),
 (9, 31, 'pazupiby@mailinator.com', 0.00, 'NGN', '2025-01-16 17:33:47', '2025-01-16 17:33:47');
 
@@ -1033,6 +1177,20 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
 -- Indexes for table `neighborhoods`
 --
 ALTER TABLE `neighborhoods`
@@ -1065,6 +1223,13 @@ ALTER TABLE `offerprices`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
 
 --
 -- Indexes for table `personal_access_tokens`
@@ -1126,7 +1291,22 @@ ALTER TABLE `property_valuation_summaries`
 ALTER TABLE `referral_logs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `referral_logs_referrer_id_foreign` (`referrer_id`),
-  ADD KEY `referral_logs_referred_id_foreign` (`referred_id`);
+  ADD KEY `referral_logs_referred_id_foreign` (`referred_id`),
+  ADD KEY `referral_logs_property_id_foreign` (`property_id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`);
+
+--
+-- Indexes for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`role_id`),
+  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
 -- Indexes for table `sells`
@@ -1171,6 +1351,13 @@ ALTER TABLE `transfers`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- Indexes for table `user_activities`
+--
+ALTER TABLE `user_activities`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_activities_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `virtual_accounts`
@@ -1220,7 +1407,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `buys`
 --
 ALTER TABLE `buys`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `comments`
@@ -1262,7 +1449,7 @@ ALTER TABLE `menu_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `neighborhoods`
@@ -1281,6 +1468,12 @@ ALTER TABLE `neighborhood_categories`
 --
 ALTER TABLE `offerprices`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1310,13 +1503,13 @@ ALTER TABLE `properties`
 -- AUTO_INCREMENT for table `property_price_updates`
 --
 ALTER TABLE `property_price_updates`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `property_valuations`
 --
 ALTER TABLE `property_valuations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `property_valuation_predictions`
@@ -1328,13 +1521,19 @@ ALTER TABLE `property_valuation_predictions`
 -- AUTO_INCREMENT for table `property_valuation_summaries`
 --
 ALTER TABLE `property_valuation_summaries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `referral_logs`
 --
 ALTER TABLE `referral_logs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sells`
@@ -1358,19 +1557,25 @@ ALTER TABLE `terms`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `transfers`
 --
 ALTER TABLE `transfers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `user_activities`
+--
+ALTER TABLE `user_activities`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `virtual_accounts`
@@ -1414,6 +1619,18 @@ ALTER TABLE `dropdown_items`
   ADD CONSTRAINT `dropdown_items_menu_item_id_foreign` FOREIGN KEY (`menu_item_id`) REFERENCES `menu_items` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `neighborhoods`
 --
 ALTER TABLE `neighborhoods`
@@ -1448,8 +1665,16 @@ ALTER TABLE `property_valuation_predictions`
 -- Constraints for table `referral_logs`
 --
 ALTER TABLE `referral_logs`
+  ADD CONSTRAINT `referral_logs_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `referral_logs_referred_id_foreign` FOREIGN KEY (`referred_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `referral_logs_referrer_id_foreign` FOREIGN KEY (`referrer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `sells`
@@ -1465,6 +1690,12 @@ ALTER TABLE `sells`
 ALTER TABLE `transfers`
   ADD CONSTRAINT `transfers_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `transfers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_activities`
+--
+ALTER TABLE `user_activities`
+  ADD CONSTRAINT `user_activities_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `virtual_accounts`

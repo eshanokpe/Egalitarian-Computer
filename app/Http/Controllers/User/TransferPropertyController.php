@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use DB; 
 use Auth;
 use Log; 
+use Hash;
 use App\Models\Transfer;
 use App\Models\Sell;
 use App\Models\Buy;
@@ -18,12 +19,19 @@ use App\Models\Property;
 use App\Models\Wallet;
 use Illuminate\Support\Str;
 use App\Models\VirtualAccount;
+use App\Models\CustomNotification;
 use App\Services\PaystackService;
  
 class TransferPropertyController extends Controller
 {
-    
+    public function __construct()
+    {
+        $this->middleware('auth'); 
+    }
     public function index(){ 
+        if(!Auth::user()){
+            return redirect()->route('login');
+        }
         $user = Auth::user();
        
         $data['sellProperty'] = Buy::select(
@@ -49,6 +57,9 @@ class TransferPropertyController extends Controller
     }
      
     public function transferRecipient(Request $request){
+        if(!Auth::user()){
+            return redirect()->route('login');
+        }
         $request->validate([
             'remaining_size' => 'required',
             'property_slug' => 'required',
@@ -96,6 +107,9 @@ class TransferPropertyController extends Controller
 
     public function verifyRecipient(Request $request){
         
+        if(!Auth::user()){
+            return redirect()->route('login');
+        }
         $request->validate([
             'property_id' => 'required',
             'property_name' => 'required',
@@ -133,64 +147,113 @@ class TransferPropertyController extends Controller
    
     public function checkRecipientTransfer(Request $request)
     {
-        try {
-            // Validate the request
-            $request->validate([
-                'selected_size_land' => 'required',
-                'property_slug' => 'required',
-                'property_id' => 'required',
-                'recipient_id' => 'required',
-                'amount' => 'required|numeric|min:1',
-            ]);
+        if(!Auth::user()){
+            return redirect()->route('login');
+        }
+        // Validate the request
+        $request->validate([
+            'selected_size_land' => 'required|numeric|min:1',
+            'property_slug' => 'required',
+            'property_id' => 'required',
+            'recipient_id' => 'required',
+            'amount' => 'required|numeric|min:1',
+            'transaction_pin' => 'required|digits:4'
+        ]);
+        $user = Auth::user();
 
-            $user = Auth::user();
+        $sendWallet = Wallet::where('user_id', $user->id)->first();
+        
+        // Ensure sender has enough balance
+        if ($sendWallet->balance < ($request->input('amount') / 100)) {
+
+            return redirect()->back()->with(['error' => 'Insufficient wallet balance']);
+
+        }
+
+        $propertyId = $request->input('property_id');
+
+        // Check if PIN is required and set
+        if (config('app.enable_transaction_pin')) {
+            if (empty($user->transaction_pin)) {
+                return $this->errorResponse($propertyId, $request, 'Please set your transaction PIN first.', 403, [
+                    'redirect_url' => route('user.transaction.pin'),
+                    'requires_pin_setup' => true
+                ]);
+            }
+
+            // Check if PIN is locked
+            if ($user->pin_locked_until && now()->lessThan($user->pin_locked_until)) {
+                return $this->errorResponse($propertyId, $request, 'Your PIN is locked. Try again after ' . $user->pin_locked_until->diffForHumans(), 423);
+            }
+        }
+
+        // Verify the provided PIN
+        if (!Hash::check($request->transaction_pin, $user->transaction_pin)) {
+            $user->increment('failed_pin_attempts');
+            $user->update(['last_failed_pin_attempt' => now()]);
+
+            $remainingAttempts = max(0, 3 - $user->failed_pin_attempts);
+
+            if ($remainingAttempts <= 0) {
+                $lockoutTime = now()->addMinutes(15);
+                $user->update(['pin_locked_until' => $lockoutTime]);
+
+                return $this->errorResponse($propertyId, $request, 'Too many failed attempts. Try again after 15 minutes.', 429, [
+                    'lockout_time' => $lockoutTime->toDateTimeString()
+                ]);
+            }
+            // return redirect()->route('user.transfer.history')->with('error', 'Invalid transaction PIN');
+
+            // return back()->with('error', 'Invalid transaction PIN');
+            return $this->errorResponse($propertyId, $request, 'Invalid transaction PIN', 401, [
+                'attempts_remaining' => $remainingAttempts
+            ]);
+        }
+
+        // Reset failed attempts on success
+        $user->update([
+            'failed_pin_attempts' => 0,
+            'last_failed_pin_attempt' => null,
+            'pin_locked_until' => null
+        ]);
+
+        try {
             $amount = $request->input('amount');
-            $propertyId = $request->input('property_id');
             $recipientId = $request->input('recipient_id');
             $propertySlug = $request->input('property_slug');
             $landSize = $request->input('selected_size_land');
 
-            // Check if the recipient exists
-            $customerCheck = User::where('id', $recipientId)->first();
-            if (!$customerCheck) {
+            // Check if recipient exists and isn't the user
+            $recipient = User::find($recipientId);
+            if (!$recipient) {
                 return $this->sendResponse($request, 'error', 'This recipient does not exist.', false);
             }
 
-            // Check if the recipient is the same as the current user
-            if ($recipientId === $user->id) {
+            if ($recipientId == $user->id) {
                 return $this->sendResponse($request, 'error', 'You cannot transfer the property to yourself.', false);
             }
 
-            // Fetch property data
-            $propertyData = Property::where('id', $propertyId)->where('slug', $propertySlug)->first();
+            // Check if the property exists
+            $propertyData = Property::where('id', $propertyId)
+                ->where('slug', $propertySlug)
+                ->first();
+
             if (!$propertyData) {
                 return $this->sendResponse($request, 'error', 'Property not found.', false);
             }
 
+            // Check total available land size
+            $totalLand = Buy::where('user_id', $user->id)
+                ->where('user_email', $user->email)
+                ->where('property_id', $propertyId)
+                ->sum('selected_size_land');
+
+            if ($totalLand < $landSize) {
+                return $this->sendResponse($request, 'error', 'Insufficient land size available for transfer.', false);
+            }
+
             // Generate a unique reference
             $reference = 'TRANS-' . strtoupper(Str::random(10));
-
-            // Check available land size for transfer
-            $buy = Buy::select(
-                'property_id', 'status',
-                DB::raw('SUM(selected_size_land) as total_selected_size_land'),
-                DB::raw('MAX(created_at) as latest_created_at')
-            )
-                ->with('property')
-                ->where('user_id', $user->id)
-                ->where('user_email', $user->email)
-                ->groupBy('property_id', 'status')
-                ->get();
-
-            if ($buy->isEmpty()) {
-                return $this->sendResponse($request, 'error', 'Property not available for sale.', false);
-            }
-
-            foreach ($buy as $item) {
-                if ($item->total_selected_size_land < $landSize) {
-                    return $this->sendResponse($request, 'error', 'Insufficient land size available for transfer.', false);
-                }
-            }
 
             // Create the transfer record
             $transfer = Transfer::create([
@@ -206,7 +269,7 @@ class TransferPropertyController extends Controller
                 'confirmation_status' => 'pending',
             ]);
 
-            // Prepare transfer details for notifications
+            // Prepare transfer details
             $transferDetails = [
                 'property_id' => $propertyData->id,
                 'property_slug' => $propertyData->slug,
@@ -221,25 +284,34 @@ class TransferPropertyController extends Controller
                 'status' => 'pending',
             ];
 
-            // Notify the recipient
-            $recipient = User::where('id', $recipientId)->first();
-            if ($recipient) {
-                $recipient->notify(new RecipientSubmittedNotification($transferDetails));
-            }
-
-            // Notify the sender
+            // Notify recipient and sender
+            $recipient->notify(new RecipientSubmittedNotification($transferDetails));
             $user->notify(new SenderTransferNotification($transferDetails));
 
-            // Return success response
-            return $this->sendResponse($request, 'success', 'We have received your request to transfer the Property. The recipient has been notified.', true, [
+            return $this->sendResponse($request, 'success', 'We have received your request to transfer ₦' . number_format($amount) . ' worth of property. The recipient has been notified.', true, [
                 'redirect' => route('user.transfer.history'),
                 'transfer_details' => $transferDetails,
             ]);
         } catch (\Exception $e) {
-            return $this->sendResponse($request,'error', 'Something went wrong: ' . $e->getMessage(), false);
+            return $this->sendResponse($request, 'error', 'Something went wrong: ' . $e->getMessage(), false);
         }
     }
 
+    protected function errorResponse($propertyId, Request $request, $message, $statusCode)
+    {
+        
+        if ($request->expectsJson() || $request->is('api/*')) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $message,
+                'data' => $data,
+            ], $statusCode);
+        }
+        if ($propertyId) {
+            return redirect()->route('user.cart.transfer.index', ['id' => encrypt($propertyId) ])
+                ->with('error', $message);
+        }
+    }
 
     private function sendResponse(Request $request, $status, $message, $success, $additionalData = [])
     {
@@ -340,7 +412,7 @@ class TransferPropertyController extends Controller
 
     }
 
-    public function submitConfirmation(Request $request, $slug){
+    public function submitConfirmationnn(Request $request, $slug){
         // The authenticated user is the recipient
         $recipient = auth()->user();
 
@@ -430,7 +502,7 @@ class TransferPropertyController extends Controller
         //     $item->selected_size_land -= $landSize;
         //     $item->save();
         // }
-        $buy = Buy::create([
+        $buy = Buy::create([ 
             'property_id' => $propertyId,
             'transaction_id' => null,
             'selected_size_land' => $landSize,
@@ -486,6 +558,207 @@ class TransferPropertyController extends Controller
         }
 
         return redirect()->route('user.dashboard')->with('success', 'Amount transferred successfully!');
+
+    }
+
+
+    public function submitConfirmation(Request $request, $slug){
+        // The authenticated user is the recipient
+
+        $recipient = auth()->user();
+
+        $request->validate([
+            'land_size' => 'required|numeric|min:1',
+            'sender_id' => 'required|exists:users,id',
+            'property_id' => 'required|exists:properties,id',
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+
+        // The sender ID comes from the request
+        $landSize = $request->input('land_size');
+        $senderId = $request->input('sender_id'); 
+        $propertyId = $request->input('property_id');
+        $amount = $request->input('amount');
+      
+        // Validate sender existence
+        $sender = User::where('id', $senderId)->first();
+        if (!$sender) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Sender not found'], 404);
+            }
+            return redirect()->back()->withErrors(['error' => 'Sender not found']);
+        }
+
+        // Validate transfer amount
+        if ($amount <= 0) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Invalid transfer amount'], 404);
+            }
+            return redirect()->back()->withErrors(['error' => 'Invalid transfer amount']);
+        }
+       
+        $sendWalletBalance = Transaction::where('user_id', $sender->id)
+            ->where('email', $sender->email)
+            ->where('status', 'success')
+            ->where('payment_method', 'wallet')
+            ->sum('amount');
+
+        $recipientWalletBalance = Transaction::where('user_id', $recipient->id)
+            ->where('email', $recipient->email) // Fixed email issue
+            ->where('status', 'success')
+            ->where('payment_method', 'wallet')
+            ->sum('amount');
+
+        // Fetch or create sender and recipient wallets
+        // dd($sender->id);
+
+        $sendWallet = Wallet::where('user_id', $sender->id)->first();
+        $recipientWallet =  Wallet::where('user_id', $recipient->id)->first();
+       
+        // Ensure sender has enough balance
+        if ($sendWallet->balance < ($amount / 100)) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'You do not has insufficient funds'], 404);
+            }
+            return redirect()->back()->with(['error' => 'Insufficient wallet balance']);
+
+        }
+        // dd('Assets transferred');
+
+        // Check sender's wallet balance
+        // if ($sendWallet->balance < $amount) {
+        
+        //     return redirect()->back()->with(['error' => 'You do not has insufficient funds']);
+        // }
+
+        $notification = CustomNotification::findOrFail(decrypt($slug));
+        // dd($notification);
+        if ($notification->data['status'] == 'approved') {
+            return redirect()->back()->with('error', 'Transfer already approved.');
+        }
+        
+        $buy = Buy::select(
+            'id',
+            'property_id',
+            'status',
+            'selected_size_land',
+            DB::raw('SUM(selected_size_land) as total_selected_size_land'),
+            DB::raw('MAX(created_at) as latest_created_at') 
+        )
+        ->with('property')
+        ->where('user_id', $sender->id)
+        ->where('user_email', $sender->email)
+        ->groupBy('id', 'property_id', 'status', 'selected_size_land')
+        ->get();
+        $totalLandSize = $buy->sum('selected_size_land');
+        // dd($landSize);
+        if ($landSize < $totalLandSize) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Insufficient land size'], 400);
+            }
+            return redirect()->back()->with(['error' => 'Insufficient land size']);
+        }
+        // Deduct land size from sender's purchases
+        foreach ($buy as $item) {
+            if ($item->selected_size_land >= $landSize) {
+                $item->selected_size_land -= $landSize;
+                $item->save();
+                break;
+
+            }
+        }
+        // foreach ($buy as $item) {
+        //     $item->selected_size_land -= $landSize;
+        //     $item->save();
+        // }
+        $buy = Buy::create([ 
+            'property_id' => $propertyId,
+            'transaction_id' => null,
+            'selected_size_land' => $landSize,
+            'remaining_size' => $totalLandSize - $landSize, 
+            'user_id' => $recipient->id,
+            'user_email' => $recipient->email,
+            'total_price' => $amount / 100,
+            'status' => 'transfer',
+        ]);
+        // Deduct from sender's wallet
+        // $sendWallet->balance -= $amount;
+        // $sendWallet->save();
+        $propertyData = Property::where('id', $propertyId)->first();
+
+        
+        // Deduct from sender's wallet
+        // $sendWallet->balance -= $amount / 100;
+        // $sendWallet->save();
+
+        // Credit recipient's wallet
+        // $recipientWallet->balance += $amount / 100;
+        // $recipientWallet->save();
+
+        // $reference = 'TRXDOHREF-' . time() . Str::random(8) . strtoupper(Str::random(4));  // Extra randomization
+
+        $reference = 'TRXDOHREF-' . strtoupper(Str::random(8));
+
+        // Debit a transaction to credit recipient
+        Transaction::create([
+            'user_id' => $sender->id,
+            'email' => $sender->email,
+            'property_id' => $propertyId,
+            'property_name' => $propertyData->name,
+            'status' => 'success',
+            'payment_method' => 'wallet',
+            'amount' => -$amount / 100,
+            'description' => 'Transfer to ' . $recipient->email,
+            'reference' => $reference.'-D',
+            'transaction_state' => 'success',
+        ]);
+
+        // Credit transaction
+        Transaction::create([
+            'user_id' => $recipient->id,
+            'email' => $recipient->email,
+            'property_id' => $propertyId,
+            'property_name' => $propertyData->name,
+            'status' => 'success',
+            'payment_method' => 'card',
+            'amount' => $amount / 100,
+            'description' => 'Received from ' . $sender->email,
+            'reference' => $reference.'-C',
+            'transaction_state' => null,
+        ]);
+
+        // Credit to recipient's wallet
+        // $recipientWallet->balance += $amount;
+        // $recipientWallet->save(); 
+        // Now notify
+        $sender->property_id = $propertyId;
+        $sender->property_name = $propertyData->name;
+        $sender->reference = $reference;
+
+        $recipient->property_id = $propertyId;
+        $recipient->property_name = $propertyData->name;
+        $recipient->reference = $reference;
+        // After successful transfer, update the notification status to 'approved'
+
+        // Ensure the notification data is an array
+        $data = $notification->data;
+        $data['status'] = 'approved';
+        $notification->update([
+            'data' => $data,
+        ]);
+        $sender = User::find($notification->data['sender_id']);
+    
+        // Send Confirmation Messages to Sender and Recipient
+        $sender->notify(new TransferNotification($recipient, $amount, 'Sender'));
+        $recipient->notify(new TransferNotification($sender, $amount, 'Recipient'));
+       
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => 'Amount transferred successfully!'], 200);
+        }
+
+        return redirect()->route('user.dashboard')->with('success', 'Assets transferred successfully!');
 
     }
  

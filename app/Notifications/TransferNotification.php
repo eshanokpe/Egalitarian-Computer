@@ -8,20 +8,19 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
-
 class TransferNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
     private $user;
     private $amount;
-    private $type;
+    private $type; // "Sender" or "Recipient"
 
     public function __construct($user, $amount, $type)
     {
         $this->user = $user;
         $this->amount = $amount;
-        $this->type = $type; // "Sender" or "Recipient"
+        $this->type = $type;
     }
 
     public function via($notifiable)
@@ -32,13 +31,12 @@ class TransferNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Property Transfer Confirmation')
-            ->greeting("Hello {$notifiable->first_name} {$notifiable->last_name},")
-            ->line("Your transfer request has been successfully processed.")
-            ->line("**Amount:** " . number_format($this->amount / 100, 2, '.', ','))
-            ->line("**{$this->type}:** {$this->user->name} ({$this->user->email})")
-            ->action('View Details', url('/user/dashboard'))
-            ->line('Thank you for using our service!');
+            ->subject($this->getSubject())
+            ->greeting("Dear {$notifiable->first_name} {$notifiable->last_name},")
+            ->line(...$this->getMessageLines($notifiable))
+            ->action('View Dashboard', url('/user/dashboard'))
+            ->line('Thank you for using our platform.')
+            ->salutation("Best regards,\nYour Platform Name");
     }
 
     public function toArray($notifiable)
@@ -46,16 +44,60 @@ class TransferNotification extends Notification implements ShouldQueue
         return [
             'notification_status' => 'transferNotification',
             'status' => 'accepted',
-            'message' => "Transfer of Property Asset was successful. {$this->type}: {$this->user->name}",
+            'subject' => $this->getSubject(),
+            'message' => implode("\n", $this->getMessageLines($notifiable)),
             'amount' => number_format($this->amount / 100, 2, '.', ','),
-            // 'url' => url('/user/dashboard')
         ];
     }
 
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'message' => "Transfer of " . number_format($this->amount / 100, 2,  '.', ',') ." was successful. {$this->type}: {$this->user->name}.",
+            'message' => "Transfer of " . number_format($this->amount / 100, 2, '.', ',') . " was successful. {$this->type}: {$this->user->name}.",
         ]);
+    }
+
+    private function getSubject()
+    {
+        return $this->type === 'Sender'
+            ? 'Transfer Successful - Property Asset Transaction Confirmation'
+            : 'Asset Transfer Received - Property Transaction Confirmation';
+    }
+
+    private function getMessageLines($notifiable)
+    {
+        $propertyId = $this->user->property_id ?? '[Property Number]';
+        $propertyAddress = $this->user->property_name ?? '[Property Address]';
+        $amountFormatted = '₦' . number_format($this->amount / 100, 2);
+        $date = now()->format('F j, Y, g:i A');
+        $reference = $this->user->reference ?? '[Reference Number]';
+
+        if ($this->type === 'Sender') {
+            return [
+                "This email confirms that the transfer of assets for Property ID #{$propertyId} has been successfully completed on {$date}.",
+                "**Transaction Details:**",
+                "•⁠  Property: {$propertyAddress}",
+                "•⁠  Transaction ID: {$reference}",
+                "•⁠  Amount Transferred: {$amountFormatted}",
+                "•⁠  Transfer Date: {$date}",
+                "The funds have been securely processed and will be reflected in your wallet.",
+            ];
+        } else {
+            return [
+                "We're pleased to inform you that the asset transfer for Property ID #{$propertyId} has been successfully received in your account.",
+                "**Transaction Details:**",
+                "•⁠  Property: {$propertyAddress}",
+                "•⁠  Transaction ID: {$reference}",
+                "•⁠  Amount Received: {$amountFormatted}",
+                "•⁠  Receipt Date: {$date}",
+                "•⁠  Sender: {$this->user->name}",
+                "The transferred assets are now available in your asset account. You can access and manage them through your property dashboard.",
+                "**Important Next Steps:**",
+                "1.⁠ ⁠Review the transferred assets in your portfolio",
+                "2.⁠ ⁠Verify all property details are correct",
+                "3.⁠ ⁠Download transaction documents for your records",
+                "If you notice any discrepancies or have questions, please contact our support team within 48 hours.",
+            ];
+        }
     }
 }

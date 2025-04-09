@@ -35,12 +35,12 @@ class CartController extends Controller
         return view('user.pages.cart.sell_cart', $data); 
     }
 
-    public function transfer($id){ 
+    public function transfer($id){  
         $user = Auth::user();  
        
         $data['property'] = Property::with(['buys' => function ($query) use ($user) {
             $query->where('user_id', $user->id);
-        }])
+        }]) 
         ->where('id', decrypt($id))
         ->firstOrFail();
 

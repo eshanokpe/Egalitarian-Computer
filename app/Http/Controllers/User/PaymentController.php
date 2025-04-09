@@ -87,7 +87,7 @@ class PaymentController extends Controller
         }
     
         // Generate transaction reference
-        $reference = 'DOHREF-' . time() . '-' . strtoupper(Str::random(8));
+        $reference = 'TRXDOHREF-' . strtoupper(Str::random(8));
     
         // Deduct from wallet
         $wallet->balance -= $amount;
@@ -179,7 +179,7 @@ class PaymentController extends Controller
 
         return back()->with('error', $message);
     }
-
+ 
     protected function successResponse($data)
     {
         if (request()->expectsJson() || request()->is('api/*')) {

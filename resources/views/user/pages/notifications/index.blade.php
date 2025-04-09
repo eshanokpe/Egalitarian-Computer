@@ -13,7 +13,7 @@
                 
                 <div class="properties__wrapper">
                     <div class="properties__table table-responsive">
-                       
+                        
                         @forelse ($notifications as $notification)
                         <div class="card notification-card mb-3">
                             <div class=" d-flex flex-column flex-md-row">
@@ -21,7 +21,7 @@
                 
                                 <!-- Notification Details -->
                                 <div class="notification-details flex-grow-1 ms-md-3">
-
+ 
                                     @if($notification['data']['notification_status'] == 'WalletFundedNotification')
                                         <h3 class="card-title">Wallet Funded</h3>
                                         <div class="property-details">
@@ -31,10 +31,10 @@
                                     @endif
                                         
                                     
-                                    @if($notification['data']['notification_status'] == 'Recipient Submitted Notification')
+                                    @if($notification['data']['notification_status'] == 'recipientSubmittedNotification' || $notification['data']['notification_status'] == 'Recipient Submitted Notification')
                                         <div class="card">
                                             <div class="card-body">
-                                                <div class="row ">
+                                                <div class="row "> 
                                                     <div class="col-6">
                                                         <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
                                                         <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
@@ -46,11 +46,21 @@
                                     
                                                 @if($notification['data']['status'] === 'pending' && isset($notification['data']['property_mode'], $notification['data']['property_slug']))
                                                     <div class="col-6">
-                                                    <div class="text-end">
-                                                        <a href="{{ route('user.notifications.show', encrypt($notification['id'] ) ) }}" class="btn btn-success btn-md">
-                                                            Click here to confirm your transfer
-                                                        </a>
+                                                        <div class="text-end">
+                                                            <a href="{{ route('user.notifications.show', encrypt($notification->id)) }}" class="btn btn-warning btn-md">
+                                                                Click here to confirm your transfer
+                                                            </a>
+                                                            
+                                                        </div>
                                                     </div>
+                                                @else
+                                                    <div class="col-6">
+                                                        <div class="text-end">
+                                                            <a href="{{ route('user.notifications.show', encrypt($notification->id)) }}" class="btn btn-success btn-md">
+                                                                The Assets have ben accepted
+                                                            </a>
+                                                            
+                                                        </div>
                                                     </div>
                                                 @endif
                                                 </div>
@@ -86,7 +96,7 @@
                                         </div>
                                     @endif
 
-                                    @if($notification['data']['notification_status'] == 'Sender Transfer Notification')
+                                    @if($notification['data']['notification_status'] == 'senderTransferNotification' || $notification['data']['notification_status'] == 'Sender Transfer Notification')
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row ">

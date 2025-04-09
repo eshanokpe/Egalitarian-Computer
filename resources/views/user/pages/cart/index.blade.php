@@ -72,7 +72,7 @@
                         <a href="#" class="solid__btn" id="make-payment-btn">Make Payment</a>
                     </div>
                 </div>
-
+ 
                 <!-- Payment Form -->
                 <div class="row mt-3">
                     <div class="col-6"></div>
@@ -113,7 +113,7 @@
 @if (!auth()->user()->transaction_pin)
     window.location.href = "{{ route('user.transaction.pin') }}";  // Redirect to the PIN setup page
 @endif
-@endauth
+@endauth 
 
 // Update price and remaining size
 function updateCart(row) {

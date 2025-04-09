@@ -49,7 +49,7 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('/transfer', [TransferPropertyController::class, 'index'])->name('transfer');
     Route::get('/transfer/recipient', [TransferPropertyController::class, 'transferRecipient'])->name('transfer.recipient');
     Route::post('/transfer/recipient/initiate', [TransferPropertyController::class, 'checkRecipientTransfer'])->name('checkRecipient.transfer');
-    
+     
     Route::post('/transfer/verify/recipient', [TransferPropertyController::class, 'verifyRecipient'])->name('transfer.checkRecipient');
     Route::get('/transfer/verify/recipient', function () {
         return redirect()->back();
@@ -88,10 +88,11 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-   
+    
     Route::get('/notifications/{id}', [NotificationController::class, 'show'])->name('notifications.show');
     Route::post('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
-    Route::get('/{propertyMode}/confirm/{slug}', [TransferPropertyController::class, 'confirmTransfer'])->name('transfer.property.confirm');
+    
+    // Route::get('/{propertyMode}/confirm/{slug}', [TransferPropertyController::class, 'confirmTransfer'])->name('transfer.property.confirm');
     Route::post('/transfer/confirm/{slug}/submit', [TransferPropertyController::class, 'submitConfirmation'])->name('confirm.transfer.submit');
 
     Route::get('/view/transfer/property/{recipentId}', [TransferPropertyController::class, 'viewTransferProperty'])->name('view.transfer.property');

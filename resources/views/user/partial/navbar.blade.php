@@ -90,7 +90,7 @@
                             @if(Auth::user()->hide_balance)
                                 ****
                             @else
-                                <span class="wallet-balance">{{ $wallet->currency}}{{ number_format($wallet->balance,  2) }}</span>
+                                <span class="wallet-balance">{{ $wallet->currency ?? 'N'}}{{ number_format($wallet->balance ?? 0.00,  2) }}</span>
                             @endif
                         </span>
                     </a>

@@ -11,7 +11,7 @@
             <div class="reviews__heading mb-30">
                 <h2 class="reviews__heading--title">Transfer History</h2>
                 <p class="reviews__heading--desc">We are glad to see you again!</p>
-            </div>
+            </div> 
             <div class="properties__wrapper"> 
                 <div class="properties__table table-responsive">
                     <table class="properties__table--wrapper">
@@ -34,9 +34,9 @@
                                         </div>
                                         <div class="reviews__author--text">
                                             <h3 class="reviews__author--title">{{$transfer->property->name}}</h3>
-                                            <p class="reviews__author--subtitle">{{$transfer->property->location}}</p>
-                                            <span class="properties__author--price">₦{{ number_format($transfer->property->price, 2)}} per/sqm</span>
-                                            <p class="properties__author--price text-decoration-line-through text-muted">₦{{ number_format($transfer->property->lunch_price, 2)}} per/sqm</p>
+                                            <p class="reviews__author--subtitle">{{$transfer->property->location}}</p>  
+                                            <span class="properties__author--price">₦{{ number_format($transfer->valuationSummary->current_value_sum, 2)}} per/sqm</span>
+                                            <p class="properties__author--price text-decoration-line-through text-muted">₦{{ number_format($transfer->valuationSummary->initial_value_sum, 2)}} per/sqm</p>
                                         </div>
                                     </div>
                                 </td>

@@ -47,7 +47,7 @@
                                         @endif
                                     </a>
                                 </li>
-                                <li class="footer__widget--info_list">
+                                <li class="footer__widget--info_list"> 
                                     <svg class="footer__widget--info__icon" width="20" height="20" viewBox="0 0 20 20" fill="#fff" xmlns="http://www.w3.org/2000/svg">
                                         <path fill="#fff" d="M13.31 1.52371L18.6133 2.11296C18.6133 2.11296 19.2026 7.41627 13.31 13.3088C7.41748 19.2014 2.11303 18.6133 2.11303 18.6133L1.52377 13.31L5.64971 10.9529L7.71153 13.0148C7.71153 13.0148 9.18467 12.7201 10.9524 10.9524C12.7202 9.18461 13.0148 7.71147 13.0148 7.71147L10.953 5.64965L13.31 1.52371Z" stroke="" stroke-width="2"></path>
                                     </svg>

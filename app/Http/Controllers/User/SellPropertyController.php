@@ -4,9 +4,13 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Notifications\SellPropertyUserNotification;
+use App\Notifications\SellPropertyAdminNotification;
+use Illuminate\Support\Facades\Notification;
 use DB;
 use Auth;
 use Log;
+use App\Models\ContactDetials;
 use App\Models\Sell;
 use App\Models\Buy;
 use App\Models\User;
@@ -59,7 +63,7 @@ class SellPropertyController extends Controller
         }
        
         // Generate a unique transaction reference
-        $reference = 'SELLPROREF-' . time() . '-' . strtoupper(Str::random(8));
+        $reference = 'SELLDOHREF-' . time() . '-' . strtoupper(Str::random(8));
 
         $selectedSizeLand  = $request->input('quantity');
         $remainingSize  = $request->input('remaining_size');
@@ -82,6 +86,12 @@ class SellPropertyController extends Controller
                 'total_price' => $amount,
                 'status' => 'pending',
             ]);
+            $contactDetials = ContactDetials::first();
+            // Notify the user
+            $user->notify(new SellPropertyUserNotification($user, $propertyData, $sell, $contactDetials));
+            // Notify the admin (support email)
+            Notification::route('mail', 'customersupport@dohmayn.com')
+                ->notify(new SellPropertyAdminNotification($user, $propertyData, $sell));
 
             if ($request->expectsJson()) {
                 return response()->json([

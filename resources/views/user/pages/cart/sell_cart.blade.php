@@ -87,7 +87,7 @@
                         <a href="#" class="solid__btn" id="make-payment-btn">Submit Request</a>
                     </div>
                 </div> 
-                <!-- Hidden Form to Pass Data for Payment -->
+                <!-- Hidden Form to Pass Data for Payment --> 
                 <form id="payment-form" action="{{ route('user.sell.property') }}" method="POST" style="display: none">
                     @csrf
                     <input type="hidden" name="remaining_size" id="remaining_size">

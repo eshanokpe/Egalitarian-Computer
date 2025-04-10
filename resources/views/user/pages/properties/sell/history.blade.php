@@ -49,7 +49,11 @@
                                         <div class="reviews__author--text">
                                             <h3 class="reviews__author--title">{{$property->property->name}}</h3>
                                             <p class="reviews__author--subtitle">{{$property->property->location}}</p>
-                                            <span class="properties__author--price">₦{{ number_format($property->property->price, 2)}} per/sqm</span>
+                                            @if($property->valuationSummary) 
+                                                <span class="properties__author--price">₦{{ number_format($property->valuationSummary->current_value_sum, 2)}} per/sqm</span>
+                                            @else  
+                                                <span class="properties__author--price">₦{{ number_format($property->property->price, 2)}} per/sqm</span>
+                                            @endif
                                         </div> 
                                     </div>
                                 </td>

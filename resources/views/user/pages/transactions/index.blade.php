@@ -19,10 +19,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Property name</th>
-                                <th>Payment method</th>
-                                <th>Reference</th>
+                                {{-- <th>Reference </th> --}}
                                 <th>Status</th>
-                                <th>Date Created</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -33,19 +31,19 @@
                                         {{ $loop->iteration }} <!-- This will display the row number -->
                                     </td>
                                     <td>
-                                        {{ $transaction->property_name }}
+                                        @if(is_array($transaction->metadata) || is_object($transaction->metadata))
+                                        <div class="metadata-container">
+                                            <strong>Property:</strong> {{ $transaction->metadata['property_name'] ?? 'N/A' }}<br>
+                                            <strong>Size:</strong> {{ $transaction->metadata['selected_size_land'] ?? 'N/A' }} of 
+                                            {{ $transaction->metadata['remaining_size'] ?? 'N/A' }} SQM<br>
+                                            <strong>Amount:</strong> {{ number_format($transaction->amount, 2) }}<br>
+                                            <strong>Date:</strong> {{ \Carbon\Carbon::parse($transaction->paid_at)->format('M d, Y h:i A') }}
+                                        </div>
+                                    @else
+                                        {{ $transaction->metadata ?? 'No metadata available' }}
+                                    @endif
                                     </td>
-                                    <td>
-                                        <span class="properties__views">{{ $transaction->reference }}</span>
-                                    </td>
-                                    <td>
-                                        <span class="properties__views">{{ $transaction->payment_method }}</span>
-                                    </td>
-                                    <td>
-                                        <span class="reviews__date">
-                                            {{ $transaction->created_at->format('d F, Y') }}
-                                        </span>
-                                    </td>
+                                    {{-- <td>{{ $transaction->reference}}</td> --}}
                                     <td>
                                         @php
                                             $statusColors = [

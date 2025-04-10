@@ -110,6 +110,7 @@
                 <label class="sidebar__menu--title">Manage Account</label>
             </li>
            
+           
             <li class="sidebar__menu--items">
                 <a class="sidebar__menu--link" href="{{ route('user.profile.index')}}"><svg class="sidebar__menu--icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M10 10.0001C12.3012 10.0001 14.1667 8.1346 14.1667 5.83342C14.1667 3.53223 12.3012 1.66675 10 1.66675C7.69885 1.66675 5.83337 3.53223 5.83337 5.83342C5.83337 8.1346 7.69885 10.0001 10 10.0001Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
@@ -135,6 +136,27 @@
                     <path d="M17.1583 18.3333C17.1583 15.1083 13.95 12.5 10 12.5C6.05001 12.5 2.84167 15.1083 2.84167 18.3333" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>                                                                                                
                     <span class="sidebar__menu--text"> Login and security</span>  
+                </a>
+            </li>
+            <li class="sidebar__menu--items">
+                <label class="sidebar__menu--title">History</label>
+            </li> 
+            <li class="sidebar__menu--items">
+                <a class="sidebar__menu--link" href="{{ route('user.sell.history') }}">
+                    <svg class="sidebar__menu--icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 6.5C2 5.11929 3.11929 4 4.5 4H19.5C20.8807 4 22 5.11929 22 6.5V17.5C22 18.8807 20.8807 20 19.5 20H4.5C3.11929 20 2 18.8807 2 17.5V6.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 11H18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="sidebar__menu--text"> Sell History</span>
+                </a>
+            </li>
+            <li class="sidebar__menu--items">
+                <a class="sidebar__menu--link" href="{{ route('user.transfer.history') }}">
+                    <svg class="sidebar__menu--icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 6.5C2 5.11929 3.11929 4 4.5 4H19.5C20.8807 4 22 5.11929 22 6.5V17.5C22 18.8807 20.8807 20 19.5 20H4.5C3.11929 20 2 18.8807 2 17.5V6.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 11H18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="sidebar__menu--text"> Transfer History</span>
                 </a>
             </li>
             

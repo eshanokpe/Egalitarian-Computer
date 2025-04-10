@@ -95,6 +95,7 @@
                         </span>
                     </a>
                 </div>
+                
                 <ul class="nav-bar__menu d-flex">
                    
                     <li class="nav-bar__menu--items header__apps--menu position-relative">
@@ -256,6 +257,7 @@
                         </a>
                     </li>
                 </ul> 
+                 
                 <div class="header__user--profile">
                     <a class="header__user--profile__link d-flex align-items-center" href="#">
                         <img class="header__user--profile__thumbnail" 

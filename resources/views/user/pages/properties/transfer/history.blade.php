@@ -23,7 +23,7 @@
                                 <th>View </th>
                                 <th>Status</th>
                             </tr>
-                        </thead>
+                        </thead> 
                         <tbody>
                             @forelse ($transferProperty as $transfer)
                             <tr>
@@ -33,7 +33,7 @@
                                             <img src="{{ asset($transfer->property->property_images) }}" alt="img" style="max-height: 100%; max-width:100%; width:70px; height:70px; object-fit:cover">
                                         </div>
                                         <div class="reviews__author--text">
-                                            <h3 class="reviews__author--title">{{$transfer->property->name}}</h3>
+                                            <h3 class="reviews__author--title">{{$transfer->property->name}}</h3> 
                                             <p class="reviews__author--subtitle">{{$transfer->property->location}}</p>  
                                             <span class="properties__author--price">₦{{ number_format($transfer->valuationSummary->current_value_sum, 2)}} per/sqm</span>
                                             <p class="properties__author--price text-decoration-line-through text-muted">₦{{ number_format($transfer->valuationSummary->initial_value_sum, 2)}} per/sqm</p>
@@ -47,7 +47,7 @@
                                 </td>
                               
                                 <td>  
-                                    <span class="properties__views">{{ $transfer->total_land_size }} SQM</span>
+                                    <span class="properties__views">{{ $transfer->land_size }} SQM</span>
                                 </td>
                                 <td>
                                     <span class="status__btn pending2">

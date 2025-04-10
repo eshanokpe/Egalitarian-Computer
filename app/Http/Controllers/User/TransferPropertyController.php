@@ -371,18 +371,27 @@ class TransferPropertyController extends Controller
     public function transferHistory(Request $request){ 
         $user = Auth::user();
        
+        // $data['transferProperty'] = Transfer::select(
+        //     'property_id', 'status', 'land_size',
+        //     DB::raw('SUM(land_size) as total_land_size'),
+        //     DB::raw('MAX(created_at) as latest_created_at'), 
+        // )
+        // ->with('property') 
+        // ->with('valuationSummary')
+        // ->where('user_id', $user->id)
+        // ->where('user_email', $user->email)
+        // ->groupBy('property_id','status','land_size') 
+        // ->paginate(10);
         $data['transferProperty'] = Transfer::select(
-            'property_id', 'status', 'land_size',
-            DB::raw('SUM(land_size) as total_land_size'),
-            DB::raw('MAX(created_at) as latest_created_at'), 
+            'id', 'property_id', 'status', 'land_size', 'created_at', 'updated_at'
         )
         ->with('property') 
         ->with('valuationSummary')
         ->where('user_id', $user->id)
         ->where('user_email', $user->email)
-        ->groupBy('property_id','status','land_size') 
+        ->orderBy('created_at', 'desc') // Show most recent first
         ->paginate(10);
-
+ 
          // Check if request expects JSON (API/mobile)
          if ($request->wantsJson()) {
             return response()->json([
@@ -441,158 +450,7 @@ class TransferPropertyController extends Controller
         return view('user.pages.properties.transfer.property_confirmation', $data);
     }
 
-    
-
     public function viewTransferProperty(Request $request, $recipentId){
-
-    }
-
-    public function submitConfirmationnn(Request $request, $slug){
-        // The authenticated user is the recipient
-        $recipient = auth()->user();
-
-        $request->validate([
-            'land_size' => 'required|numeric|min:1',
-            'recipient_id' => 'required|exists:users,id',
-            'property_id' => 'required|exists:properties,id',
-            'amount' => 'required|numeric|min:1',
-        ]);
-
-        // The sender ID comes from the request
-        $landSize = $request->input('land_size');
-        $senderId = $request->input('recipient_id');
-        $propertyId = $request->input('property_id');
-        $amount = $request->input('amount');
-      
-        // Validate sender existence
-        $sender = User::where('id', $senderId)->first();
-        if (!$sender) {
-            if ($request->wantsJson()) {
-                return response()->json(['error' => 'Sender not found'], 404);
-            }
-            return redirect()->back()->withErrors(['error' => 'Sender not found']);
-        }
-
-        // Validate transfer amount
-        if ($amount <= 0) {
-            if ($request->wantsJson()) {
-                return response()->json(['error' => 'Invalid transfer amount'], 404);
-            }
-            return redirect()->back()->withErrors(['error' => 'Invalid transfer amount']);
-        }
-       
-        $sendWalletBalance = Transaction::where('user_id', $sender->id)
-            ->where('email', $sender->email)
-            ->where('status', 'success')
-            ->where('payment_method', 'card')
-            ->sum('amount');
-
-        $recipientWalletBalance = Transaction::where('user_id', $recipient->id)
-            ->where('email', $recipient->email) // Fixed email issue
-            ->where('status', 'success')
-            ->where('payment_method', 'card')
-            ->sum('amount');
-         // Ensure sender has enough balance
-        // if ($sendWalletBalance < $amount) {
-        //     return response()->json(['error' => 'Insufficient funds'], 400);
-        // }
-        // $sendWallet = Wallet::where('user_id', $sender->id)->first();
-        // $recipientWallet = Wallet::where('user_id', $recipient->id)->first();
-        
-        // Check sender's wallet balance
-        // if ($sendWallet->balance < $amount) {
-        //     if ($request->wantsJson()) {
-        //         return response()->json(['error' => 'You do not has insufficient funds'], 404);
-        //     }
-        //     return redirect()->back()->with(['error' => 'You do not has insufficient funds']);
-        // }
-        
-        $buy = Buy::select(
-            'id',
-            'property_id',
-            'status',
-            'selected_size_land',
-            DB::raw('SUM(selected_size_land) as total_selected_size_land'),
-            DB::raw('MAX(created_at) as latest_created_at') 
-        )
-        ->with('property')
-        ->where('user_id', $sender->id)
-        ->where('user_email', $sender->email)
-        ->groupBy('id', 'property_id', 'status', 'selected_size_land')
-        ->get();
-        $totalLandSize = $buy->sum('selected_size_land');
-        // if ($totalLandSize < $landSize) {
-        //     return response()->json(['error' => 'Insufficient land size'], 400);
-        // }
-        // Deduct land size from sender's purchases
-        foreach ($buy as $item) {
-            if ($item->selected_size_land >= $landSize) {
-                $item->selected_size_land -= $landSize;
-                $item->save();
-                break;
-
-            }
-        }
-        // foreach ($buy as $item) {
-        //     $item->selected_size_land -= $landSize;
-        //     $item->save();
-        // }
-        $buy = Buy::create([ 
-            'property_id' => $propertyId,
-            'transaction_id' => null,
-            'selected_size_land' => $landSize,
-            'remaining_size' => $totalLandSize - $landSize, 
-            'user_id' => $recipient->id,
-            'user_email' => $recipient->email,
-            'total_price' => $amount / 100,
-            'status' => 'transfer',
-        ]);
-        // Deduct from sender's wallet
-        // $sendWallet->balance -= $amount;
-        // $sendWallet->save();
-        $propertyData = Property::where('id', $propertyId)->first();
-
-        // Create a transaction to deduct from sender
-        Transaction::create([
-            'user_id' => $sender->id,
-            'email' => $sender->email,
-            'property_id' => $propertyId,
-            'property_name' => $propertyData->name,
-            'status' => 'success',
-            'payment_method' => 'card',
-            'amount' => -$amount / 100, // Deduct amount
-            'description' => 'Transfer to ' . $recipient->email,
-            'reference' => null,
-            'transaction_state' => 'sucess',
-        ]);
-
-        // Create a transaction to credit recipient
-        Transaction::create([
-            'user_id' => $recipient->id,
-            'email' => $recipient->email,
-            'property_id' => $propertyId,
-            'property_name' => $propertyData->name,
-            'status' => 'success',
-            'payment_method' => 'card',
-            'amount' => $amount / 100, // Credit recipient
-            'description' => 'Received from ' . $sender->email,
-            'reference' => null,
-            'transaction_state' =>null,
-        ]);
-
-        // Credit to recipient's wallet
-        // $recipientWallet->balance += $amount;
-        // $recipientWallet->save();
-
-        // Send Confirmation Messages to Sender and Recipient
-        $sender->notify(new TransferNotification($recipient, $amount, 'Sender'));
-        $recipient->notify(new TransferNotification($sender, $amount, 'Recipient'));
-
-        if ($request->wantsJson()) {
-            return response()->json(['success' => 'Amount transferred successfully!'], 200);
-        }
-
-        return redirect()->route('user.dashboard')->with('success', 'Amount transferred successfully!');
 
     }
 

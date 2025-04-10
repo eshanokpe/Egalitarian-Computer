@@ -311,7 +311,7 @@ class TransferPropertyController extends Controller
                 'property_name' => $propertyData->name,
                 'property_image' => $propertyData->property_images,
                 'land_size' => $landSize,
-                'total_price' => $amount,
+                'total_price' => $amount * 100,
                 'reference' => $reference,
                 'sender_id' => $user->id,
                 'recipient_id' => $recipientId,

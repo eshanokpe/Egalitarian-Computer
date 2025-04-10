@@ -42,7 +42,7 @@ class SenderTransferNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $formattedPrice = number_format($this->details['total_price']/100, 2);
+        $formattedPrice = number_format($this->details['total_price'], 2);
         $user = User::find($this->details['recipient_id']);
         $recipientName = $user->first_name . ' ' . $user->last_name;
 
@@ -80,7 +80,7 @@ class SenderTransferNotification extends Notification implements ShouldQueue
             'notification_status' => 'senderTransferNotification',
             'property_name' => $this->details['property_name'],
             'land_size' => $this->details['land_size'],
-            'total_price' => $this->details['total_price'] * 100.00,
+            'total_price' => $this->details['total_price'],
             'reference' => $this->details['reference'],
             'status' => $this->details['status'],
             'message' => 'You have initiated a property transfer. Please wait for recipient to accept.',

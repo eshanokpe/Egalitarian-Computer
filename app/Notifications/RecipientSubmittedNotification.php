@@ -67,7 +67,7 @@ class RecipientSubmittedNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         $senderName = User::find($this->transferDetails['sender_id'])->name;
-        $formattedPrice = number_format($this->transferDetails['total_price']/100, 2);
+        $formattedPrice = number_format($this->transferDetails['total_price'], 2);
         
         return [
             'notification_status' => 'recipientSubmittedNotification', 
@@ -91,14 +91,14 @@ class RecipientSubmittedNotification extends Notification implements ShouldQueue
     {
         $senderName = User::find($this->transferDetails['sender_id'])->name;
         
-        return [  
+        return [   
             'notification_status' => 'RecipientSubmittedNotification',
             'property_id' => $this->transferDetails['property_id'],
             'property_slug' => $this->transferDetails['property_slug'],
             'property_name' => $this->transferDetails['property_name'],
             'property_image' => $this->transferDetails['property_image'],
             'land_size' => $this->transferDetails['land_size'],
-            'total_price' => $this->transferDetails['total_price']/100,
+            'total_price' => $this->transferDetails['total_price'],
             'reference' => $this->transferDetails['reference'],
             'message' => 'You have received an asset transfer of ₦' . number_format($this->transferDetails['total_price']/100, 2) . ' from ' . $senderName . ' via Dohmayn. Please accept the transfer to complete the transaction.',
         ];

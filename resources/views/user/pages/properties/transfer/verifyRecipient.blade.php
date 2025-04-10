@@ -18,7 +18,7 @@
                                 <tr>
                                     <th>Product Image</th>
                                     <th>Price</th>
-                                    <th>Selected Land Size</th>
+                                    <th>Acquired Size</th>
                                     <th>Total</th>
                                 </tr>
                             </thead>
@@ -67,7 +67,7 @@
                                         <input name="property_id" id="property_id" type="hidden" value="{{$propertyId }}"/>
                                         <input name="amount" id="amount" type="hidden" value="{{ $amount }}"/>
                                         <input required class="add__listing--input__field mb-10" id="name" name="recipient_id"  placeholder="Recipient ID" type="hidden" value="{{ $recipientData->id }}">
-
+ 
                                         <div class="add__listing--input__box mb-20">
                                             <label class="add__listing--input__label" for="email">Recipient Details</label>
                                             <input required class="add__listing--input__field mb-10" id="name" name="recipient_id" disabled placeholder="Recipient ID" type="text" value="{{ $recipientData->last_name.' '.$recipientData->first_name }}">

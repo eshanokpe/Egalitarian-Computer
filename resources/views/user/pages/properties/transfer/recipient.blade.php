@@ -18,7 +18,7 @@
                                 <tr>
                                     <th>Product Image</th>
                                     <th>Price</th>
-                                    <th>Selected Land Size</th>
+                                    <th>Acquired Size</th>
                                     <th>Total</th>
                                 </tr>
                             </thead>
@@ -36,12 +36,12 @@
                                             </div>
                                         </div> 
                                     </td>
-                                    <td>
+                                    <td>   
                                         <span class="item-price">₦{{ number_format($data['amount'], 2) }}</span>
                                     </td>
-                                    <td class="available-size" data-initial-size="{{  $data['metadata']['selected_size_land']}}">
-                                        {{  $data['metadata']['selected_size_land'] }} SQM
-                                    </td> 
+                                    <td class="available-size" data-initial-size="{{  $data['metadata']['remaining_size']}}">
+                                        {{  $data['metadata']['remaining_size'] }} SQM
+                                    </td>  
                                     <td>
                                         <span class="total-price" style="color: #47008E">₦{{ number_format($data['amount'], 2) }}</span>
                                     </td>
@@ -59,7 +59,6 @@
                         <div class="setting__profile " style="background-color: #fff"> 
                             <div class="edit__profile--step">
                                 <h4 class="setting__profile--title">Recipient Information</h4>
-                                {{-- <form action="{{ route('user.checkRecipient.transfer') }}" method="POST"> --}}
                                     <form action="{{ route('user.transfer.checkRecipient') }}" method="POST">
                                     @csrf 
                                     <div class="setting__profile--inner">
@@ -75,8 +74,9 @@
                                             <input required class="add__listing--input__field" id="name" name="property_name" placeholder="Recipient ID" type="hidden" value="{{ $data['metadata']['property_name'] }}">
                                             <input required class="add__listing--input__field" id="name" name="amount" placeholder="Recipient ID" type="hidden" value="{{ $data['amount'] }}">
                                             <input required class="add__listing--input__field" id="name" name="selected_size_land" placeholder="Recipient ID" type="hidden" value="{{ $data['metadata']['selected_size_land'] }}">
+                                            <input required class="add__listing--input__field" id="name" name="remaining_size" placeholder="Recipient ID" type="hidden" value="{{ $data['metadata']['remaining_size'] }}">
                                             
-                                        </div>
+                                        </div> 
                                         
                                         <button type="submit" class="solid__btn add__property--btn">Continue</button>
                                     </div>

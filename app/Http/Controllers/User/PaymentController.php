@@ -27,8 +27,7 @@ class PaymentController extends Controller
             'quantity' => 'required',
             'total_price' => 'required|numeric|min:1',
             'transaction_pin' => 'required|digits:4' // Make PIN mandatory
-        ]);
-    
+        ]); 
         $user = Auth::user();
         
         // 1. FIRST CHECK: Verify if PIN is required and set
@@ -124,12 +123,14 @@ class PaymentController extends Controller
         ]);
     
         // Update property status
-        $property->price -= $selectedSizeLand;
+        $property->size -= $selectedSizeLand;
         if ($property->price <= 0) {
             $property->status = 'sold out';
             $buy->status = 'sold out';
             $buy->save();
         }
+        // dd($selectedSizeLand);
+
         $property->save();
     
         // Process referral commission

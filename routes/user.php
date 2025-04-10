@@ -68,8 +68,8 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
 
     Route::get('/my-properties/{id}', [DashboardController::class, 'propertiesShow'])->name('properties.show');
      
-    Route::get('/cart/{id}', [CartController::class, 'index'])->name('cart.index');
-    Route::get('/cart/sell/{id}', [CartController::class, 'sell'])->name('cart.sell.index'); 
+    Route::get('/cart/{id}', [CartController::class, 'index'])->name('cart.index'); 
+    Route::get('/cart/sell/{id}', [CartController::class, 'sell'])->name('cart.sell.index');  
     Route::get('/cart/transfer/{id}', [CartController::class, 'transfer'])->name('cart.transfer.index');
  
     Route::post('/pay', [PaymentController::class, 'initializePayment'])->name('payment.initiate'); 

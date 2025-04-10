@@ -59,8 +59,8 @@
                                             View
                                         </a> 
                                     </span>
-                                </td>
-                                <td>
+                                </td> 
+                                <td> 
                                     <span class="status__btn pending2 " style="background-color: #2b8e00; ">
                                         <a class="text-white" href="{{ route('user.cart.transfer.index', encrypt($property->property->id))}}">
                                         Transfer</a> 

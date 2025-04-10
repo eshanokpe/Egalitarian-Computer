@@ -11,7 +11,7 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 class TransferNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
+ 
     private $user;
     private $amount;
     private $type; // "Sender" or "Recipient"
@@ -96,7 +96,10 @@ class TransferNotification extends Notification implements ShouldQueue
                 "1.⁠ ⁠Review the transferred assets in your portfolio",
                 "2.⁠ ⁠Verify all property details are correct",
                 "3.⁠ ⁠Download transaction documents for your records",
+                "To view the complete transaction details, please log into your account at https://dohmayn.com/.",
                 "If you notice any discrepancies or have questions, please contact our support team within 48 hours.",
+                "Thank you for choosing our platform.",
+                "Best regards,"
             ];
         }
     }

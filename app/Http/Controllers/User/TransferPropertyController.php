@@ -55,19 +55,20 @@ class TransferPropertyController extends Controller
 
         return view('user.pages.properties.transfer.index', $data); 
     }
-     
+      
     public function transferRecipient(Request $request){
         if(!Auth::user()){
             return redirect()->route('login');
         }
         $request->validate([
-            'remaining_size' => 'required',
+            'remaining_size' => 'required|numeric|min:1',
             'property_slug' => 'required',
             'quantity' => 'required',
             'total_price' => 'required|numeric|min:1',
         ]);
         $user = Auth::user();
         $propertySlug  = $request->input('property_slug');
+
         $property = Property::where('slug', $propertySlug)->first();
         // Check if the property exists
         if (!$property) {
@@ -80,9 +81,10 @@ class TransferPropertyController extends Controller
         $propertySlug = $request->input('property_slug');
         $propertyId  = $property->id;
         $propertyName  =  $property->name;
+
         $propertyData = Property::where('id', $propertyId)->where('name', $propertyName)->first();
         $data = [
-            'amount' => $amount * 100, 
+            'amount' => $amount , 
             'email' => $user->email,
             'metadata' => [
                 'property_id' => $propertyData->id,
@@ -95,12 +97,14 @@ class TransferPropertyController extends Controller
             'reference' => $reference,
             'property_state' => $property->property_state,
         ];
+        // dd($data);
+
         if ($request->wantsJson()) {
             return response()->json([
                 'status' => 'success',
                 'data' => $data,
             ]);
-        }
+        } 
 
         return view('user.pages.properties.transfer.recipient', compact('data')); 
     }
@@ -152,6 +156,7 @@ class TransferPropertyController extends Controller
         }
         // Validate the request
         $request->validate([
+            'remaining_size' => 'required|numeric|min:1',
             'selected_size_land' => 'required|numeric|min:1',
             'property_slug' => 'required',
             'property_id' => 'required',

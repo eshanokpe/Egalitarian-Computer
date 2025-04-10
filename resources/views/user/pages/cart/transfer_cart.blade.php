@@ -10,7 +10,7 @@
                 <div class="reviews__heading mb-30">
                     <h2 class="reviews__heading--title">Transfer Property</h2>
                     <p class="reviews__heading--desc">We are glad to see you again!</p>
-                </div>
+                </div> 
                 <div class="properties__wrapper">
                     <div class="properties__table table-responsive">
                         <table class="properties__table--wrapper cart__table">
@@ -47,7 +47,7 @@
                                         </td>
                                     @endif
                                     <td class="available-size" data-initial-size="{{ $property->buys->sum('selected_size_land')}}">
-                                        {{ $property->buys->sum('selected_size_land')}} SQM 
+                                        {{ $property->buys->sum('selected_size_land') }} SQM 
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -81,7 +81,7 @@
                         View Transfer Properties 
                     </a>
                     <div>
-                        <a href="#" class="solid__btn" id="make-payment-btn">Continue</a>
+                        <a href="#" class="solid__btn" id="make-payment-btn">Continue2</a>
                     </div>
                 </div>
                 <!-- Hidden Form to Pass Data for Payment -->

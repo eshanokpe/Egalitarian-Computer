@@ -71,7 +71,7 @@
                     <div>
                         <a href="#" class="solid__btn" id="make-payment-btn">Make Payment</a>
                     </div>
-                </div>
+                </div> 
  
                 <!-- Payment Form -->
                 <div class="row mt-3">
@@ -83,6 +83,7 @@
                             <input type="hidden" name="property_slug" id="property_slug" value="{{ $property->slug }}">
                             <input type="hidden" name="quantity" id="quantity">
                             <input type="hidden" name="total_price" id="total_price">
+                            
 
                             <div class="form-group mt-3">
                                 <label for="transaction_pin" class="form-label">Enter 4-digit Transaction PIN</label>

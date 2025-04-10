@@ -123,7 +123,7 @@ class PaymentController extends Controller
         ]);
     
         // Update property status
-        $property->size -= $selectedSizeLand;
+        $property->available_size -= $selectedSizeLand;
         if ($property->price <= 0) {
             $property->status = 'sold out';
             $buy->status = 'sold out';

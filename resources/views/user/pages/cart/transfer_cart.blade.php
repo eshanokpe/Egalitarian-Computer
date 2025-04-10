@@ -81,12 +81,12 @@
                         View Transfer Properties 
                     </a>
                     <div>
-                        <a href="#" class="solid__btn" id="make-payment-btn">Continue2</a>
+                        <a href="#" class="solid__btn" id="make-payment-btn">Continue</a>
                     </div>
                 </div>
                 <!-- Hidden Form to Pass Data for Payment -->
                 <form id="payment-form" action="{{ route('user.transfer.recipient') }}" method="GET" style="display: none">
-                    @csrf
+                    @csrf 
                     <input type="hidden" name="remaining_size" id="remaining_size">
                     <input type="hidden" name="property_slug" id="property_slug" value="{{ $property->slug }}">
                     <input type="hidden" name="quantity" id="quantity">

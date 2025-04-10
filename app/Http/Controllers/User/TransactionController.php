@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\Buy;  
 use Yabacon\Paystack;  
 use App\Models\Property;  
-use App\Models\Transaction;  
+use App\Models\Transaction;   
 
 class TransactionController extends Controller
 {

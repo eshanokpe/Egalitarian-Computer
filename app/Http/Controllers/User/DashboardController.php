@@ -21,12 +21,12 @@ class DashboardController extends Controller
     }
  
     public function index(Request $request){
-       
+        
         $user = Auth::user();
         $wallet = Auth::user()->wallet; 
         $balance = $wallet ? $wallet->balance : 0;
         $data['transactions'] = Transaction::where('user_id', $user->id)->where('email', $user->email)->latest()->limit(6)->get();
-        
+         
         $data['totalAmount'] = Transaction::where('user_id', $user->id)
                                             ->where('email', $user->email)
                                             // ->where('status', 'success')

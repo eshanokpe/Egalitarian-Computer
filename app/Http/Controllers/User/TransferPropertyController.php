@@ -7,6 +7,7 @@ use App\Notifications\RecipientSubmittedNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
+use Illuminate\Validation\ValidationException;
 use DB; 
 use Auth;
 use Log; 
@@ -154,16 +155,43 @@ class TransferPropertyController extends Controller
         if(!Auth::user()){
             return redirect()->route('login');
         }
-        // Validate the request
-        $request->validate([
-            'remaining_size' => 'required|numeric|min:1',
-            'selected_size_land' => 'required|numeric|min:1',
-            'property_slug' => 'required',
-            'property_id' => 'required',
-            'recipient_id' => 'required',
-            'amount' => 'required|numeric|min:1',
-            'transaction_pin' => 'required|digits:4'
-        ]);
+            // dd( $request);
+        try {
+            // Validate the request
+            $validated = $request->validate([
+                // 'remaining_size' => 'required',
+                'selected_size_land' => 'required',
+                'property_slug' => 'required',
+                'property_id' => 'required|integer',
+                'recipient_id' => 'required|integer',
+                'amount' => 'required|numeric|min:0.01',
+                'transaction_pin' => 'required|digits:4'
+            ], [
+                // Custom error messages
+                // 'remaining_size.required' => 'The remaining size is required',
+                'selected_size_land.required' => 'Please select a land size',
+                'property_slug.required' => 'Property identifier is missing',
+                'property_id.required' => 'Property ID is required',
+                'property_id.integer' => 'Invalid property ID format',
+                'recipient_id.required' => 'Recipient ID is required',
+                'recipient_id.integer' => 'Invalid recipient ID format',
+                'amount.required' => 'Amount is required',
+                'amount.numeric' => 'Amount must be a number',
+                'amount.min' => 'Amount must be at least 0.01',
+                'transaction_pin.required' => 'Transaction PIN is required',
+                'transaction_pin.digits' => 'PIN must be exactly 4 digits'
+            ]);
+        } catch (ValidationException $e) {
+            return $this->errorResponse(
+                $request->input('property_id'), // propertyId
+                $request,                // request data
+                $e->getMessage(),                   // validation errors (not as string)
+                422                             // HTTP status code
+            );
+        }
+        
+      
+
         $user = Auth::user();
 
         $sendWallet = Wallet::where('user_id', $user->id)->first();
@@ -207,9 +235,7 @@ class TransferPropertyController extends Controller
                     'lockout_time' => $lockoutTime->toDateTimeString()
                 ]);
             }
-            // return redirect()->route('user.transfer.history')->with('error', 'Invalid transaction PIN');
-
-            // return back()->with('error', 'Invalid transaction PIN');
+            
             return $this->errorResponse($propertyId, $request, 'Invalid transaction PIN', 401, [
                 'attempts_remaining' => $remainingAttempts
             ]);
@@ -227,15 +253,14 @@ class TransferPropertyController extends Controller
             $recipientId = $request->input('recipient_id');
             $propertySlug = $request->input('property_slug');
             $landSize = $request->input('selected_size_land');
-
             // Check if recipient exists and isn't the user
             $recipient = User::find($recipientId);
             if (!$recipient) {
-                return $this->sendResponse($request, 'error', 'This recipient does not exist.', false);
+                return $this->errorResponse($propertyId, $request, 'This recipient does not exist.', 423);
             }
 
             if ($recipientId == $user->id) {
-                return $this->sendResponse($request, 'error', 'You cannot transfer the property to yourself.', false);
+                return $this->errorResponse($propertyId, $request, 'You cannot transfer the property to yourself.', 423);
             }
 
             // Check if the property exists
@@ -246,7 +271,12 @@ class TransferPropertyController extends Controller
             if (!$propertyData) {
                 return $this->sendResponse($request, 'error', 'Property not found.', false);
             }
-
+            $totalAmount =  Transaction::where('user_id', $user->id)
+                                    ->where('email', $user->email)
+                                    ->sum('amount');
+            if($totalAmount < $amount){
+                return $this->sendResponse($request, 'error', 'Insufficient Assets available for transfer.', false);
+            }
             // Check total available land size
             $totalLand = Buy::where('user_id', $user->id)
                 ->where('user_email', $user->email)

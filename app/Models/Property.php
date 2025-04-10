@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Property extends Model
-{
+{ 
     use HasFactory;
 
     protected $fillable = [
@@ -66,7 +66,7 @@ class Property extends Model
     }
     
     public function valuationSummary()
-    {
+    { 
         return $this->hasOne(PropertyValuationSummary::class, 'property_id', 'id');
     }
 

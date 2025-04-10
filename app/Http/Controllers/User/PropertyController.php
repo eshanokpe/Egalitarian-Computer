@@ -30,7 +30,7 @@ class PropertyController extends Controller
        
         $data['user'] = User::where('id', $user->id)->where('email', $user->email)->first();
         $data['properties'] = Property::with('valuationSummary')->latest()->paginate(10); 
-
+ 
         
         
         if ($request->wantsJson() || $request->is('api/*')) {
@@ -39,7 +39,6 @@ class PropertyController extends Controller
                 'properties' => $data['properties'],
             ]);
         }
-        
         return view('user.pages.properties.index',$data); 
     }
 

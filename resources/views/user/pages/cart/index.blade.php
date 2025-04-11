@@ -82,7 +82,7 @@
                         <div class="reviews__author--check position-relative d-flex align-items-center">
                             <input class="reviews__author--check__input" id="commission-switch" type="checkbox">
                             
-                            <span class="reviews__author--checkmark"></span>
+                            <span class="reviews__author--checkmark"></span> 
                             <span style="margin-left: 20px">Commission Balance: ₦{{ number_format(auth()->user()->commission_balance, 2) }}</span>
                         </div>
                     </div>

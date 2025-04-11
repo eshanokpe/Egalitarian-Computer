@@ -44,7 +44,8 @@ class RecipientSubmittedNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $formattedPrice = number_format($this->transferDetails['total_price']/100, 2);
-        $senderName = User::find($this->transferDetails['sender_id'])->name;
+        $user = User::find($this->transferDetails['sender_id']);
+        $senderName = $user->first_name . ' ' . $user->last_name;
 
         return (new MailMessage)
             ->subject('Accept Your Asset Transfer')

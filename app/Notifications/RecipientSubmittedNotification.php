@@ -68,7 +68,7 @@ class RecipientSubmittedNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         $senderName = User::find($this->transferDetails['sender_id'])->name;
-        $formattedPrice = number_format($this->transferDetails['total_price'], 2);
+        $formattedPrice = number_format($this->transferDetails['total_price']/100, 2);
         
         return [
             'notification_status' => 'recipientSubmittedNotification',  

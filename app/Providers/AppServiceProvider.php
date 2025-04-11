@@ -64,39 +64,55 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('*', function ($view) {
             $walletBalance = (new WalletService())->getWalletBalance(); 
-            // or
-            // $walletBalance = getWalletBalance(); 
-
+           
             $view->with('wallet', $walletBalance);
+        });
+        // View::composer('*', function ($view) {
         //     if (Auth::check()) {
-        //         $wallet = Auth::user()->wallet;
-        //         $balance = $wallet ? $wallet->balance : 0;
-        //         $view->with('wallet', $wallet);
-        //     } else {
-        //         $view->with('wallet', 0);
-        //     }
-        }); 
-        View::composer('*', function ($view) {
-            if (Auth::check()) {
-                $user = Auth::user();
-                $userId = (string) $user->id; 
-                $recipientId = $user->recipient_id;
+        //         $user = Auth::user();
+        //         $userId = (string) $user->id; 
+        //         $recipientId = $user->recipient_id;
           
-                $sender = $user->notifications()->whereJsonContains('data->recipient_id', $recipientId)->first();
+        //         $sender = $user->notifications()->whereJsonContains('data->recipient_id', $recipientId)->first();
                 
-                $sender_id = $sender ? $sender->data['sender_id'] : null;
+        //         $sender_id = $sender ? $sender->data['sender_id'] : null;
         
-                $notifications = $user->notifications()
-                    ->where('notifiable_id', $sender_id)  
-                    ->orWhereJsonContains('data->recipient_id', $recipientId) 
-                    ->orderBy('created_at', 'desc') 
-                    ->take(4) 
-                    ->get();
+        //         $notifications = $user->notifications()
+        //             ->where('notifiable_id', $sender_id)  
+        //             ->orWhereJsonContains('data->recipient_id', $recipientId) 
+        //             ->orderBy('created_at', 'desc') 
+        //             ->take(4) 
+        //             ->get();
         
-                $view->with('notificationsBar', $notifications);
-            } else {
-                $view->with('notificationsBar', 0);
+        //         $view->with('notificationsBar', $notifications);
+        //     } else {
+        //         $view->with('notificationsBar', 0);
+        //     }
+        // });
+        View::composer('*', function ($view) {
+            if (!Auth::check()) {
+                return $view->with([
+                    'notificationCount' => 0,
+                    'notificationsBar' => collect()
+                ]);
             }
+        
+            $user = Auth::user();
+            
+            // Only show unread notifications in dropdown
+            $notificationsBar = $user->unreadNotifications()
+                ->where(function($query) use ($user) {
+                    $query->where('notifiable_id', $user->id)
+                          ->orWhereJsonContains('data->recipient_id', $user->recipient_id);
+                })
+                ->orderBy('created_at', 'desc')
+                ->take(10)
+                ->get();
+        
+            $view->with([
+                'notificationCount' => $user->unreadNotifications()->count(),// Count of unread
+                'notificationsBar' => $notificationsBar // Only unread notifications
+            ]);
         });
         
         

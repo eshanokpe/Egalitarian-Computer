@@ -8,7 +8,7 @@
                 </a>
                 <button class="offcanvas__close--btn" data-offcanvas>close</button>
             </div>
-            
+             
             <nav class="offcanvas__menu">
                 <ul class="offcanvas__menu_ul">
                     @forelse ($menuItems as $menuItem)

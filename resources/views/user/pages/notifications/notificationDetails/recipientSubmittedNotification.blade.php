@@ -13,18 +13,7 @@
             To complete the transaction, please follow the steps below to accept the transfer:
         </p>
 
-        {{-- <ol>
-            <li><strong>Log in</strong> to your {{ config('app.name') }} account.</li>
-            <li>Navigate to the <strong>Transfers</strong> section.</li>
-            <li>Locate the pending transfer for the property <strong>{{ $notification->data['property_name'] }}</strong>.</li>
-            <li>Click on <strong>Accept</strong> to confirm the transfer.</li>
-        </ol> --}}
-
-        {{-- <p>
-            If you do not accept the transfer within 
-            <strong>{{ $notification->data['expiration_time'] ?? '[Time Frame]' }}</strong>, 
-            the asset will be returned to the sender.
-        </p> --}} 
+        
 
         <p>
             If you have any questions or need assistance, feel free to contact our support team.

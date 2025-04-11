@@ -45,13 +45,24 @@ class PropertyValuationNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        
         return (new MailMessage)
-            ->subject('Property Valuation Update')
-            ->line('The valuation for property ' . $this->property->name . ' has been updated.')
-            ->line('Market Value: ₦' . number_format($this->property->price, 2))
-            ->line('Percentage Increase: ' . ceil($this->percentageIncrease) . '%')
-            ->action('View Property', url('user/properties/' . $this->property->id))
-            ->line('Thank you for using our platform!');
+            ->subject('Exciting Update: Increased Valuation for Your Asset!')
+            ->greeting('Dear ' . ($notifiable->first_name ?? 'Valued User') . ',')
+            ->line('We are pleased to inform you that the valuation for your property located at ' . $this->property->location . ' has increased! This exciting news reflects the current market trends and enhanced demand in your area.')
+            ->line('')
+            ->line('*New Valuation Details:*')
+            ->line('• *Previous Valuation:* ₦' . number_format($this->property->previous_price ?? 0, 2))
+            ->line('• *New Valuation:* ₦' . number_format($this->property->price, 2))
+            ->line('• *Percentage Increase:* ' . ceil($this->percentageIncrease) . '%')
+            ->line('')
+            ->line('This increase is a great opportunity for you if you’re considering selling your asset. Our team is here to assist you with any questions or to discuss next steps.')
+            ->line('')
+            ->line('Thank you for being a valued member of our community. We look forward to supporting you in maximizing the potential of your asset!')
+            ->salutation('Best regards,')
+            ->line('[Your Contact Information]')
+            ->action('View Property', url('user/my-properties/' . encrypt($this->property->slug) ));
+    
     }
 
     /**
@@ -62,11 +73,15 @@ class PropertyValuationNotification extends Notification
      */ 
     public function toArray($notifiable)
     {
-        return [ 
-            'notification_status' => 'Property Valuation Notification',
+        return [  
+            'notification_status' => 'propertyValuationNotification',
+            'subject' => 'Exciting update: Your property valuation has increased!',
+            'message' => 'We have great news for you! The valuation of your property located at {$this->property->location} has increased. This change reflects the current market trends and highlights the growing value of your investment.',
             'property_id' => $this->property->id,
+            'property_location' => $this->property->location,
             'property_name' => $this->property->name,
-            'market_value' => $this->property->price,
+            'previous_price' => $this->property->previous_price, 
+            'market_value' => $this->property->price, 
             'percentage_increase' => ceil($this->percentageIncrease),
         ];
     }

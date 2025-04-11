@@ -76,6 +76,8 @@ class SenderTransferNotification extends Notification implements ShouldQueue
      */
     public function toDatabase($notifiable)
     {
+        $user = User::find($this->details['recipient_id']);
+        $recipientName = $user->first_name . ' ' . $user->last_name;
         return [
             'notification_status' => 'senderTransferNotification',
             'property_name' => $this->details['property_name'],
@@ -83,6 +85,7 @@ class SenderTransferNotification extends Notification implements ShouldQueue
             'total_price' => $this->details['total_price']/100,
             'reference' => $this->details['reference'],
             'status' => $this->details['status'],
+            'recipientName' => $recipientName,
             'message' => 'You have initiated a property transfer. Please wait for recipient to accept.',
         ];
     }

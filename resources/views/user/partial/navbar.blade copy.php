@@ -121,39 +121,40 @@
                                     <div class="notification__item {{ $notification->read_at ? 'unread' : '' }}">
                                         <a href="{{ route('user.notifications.show', encrypt($notification->id)) }}" 
                                             class="notification__link mark-as-read" 
-                                            onclick="markNotificationAsRead(event, this)"
                                             data-notification-id="{{ $notification->id }}"
+                                             onclick="markNotificationAsRead(event, this)"
                                             data-property-mode="{{ $notification->data['property_mode'] ?? '' }}">
 
                                             <div class="notification__content">
                                                 {{-- {{$notification['data']['notification_status']}} --}}
-                                                @if(in_array($notification['data']['notification_status'], ['PropertyValuationNotification', 'PropertyValuationPredictionNotification','propertyValuationPredictionNotification']))
-                                                    @include('.user/partial/notifications/propertyValuationPredictionNotification')
-
+                                                @if(in_array($notification['data']['notification_status'], ['PropertyValuationNotification', 'PropertyValuationPredictionNotification']))
+                                                    {{-- <div class="notification__type--property">
+                                                        <h4>{{ $notification['data']['property_name'] }}</h4>
+                                                        <p>
+                                                            Market Value: ₦{{ number_format($notification['data']['market_value'] ?? 0.0, 2) }}
+                                                            @isset($notification['data']['percentage_increase'])
+                                                                (↑{{ $notification['data']['percentage_increase'] }}%)
+                                                            @endisset
+                                                        </p>
+                                                    </div> --}}
                                                 @elseif($notification['data']['notification_status'] == 'sellPropertyUserNotification')
                                                     @include('.user/partial/notifications/sellPropertyUserNotification')
-                                                @elseif($notification['data']['notification_status'] == 'senderTransferNotification')
-                                                    @include('.user/partial/notifications/senderTransferNotification')
-                                                @elseif($notification['data']['notification_status'] == 'transferNotification')
-                                                    @include('.user/partial/notifications/transferNotification')
-                                                @elseif($notification['data']['notification_status'] == 'propertyValuationNotification' || $notification['data']['notification_status'] == 'Property Valuation Notification')
-                                                    @include('.user/partial/notifications/propertyValuationNotification')
                                                 @elseif($notification['data']['notification_status'] == 'WalletFundedNotification')
-                                                    <div class="notification__type--wallet">
+                                                    {{-- <div class="notification__type--wallet">
                                                         <h4>Wallet Credited</h4>
                                                         <p>
                                                             ₦{{ number_format($notification['data']['amount'], 2) }} received
                                                             <small>New balance: ₦{{ number_format($notification['data']['balance'], 2) }}</small>
                                                         </p>
-                                                    </div>
+                                                    </div> --}}
                                                 @elseif($notification['data']['notification_status'] == 'WalletTransferNotification')
-                                                    <div class="notification__type--transfer">
+                                                    {{-- <div class="notification__type--transfer">
                                                         <h4>{{ $notification['data']['message'] ?? 'Transfer Notification' }}</h4>
                                                         <p>
                                                             Amount: ₦{{ number_format($notification['data']['amount'], 2) }}
                                                             <small>New balance: ₦{{ number_format($notification['data']['new_balance'], 2) }}</small>
                                                         </p>
-                                                    </div>
+                                                    </div> --}}
                                                 @else
                                                     {{-- <div class="notification__type--generic">
                                                         <h4>{{ $notification['data']['property_name'] ?? 'Notification' }}</h4>
@@ -199,68 +200,73 @@
                     
                     @push('scripts')
                     <script>
-                    function markNotificationAsRead(event, element) {
-                        event.preventDefault();
-                        
-                        const notificationId = element.dataset.notificationId;
-                        const notificationElement = element.closest('.notification__item');
-                        
-                        // Immediately remove from UI
-                        notificationElement.style.display = 'none';
-                        
-                        // Update counter
-                        const counterElement = document.getElementById('notificationCount');
-                        if (counterElement) {
-                            const currentCount = parseInt(counterElement.textContent);
-                            counterElement.textContent = Math.max(0, currentCount - 1);
-                        }
-                        
-                        // Update unread count
-                        const unreadCountElement = document.querySelector('.dropdown__apps--count');
-                        if (unreadCountElement) {
-                            const newCount = parseInt(unreadCountElement.textContent) - 1;
-                            unreadCountElement.textContent = newCount > 0 ? newCount : '';
-                        }
-                        
-                        // Mark as read via AJAX
-                        fetch(`/notifications/${notificationId}/read`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                'Accept': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                property_mode: element.dataset.propertyMode
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.redirect_url) {
-                                window.location.href = data.redirect_url;
+                        function markNotificationAsRead(event, element) {
+                            event.preventDefault();
+                            
+                            const notificationId = element.closest('.notification__item').dataset.notificationId;
+                            const notificationElement = element.closest('.notification__item');
+                            
+                            // Immediately update UI
+                            notificationElement.classList.remove('unread');
+                            
+                            // Update counter in navbar
+                            const counterElement = document.getElementById('notificationCount');
+                            if (counterElement) {
+                                const currentCount = parseInt(counterElement.textContent);
+                                counterElement.textContent = Math.max(0, currentCount - 1);
                             }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
+                            
+                            // Proceed with the link
                             window.location.href = element.href;
-                        });
-                    }
-
-                    // Real-time updates
+                        }
                     document.addEventListener('DOMContentLoaded', function() {
-                        const updateCounts = () => {
+                        // Real-time notification count update
+                        const updateNotificationCount = () => { 
                             fetch('{{ route('user.notifications.count') }}')
                                 .then(response => response.json())
                                 .then(data => {
                                     document.getElementById('notificationCount').textContent = data.count;
-                                    const countElement = document.querySelector('.dropdown__apps--count');
-                                    if (countElement) {
-                                        countElement.textContent = data.count > 0 ? data.count : '';
-                                    }
-                                });
+                                })
+                                .catch(error => console.error('Error updating notification count:', error));
                         };
                         
-                        setInterval(updateCounts, 60000);
+                        // Update every 60 seconds
+                        setInterval(updateNotificationCount, 60000);
+                        
+                        // Handle mark as read functionality
+                        document.querySelectorAll('.mark-as-read').forEach(element => {
+                            element.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                
+                                const notificationId = this.dataset.notificationId;
+                                const propertyMode = this.dataset.propertyMode;
+                                const notificationElement = this.closest('.notification__item');
+                                
+                                fetch(`/notifications/${notificationId}/read`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    },
+                                    body: JSON.stringify({
+                                        property_mode: propertyMode
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        notificationElement.classList.remove('unread');
+                                        notificationElement.querySelector('.notification__status--unread')?.classList.replace('notification__status--unread', 'notification__status--read');
+                                        
+                                        // Redirect based on response
+                                        if (data.redirect_url) {
+                                            window.location.href = data.redirect_url;
+                                        }
+                                    }
+                                })
+                                .catch(error => console.error('Error marking notification as read:', error));
+                            });
+                        });
                     });
                     </script>
                     @endpush

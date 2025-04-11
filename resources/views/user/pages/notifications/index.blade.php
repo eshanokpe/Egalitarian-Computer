@@ -21,7 +21,7 @@
                 
                                 <!-- Notification Details -->
                                 <div class="notification-details flex-grow-1 ms-md-3">
- 
+                                    {{-- {{$notification['data']['notification_status']}} --}}
                                     @if($notification['data']['notification_status'] == 'WalletFundedNotification')
                                         <h3 class="card-title">Wallet Funded</h3>
                                         <div class="property-details">
@@ -35,7 +35,7 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row "> 
-                                                    <div class="col-6">
+                                                    <div class="col-9">
                                                         <h3 class="card-title">{{ $notification['data']['message'] }}</h3>
                                                         <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
                                         
@@ -43,15 +43,15 @@
                                                             <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
                                                         </div>
                                                     </div>
-                                    
+                                     
                                                 @if($notification['data']['status'] === 'pending' && isset($notification['data']['property_mode'], $notification['data']['property_slug']))
-                                                    <div class="col-6">
+                                                    <div class="col-3">
                                                         <div class="text-end">
                                                             <a href="{{ route('user.notifications.show', encrypt($notification->id)) }}" class="btn btn-warning btn-md">
                                                                 Click here to confirm your transfer
                                                             </a>
-                                                            
-                                                        </div>
+                                                             
+                                                        </div> 
                                                     </div>
                                                 @else
                                                     <div class="col-6">
@@ -68,11 +68,11 @@
                                             
                                         </div>
                                     @endif
-                                    @if($notification['data']['notification_status'] == 'PropertyValuationNotification')
+                                    @if($notification['data']['notification_status'] == 'PropertyValuationNotification' || $notification['data']['notification_status'] == 'Property Valuation Notification')
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row ">
-                                                    <div class="col-6">
+                                                    <div class="col-9">
                                                         <h3 class="card-title">Property Valuation Notification</h3>
                                                         <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
                                                     
@@ -81,10 +81,10 @@
                                                         </div>
                                                     </div>
                                     
-                                                    <div class="col-6">
+                                                    <div class="col-3">
                                                         <div class="text-end">
                                                             <p> <strong>Market Value:</strong> ₦{{ number_format( $notification['data']['market_value'] ) }} </p>
-                                                            <a href="{{ route('user.properties.show', encrypt($notification['data']['property_id'] ) ) }}" class="btn btn-success btn-md">
+                                                            <a href="{{ route('user.notifications.show', encrypt($notification->id)) }}" class="btn btn-success btn-md">
                                                                 View more
                                                             </a>
                                                         </div>
@@ -96,11 +96,11 @@
                                         </div>
                                     @endif
 
-                                    @if($notification['data']['notification_status'] == 'senderTransferNotification' || $notification['data']['notification_status'] == 'Sender Transfer Notification')
+                                    @if($notification['data']['notification_status'] == 'senderTransferNotification' )
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row ">
-                                                    <div class="col-6">
+                                                    <div class="col-9">
                                                         <h3 class="card-title">Sender Transfer Notification</h3>
                                                         <h4 class="card-title text-primary">{{ $notification['data']['property_name'] }}</h4>
                                                         <h5 class="card-title text-secondary"><b>Land Size:</b>{{ $notification['data']['land_size'] }} SQM</h5>
@@ -110,10 +110,10 @@
                                                         </div>
                                                     </div>
                                     
-                                                    <div class="col-6">
+                                                    <div class="col-3">
                                                         <div class="text-end">
                                                             <p> <strong>Total Amount:</strong> ₦{{ number_format( $notification['data']['total_price'] ) }} </p>
-                                                            <a href="{{ route('user.properties.show', encrypt($notification['data']['property_id'] ??'1') ) }}" class="btn btn-success btn-md">
+                                                            <a href="{{ route('user.notifications.show', encrypt($notification->id)) }}" class="btn btn-success btn-md">
                                                                 View more
                                                             </a>
                                                             @if($notification['data']['status'] == "pending")
@@ -130,9 +130,98 @@
                                             
                                                 </div>
                                             </div>
+                                        </div>
+                                    @endif
+                                    
+                                    @if($notification['data']['notification_status'] == 'sellPropertyUserNotification' )
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row ">
+                                                    <div class="col-9">
+                                                        <h3 class="card-title">New Asset Sell Request</h3>
+                                                        <p>
+                                                            Thank you for choosing Dohmayn to sell your asset! We're excited to help you through this process.
+                                                        </p>
+                                                        <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                                                            <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <div class="col-3">
+                                                        <div class="text-end">
+                                                            {{-- <p> <strong>Total Amount:</strong> ₦{{ number_format( $notification['data']['total_price'] ) }} </p> --}}
+                                                            <a href="{{ route('user.notifications.show', encrypt($notification->id)) }}" class="btn btn-success btn-md">
+                                                                View more
+                                                            </a>
+                                                           
+                                                        </div>
+                                                    </div>
+                                            
+                                                </div>
+                                            </div>
                                         
                                         </div>
                                     @endif
+
+                                    @if($notification['data']['notification_status'] == 'transferNotification')
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row ">
+                                                    <div class="col-9">
+                                                        <h3 class="card-title"> Transfer Successful - Property Asset Transaction Confirmation</h3>
+                                                        <p>
+                                                            This email confirms that the transfer of assets for property ID has been successfully completed
+                                                        </p>
+                                                        <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                                                            <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <div class="col-3">
+                                                        <div class="text-end">
+                                                            {{-- <p> <strong>Total Amount:</strong> ₦{{ number_format( $notification['data']['total_price'] ) }} </p> --}}
+                                                            <a href="{{ route('user.notifications.show', encrypt($notification->id)) }}" class="btn btn-success btn-md">
+                                                                View more
+                                                            </a>
+                                                        
+                                                        </div>
+                                                    </div>
+                                            
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                    @endif
+                                    @if($notification['data']['notification_status'] == 'PropertyValuationPredictionNotification' || $notification['data']['notification_status'] == 'propertyValuationPredictionNotification')
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row ">
+                                                    <div class="col-9">
+                                                        <h3 class="card-title"> Property Valuation Prediction Notification</h3>
+                                                        <p>
+                                                            Upward Revision: Asset Valuation Update for  {{ $notification['data']['property_name'] }}
+                                                        </p>
+                                                        <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
+                                                            <small class="text-muted">Received {{ $notification->created_at->diffForHumans() }}</small>
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <div class="col-3">
+                                                        <div class="text-end">
+                                                            {{-- <p> <strong>Total Amount:</strong> ₦{{ number_format( $notification['data']['total_price'] ) }} </p> --}}
+                                                            <a href="{{ route('user.notifications.show', encrypt($notification->id)) }}" class="btn btn-success btn-md">
+                                                                View more
+                                                            </a>
+                                                        
+                                                        </div>
+                                                    </div>
+                                            
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                    @endif
+                                
 
                                     
                 

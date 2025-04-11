@@ -29,6 +29,7 @@ class TransferPropertyController extends Controller
     {
         $this->middleware('auth'); 
     }
+
     public function index(){ 
         if(!Auth::user()){
             return redirect()->route('login');
@@ -195,7 +196,6 @@ class TransferPropertyController extends Controller
         $user = Auth::user();
 
         $sendWallet = Wallet::where('user_id', $user->id)->first();
-        
         // Ensure sender has enough balance
         if ($sendWallet->balance < ($request->input('amount') / 100)) {
 
@@ -274,9 +274,11 @@ class TransferPropertyController extends Controller
             $totalAmount =  Transaction::where('user_id', $user->id)
                                     ->where('email', $user->email)
                                     ->sum('amount');
+
             if($totalAmount < $amount){
                 return $this->sendResponse($request, 'error', 'Insufficient Assets available for transfer.', false);
             }
+
             // Check total available land size
             $totalLand = Buy::where('user_id', $user->id)
                 ->where('user_email', $user->email)

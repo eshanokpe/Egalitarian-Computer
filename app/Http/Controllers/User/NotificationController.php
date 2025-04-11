@@ -47,17 +47,25 @@ class NotificationController extends Controller
     }
 
     public function show($encryptedId)
-    {
+    { 
         $id = decrypt($encryptedId);
-        $notification = CustomNotification::findOrFail($id);
-        // dd($id);
-
-        // Mark the notification as read
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        // Mark as read if unread
         if ($notification->unread()) {
             $notification->markAsRead();
+            
+            // Update the unread count in real-time
+            $unreadCount = auth()->user()->unreadNotifications->count();
+            
+            return view('user.pages.notifications.show', [
+                'notification' => $notification,
+                'unreadCount' => $unreadCount // Pass updated count to view
+            ]);
         }
 
         return view('user.pages.notifications.show', ['notification' => $notification]);
     }
+
+  
 
 }

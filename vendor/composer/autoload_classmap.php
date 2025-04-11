@@ -108,6 +108,8 @@ return array(
     'App\\Notifications\\ReferralCommissionEarnedNotification' => $baseDir . '/app/Notifications/ReferralCommissionEarnedNotification.php',
     'App\\Notifications\\ReferralConnectionNotification' => $baseDir . '/app/Notifications/ReferralConnectionNotification.php',
     'App\\Notifications\\ReferredUserPurchasedNotification' => $baseDir . '/app/Notifications/ReferredUserPurchasedNotification.php',
+    'App\\Notifications\\SellPropertyAdminNotification' => $baseDir . '/app/Notifications/SellPropertyAdminNotification.php',
+    'App\\Notifications\\SellPropertyUserNotification' => $baseDir . '/app/Notifications/SellPropertyUserNotification.php',
     'App\\Notifications\\SenderTransferNotification' => $baseDir . '/app/Notifications/SenderTransferNotification.php',
     'App\\Notifications\\TransferNotification' => $baseDir . '/app/Notifications/TransferNotification.php',
     'App\\Notifications\\WalletFundedNotification' => $baseDir . '/app/Notifications/WalletFundedNotification.php',

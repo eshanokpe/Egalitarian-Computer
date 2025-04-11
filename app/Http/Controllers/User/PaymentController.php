@@ -190,70 +190,7 @@ class PaymentController extends Controller
         return redirect()->route('user.purchases')->with('success', $data['message']);
     }
    
-    public function paymentCallback(Request $request)
-    {
-        try {
-            $user = Auth::user();
-            $paymentDetails = $this->paystack->transaction->verify([
-                'reference' => $request->get('reference'),
-                'trxref' => $request->get('trxref'),
-            ]);
-            $property = Property::where('id', $paymentDetails->data->metadata->property_id)
-            ->where('name', $paymentDetails->data->metadata->property_name)->first();
-
-            if (!$property) {
-                return redirect()->back()->with('error', 'Property not found.');
-            }
-
-            if ($paymentDetails->data->status === 'success') {
-                $amount = $paymentDetails->data->amount / 100;
-                $reference = $paymentDetails->data->reference;
-                $channel = $paymentDetails->data->channel;
-                // Create the transaction record
-                $transaction = Transaction::create([
-                    'user_id' => $user->id,
-                    'email' => $user->email,
-                    'property_id' => $property->id,
-                    'property_name' => $property->name,
-                    'amount' => $amount,
-                    'status' =>  $paymentDetails->data->status,
-                    'payment_method' => 'card', 
-                    'reference' => $reference,
-                    'transaction_state' => $paymentDetails->data->status,
-                ]);
-                // Create the buy record
-                $buy = Buy::create([
-                    'user_id' => $user->id,
-                    'user_email' => $user->email,
-                    'transaction_id' => $transaction->id,
-                    'property_id' => $property->id,
-                    'selected_size_land' => $paymentDetails->data->metadata->selected_size_land,
-                    'remaining_size' => $paymentDetails->data->metadata->remaining_size,
-                    'total_price' => $amount,
-                    'status' => 'available',
-                ]);
-                
-                
-
-                // Handle referral commission if this is user's first purchase
-                $this->processReferralCommission($user, $property, $amount, $transaction);
-
-                return redirect()->route('user.dashboard')->with('success', 'Payment successful!');
-            }
-
-            if ($paymentDetails->data->status !== 'success') {
-                $transaction->update([
-                    'status' => $paymentDetails->data->status,
-                    'property_state' => 'failed',
-                ]);
-
-                return redirect()->route('user.dashboard')->with('error', 'Payment failed. Please try again.');
-            }
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
-        }
-    }
-
+   
     protected function processReferralCommission($user, $property, $amount, $transaction)
     {
         // Check if user has any previous purchases
@@ -282,8 +219,10 @@ class PaymentController extends Controller
             ]);
             // Credit referrer's wallet
             $referrer = $referralLog->referrer;
-            if ($referrer && $referrer->wallet) {
-                $referrer->wallet->increment('balance', $commissionAmount);
+            if ($referrer) {
+                 // Add commission to commission_balance field
+                $referrer->increment('commission_balance', $commissionAmount);
+
                 // Create commission transaction
                 Transaction::create([
                     'user_id' => $referrer->id,

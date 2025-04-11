@@ -31,7 +31,7 @@ class ReferralCommissionEarnedNotification extends Notification implements Shoul
     }
 
     public function toMail($notifiable)
-    {
+    { 
         $referredUserName = e(trim($this->referredUser->first_name . ' ' . $this->referredUser->last_name));
         $purchaseAmount = $this->amount / ($this->commissionPercentage / 100);
         $walletBalance = $notifiable->wallet->balance ?? 0;
@@ -72,7 +72,6 @@ class ReferralCommissionEarnedNotification extends Notification implements Shoul
             'commission_percentage' => $this->commissionPercentage,
             'message' => 'You earned ' . $currency . number_format($this->amount, 2) . 
                         ' (' . $this->commissionPercentage . '%) from ' . $referredUserName . '\'s purchase',
-            'action_url' => route('user.referrals'),
             'action_text' => 'View Referrals',
             'created_at' => now()->toDateTimeString()
         ];

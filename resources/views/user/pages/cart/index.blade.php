@@ -64,6 +64,8 @@
                     </div>
                 </div>
 
+                
+
                 <div class="cart__footer d-flex justify-content-between align-items-center mt-4">
                     <a href="{{ route('user.buy') }}" class="solid__btn" style="background-color: #CC9933">
                         View Properties
@@ -72,37 +74,45 @@
                         <a href="#" class="solid__btn" id="make-payment-btn">Make Payment</a>
                     </div>
                 </div> 
- 
-                <!-- Payment Form -->
-                <div class="row mt-3">
-                    <div class="col-6"></div>
-                    <div class="col-6">
-                        <form id="payment-form" action="{{ route('user.payment.initiate') }}" method="POST" style="display: none;">
-                            @csrf
-                            <input type="hidden" name="remaining_size" id="remaining_size">
-                            <input type="hidden" name="property_slug" id="property_slug" value="{{ $property->slug }}">
-                            <input type="hidden" name="quantity" id="quantity">
-                            <input type="hidden" name="total_price" id="total_price">
+
+                <div class="cart__footer d-flex justify-content-between align-items-center mt-4">
+                    <div class="reviews__author--check position-relative">
+                        <p for="commission-switch"><b>Apply Commission</b></p>
+                       
+                        <div class="reviews__author--check position-relative d-flex align-items-center">
+                            <input class="reviews__author--check__input" id="commission-switch" type="checkbox">
                             
-
-                            <div class="form-group mt-3">
-                                <label for="transaction_pin" class="form-label">Enter 4-digit Transaction PIN</label>
-                                <input type="password"
-                                       class="form-input"
-                                       name="transaction_pin"
-                                       id="transaction_pin"
-                                       class="form-control"
-                                       maxlength="4"
-                                       inputmode="numeric"
-                                       pattern="\d{4}"
-                                       placeholder="****"
-                                       required>
-                            </div>
-
-                            <button type="submit" class="solid__btn mt-2" id="confirm-payment-btn">Confirm Payment</button>
-                        </form>
+                            <span class="reviews__author--checkmark"></span>
+                            <span style="margin-left: 20px">Commission Balance: ₦{{ number_format(auth()->user()->commission_balance, 2) }}</span>
+                        </div>
                     </div>
+                    
+                    <form id="payment-form" action="{{ route('user.payment.initiate') }}" method="POST" style="display: none;">
+                        @csrf
+                        <input type="hidden" name="remaining_size" id="remaining_size">
+                        <input type="hidden" name="property_slug" id="property_slug" value="{{ $property->slug }}">
+                        <input type="hidden" name="quantity" id="quantity">
+                        <input type="hidden" name="total_price" id="total_price">
+
+                        <div class="form-group mt-3">
+                            <label for="transaction_pin" class="form-label">Enter 4-digit Transaction PIN</label>
+                            <input type="password"
+                                   class="form-input"
+                                   name="transaction_pin"
+                                   id="transaction_pin"
+                                   class="form-control"
+                                   maxlength="4"
+                                   inputmode="numeric"
+                                   pattern="\d{4}"
+                                   placeholder="****"
+                                   required>
+                        </div>
+
+                        <button type="submit" class="solid__btn mt-2" id="confirm-payment-btn">Confirm Payment</button>
+                    </form>
                 </div>
+
+               
             </div>
         </main>
     </div>
@@ -116,9 +126,15 @@
 @endif
 @endauth 
 
-// Update price and remaining size
-function updateCart(row) {
-    const price = parseFloat(row.querySelector('.item-price').textContent.replace(/₦|,/g, ''));
+// Initialize commission amount
+const commissionRate = @json(auth()->user()->commission_balance); 
+console.log(commissionRate);
+
+// Function to update the total price including commission deduction
+function updateTotalWithCommission(row) {
+    const priceText = row.querySelector('.item-price').textContent;
+    // Extract just the numeric value (remove currency symbol, commas, and "per/sqm")
+    const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
     const quantityInput = row.querySelector('.quantity-input');
     const availableSizeElement = row.querySelector('.available-size');
     const initialSize = parseFloat(availableSizeElement.dataset.initialSize);
@@ -126,8 +142,26 @@ function updateCart(row) {
     const total = price * quantity;
     const remainingSize = Math.max(initialSize - quantity, 1);
 
-    row.querySelector('.total-price').textContent = `₦${total.toLocaleString('en-NG', { minimumFractionDigits: 2 })}`;
+    let totalWithCommission = total;
+
+    // Check if commission is applied and subtract the fixed commission amount
+    if (document.getElementById('commission-switch').checked) {
+        // Subtract the fixed commission amount (2000 in your case)
+        // But ensure it doesn't make the total negative
+        totalWithCommission = Math.max(total - commissionRate, 0);
+    }
+
+    row.querySelector('.total-price').textContent = `₦${totalWithCommission.toLocaleString('en-NG', { minimumFractionDigits: 2 })}`;
     availableSizeElement.textContent = `${remainingSize} SQM`;
+    
+    // For debugging:
+    console.log({
+        price,
+        quantity,
+        total,
+        commissionRate,
+        totalWithCommission
+    });
 }
 
 // Quantity logic
@@ -139,18 +173,25 @@ document.querySelectorAll('.cart__table tbody tr').forEach(row => {
     decrementBtn.addEventListener('click', () => {
         if (quantityInput.value > 1) {
             quantityInput.value--;
-            updateCart(row);
+            updateTotalWithCommission(row);
         }
     });
 
     incrementBtn.addEventListener('click', () => {
         quantityInput.value++;
-        updateCart(row);
+        updateTotalWithCommission(row);
     });
 
     quantityInput.addEventListener('input', () => {
         if (quantityInput.value < 1) quantityInput.value = 1;
-        updateCart(row);
+        updateTotalWithCommission(row);
+    });
+});
+
+// Listen for toggle switch change
+document.getElementById('commission-switch').addEventListener('change', () => {
+    document.querySelectorAll('.cart__table tbody tr').forEach(row => {
+        updateTotalWithCommission(row);
     });
 });
 

@@ -26,6 +26,7 @@ class User extends Authenticatable
         'referral_code', 
         'referred_by',
         'transaction_pin',
+        'commission_balance',
         'hide_balance',
         'app_passcode', 
     ];

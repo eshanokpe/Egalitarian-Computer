@@ -34,7 +34,9 @@
                                 @include('.user/pages/notifications/notificationDetails/propertyValuationNotification')
                             @elseif ($notification->data['notification_status'] === 'PropertyValuationPredictionNotification' || $notification->data['notification_status'] === 'propertyValuationPredictionNotification' )
                                 @include('.user/pages/notifications/notificationDetails/propertyValuationPredictionNotification')
-                            @else 
+                             @elseif ($notification->data['notification_status'] === 'PropertyValuationPredictionNotification' || $notification->data['notification_status'] === 'propertyValuationPredictionNotification' )
+                                @include('.user/pages/notifications/notificationDetails/propertyValuationPredictionNotification')
+                               @else 
                                 <p class="text-muted">This notification is not applicable for display.</p>
                             @endif
                     

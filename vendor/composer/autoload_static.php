@@ -687,6 +687,8 @@ class ComposerStaticInitffdab87688986358a321b0eef150dca0
         'App\\Notifications\\ReferralCommissionEarnedNotification' => __DIR__ . '/../..' . '/app/Notifications/ReferralCommissionEarnedNotification.php',
         'App\\Notifications\\ReferralConnectionNotification' => __DIR__ . '/../..' . '/app/Notifications/ReferralConnectionNotification.php',
         'App\\Notifications\\ReferredUserPurchasedNotification' => __DIR__ . '/../..' . '/app/Notifications/ReferredUserPurchasedNotification.php',
+        'App\\Notifications\\SellPropertyAdminNotification' => __DIR__ . '/../..' . '/app/Notifications/SellPropertyAdminNotification.php',
+        'App\\Notifications\\SellPropertyUserNotification' => __DIR__ . '/../..' . '/app/Notifications/SellPropertyUserNotification.php',
         'App\\Notifications\\SenderTransferNotification' => __DIR__ . '/../..' . '/app/Notifications/SenderTransferNotification.php',
         'App\\Notifications\\TransferNotification' => __DIR__ . '/../..' . '/app/Notifications/TransferNotification.php',
         'App\\Notifications\\WalletFundedNotification' => __DIR__ . '/../..' . '/app/Notifications/WalletFundedNotification.php',

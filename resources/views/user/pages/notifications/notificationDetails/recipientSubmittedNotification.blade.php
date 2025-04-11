@@ -2,12 +2,12 @@
     @if ($notification->data['notification_status'] === 'recipientSubmittedNotification' || $notification['data']['notification_status'] == 'Recipient Submitted Notification')
 
         <h3 class="card-title mb-3">Accept Your Asset Transfer</h3>
-
+ 
         <p>Dear {{ auth()->user()->first_name }} {{ auth()->user()->last_name}},</p>
 
         <p>
             You have received an asset transfer of 
-            <strong>&#x20A6;{{ number_format($notification->data['total_price'], 2) }}</strong> from 
+            <strong>&#x20A6;{{ number_format($notification->data['total_price']/100, 2) }}</strong> from 
             <strong>{{ \App\Models\User::find($notification->data['sender_id'])->first_name .' '. \App\Models\User::find($notification->data['sender_id'])->last_name   ?? 'Sender\'s Name' }}</strong> via 
             <strong>{{ config('app.name') }}</strong>. 
             To complete the transaction, please follow the steps below to accept the transfer:
@@ -34,7 +34,7 @@
                     <p><strong>Property Name:</strong> {{ $notification->data['property_name'] }}</p>
                     <p><strong>Property Mode:</strong> {{ ucfirst($notification->data['property_mode']) }}</p>
                     <p><strong>Land Size:</strong> {{ $notification->data['land_size'] }} SQM</p>
-                    <p><strong>Total Price:</strong> &#x20A6;{{ number_format($notification->data['total_price'], 2) }}</p>
+                    <p><strong>Total Price:</strong> &#x20A6;{{ number_format($notification->data['total_price']/100, 2) }}</p>
                 </div>
             </div> 
         </div> 

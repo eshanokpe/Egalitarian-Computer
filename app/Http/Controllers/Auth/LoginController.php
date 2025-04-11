@@ -123,7 +123,7 @@ class LoginController extends Controller
             return response()->json(['message' => 'Logged out successfully.'], 200);
         }
 
-        return redirect('/login');
+        return redirect('user/login'); 
     }
 
 }

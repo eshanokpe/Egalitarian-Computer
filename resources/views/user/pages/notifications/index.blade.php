@@ -54,7 +54,7 @@
                                                         </div> 
                                                     </div>
                                                 @else
-                                                    <div class="col-6">
+                                                    <div class="col-3">
                                                         <div class="text-end">
                                                             <a href="{{ route('user.notifications.show', encrypt($notification->id)) }}" class="btn btn-success btn-md">
                                                                 The Assets have ben accepted

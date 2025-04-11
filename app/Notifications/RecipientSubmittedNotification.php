@@ -70,7 +70,7 @@ class RecipientSubmittedNotification extends Notification implements ShouldQueue
         $formattedPrice = number_format($this->transferDetails['total_price'], 2);
         
         return [
-            'notification_status' => 'recipientSubmittedNotification', 
+            'notification_status' => 'recipientSubmittedNotification',  
             'property_id' => $this->transferDetails['property_id'],
             'property_slug' => $this->transferDetails['property_slug'],
             'property_name' => $this->transferDetails['property_name'],

@@ -41,7 +41,7 @@ Route::get('/user/register', [RegisterController::class, 'showRegistrationForm']
 Route::get('/user/register/referral/{referralCode}', [RegisterController::class, 'showRegistrationForm'])->name('register.referral');
 
 Route::post('post/register', [RegisterController::class, 'register'])->name('post.register');
-Route::get('user/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('user/login', [LoginController::class, 'showLoginForm'])->name('login'); 
 Route::post('post/login', [LoginController::class, 'login'])->name('post.login');
 
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');

@@ -119,10 +119,10 @@
 </div>
 
 <script>
-// Redirect user to set PIN if not set
+
 @auth
 @if (!auth()->user()->transaction_pin)
-    window.location.href = "{{ route('user.transaction.pin') }}";  // Redirect to the PIN setup page
+    window.location.href = "{{ route('user.transaction.pin') }}"; 
 @endif
 @endauth 
 
@@ -133,7 +133,6 @@ console.log(commissionRate);
 // Function to update the total price including commission deduction
 function updateTotalWithCommission(row) {
     const priceText = row.querySelector('.item-price').textContent;
-    // Extract just the numeric value (remove currency symbol, commas, and "per/sqm")
     const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
     const quantityInput = row.querySelector('.quantity-input');
     const availableSizeElement = row.querySelector('.available-size');

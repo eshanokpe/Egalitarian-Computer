@@ -50,7 +50,7 @@ class ReferralCommissionEarnedNotification extends Notification implements Shoul
             ->line('**Commission Rate:** ' . $this->commissionPercentage . '%')
             ->line('**Commission Earned:** ' . $currency . number_format($this->amount, 2))
             ->line('**New Wallet Balance:** ' . $currency . number_format($walletBalance + $this->amount, 2))
-            ->action('View Your Referral Dashboard', route('user.referrals'))
+            ->action('View Your Referral Dashboard', route('user.referral.index'))
             ->line('Thank you for referring quality users to our platform!')
             ->salutation('Best Regards,<br>' . config('app.name', 'Our Team'));
     }

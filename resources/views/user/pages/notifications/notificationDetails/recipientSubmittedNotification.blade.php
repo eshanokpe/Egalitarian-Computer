@@ -49,10 +49,14 @@
                 <input type="hidden" name="property_id" value="{{ $notification->data['property_id'] }}">
                 <input type="hidden" name="amount" value="{{ $notification->data['total_price'] }}">
             
-                <button type="submit" class="btn btn-success btn-lg">
+                <button type="submit" class="btn btn-primary btn-lg">
                     ✅ Accept Transfer
                 </button>
             </form>
+        @else
+            <button class="btn btn-success btn-lg">
+                ✅ This transfer has been approved
+            </button>
         @endif
         
         

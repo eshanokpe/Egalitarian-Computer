@@ -75,7 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get/faqs', [DashboardController::class, 'faqs']);
   
     Route::post('/transactions', [APITransactionController::class, 'store']);
-    Route::post('/buy/properties', [BuyPropertyController::class, 'store']);
+    Route::post('/buy/properties', [BuyPropertyController::class, 'walletPayment']);
  
     Route::get('/notifications', [NotificationController::class, 'index']);
 

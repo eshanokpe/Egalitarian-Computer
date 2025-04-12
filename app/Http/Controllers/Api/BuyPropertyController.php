@@ -1,25 +1,135 @@
 <?php
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
-
+use Auth;
+use Hash;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use App\Models\Buy;
-use App\Models\Property;
-use App\Models\Transaction;
+use App\Models\Buy;  
+use App\Models\Wallet;
+use App\Models\Property;  
+use App\Models\Transaction;   
 use App\Models\ReferralLog;
+use Illuminate\Support\Facades\Validator;
+use App\Notifications\BuyPropertiesNotification;
 use App\Notifications\ReferralCommissionEarnedNotification;
 use App\Notifications\ReferredUserPurchasedNotification;
  
 class BuyPropertyController extends Controller
 {
-    /**
-     * Store a new transaction.
-     */
+    
+    public function walletPayment(Request $request)
+    {
+        $request->validate([
+            
+        ]); 
+        $validator = Validator::make($request->all(), [
+            'remaining_size' => 'required',
+            'property_slug' => 'required',
+            'quantity' => 'required',
+            'total_price' => 'required|numeric|min:1',
+            // 'transaction_pin' => 'required|digits:4' 
+        ]); 
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        } 
+        $user = Auth::user();
+        
+       
+    
+        
+    
+        // 3. Process property and payment
+        $property = Property::where('slug', $request->property_slug)->first();
+        if (!$property) {
+            return $this->errorResponse('Property not found.', 404);
+        }
+    
+        $amount = $request->total_price;
+        $selectedSizeLand = $request->quantity;
+        $remainingSize = $request->remaining_size;
+    
+        // Check wallet balance
+        $wallet = $user->wallet;
+        if (!$wallet || $wallet->balance < $amount) {
+            return $this->errorResponse('Insufficient funds in your wallet. Please add funds to proceed.', 400);
+        }
+    
+        // Generate transaction reference
+        $reference = 'TRXDOHREF-' . strtoupper(Str::random(8));
+    
+        // Deduct from wallet
+        $wallet->balance -= $amount;
+        $wallet->save();
+    
+        // Create transaction record
+        $transaction = Transaction::create([
+            'user_id' => $user->id,
+            'email' => $user->email,
+            'amount' => $amount,
+            'reference' => $reference,
+            'status' => 'completed',
+            'source' => $request->is('api/*') ? 'api' : 'web',
+            'payment_method' => 'wallet',
+            'metadata' => [
+                'property_id' => $property->id,
+                'property_name' => $property->name,
+                'remaining_size' => $remainingSize,
+                'selected_size_land' => $selectedSizeLand,
+            ],
+        ]);
+    
+        // Process property purchase
+        $buy = Buy::create([
+            'user_id' => $user->id,
+            'user_email' => $user->email,
+            'property_id' => $property->id,
+            'size' => $selectedSizeLand,
+            'total_price' => $amount,
+            'transaction_id' => $transaction->id,
+            'selected_size_land' => $selectedSizeLand,
+            'remaining_size' => $remainingSize - $selectedSizeLand,
+            'status' => 'available',
+        ]);
+    
+        // Update property status
+        $property->available_size -= $selectedSizeLand;
+        if ($property->price <= 0) {
+            $property->status = 'sold out';
+            $buy->status = 'sold out';
+            $buy->save();
+        }
+        // dd($selectedSizeLand);
+
+        $property->save();
+    
+        // Process referral commission
+        $this->processReferralCommission($user, $property, $amount, $transaction);
+         // ✅ Send Email and Notification
+        try {
+           
+            // Send notification
+            $user->notify(new BuyPropertiesNotification($transaction, $buy));
+        } catch (\Exception $e) {
+            // Log or handle email/notification failure
+            logger()->error('Payment notification error: ' . $e->getMessage());
+        }
+    
+        return $this->successResponse([
+            'message' => 'Payment successful',
+            'transaction_reference' => $reference,
+            'remaining_balance' => $wallet->balance,
+            'purchase_details' => $buy,
+            'property_status' => $property->status,
+        ]);
+    } 
+
     public function store(Request $request)
-    { 
+    {   
         // Validate the request
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|integer|exists:users,id',

@@ -33,7 +33,7 @@ class CartController extends Controller
         ->firstOrFail();
 
         return view('user.pages.cart.sell_cart', $data); 
-    }
+    } 
 
     public function transfer($id){   
         $user = Auth::user();  

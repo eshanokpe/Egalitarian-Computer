@@ -4,37 +4,45 @@
     <p>Dear {{ auth()->user()->first_name }} {{ auth()->user()->last_name }},</p>
     {{-- {{ $notification }} --}}
    <p class="mb-2">
-       This email confirms that the transfer of assets for property ID has been successfully completed
+       This email confirms that the transfer of assets for property <b> {{ $notification->data['property_name'] ?? ' ' }} </b> has been successfully completed
      
-    </p>
-{{--
+    </p> 
     <div class="mt-4">
-        <h3 class="mb-2">Request Details</h3>
+        <h3 class="mb-2">Transaction Details</h3>
         
         <div class="alert alert-info">
-            Please note that the transfer is currently pending acceptance by the recipient. 
-            <p class="mb-0">{{ $notification->data['message'] }}</p>
+            The funds have been securely processed and will be reflected in your wallet
+            {{-- <p class="mb-0">{{ $notification->data['message'] }}</p> --}}
         </div>
-        
+
         <div class="notification-meta mt-3">
             <p>Here are the details of your transfer</p>
-            <p><strong>Amount:</strong> ₦{{ number_format($notification->data['total_price'], 2) }}</p>
-            <p><strong>Receiver:</strong> {{ $notification->data['recipient_name'] ?? 'Unknown recipient' }}</p>
-            <p><strong>Transfer ID:</strong> {{ $notification->data['reference'] }}</p>
-            <p><strong>Submitted:</strong> {{ \Carbon\Carbon::parse($notification->created_at)->format('F j, Y \a\t g:i A') }}</p>
-            <p><strong>Status:</strong> 
-                @if(($notification->data['status'] ?? null) === 'completed' || 'approved')
-                    <span class="badge bg-success">Approved</span>
-                @else
-                    <span class="badge bg-warning">Pending</span>
-                @endif
-            </p>
+            <p><strong>Property:</strong> {{ $notification->data['property_name'] ?? '' }}</p>
+            <p><strong>Transaction Reference:</strong> {{ $notification->data['reference'] ?? 'Unknown reference' }}</p>
+            <p><strong>Amount:</strong> ₦{{ ($notification->data['amount'] ?? '0.00') }}</p>
+            <p><strong>Transfer Date:</strong> {{ \Carbon\Carbon::parse($notification->created_at)->format('F j, Y \a\t g:i A') }}</p>
+           
         </div>
+{{--
+        
+   
     </div>   --}}
 
-    <p class="mt-4">
-        If you have any questions or need assistance, feel free to contact our support team.
+    <p class="mt-3">
+        For your records, please retien this confirmation. 
+        You can view the complete transaction details by logging into your account dashbaord.
     </p>
+    <p class="mt-3">
+        If you have any questions about this transfer, please contact our support team at 
+        {{$contactDetials->first_email}} 
+        @if( $contactDetials->second_email == null)
+        , {{$contactDetials->second_email}}
+        @endif or call
+        {{$contactDetials->first_phone}}  
+        @if( $contactDetials->second_phone == null)
+       , {{$contactDetials->second_phone}}
+       @endif
+    </p> 
 
     <p>Thank you for using {{ config('app.name') }}!</p>
 </div>

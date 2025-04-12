@@ -642,8 +642,8 @@ class TransferPropertyController extends Controller
         $sender = User::find($notification->data['sender_id']);
     
         // Send Confirmation Messages to Sender and Recipient
-        $sender->notify(new TransferNotification($recipient, $amount, 'Sender'));
-        $recipient->notify(new TransferNotification($sender, $amount, 'Recipient'));
+        $sender->notify(new TransferNotification($recipient, $amount, 'Sender', $propertyData));
+        $recipient->notify(new TransferNotification($sender, $amount, 'Recipient', $propertyData));
        
 
         if ($request->wantsJson()) {

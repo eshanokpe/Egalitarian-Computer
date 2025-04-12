@@ -12,15 +12,17 @@ class TransferNotification extends Notification implements ShouldQueue
 {
     use Queueable;
  
-    private $user;
+    private $user; 
     private $amount;
     private $type; // "Sender" or "Recipient"
+    private $propertyData;
 
-    public function __construct($user, $amount, $type)
+    public function __construct($user, $amount, $type, $propertyData)
     {
         $this->user = $user;
         $this->amount = $amount;
         $this->type = $type;
+        $this->propertyData = $propertyData;
     }
 
     public function via($notifiable)
@@ -29,7 +31,7 @@ class TransferNotification extends Notification implements ShouldQueue
     }
 
     public function toMail($notifiable)
-    {
+    { 
         return (new MailMessage)
             ->subject($this->getSubject())
             ->greeting("Dear {$notifiable->first_name} {$notifiable->last_name},")
@@ -41,10 +43,12 @@ class TransferNotification extends Notification implements ShouldQueue
 
     public function toArray($notifiable)
     {
-        return [
+        return [  
             'notification_status' => 'transferNotification',
             'status' => 'accepted',
             'subject' => $this->getSubject(),
+            'property_name' => $this->propertyData->property_name,
+            'property_location' => $this->propertyData->property_location,
             'message' => implode("\n", $this->getMessageLines($notifiable)),
             'amount' => number_format($this->amount / 100, 2, '.', ','),
         ];
@@ -66,15 +70,15 @@ class TransferNotification extends Notification implements ShouldQueue
 
     private function getMessageLines($notifiable)
     {
-        $propertyId = $this->user->property_id ?? '[Property Number]';
-        $propertyAddress = $this->user->property_name ?? '[Property Address]';
+        $propertyId = $this->propertyData->property_id ?? '[Property Number]';
+        $propertyAddress = $this->propertyData->property_name ?? '[Property Address]';
         $amountFormatted = '₦' . number_format($this->amount / 100, 2);
         $date = now()->format('F j, Y, g:i A');
         $reference = $this->user->reference ?? '[Reference Number]';
 
         if ($this->type === 'Sender') {
             return [
-                "This email confirms that the transfer of assets for Property ID #{$propertyId} has been successfully completed on {$date}.",
+                "This email confirms that the transfer of assets for Property {$propertyData->property_name} has been successfully completed on {$date}.",
                 "**Transaction Details:**",
                 "•⁠  Property: {$propertyAddress}",
                 "•⁠  Transaction ID: {$reference}",

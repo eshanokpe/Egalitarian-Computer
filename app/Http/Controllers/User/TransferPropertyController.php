@@ -637,7 +637,7 @@ class TransferPropertyController extends Controller
         $notificationData = $notification->data;
         $notificationData['status'] = 'approved';
         $notification->update([
-            'data' => $data,
+            'data' => $notificationData,
         ]);
 
         $transfer = Transfer::where('reference', $notificationData['reference'])

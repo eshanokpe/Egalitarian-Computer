@@ -39,10 +39,6 @@ class BuyPropertyController extends Controller
         } 
         $user = Auth::user();
         
-       
-    
-        
-    
         // 3. Process property and payment
         $property = Property::where('slug', $request->property_slug)->first();
         if (!$property) {
@@ -109,13 +105,10 @@ class BuyPropertyController extends Controller
     
         // Process referral commission
         $this->processReferralCommission($user, $property, $amount, $transaction);
-         // ✅ Send Email and Notification
+        
         try {
-           
-            // Send notification
             $user->notify(new BuyPropertiesNotification($transaction, $buy));
         } catch (\Exception $e) {
-            // Log or handle email/notification failure
             logger()->error('Payment notification error: ' . $e->getMessage());
         }
     
@@ -127,6 +120,27 @@ class BuyPropertyController extends Controller
             'property_status' => $property->status,
         ]);
     } 
+
+    protected function errorResponse($message, $statusCode)
+    {
+        if (request()->expectsJson() || request()->is('api/*')) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $message,
+            ], $statusCode);
+        }
+
+        return back()->with('error', $message);
+    }
+    protected function successResponse($data)
+    {
+        if (request()->expectsJson() || request()->is('api/*')) {
+            return response()->json(array_merge(['status' => 'success'], $data));
+        }
+
+        return redirect()->route('user.purchases')->with('success', $data['message']);
+    }
+ 
 
     public function store(Request $request)
     {   

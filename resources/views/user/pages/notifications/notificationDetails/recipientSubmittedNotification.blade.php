@@ -59,7 +59,7 @@
             </button>
         @endif
         
-        
+        <br><br>
         <br>
         <div class="card-footer text-muted">
             Received: {{ \Carbon\Carbon::parse($notification->created_at)->format('F j, Y - g:i A') }}

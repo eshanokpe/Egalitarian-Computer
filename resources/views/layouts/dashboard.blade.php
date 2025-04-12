@@ -117,7 +117,7 @@
     <!-- Preloader end -->
     <div class="dashboard__page--wrapper">
         @include('user.partial.sidebar')
-        @include('user.partial.navbar2')
+        @include('user.partial.navbar')
        
         @yield('content') 
     

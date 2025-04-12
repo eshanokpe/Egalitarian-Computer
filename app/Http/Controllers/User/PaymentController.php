@@ -12,6 +12,7 @@ use App\Models\Wallet;
 use App\Models\Property;  
 use App\Models\Transaction;   
 use App\Models\ReferralLog;
+use App\Notifications\BuyPropertiesNotification;
 use App\Notifications\ReferralCommissionEarnedNotification;
 use App\Notifications\ReferredUserPurchasedNotification;
 
@@ -135,6 +136,15 @@ class PaymentController extends Controller
     
         // Process referral commission
         $this->processReferralCommission($user, $property, $amount, $transaction);
+         // ✅ Send Email and Notification
+        try {
+           
+            // Send notification
+            $user->notify(new BuyPropertiesNotification($transaction, $buy));
+        } catch (\Exception $e) {
+            // Log or handle email/notification failure
+            logger()->error('Payment notification error: ' . $e->getMessage());
+        }
     
         return $this->successResponse([
             'message' => 'Payment successful',
@@ -143,7 +153,7 @@ class PaymentController extends Controller
             'purchase_details' => $buy,
             'property_status' => $property->status,
         ]);
-    }
+    } 
 
     // Helper methods for PIN attempt tracking
     private function getRemainingAttempts($user)

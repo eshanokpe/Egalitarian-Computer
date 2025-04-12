@@ -15,7 +15,7 @@
             <div class="properties__wrapper"> 
                 <div class="properties__table table-responsive">
                     <table class="properties__table--wrapper">
-                        <thead>
+                        <thead> 
                             <tr>
                                 <th>Listing Title</th>
                                 <th>Date published</th>
@@ -24,7 +24,7 @@
                                 <th>Status</th>
                             </tr>
                         </thead> 
-                        <tbody>
+                        <tbody> 
                             @forelse ($transferProperty as $transfer)
                             <tr>
                                 <td>
@@ -61,7 +61,7 @@
                                         <span class="status__btn pending2 " style="background-color: #f39c12; ">
                                             <a class="text-white" >{{ ucfirst($transfer->status) }}</a>
                                         </span>
-                                    @elseif($transfer->status == 'completed')
+                                    @elseif($transfer->status == 'completed' || $transfer->status == 'approved')
                                         <span class="status__btn pending2 " style="background-color:  #28a745; ">
                                             <a class="text-white" >{{ ucfirst($transfer->status) }}</a>
                                         </span>

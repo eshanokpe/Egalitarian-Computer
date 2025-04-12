@@ -134,7 +134,8 @@
                                                     @include('.user/partial/notifications/new_referral')
                                                 @elseif($notification['data']['notification_status'] == 'WalletFundedNotification' || $notification['data']['notification_status'] == 'walletFundedNotification' || $notification['data']['notification_status'] == 'Wallet Funded Notification')
                                                     @include('.user/partial/notifications/walletFundedNotification')
-
+                                                @elseif($notification['data']['notification_status'] == 'buyProperty' )
+                                                    @include('.user/partial/notifications/buyProperty')
                                                   
                                                 @elseif($notification['data']['notification_status'] == 'WalletTransferNotification')
                                                     <div class="notification__type--transfer">

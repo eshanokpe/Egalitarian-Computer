@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transfer extends Model
 {
-    use HasFactory;
+    use HasFactory; 
 
     protected $fillable = [
         'id',

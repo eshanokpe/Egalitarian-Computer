@@ -390,7 +390,7 @@ class TransferPropertyController extends Controller
         ->with('property') 
         ->with('valuationSummary')
         ->where('user_id', $user->id)
-        ->where('user_email', $user->email)
+        ->where('user_email', $user->email) 
         ->orderBy('created_at', 'desc') // Show most recent first
         ->paginate(10);
  
@@ -581,7 +581,7 @@ class TransferPropertyController extends Controller
         // $sendWallet->balance -= $amount;
         // $sendWallet->save();
         $propertyData = Property::where('id', $propertyId)->first();
-
+ 
         // Deduct from sender's wallet
         $sendWallet->balance += $amount / 100;
         $sendWallet->save();
@@ -634,11 +634,25 @@ class TransferPropertyController extends Controller
         // After successful transfer, update the notification status to 'approved'
 
         // Ensure the notification data is an array
-        $data = $notification->data;
-        $data['status'] = 'approved';
+        $notificationData = $notification->data;
+        $notificationData['status'] = 'approved';
         $notification->update([
             'data' => $data,
         ]);
+
+        $transfer = Transfer::where('reference', $notificationData['reference'])
+        ->where('user_id', $sender->id)
+        ->where('recipient_id', $recipient->id)
+        ->where('property_id', $propertyId)
+        ->first();
+        if ($transfer) {
+            $transfer->status = 'approved';
+            $transfer->confirmation_status = 'confirmed';
+            $transfer->confirmation_date = now();
+            $transfer->confirmed_by = auth()->id(); // recipient who approved
+            $transfer->save();
+        }
+
         $sender = User::find($notification->data['sender_id']);
     
         // Send Confirmation Messages to Sender and Recipient

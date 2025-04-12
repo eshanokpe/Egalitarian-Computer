@@ -33,7 +33,7 @@ class TransferNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     { 
         return (new MailMessage)
-            ->subject($this->getSubject())
+            ->subject($this->getSubject()) 
             ->greeting("Dear {$notifiable->first_name} {$notifiable->last_name},")
             ->line(...$this->getMessageLines($notifiable))
             ->action('View Dashboard', url('/user/dashboard'))
@@ -78,7 +78,7 @@ class TransferNotification extends Notification implements ShouldQueue
 
         if ($this->type === 'Sender') {
             return [
-                "This email confirms that the transfer of assets for Property {$propertyData->property_name} has been successfully completed on {$date}.",
+                "This email confirms that the transfer of assets for Property {$this->propertyData->property_name} has been successfully completed on {$date}.",
                 "**Transaction Details:**",
                 "•⁠  Property: {$propertyAddress}",
                 "•⁠  Transaction ID: {$reference}",

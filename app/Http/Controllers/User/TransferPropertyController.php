@@ -512,13 +512,13 @@ class TransferPropertyController extends Controller
         $recipientWallet =  Wallet::where('user_id', $recipient->id)->first();
        
         // Ensure sender has enough balance
-        if ($sendWallet->balance < ($amount / 100)) {
-            if ($request->wantsJson()) {
-                return response()->json(['error' => 'You do not has insufficient funds'], 404);
-            }
-            return redirect()->back()->with(['error' => 'Insufficient wallet balance']);
+        // if ($sendWallet->balance < ($amount / 100)) {
+        //     if ($request->wantsJson()) {
+        //         return response()->json(['error' => 'You do not has insufficient funds'], 404);
+        //     }
+        //     return redirect()->back()->with(['error' => 'Insufficient wallet balance']);
 
-        }
+        // }
         // dd('Assets transferred');
 
         // Check sender's wallet balance

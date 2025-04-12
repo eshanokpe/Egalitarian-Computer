@@ -126,13 +126,13 @@
                                             data-property-mode="{{ $notification->data['property_mode'] ?? '' }}">
 
                                             <div class="notification__content">
-                                                {{$notification['data']['notification_status']}}
+                                                {{-- {{$notification['data']['notification_status']}} --}}
                                                 @if(in_array($notification['data']['notification_status'], ['PropertyValuationNotification', 'PropertyValuationPredictionNotification','propertyValuationPredictionNotification']))
                                                     @include('.user/partial/notifications/propertyValuationPredictionNotification')
-
+ 
                                                 @elseif($notification['data']['notification_status'] == 'sellPropertyUserNotification')
                                                     @include('.user/partial/notifications/sellPropertyUserNotification')
-                                                @elseif($notification['data']['notification_status'] == 'senderTransferNotification')
+                                                @elseif($notification['data']['notification_status'] == 'senderTransferNotification' || $notification['data']['notification_status'] == 'Sender Transfer Notification')
                                                     @include('.user/partial/notifications/senderTransferNotification')
                                                 @elseif($notification['data']['notification_status'] == 'transferNotification')
                                                     @include('.user/partial/notifications/transferNotification')
@@ -140,18 +140,14 @@
                                                     @include('.user/partial/notifications/propertyValuationNotification')
                                                 @elseif($notification['data']['notification_status'] == 'referral_connection')
                                                     @include('.user/partial/notifications/referralConnection')
-                                                @elseif($notification['data']['notification_status'] == 'recipientSubmittedNotification')
+                                                @elseif($notification['data']['notification_status'] == 'recipientSubmittedNotification' || $notification['data']['notification_status'] == 'Recipient Submitted Notification')
                                                     @include('.user/partial/notifications/recipientSubmittedNotification')
                                                 @elseif($notification['data']['notification_status'] == 'new_referral')
                                                     @include('.user/partial/notifications/new_referral')
-                                                @elseif($notification['data']['notification_status'] == 'WalletFundedNotification')
-                                                    <div class="notification__type--wallet">
-                                                        <h4>Wallet Credited</h4>
-                                                        <p>
-                                                            ₦{{ number_format($notification['data']['amount'], 2) }} received
-                                                            <small>New balance: ₦{{ number_format($notification['data']['balance'], 2) }}</small>
-                                                        </p>
-                                                    </div>
+                                                @elseif($notification['data']['notification_status'] == 'WalletFundedNotification' || $notification['data']['notification_status'] == 'walletFundedNotification' || $notification['data']['notification_status'] == 'Wallet Funded Notification')
+                                                    @include('.user/partial/notifications/walletFundedNotification')
+
+                                                  
                                                 @elseif($notification['data']['notification_status'] == 'WalletTransferNotification')
                                                     <div class="notification__type--transfer">
                                                         <h4>{{ $notification['data']['message'] ?? 'Transfer Notification' }}</h4>

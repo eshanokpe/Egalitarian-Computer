@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Carbon;
 
 class WalletFundedNotification extends Notification implements ShouldQueue
 {
@@ -13,17 +14,20 @@ class WalletFundedNotification extends Notification implements ShouldQueue
 
     protected $amount;
     protected $balance;
+    protected $$reference;
 
     /**
      * Create a new notification instance.
      *
      * @param float $amount
      * @param float $balance
+     * @param string $$reference
      */
-    public function __construct($amount, $balance)
+    public function __construct($amount, $balance, $$reference)
     {
         $this->amount = $amount;
         $this->balance = $balance;
+        $this->$reference = $$reference;
     }
 
     /**
@@ -45,12 +49,26 @@ class WalletFundedNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $formattedAmount = number_format($this->amount / 100, 2);
+        $formattedBalance = number_format($this->balance / 100, 2);
+        $formattedDate = Carbon::now()->format('F j, Y, g:i A');
+
         return (new MailMessage)
-            ->greeting("Hello, {$notifiable->name}")
-            ->line("₦{$this->amount} has been successfully added to your wallet.")
-            ->line("Your new wallet balance is ₦{$this->balance}.")
-            ->action('View Wallet', route('user.wallet.index'))
-            ->line('Thank you for using our application!');
+            ->subject('Your Wallet Has Been Credited!')
+            ->greeting("Dear {$notifiable->first_name} {$notifiable->last_name},")
+            ->line('We are excited to inform you that your wallet has been credited with funds, ready for you to use on Dohmayn!')
+            ->line('')
+            ->line('*Transaction Details:*')
+            ->line('•⁠  ⁠*Amount Credited:* ₦' . $formattedAmount)
+            ->line('•⁠  ⁠*Transaction ID:* ' . $this->$reference)
+            ->line('•⁠  ⁠*Date:* ' . $formattedDate)
+            ->line('')
+            ->line('You can now utilize these funds to purchase assets listed on our platform. Explore our latest offerings and make your next investment today!')
+            ->line('')
+            ->line('If you have any questions or require assistance, please don’t hesitate to reach out to our support team.')
+            ->line('')
+            ->line('Happy property hunting!')
+            ->salutation('Best regards, Dohmayn Support Team');
     }
 
     /**
@@ -62,10 +80,13 @@ class WalletFundedNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'notification_status' => 'Wallet Funded Notification',
-            'amount' => $this->amount,
-            'balance' => $this->balance,
-            'message' => "₦{$this->amount} has been added to your wallet. New balance: ₦{$this->balance}.",
+            'notification_status' => 'walletFundedNotification',
+            'subject' => 'Your Wallet Has Been Credited!',
+            'amount' => number_format($this->amount / 100, 2),
+            'balance' => number_format($this->balance / 100, 2),
+            'transaction_id' => $this->transactionId,
+            'date' => now()->toDateTimeString(),
+            'message' => '₦' . number_format($this->amount / 100, 2) . ' has been added to your wallet. New balance: ₦' . number_format($this->balance / 100, 2) . '.',
         ];
     }
 }

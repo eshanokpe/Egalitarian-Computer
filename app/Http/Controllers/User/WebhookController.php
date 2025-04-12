@@ -94,7 +94,7 @@ class WebhookController extends Controller
             ]);
             // Trigger the notification
             $newBalance = $user->wallet->balance;
-            $user->notify(new WalletFundedNotification($amount, $newBalance));
+            $user->notify(new WalletFundedNotification($amount, $newBalance, $reference));
 
             Log::info("Wallet updated successfully for user: {$email}");
         } else {

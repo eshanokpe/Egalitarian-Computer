@@ -7,7 +7,7 @@
 
         <p>
             You have received an asset transfer of 
-            <strong>&#x20A6;{{ number_format($notification->data['total_price'], 2) }}</strong> from 
+            <strong>&#x20A6;{{ number_format($notification->data['total_price']/100, 2) }}</strong> from 
             <strong>{{ \App\Models\User::find($notification->data['sender_id'])->first_name .' '. \App\Models\User::find($notification->data['sender_id'])->last_name   ?? 'Sender\'s Name' }}</strong> via 
             <strong>{{ config('app.name') }}</strong>. 
             To complete the transaction, please follow the steps below to accept the transfer:

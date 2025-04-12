@@ -47,7 +47,7 @@ class SenderTransferNotification extends Notification implements ShouldQueue
         $recipientName = $user->first_name . ' ' . $user->last_name;
 
 
-        return (new MailMessage)
+        return (new MailMessage) 
             ->subject('Asset Transfer Pending: Action Required by Receiver')
             ->greeting('Dear ' . $notifiable->full_name . ',')
             ->line('Thank you for using Dohmayn! You have successfully initiated an asset transfer of *₦' . $formattedPrice . '* to *' . $recipientName . '*.')

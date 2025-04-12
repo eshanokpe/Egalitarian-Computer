@@ -74,9 +74,9 @@ class ReferredUserPurchasedNotification extends Notification implements ShouldQu
     {
         $referrerName = trim($this->referrer->first_name . ' ' . $this->referrer->last_name);
         
-        return [
+        return [ 
             'notification_status' => 'referred_purchase',
-            'referrer_id' => $this->referrer->id,
+            'referrer_id' => $this->referrer->id, 
             'referrer_name' => $referrerName,
             'property_id' => $this->property->id,
             'property_name' => $this->property->name,

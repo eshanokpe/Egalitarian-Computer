@@ -43,9 +43,10 @@ class NewReferralSignupNotification extends Notification implements ShouldQueue
         
         return [
             'notification_status' => 'new_referral',
+            'subject' => '🎉 New Referral Signup!',
             'message' => $newUserName . ' signed up using your referral',
             'action_url' => route('user.referrals.show'),
             'action_text' => 'View Referrals'
-        ];
+        ]; 
     }
 }

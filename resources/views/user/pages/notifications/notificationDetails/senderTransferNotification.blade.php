@@ -4,21 +4,21 @@
     <p>Dear {{ auth()->user()->first_name }} {{ auth()->user()->last_name }},</p>
     <p class="mb-2">
         Thank you for choosing Dohmayn to sell your asset! You have successfully initiated an assets transfer 
-        of ₦{{ number_format($notification->data['total_price'], 2) }} to 
+        of ₦{{ number_format($notification->data['total_price']/100, 2) }} to 
         <b>{{ $notification->data['recipient_name'] ?? 'the recipient' }}</b>.
     </p>
 
     <div class="mt-4">
         <h3 class="mb-2">Request Details</h3>
-        
+         
         <div class="alert alert-info">
             Please note that the transfer is currently pending acceptance by the recipient. 
-            <p class="mb-0">{{ $notification->data['message'] }}</p>
+            <p class="mb-0">{{ $notification->data['message'] ?? 'Asset Transfer Pending: Action Required by Receiver' }}</p>
         </div>
         
         <div class="notification-meta mt-3">
             <p>Here are the details of your transfer</p>
-            <p><strong>Amount:</strong> ₦{{ number_format($notification->data['total_price'], 2) }}</p>
+            <p><strong>Amount:</strong> ₦{{ number_format($notification->data['total_price']/100, 2) }}</p>
             <p><strong>Receiver:</strong> {{ $notification->data['recipient_name'] ?? 'Unknown recipient' }}</p>
             <p><strong>Transfer ID:</strong> {{ $notification->data['reference'] }}</p>
             <p><strong>Submitted:</strong> {{ \Carbon\Carbon::parse($notification->created_at)->format('F j, Y \a\t g:i A') }}</p>

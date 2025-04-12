@@ -124,7 +124,7 @@
                                             onclick="markNotificationAsRead(event, this)"
                                             data-notification-id="{{ $notification->id }}"
                                             data-property-mode="{{ $notification->data['property_mode'] ?? '' }}">
-
+            
                                             <div class="notification__content">
                                                 {{-- {{$notification['data']['notification_status']}} --}}
                                                 @if(in_array($notification['data']['notification_status'], ['PropertyValuationNotification', 'PropertyValuationPredictionNotification','propertyValuationPredictionNotification']))

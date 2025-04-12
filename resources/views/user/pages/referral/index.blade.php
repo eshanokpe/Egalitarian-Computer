@@ -56,7 +56,7 @@
                                                 <span class="currency__card--amount">₦{{ number_format(auth()->user()->commission_balance, 2) }}</span>
                                             </div>
                                             <div class="welcome__thumbnail">
-                                                <span class="currency__card--amount">My invite ({{$user->referralsMade->count()}})</span>
+                                                <span class="currency__card--amount">My invite ({{ $user->referralsMade->count()}})</span>
                                             </div>
                                         </section>
                                         <div class="currency__card--footer">

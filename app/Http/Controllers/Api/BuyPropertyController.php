@@ -89,6 +89,8 @@ class BuyPropertyController extends Controller
             'transaction_id' => $transaction->id,
             'selected_size_land' => $selectedSizeLand,
             'remaining_size' => $remainingSize - $selectedSizeLand,
+            'use_referral' => $request->use_referral,
+            'referral_amount' => $request->use_referral ? $request->referral_amount : 0,
             'status' => 'available',
         ]);
     

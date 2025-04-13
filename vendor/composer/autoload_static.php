@@ -680,6 +680,7 @@ class ComposerStaticInitffdab87688986358a321b0eef150dca0
         'App\\Models\\VisionMission' => __DIR__ . '/../..' . '/app/Models/VisionMission.php',
         'App\\Models\\Wallet' => __DIR__ . '/../..' . '/app/Models/Wallet.php',
         'App\\Models\\WalletTransaction' => __DIR__ . '/../..' . '/app/Models/WalletTransaction.php',
+        'App\\Notifications\\BuyPropertiesNotification' => __DIR__ . '/../..' . '/app/Notifications/BuyPropertiesNotification.php',
         'App\\Notifications\\NewReferralSignupNotification' => __DIR__ . '/../..' . '/app/Notifications/NewReferralSignupNotification.php',
         'App\\Notifications\\PropertyValuationNotification' => __DIR__ . '/../..' . '/app/Notifications/PropertyValuationNotification.php',
         'App\\Notifications\\PropertyValuationPredictionNotification' => __DIR__ . '/../..' . '/app/Notifications/PropertyValuationPredictionNotification.php',

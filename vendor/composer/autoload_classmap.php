@@ -101,6 +101,7 @@ return array(
     'App\\Models\\VisionMission' => $baseDir . '/app/Models/VisionMission.php',
     'App\\Models\\Wallet' => $baseDir . '/app/Models/Wallet.php',
     'App\\Models\\WalletTransaction' => $baseDir . '/app/Models/WalletTransaction.php',
+    'App\\Notifications\\BuyPropertiesNotification' => $baseDir . '/app/Notifications/BuyPropertiesNotification.php',
     'App\\Notifications\\NewReferralSignupNotification' => $baseDir . '/app/Notifications/NewReferralSignupNotification.php',
     'App\\Notifications\\PropertyValuationNotification' => $baseDir . '/app/Notifications/PropertyValuationNotification.php',
     'App\\Notifications\\PropertyValuationPredictionNotification' => $baseDir . '/app/Notifications/PropertyValuationPredictionNotification.php',

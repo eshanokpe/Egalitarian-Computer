@@ -188,13 +188,10 @@ class TransferPropertyController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => $message,
-                'data' => $data,
+                // 'data' => $data,
             ], $statusCode);
         }
-        if ($propertyId) {
-            return redirect()->route('user.cart.transfer.index', ['id' => encrypt($propertyId) ])
-                ->with('error', $message);
-        }
+       
     }
 
     private function sendResponse(Request $request, $status, $message, $success, $additionalData = [])

@@ -6,6 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Models\Buy;
 use App\Models\User;
+use Illuminate\Support\Str;
 use App\Models\Neighborhood;
 use App\Models\Transaction;
 use App\Models\Transfer;
@@ -67,10 +68,11 @@ class TransferPropertyController extends Controller
             ]);
         } catch (ValidationException $e) {
             return $this->errorResponse(
-                $request->input('property_id'), // propertyId
-                $request,                // request data
-                $e->getMessage(),                   // validation errors (not as string)
-                422                             // HTTP status code
+                $request->input('property_id'), 
+                $request,                
+                $e->getMessage(),  
+                // '',                 
+                422                             
             );
         }
         

@@ -55,7 +55,7 @@
             <div class="dashboard__container dashboard__reviews--container">
                 <div class="row">
                    <div class="col-lg-6"></div>
-                   <div class="col-lg-6">
+                   <div class="col-lg-6"> 
                         <div class="setting__profile " style="background-color: #fff"> 
                             <div class="edit__profile--step">
                                 <h4 class="setting__profile--title">Recipient Information</h4>

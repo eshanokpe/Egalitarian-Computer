@@ -28,6 +28,8 @@ class BuyPropertyController extends Controller
             'property_slug' => 'required',
             'quantity' => 'required',
             'total_price' => 'required|numeric|min:1',
+            'use_referral' => 'required',
+            'referral_amount' => 'required',
             // 'transaction_pin' => 'required|digits:4' 
         ]); 
         if ($validator->fails()) {

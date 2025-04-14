@@ -45,13 +45,14 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('/buy', [PropertyController::class, 'buy'])->name('buy');   
     Route::get('/offer/price/{id}', [PropertyController::class, 'offerPrice'])->name('offerPrice'); 
     Route::post('/offer/price/post', [PropertyController::class, 'offerPricePost'])->name('offerPrice.post'); 
-  
+   
     Route::get('/transfer', [TransferPropertyController::class, 'index'])->name('transfer');
     Route::get('/transfer/recipient', [TransferPropertyController::class, 'transferRecipient'])->name('transfer.recipient');
     Route::post('/transfer/recipient/initiate', [TransferPropertyController::class, 'checkRecipientTransfer'])->name('checkRecipient.transfer');
      
     Route::post('/transfer/verify/recipient', [TransferPropertyController::class, 'verifyRecipient'])->name('transfer.checkRecipient');
-    Route::get('/transfer/verify/recipient', function () {
+    
+    Route::get('/transfer/verify/recipient', function () { 
         return redirect()->back();
     }); 
     

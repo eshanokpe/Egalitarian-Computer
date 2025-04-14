@@ -7,7 +7,7 @@ use App\Notifications\RecipientSubmittedNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\ValidationException; 
 use DB; 
 use Auth;
 use Log; 

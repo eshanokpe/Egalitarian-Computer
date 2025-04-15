@@ -49,7 +49,7 @@
                                 <td>  
                                     <span class="properties__views">{{ $transfer->land_size }} SQM</span>
                                 </td>
-                                <td>
+                                <td> 
                                     <span class="status__btn pending2">
                                         <a href="{{ route('user.properties.show', encrypt($transfer->property->id))}}">
                                             View

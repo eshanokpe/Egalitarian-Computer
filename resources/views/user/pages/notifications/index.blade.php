@@ -282,7 +282,7 @@
                                                         <h3 class="card-title">{{ $notification['data']['title']}}</h3>
                                                         <p> 
                                                              {{ $notification['data']['message'] }}.
-                                                            
+                                                             
                                                         </p>
                                         
                                                         <div class="d-flex justify-content-between align-items-center mt-2 mb-3">

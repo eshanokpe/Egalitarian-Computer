@@ -77,7 +77,8 @@ class TransferNotification extends Notification implements ShouldQueue
         $reference = $this->user->reference ?? '[Reference Number]';
 
         if ($this->type === 'Sender') {
-            return [
+            return [ 
+                "Dear {$notifiable->first_name} {$notifiable->last_name},",
                 "This email confirms that the transfer of assets for Property {$this->propertyData->property_name} has been successfully completed on {$date}.",
                 "**Transaction Details:**",
                 "•⁠  Property: {$propertyAddress}",

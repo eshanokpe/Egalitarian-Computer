@@ -85,7 +85,7 @@ class SenderTransferNotification extends Notification implements ShouldQueue
             'total_price' => $this->details['total_price']/100,
             'reference' => $this->details['reference'],
             'status' => $this->details['status'],
-            'recipientName' => $recipientName,
+            'recipientName' => $recipientName, 
             'message' => 'You have initiated a property transfer. Please wait for recipient to accept.',
         ];
     }

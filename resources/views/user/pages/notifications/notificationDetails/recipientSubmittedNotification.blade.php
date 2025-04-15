@@ -41,7 +41,7 @@
 
         {{-- Accept Transfer Button --}}
         @if($notification->data['status'] == 'pending')
-            <form action="{{ route('user.confirm.transfer.submit', encrypt($notification->id)) }}" method="POST" class="mt-4">
+            <form action="{{ route('user.confirm.transfer.submit', $notification->id) }}" method="POST" class="mt-4">
                 @csrf
                
                 <input type="hidden" name="land_size" value="{{ $notification->data['land_size'] }}">
@@ -58,7 +58,7 @@
                 ✅ This transfer has been approved
             </button>
         @endif
-        
+         
         <br><br>
         <br>
         <div class="card-footer text-muted">

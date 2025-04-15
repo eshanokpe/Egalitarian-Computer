@@ -323,8 +323,8 @@ class TransferPropertyController extends Controller
 
             // Notify recipient and sender
             $recipient->notify(new RecipientSubmittedNotification($transferDetails));
-            $user->notify(new SenderTransferNotification($transferDetails));
-
+            $user->notify(new SenderTransferNotification($transferDetails)); 
+ 
             return $this->sendResponse($request, 'success', 'We have received your request to transfer ₦' . number_format($amount) . ' worth of property. The recipient has been notified.', true, [
                 'redirect' => route('user.transfer.history'),
                 'transfer_details' => $transferDetails,
@@ -389,7 +389,7 @@ class TransferPropertyController extends Controller
         )
         ->with('property') 
         ->with('valuationSummary')
-        ->where('user_id', $user->id)
+        ->where('user_id', $user->id) 
         ->where('user_email', $user->email) 
         ->orderBy('created_at', 'desc') // Show most recent first
         ->paginate(10);
@@ -455,11 +455,10 @@ class TransferPropertyController extends Controller
     public function viewTransferProperty(Request $request, $recipentId){
 
     }
+ 
 
-
-    public function submitConfirmation(Request $request, $slug){
-        // The authenticated user is the recipient
-
+    public function submitConfirmation(Request $request, $id){
+        
         $recipient = auth()->user();
 
         $request->validate([
@@ -527,7 +526,7 @@ class TransferPropertyController extends Controller
         //     return redirect()->back()->with(['error' => 'You do not has insufficient funds']);
         // }
 
-        $notification = CustomNotification::findOrFail(decrypt($slug));
+        $notification = CustomNotification::findOrFail($id);
         // dd($notification);
         if ($notification->data['status'] == 'approved') {
             return redirect()->back()->with('error', 'Transfer already approved.');

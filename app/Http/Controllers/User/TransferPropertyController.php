@@ -526,8 +526,15 @@ class TransferPropertyController extends Controller
         //     return redirect()->back()->with(['error' => 'You do not has insufficient funds']);
         // }
 
-        $notification = CustomNotification::findOrFail($id);
+        $notification = CustomNotification::find($id);
         // dd($notification);
+        if (!$notification) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Notification not found'], 404);
+            }
+            return redirect()->back()->with('error', 'Notification not found');
+        }
+        
         if ($notification->data['status'] == 'approved') {
             return redirect()->back()->with('error', 'Transfer already approved.');
         }

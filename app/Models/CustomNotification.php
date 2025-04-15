@@ -11,7 +11,7 @@ class CustomNotification extends DatabaseNotification
 {
     use HasFactory;
   
-  
+   
 
     public function property()
     {

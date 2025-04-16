@@ -249,7 +249,7 @@
                                             <div class="card-body">
                                                 <div class="row ">
                                                     <div class="col-9">
-                                                        <h3 class="card-title"> Property Valuation Prediction Notification</h3>
+                                                        <h3 class="card-title"> Exciting update: Your property valuation has increased!</h3>
                                                         <p>
                                                             Upward Revision: Asset Valuation Update for  {{ $notification['data']['property_name'] }}
                                                         </p>

@@ -14,7 +14,7 @@ class Transaction extends Model
         'source',
         'metadata',
         'user_id',
-        'email', 
+        'email',  
         'reference',
         'status',
         'amount',

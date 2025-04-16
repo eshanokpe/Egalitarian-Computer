@@ -25,7 +25,7 @@ class Property extends Model
         'size',
         'available_size',
         'gazette_number',
-        'tenure_free', 
+        'tenure_free',  
         'property_images',
         'payment_plan',
         'brochure', 
@@ -52,7 +52,7 @@ class Property extends Model
     }
     
     public function priceUpdates()
-    {
+    { 
         return $this->hasMany(PropertyPriceUpdate::class, 'property_id', 'id');
     }
     public function history()

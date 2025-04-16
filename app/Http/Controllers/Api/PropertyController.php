@@ -6,7 +6,7 @@ use Auth;
 use App\Models\User;
 use App\Models\Neighborhood;
 use App\Models\Property;
-use App\Models\PropertyValuation;
+use App\Models\PropertyValuation; 
 use App\Models\Transaction;
 // or
 use function App\Helpers\getWalletBalance; 
@@ -18,7 +18,8 @@ class PropertyController extends Controller
     public function propertiesShow($id)
     {
         $users = Auth::user();
-        $data['property'] = Property::findOrFail(($id));
+        $data['property'] = Property::with(['priceUpdates', 'valuationSummary'])
+        ->findOrFail($id);
         $data['user'] = User::where('id', $users->id)
                         ->where('email', $users->email)
                         ->first();
@@ -44,6 +45,7 @@ class PropertyController extends Controller
                 'valuation_summary' => $data['property']->valuationSummary,
                 'neighborhoods' => $data['neighborhoods'],
                 'propertyValuation' => $data['propertyValuation'],
+                'price_updates' => $data['property']->priceUpdates 
             ]);
         }
     }

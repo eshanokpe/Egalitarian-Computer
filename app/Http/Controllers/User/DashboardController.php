@@ -119,7 +119,7 @@ class DashboardController extends Controller
 
     
     public function propertiesShow($id)
-    {
+    { 
         $users = Auth::user();
         $data['property'] = Property::findOrFail(decrypt($id));
         $data['user'] = User::where('id', $users->id)
@@ -131,7 +131,7 @@ class DashboardController extends Controller
             return $item->category->name ?? 'Uncategorized';
         });
         return view('user.pages.properties.show', $data);
-    } 
+    }  
 
     public function toggleHideBalance(Request $request)
     {

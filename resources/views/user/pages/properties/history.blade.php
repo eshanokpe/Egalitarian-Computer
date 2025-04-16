@@ -15,7 +15,7 @@
       background-color: #47008E;
     }
     .timeline-item {
-      position: relative;
+      position: relative; 
       /* margin-bottom: 70px; */
     }
     .timeline-item:before {

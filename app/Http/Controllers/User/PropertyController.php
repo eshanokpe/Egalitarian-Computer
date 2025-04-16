@@ -54,7 +54,7 @@ class PropertyController extends Controller
         ->with('valuationSummary')
         ->where('user_id', $user->id)
         ->where('user_email', $user->email)
-        ->groupBy('property_id') 
+        ->groupBy('property_id')  
         ->paginate(10);
 
         if (request()->wantsJson()) {
@@ -120,7 +120,7 @@ class PropertyController extends Controller
         $data['user'] = User::where('id', $user->id)->first();
 
         return view('user.pages.properties.transfer.add',  $data); 
-    }
+    } 
 
     public function valuation($id)
     {
@@ -192,7 +192,7 @@ class PropertyController extends Controller
     }
 
     public function propertyHistory($id){
-        $propertyId = decrypt($id); 
+        $propertyId = decrypt($id);  
         $data['property'] = Property::findOrFail($propertyId);
         return view('user.pages.properties.history', $data);
     }

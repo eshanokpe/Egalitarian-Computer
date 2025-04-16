@@ -17,7 +17,7 @@ use App\Http\Controllers\Admin\FAQController;
 use App\Http\Controllers\Admin\PropertyHistoryController;
 use App\Http\Controllers\Admin\PropertyController as AdminPropertyController;
 
-  
+   
 Route::redirect('/admin/dashboard', '/admin');
 // Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.index');
 

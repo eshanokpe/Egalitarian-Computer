@@ -33,7 +33,7 @@ class DashboardController extends Controller
                                             // ->where('payment_method', 'wallet')
                                             ->sum('amount');
 
-        $data['totalUniqueProperties'] = Transaction::where('user_id', $user->id)
+        $data['totalTransactionsAssets'] = Transaction::where('user_id', $user->id)
                                             ->where('email', $user->email)
                                             ->where('status', 'success')
                                             ->distinct('property_id')

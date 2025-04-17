@@ -160,6 +160,7 @@ class DashboardController extends Controller
     }
 
     public function checkStatus(int $userId): JsonResponse
+    {
         // Find the user by their ID
         $user = User::find($userId);
 

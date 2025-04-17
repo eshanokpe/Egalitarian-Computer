@@ -14,7 +14,7 @@ class PasscodeController extends Controller
      * Check passcode status
      */
     public function checkStatus()
-    {
+    { 
         $user = Auth::user();
         
         return response()->json([

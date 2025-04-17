@@ -119,7 +119,7 @@ class DashboardController extends Controller
 
     
     public function propertiesShow($id)
-    { 
+    {  
         $users = Auth::user();
         $data['property'] = Property::findOrFail(decrypt($id));
         $data['user'] = User::where('id', $users->id)
@@ -157,5 +157,32 @@ class DashboardController extends Controller
         $purchases = Transaction::where('user_id', auth()->id())->get();
         // dd($purchases);
         return view('user.pages.success.index',compact('purchases'));
+    }
+
+    public function userStatus(){
+        // Find the user by their ID
+        $user = User::find($userId);
+
+        if (!$user) {
+            // You can return 404 directly, or a structured response
+            // return response()->json(['exists' => false, 'active' => false], 404);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found.',
+                'exists' => false,
+                'active' => false
+            ], 404);
+        }
+
+        $isActive = (bool) $user->is_active; // Cast to boolean for clarity
+
+        // Return a successful response with the status
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User status retrieved.',
+            'exists' => true,
+            'active' => $isActive
+        ]);
+
     }
 }

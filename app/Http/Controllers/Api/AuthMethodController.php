@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\User; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -15,7 +15,7 @@ class AuthMethodController extends Controller
         $validated = $request->validate([
             'auth_method' => [
                 'required',
-                'string',
+                'string', 
                 Rule::in([User::AUTH_METHOD_PIN, User::AUTH_METHOD_BIOMETRIC, User::AUTH_METHOD_BOTH])
             ],
             'biometric_types' => 'nullable|array',

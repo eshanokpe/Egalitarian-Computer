@@ -12,7 +12,14 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-
+ 
+    public const AUTH_METHOD_PIN = 'pin';
+    public const AUTH_METHOD_BIOMETRIC = 'biometric';
+    public const AUTH_METHOD_BOTH = 'both';
+    
+    public const BIOMETRIC_FACE = 'face';
+    public const BIOMETRIC_FINGERPRINT = 'fingerprint';
+    public const BIOMETRIC_IRIS = 'iris';
 
     protected $fillable = [
         'first_name', 

@@ -29,6 +29,7 @@ class User extends Authenticatable
         'commission_balance',
         'hide_balance',
         'app_passcode', 
+        'is_active',
     ];
 
     protected $hidden = [

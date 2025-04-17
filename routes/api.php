@@ -119,7 +119,7 @@ Route::middleware('auth:sanctum')->group(function () {
     }); 
   
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::get('/user-status/{id}', [DashboardController::class, 'userStatus']);
+    Route::get('/user-status/{id}', [DashboardController::class, 'checkStatus']);
 
     // Example of other protected routes
     // Route::post('/webhook/paystack', [WebhookController::class, 'handlePaystackWebhook']);

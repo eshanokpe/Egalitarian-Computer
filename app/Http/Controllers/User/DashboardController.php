@@ -159,7 +159,7 @@ class DashboardController extends Controller
         return view('user.pages.success.index',compact('purchases'));
     }
 
-    public function userStatus(){
+    public function checkStatus(int $userId): JsonResponse
         // Find the user by their ID
         $user = User::find($userId);
 

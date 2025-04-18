@@ -68,6 +68,8 @@ class BuyPropertyController extends Controller
         $transaction = Transaction::create([
             'user_id' => $user->id,
             'email' => $user->email,
+            'property_id' => $property->id,
+            'property_name' => $property->name,
             'amount' => $amount,
             'reference' => $reference,
             'status' => 'completed',

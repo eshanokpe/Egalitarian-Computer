@@ -13,7 +13,7 @@ class PasscodeController extends Controller
     /**
      * Check passcode status
      */
-    public function checkStatus()
+    public function checkStatus() 
     { 
         $user = Auth::user();
         

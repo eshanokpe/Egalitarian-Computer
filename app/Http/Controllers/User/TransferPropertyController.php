@@ -87,6 +87,8 @@ class TransferPropertyController extends Controller
         $propertyData = Property::where('id', $propertyId)->where('name', $propertyName)->first();
         $data = [
             'amount' => $amount , 
+            'property_id' => $propertyData->id,
+            'property_name' => $propertyData->name,
             'email' => $user->email,
             'metadata' => [
                 'property_id' => $propertyData->id,

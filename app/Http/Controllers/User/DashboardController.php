@@ -35,7 +35,7 @@ class DashboardController extends Controller
 
         $data['totalTransactionsAssets'] = Transaction::where('user_id', $user->id)
                                             ->where('email', $user->email)
-                                            ->where('status', 'success')
+                                            // ->where('status', 'success')
                                             ->distinct('property_id')
                                             ->count('property_id');
                                             

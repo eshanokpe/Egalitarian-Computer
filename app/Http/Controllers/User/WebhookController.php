@@ -87,7 +87,7 @@ class WebhookController extends Controller
                 'reference' => $reference,
                 'status' => $status,
                 'description' => 'Fund added to wallet',
-                'payment_method' => 'Transfer',
+                'payment_method' => 'wallet',
                 'recipient_name' => $customerName,
                 'source' => 'web',
                 'metadata' => json_encode($data->metadata ?? null),

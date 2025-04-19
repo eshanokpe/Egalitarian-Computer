@@ -8,7 +8,7 @@ use App\Models\Neighborhood;
 use App\Models\Property;
 use App\Models\PropertyValuation; 
 use App\Models\Transaction;
-// or
+use App\Models\PropertyValuationPrediction;
 use function App\Helpers\getWalletBalance; 
  
 class PropertyController extends Controller
@@ -16,7 +16,7 @@ class PropertyController extends Controller
     
 
     public function propertiesShow($id)
-    {
+    { 
         $users = Auth::user();
         $data['property'] = Property::with(['priceUpdates', 'valuationSummary'])
         ->findOrFail($id);
@@ -38,13 +38,23 @@ class PropertyController extends Controller
         })
         ->orderBy('created_at', 'asc') 
         ->get(); 
-
+        $data['propertyValuationPrediction'] = PropertyValuationPrediction::where('property_id', $data['property']->id)
+        ->when(request('filter'), function ($query) {
+            if ($year = request('filter')) {
+                return $query->whereYear('created_at', $year);
+            }
+            return $query;
+        })
+        ->orderBy('created_at', 'asc') 
+        ->get();
+ 
         if (request()->wantsJson()) {
             return response()->json([
                 'property' => $data['property'],
                 'valuation_summary' => $data['property']->valuationSummary,
                 'neighborhoods' => $data['neighborhoods'],
                 'propertyValuation' => $data['propertyValuation'],
+                'propertyValuationPrediction' => $data['propertyValuationPrediction'],
                 'price_updates' => $data['property']->priceUpdates 
             ]);
         }

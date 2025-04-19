@@ -11,7 +11,7 @@
             <div class="dashboard__container d-flex">
                 <div class="main__content--left">
                     <div class="main__content--left__inner">
-                        <!-- Welcome section -->
+                        <!-- Welcome section --> 
                         <div class="welcome__section align-items-center">
                             <div class="row mb-3 d-flex justify-content-center">                                                
                                 <div class="col">

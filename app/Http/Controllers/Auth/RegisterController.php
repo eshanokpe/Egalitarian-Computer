@@ -51,7 +51,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
- 
+  
     public function register(Request $request, WalletController $walletController)
     {
     
@@ -81,7 +81,7 @@ class RegisterController extends Controller
             // Call AuthService register method
             $result = app(AuthService::class)->register($request->all(), $walletController);
             return $this->handleRegistrationSuccess($request, $result);
-        } catch (ValidationException $e) {
+        } catch (ValidationException $e) { 
             \Log::error('ValidationException:', $e->errors());
             return $this->handleExceptionError($request, $e, 422);
         } catch (\Exception $e) {

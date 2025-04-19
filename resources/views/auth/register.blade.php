@@ -74,7 +74,8 @@
                         <div class="account__form--input mb-20">
                             <label class="account__form--input__label mb-12" for="email">Email Address</label>
                             <input id="email" placeholder="Email" type="email" class="account__form--input__field  @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-                            @error('email')
+                            <input id="email" placeholder="Email" type="hidden" class="account__form--input__field" name="registration_source" value="web"  >
+                            @error('registration_source')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

@@ -43,6 +43,7 @@ class AuthService
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
+            'registration_source' => $data['registration_source'],
             'dob' => $data['dob'],
             'phone' => $data['phone'],
             'recipient_id' => $recipientId,

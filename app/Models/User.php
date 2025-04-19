@@ -37,6 +37,7 @@ class User extends Authenticatable
         'hide_balance',
         'app_passcode', 
         'is_active',
+        'registration_source',
     ];
 
     protected $hidden = [

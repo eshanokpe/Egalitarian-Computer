@@ -60,6 +60,7 @@ class RegisterController extends Controller
             'last_name' => 'required|string|max:50',
             'email' => 'required|string|email|max:50|unique:users,email',
             'phone' => 'required|string',
+            'registration_source' => 'nullable|string',
             'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
             'referral_code' => 'nullable|string|exists:users,referral_code',
             'dob' => [

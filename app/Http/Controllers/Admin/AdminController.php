@@ -4,27 +4,30 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\Models\MenuItem;
+use App\Models\Transaction;
 use App\Models\DropdownItem;
-use App\Models\Property;
+use App\Models\User;
 use App\Models\Slider;
+use App\Http\Traits\AdminTrait;
  
 class AdminController extends Controller
-{
+{ 
    
     // public function __construct()
     // {
     //     $this->middleware('auth.admin');
-    // } 
-
+    // }
+    
     public function index()
     { 
-        $data = [
-            'users' => User::count(),
-            'properties' => Property::count(),
-        ];
-        return view('admin.home.index', $data);
+        $data['data'] = User::latest()->get();
+        return view('admin.users.index', $data);
+    }
+
+    public function transaction(){
+        $data['data'] = Transaction::latest()->get();
+        return view('admin.transaction.index', $data);
     }
 
 }

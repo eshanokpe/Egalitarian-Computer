@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Model\Admin;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -19,7 +19,7 @@ class AdminLoginController extends Controller
     public function showLogin()
     {
         return view('admin.auth.login');
-    }
+    } 
 
     public function login(Request $request)
     {

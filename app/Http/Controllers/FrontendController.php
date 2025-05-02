@@ -3,36 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Property;
-use App\Models\Transaction;
-use Auth;
 
 class FrontendController extends Controller
 {
-    public function index()
-    {
-        $user = Auth::user();
-        $properties = Property::inRandomOrder()->take(6)->get();
-        // if ($properties->isEmpty()) {
-        //     return redirect()->route('home')->with('error', 'Property not found.');
-        // }
-
-        // foreach ($properties as $property) {
-        //     $transaction = null;
-        //     if (Auth::check()) {
-        //         $transaction = $property->transaction()->where('user_id', $user->id)->first();
-        //     }
-        //     // dd( $transaction);
-
-        //     $property->transaction = $transaction;
-        // }  
-
-        return view('home.index', compact('properties'));
+    public function index(){
+        return view('home.index');
     }
 
-    
+    public function about(){
+        return view('home.about');
+    }
 
     public function contact(){
-        return view('home.pages.contact'); 
+        return view('home.contact');
+    }
+
+    public function privacy(){
+        return view('home.privacy');
+    }
+
+    public function terms(){
+        return view('home.terms');
+    }
+
+    public function courses(){
+        return view('home.courses');
     }
 }

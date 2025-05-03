@@ -17,16 +17,19 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 col hidden-xs">
                     <h3>Popular Courses</h3>
-                    <!-- widget cources list -->
+                    <!-- widget cources list --> 
                     <ul class="widget-cources-list list-unstyled">
                         @forelse ($randomCourses as $randomCourse)
                             <li>
-                                <a href="course-single.html">
+                                <a href="{{ route('courses.show', $randomCourse->slug) }}">
                                     <div class="alignleft">
-                                        <img src="{{ asset('assets/images/img22.jpg')}}" alt="image description">
+                                        <img 
+                                        style="object-fit: cover; width: 100%; max-height: 200px;" 
+                                        src="{{ asset('storage/' . $randomCourse->image) }}" 
+                                        alt="image description">
                                     </div>
                                     <div class="description-wrap">
-                                        <h4>Software engineering</h4>
+                                        <h4>{{ $randomCourse->title }}</h4>
                                         <strong class="price text-primary element-block font-lato text-uppercase">$75.00</strong>
                                     </div>
                                 </a>

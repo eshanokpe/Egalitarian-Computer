@@ -9,7 +9,7 @@
             <div class="align">
                 <h1>Contact</h1>
             </div>
-        </div>
+        </div> 
     </header>
     <!-- breadcrumb nav -->
     <nav class="breadcrumb-nav">

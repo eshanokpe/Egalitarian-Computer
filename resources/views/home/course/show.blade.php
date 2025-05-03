@@ -16,8 +16,8 @@
         <div class="container">
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Course</a></li>
+                <li><a href="{{ route('index') }}">Home</a></li>
+                <li><a href="{{ route('courses') }}">Course</a></li>
                 <li class="active">{{ $course->title}}</li>
             </ol>
         </div>
@@ -69,7 +69,7 @@
                     <ul class="widget-cources-list list-unstyled">
                         @forelse ($randomCourses as $randomCourse)
                             <li>
-                                <a href="#">
+                                <a href="{{ route('courses.show', $randomCourse->slug) }}">
                                     <div class="alignleft">
                                         <img 
                                         style="object-fit: cover; width: 100%; max-height: 200px;" 
@@ -77,7 +77,7 @@
                                         alt="image description">
                                     </div>
                                     <div class="description-wrap">
-                                        <h4>Swift Programming For Beginners</h4>
+                                        <h4>{{ $randomCourse->title }}</h4>
                                         <strong class="price text-primary element-block font-lato text-uppercase">$75.00</strong>
                                     </div>
                                 </a>

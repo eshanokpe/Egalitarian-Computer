@@ -22,7 +22,6 @@ Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 Route::get('/privacy-policy', [FrontendController::class, 'privacy'])->name('privacy');
 Route::get('/terms', [FrontendController::class, 'terms'])->name('terms');
 Route::get('/courses', [FrontendController::class, 'courses'])->name('courses');
-Route::get('/courses/show', [FrontendController::class, 'courses'])->name('courses');
 Route::get('/courses/{course}', [CoursesController::class, 'show'])->name('courses.show');
 
 Auth::routes();

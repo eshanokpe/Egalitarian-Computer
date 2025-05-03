@@ -16,7 +16,7 @@
         <div class="container">
             <!-- breadcrumb -->
             <ol class="breadcrumb">
-                <li><a href="home.html">Home</a></li>
+                <li><a href="{{ route('index') }}">Home</a></li>
                 <li class="active">About us</li>
             </ol>
         </div>
@@ -152,12 +152,14 @@
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingOne">
                             <h4 class="panel-title fw-normal">
-                                <a class="accOpener element-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Learn anything online</a>
+                                <a class="accOpener element-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    Learn anything online</a>
                             </h4>
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                             <div class="panel-body">
-                                <p>Areas tackled the most fundamental parts of medical research include cellular way and molecular biology medical genetics immunology neu science and psychology</p>
+                                <p>Explore foundational concepts in web development, including HTML, CSS, JavaScript, and popular frameworks to build modern web applications.</p>
+                           
                             </div>
                         </div>
                     </div>
@@ -170,7 +172,8 @@
                         </div>
                         <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
                             <div class="panel-body">
-                                <p>Areas tackled the most fundamental parts of medical research include cellular way and molecular biology medical genetics immunology neu science and psychology</p>
+                                <p>Master essential programming skills, data structures, and algorithms applicable across various tech domains, from software engineering to data science.</p>
+                            
                             </div>
                         </div>
                     </div>
@@ -183,8 +186,9 @@
                         </div>
                         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                             <div class="panel-body">
-                                <p>Areas tackled the most fundamental parts of medical research include cellular way and molecular biology medical genetics immunology neu science and psychology</p>
-                            </div>
+                                <p>Dive into specialized tech fields like cybersecurity, cloud computing, or artificial intelligence with our comprehensive course offerings.</p>
+                            
+                             </div>
                         </div>
                     </div>
                 </div>
@@ -205,7 +209,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-4 col text-right">
-                    <a href="#" class="btn btn-white btn-default text-capitalize font-lato fw-normal">Apply Course Now</a>
+                    <a href="{{ route('courses')}}" class="btn btn-white btn-default text-capitalize font-lato fw-normal">Apply Course Now</a>
                 </div>
             </div>
         </div>
@@ -256,9 +260,9 @@
                     <h3 class="fw-normal text-capitalize">
                         Edwin Osamezu
                     </h3>
-                    <h4 class="fw-normal text-capitalize">Tech Enthisiast</h4>
+                    <h4 class="fw-normal text-capitalize">Lead Instructor</h4>
                     <p>
-                        Edwin Osamezu is a tech enthusiast and instructor with decades worth of experience. He has facilitated training and workshops for over ...
+                        Edwin Osamezu is a instructor with decades worth of experience. He has facilitated training and workshops for over ...
                     </p>
                 </article>
             </div>

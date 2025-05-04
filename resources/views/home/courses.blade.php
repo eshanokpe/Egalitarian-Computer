@@ -45,7 +45,7 @@
                             </div>
                             <h3 class="post-heading">
                                 <a href="{{ route('courses.show', $course->slug) }}">
-                                    {{ Str::limit($course->title, 50) }} {{-- Limit title to 50 characters --}}
+                                    {{ Str::limit($course->title, 30) }} {{-- Limit title to 50 characters --}}
                                 </a>
                             </h3>
                            

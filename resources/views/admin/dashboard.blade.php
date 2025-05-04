@@ -22,31 +22,28 @@
                             <div class="card bg-danger property-bx text-white">
                                 <div class="card-body">
                                     <div class="media d-sm-flex d-block align-items-center">
-                                        <span class="me-4 d-block mb-sm-0 mb-3">
-                                            <svg width="80" height="80" viewBox="0 0 80 80" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M31.8333 79.1667H4.16659C2.33325 79.1667 0.833252 77.6667 0.833252 75.8333V29.8333C0.833252 29 1.16659 28 1.83325 27.5L29.4999 1.66667C30.4999 0.833332 31.8333 0.499999 32.9999 0.999999C34.3333 1.66667 34.9999 2.83333 34.9999 4.16667V76C34.9999 77.6667 33.4999 79.1667 31.8333 79.1667ZM7.33325 72.6667H28.4999V11.6667L7.33325 31.3333V72.6667Z"
-                                                    fill="white" />
-                                                <path
-                                                    d="M75.8333 79.1667H31.6666C29.8333 79.1667 28.3333 77.6667 28.3333 75.8334V36.6667C28.3333 34.8334 29.8333 33.3334 31.6666 33.3334H75.8333C77.6666 33.3334 79.1666 34.8334 79.1666 36.6667V76C79.1666 77.6667 77.6666 79.1667 75.8333 79.1667ZM34.9999 72.6667H72.6666V39.8334H34.9999V72.6667Z"
-                                                    fill="white" />
-                                                <path
-                                                    d="M60.1665 79.1667H47.3332C45.4999 79.1667 43.9999 77.6667 43.9999 75.8334V55.5C43.9999 53.6667 45.4999 52.1667 47.3332 52.1667H60.1665C61.9999 52.1667 63.4999 53.6667 63.4999 55.5V75.8334C63.4999 77.6667 61.9999 79.1667 60.1665 79.1667ZM50.6665 72.6667H56.9999V58.8334H50.6665V72.6667Z"
-                                                    fill="white" />
+                                        <span class="me-4 d-block mb-sm-0 mb-3"> 
+                                            <svg width="120" height="120" viewBox="0 0 120 120" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                <!-- User Icon 1 (Center) -->
+                                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="white"/>
+                                                <!-- User Icon 2 (Left - Slightly smaller/offset) -->
+                                                <path d="M6 14c-1.66 0-3 1.34-3 3v2h6v-2c0-1.66-1.34-3-3-3zm0-2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" fill="white" opacity="0.7"/>
+                                                <!-- User Icon 3 (Right - Slightly smaller/offset) -->
+                                                <path d="M18 14c-1.66 0-3 1.34-3 3v2h6v-2c0-1.66-1.34-3-3-3zm0-2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" fill="white" opacity="0.7"/>
                                             </svg>
                                         </span>
                                         <div class="media-body mb-sm-0 mb-3 me-5">
-                                            <h4 class="fs-22 text-white">Total Projects</h4>
+                                            <h4 class="fs-22 text-white">Total Users</h4>
                                             <div class="progress mt-3 mb-2" style="height:8px;">
                                                 
                                             </div>
                                             <span class="fs-13">
-                                                <a href="#" class="text-white">Click here</a>
+                                                <a href="{{ route('admin.user.index') }}" class="text-white">Click here</a>
                                             </span>
 
                                         </div>
-                                        <span class="fs-35 font-w500">{{ $totalProjects ?? 0}}</span>
+                                        <span class="fs-35 font-w500">{{ $userCount ?? 0}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -56,58 +53,18 @@
                                 <div class="card-body">
                                     <div class="media align-items-center">
                                         <div class="media-body me-3">
-                                            <h2 class="fs-28 text-black font-w600">{{ $totalConsultant ?? 0}}</h2>
-                                            <p class="property-p mb-0 text-black font-w500">Total Consultant </p>
-                                            <span class="fs-13"><a href="#" class="text-muted">Click here</a></span>
+                                            <h2 class="fs-28 text-black font-w600">{{ $courseCount ?? 0}}</h2>
+                                            <p class="property-p mb-0 text-black font-w500">Total Courses </p>
+                                            <span class="fs-13"><a href="{{ route('admin.courses.index') }}" class="text-muted">Click here</a></span>
                                         </div>
                                         
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-4">
-                            <div class="card property-card">
-                                <div class="card-body">
-                                    <div class="media align-items-center">
-                                        <div class="media-body me-3">
-                                            <h2 class="fs-28 text-black font-w600"> {{ $totalInspection ?? 0}} </h2>
-                                            <p class="property-p mb-0 text-black font-w500">Total Booking Inspection</p>
-                                            <span class="fs-13"><a href="#" class="text-muted">Click here</a></span>
-                                        </div>
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4">
-                            <div class="card property-card">
-                                <div class="card-body">
-                                    <div class="media align-items-center">
-                                        <div class="media-body me-3">
-                                            <h2 class="fs-28 text-black font-w600">{{ $totalGallery  ?? 0}}</h2>
-                                            <p class="property-p mb-0 text-black font-w500">Total Gallery</p>
-                                            <span class="fs-13"><a href="#" class="text-muted">Click here</a></span>
-                                      
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4">
-                            <div class="card property-card">
-                                <div class="card-body">
-                                    <div class="media align-items-center">
-                                        <div class="media-body me-3">
-                                            <h2 class="fs-28 text-black font-w600">{{ $totalPost ?? 0 }}</h2>
-                                            <p class="property-p mb-0 text-black font-w500">Total  Posts</p>
-                                            <span class="fs-13"><a href="#" class="text-muted">Click here</a></span>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                      
+                       
+                       
                     </div>
                 </div>
                 
@@ -120,7 +77,7 @@
                                 <div class="card-body">
                                     <div class="media align-items-center">
                                         <div class="media-body me-3">
-                                            <h2 class="fs-28 text-black font-w600">{{ $totalContacts ?? 0 }}</h2>
+                                            <h2 class="fs-28 text-black font-w600">{{ $contactMessageCount ?? 0 }}</h2>
                                             <p class="property-p mb-0 text-black font-w500">Total Contact </p>
                                             <span class="fs-13"><a href="#" class="text-muted">Click here</a></span>
                                         </div>
@@ -130,20 +87,7 @@
                             </div>
                         </div>
                         
-                        <div class="col-sm-12 col-md-3">
-                            <div class="card property-card">
-                                <div class="card-body">
-                                    <div class="media align-items-center">
-                                        <div class="media-body me-3">
-                                            <h2 class="fs-28 text-black font-w600">{{ $totalFaqSubmitForm ?? 0}}</h2>
-                                            <p class="property-p mb-0 text-black font-w500"> Total FAQs Submit Form</p>
-                                            <span class="fs-13"><a href="#" class="text-muted">Click here</a></span>
-                                        </div>
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                      
                         
                     </div>
                 </div>

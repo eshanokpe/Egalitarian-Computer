@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\MenuItem;
+use App\Models\ContactMessage;
 use App\Models\Transaction;
-use App\Models\DropdownItem;
 use App\Models\User;
 use App\Models\Slider;
+use App\Models\Course; // Assuming you have a Course model here
 use App\Http\Traits\AdminTrait;
  
 class AdminController extends Controller
@@ -21,8 +21,13 @@ class AdminController extends Controller
     
     public function index() 
     { 
-        $data['data'] = User::latest()->get();
-        return view('admin.dashboard', $data);
+        // Fetch counts
+        $userCount = User::count();
+        $courseCount = Course::count(); 
+        $contactMessageCount = ContactMessage::count(); 
+        $latestUsers = User::latest()->take(5)->get(); 
+
+        return view('admin.dashboard', compact('userCount', 'contactMessageCount', 'courseCount', 'latestUsers'));
     } 
 
     public function getUser(){

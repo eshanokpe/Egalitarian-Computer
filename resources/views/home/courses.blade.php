@@ -80,19 +80,10 @@
                     @endforelse
                     
                  
-                    
                 </div>
-                <nav aria-label="Page navigation">
-                    <!-- pagination -->
-                    <ul class="pagination">
-                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">2</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                                <span aria-hidden="true">&rsaquo;</span>
-                            </a>
-                        </li>
-                    </ul>
+                <!-- Pagination -->
+                <nav aria-label="Page navigation" class="text-center">
+                    {{ $courses->links() }}
                 </nav>
             </article>
             <!-- sidebar -->

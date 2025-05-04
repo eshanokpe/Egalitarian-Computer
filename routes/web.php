@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CoursesController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\ContactController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +29,4 @@ Route::get('/courses/{course}', [CoursesController::class, 'show'])->name('cours
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Admin\CoursesController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\AdminController;
 
  
@@ -13,6 +14,8 @@ Route::prefix('admin')->group(function () {
        
     Route::middleware('auth.admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
+        Route::get('/users', [AdminController::class, 'getUser'])->name('admin.user.index');
+        Route::get('/users/{id}/delete', [AdminController::class, 'deleteUser'])->name('admin.user.destroy');
         
    
         Route::post('/settings/update-password', [AdminLoginController::class, 'updatePassword'])->name('admin.password.update');
@@ -25,9 +28,9 @@ Route::prefix('admin')->group(function () {
         Route::put('/menu/{id}', [MenuController::class, 'updateMenu'])->name('admin.menu.update');
         Route::get('/menu/{id}', [MenuController::class, 'destroyMenu'])->name('admin.menu.destroy');
         //Slider 
-        Route::get('/manage/sliderIndex', [SliderController::class, 'index'])->name('admin.slider.index');
-        Route::get('/manage/sliderCreate', [SliderController::class, 'create'])->name('admin.slider.create');
-        Route::post('/slider', [SliderController::class, 'store'])->name('slider.store');
+        Route::get('/slider/index', [SliderController::class, 'index'])->name('admin.slider.index');
+        Route::get('/slider/create', [SliderController::class, 'create'])->name('admin.slider.create');
+        Route::post('/slider', [SliderController::class, 'store'])->name('admin.slider.store');
         Route::get('/slider/{id}/edit', [SliderController::class, 'edit'])->name('admin.slider.edit');
         Route::put('/slider/{id}', [SliderController::class, 'update'])->name('admin.slider.update');
         Route::get('/slider/{id}', [SliderController::class, 'destroy'])->name('admin.slider.destroy');
@@ -37,9 +40,9 @@ Route::prefix('admin')->group(function () {
         Route::put('/settings/update/why-choose-us/{id}', [SettingsController::class, 'updateWhyChooseUs'])->name('admin.settings.update_why_choose_us');
          
         //User
-        Route::name('admin.')->group(function () {
-            Route::resource('users', UserController::class);
-        }); 
+        // Route::name('admin.')->group(function () {
+        //     Route::resource('users', UserController::class);
+        // }); 
        
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::resource('courses', CoursesController::class);

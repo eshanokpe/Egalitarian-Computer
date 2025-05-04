@@ -6,7 +6,7 @@
         <div class="page-titles">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">Students</a></li>
+                <li class=" active"><a href="javascript:void(0)"> / Students</a></li>
                 
             </ol>
         </div> 
@@ -64,7 +64,7 @@
                                             <td>
                                                 <div class="d-flex">
                                                     {{-- <a class="btn btn-primary " style="margin-right: 5px;" href="{{ route('admin.users.edit',  encrypt($data->id) ) }}">Edit</a> --}}
-                                                    <a class="btn btn-danger" href="{{ route('admin.users.destroy', encrypt($data->id) )  }}" onclick="return confirm('Are you sure you want to delete this User?');">Delete</a>
+                                                    <a class="btn btn-danger" href="{{ route('admin.user.destroy', encrypt($data->id) )  }}" onclick="return confirm('Are you sure you want to delete this User?');">Delete</a>
                                                 </div>
                                             </td>
                                         </tr>

@@ -69,22 +69,23 @@
             </div>
             <hr class="sep-or element-block" data-text="or">
             <!-- contact form -->
-            <form action="#" class="contact-form">
+            <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
+                @csrf
                 <h3 class="text-center">Drop Us a Message</h3>
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
                         <div class="form-group">
-                            <input type="text" class="form-control element-block" placeholder="Your Name">
+                            <input type="text" name="name" class="form-control element-block" placeholder="Your Name">
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-6">
                         <div class="form-group">
-                            <input type="email" class="form-control element-block" placeholder="Email">
+                            <input type="email" name="email" class="form-control element-block" placeholder="Email">
                         </div>
                     </div>
                     <div class="col-xs-12">
                         <div class="form-group">
-                            <textarea class="form-control element-block" placeholder="Message"></textarea>
+                            <textarea name="message" class="form-control element-block" placeholder="Message"></textarea>
                         </div>
                     </div>
                 </div>

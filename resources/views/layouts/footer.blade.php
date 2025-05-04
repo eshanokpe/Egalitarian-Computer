@@ -125,13 +125,48 @@
         </form>
     </div>
     <div id="popup2" class="lightbox-demo">
-        <form action="#" class="user-log-form">
+        <form method="POST" action="{{ route('register') }}" class="user-log-form">
+            @csrf
             <h2>Register Form</h2>
             <div class="form-group">
-                <input type="email" class="form-control element-block" placeholder="Email address *">
+                <input type="name" name="name" class="form-control element-block" placeholder="Fullname *" required>
+                @error('name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span> 
+                @enderror
             </div>
             <div class="form-group">
-                <input type="password" class="form-control element-block" placeholder="Password *">
+                <input type="email" name="email" class="form-control element-block" placeholder="Email address *" required>
+                @error('email')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <input type="phone"  name="phone" class="form-control element-block" placeholder="Phone number *" required>
+                @error('phone')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control element-block" placeholder="Password *" required>
+                @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <input type="password" name="password_confirmation" class="form-control element-block" placeholder="Confirm Password *" required>
+                @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
             <div class="btns-wrap">
                 <div class="wrap">
@@ -141,6 +176,29 @@
         </form>
     </div>
 </div>
+
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "5000"
+    };
+</script>
+<script>
+    @if (session('success'))
+        toastr.success("{{ session('success') }}");
+    @endif
+    @if (session('status'))
+        toastr.success("{{ session('status') }}");
+    @endif
+
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            toastr.error("{{ $error }}");
+        @endforeach
+    @endif
+</script>
 <!-- include jQuery -->
 <script src="{{ asset('assets/js/jquery.js')}}"></script>
 <!-- include jQuery -->

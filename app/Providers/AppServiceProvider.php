@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use DB;
 use View;
+use App\Models\Slider;
 use App\Models\Course;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -31,7 +32,10 @@ class AppServiceProvider extends ServiceProvider
                 View::share('courses', Course::oldest()->paginate(20));
                 View::share('randomCourses', Course::inRandomOrder()->limit(3)->get());
             }
-
+            if (Schema::hasTable('sliders')) {
+                View::share('sliders', Slider::all()->shuffle()); 
+            } 
+ 
         }
     }
 

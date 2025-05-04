@@ -6,70 +6,31 @@
     <!-- intro block -->
     <section class="intro-block">
         <div class="slider fade-slider">
-            <div>
+            @forelse ($sliders as $slider)
                 <!-- intro block slide -->
-                <article class="intro-block-slide overlay bg-cover" style="background-image: url({{ asset('assets/images/img01.jpg')}});">
+                <article class="intro-block-slide overlay bg-cover" style="background-image: url({{ asset('storage/'.$slider->image) }});">
                     <div class="align-wrap container">
                         <div class="align">
                             <div class="anim">
-                                <h1 class="intro-block-heading">Education &amp; Training Organization</h1>
+                                <h1 class="intro-block-heading">{{ $slider->title }}</h1>
                             </div>
                             <div class="anim delay1">
-                                <p>We offer the most complete course pakage in the country, for the research, design and development of Education.</p>
+                                <p>{{ $slider->content }}</p>
                             </div>
                             <div class="anim delay2">
                                 <div class="btns-wrap">
-                                    <a href="courses-list.html" class="btn btn-warning btn-theme text-uppercase">Our Courses</a>
-                                    <a href="contact.html" class="btn btn-white text-uppercase">Contact us</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article> 
-            </div>
-            <div>
-                <!-- intro block slide -->
-                <article class="intro-block-slide overlay bg-cover" style="background-image: url({{ asset('assets/images/courses/img02.jpg')}});">
-                    <div class="align-wrap container">
-                        <div class="align">
-                            <div class="anim">
-                                <h1 class="intro-block-heading">Education Organization</h1>
-                            </div>
-                            <div class="anim delay1">
-                                <p>We offer the most complete course pakage in the country, for the research, design and development of Education.</p>
-                            </div>
-                            <div class="anim delay2">
-                                <div class="btns-wrap">
-                                    <a href="courses-list.html" class="btn btn-warning btn-theme text-uppercase">Our Courses</a>
-                                    <a href="contact.html" class="btn btn-white text-uppercase">Contact us</a>
+                                    <a href="{{ route('courses') }}" class="btn btn-warning btn-theme text-uppercase">Our Courses</a>
+                                    <a href="{{ route('contact') }}" class="btn btn-white text-uppercase">Contact us</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </article>
-            </div>
-            <div>
-                <!-- intro block slide -->
-                <article class="intro-block-slide overlay bg-cover" style="background-image: url({{ asset('assets/images/courses/img03.jpg')}});">
-                    <div class="align-wrap container">
-                        <div class="align">
-                            <div class="anim">
-                                <h1 class="intro-block-heading">Training Organization</h1>
-                            </div>
-                            <div class="anim delay1">
-                                <p>We offer the most complete course pakage in the country, for the research, design and development of Education.</p>
-                            </div>
-                            <div class="anim delay2">
-                                <div class="btns-wrap">
-                                    <a href="courses-list.html" class="btn btn-warning btn-theme text-uppercase">Our Courses</a>
-                                    <a href="contact.html" class="btn btn-white text-uppercase">Contact us</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </div>
+            @empty
+                <p>No slider data available.</p>
+            @endforelse
         </div>
+        
         <div class="container">
             <!-- features aside -->
             <aside class="features-aside">
@@ -274,66 +235,8 @@
     </aside>
    
     <!-- testimonials block -->
-    <section class="testimonials-block text-center bg-gray" style="background-image: url({{ asset('assets/images/bg-pattern01.png')}});">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                    <h2>What People Say</h2>
-                    <!-- testimonail slider -->
-                    <div class="slick-slider slider testimonail-slider">
-                        <div>
-                            <!-- testimonial quote -->
-                            <blockquote class="testimonial-quote font-roboto">
-                                <p>“ Trent from punchy rollie grab us a waggin school. Flat out like a bludger where he hasn't got a damper. As stands out like brass razoo heaps it'll be relo. As busy as a paddock.”</p>
-                                <cite class="element-block font-lato">
-                                    <span class="avatar rounded-circle element-block">
-                                        <img class="rounded-circle" src="{{ asset('assets/images/img16.jpg')}}" alt="Nethor Doct -Developer">
-                                    </span>
-                                    <strong class="element-block h5 h">Nethor Doct -<span class="text-gray">Developer</span></strong>
-                                </cite>
-                            </blockquote>
-                        </div>
-                        <div>
-                            <!-- testimonial quote -->
-                            <blockquote class="testimonial-quote font-roboto">
-                                <p>“ Trent from punchy rollie grab us a waggin school. Flat out like a bludger where he hasn't got a damper. As stands out like brass razoo heaps it'll be relo. As busy as a paddock.”</p>
-                                <cite class="element-block font-lato">
-                                    <span class="avatar rounded-circle element-block">
-                                        <img class="rounded-circle" src="{{ asset('assets/images/img16.jpg')}}" alt="Nethor Doct -Developer">
-                                    </span>
-                                    <strong class="element-block h5 h">Nethor Doct -<span class="text-gray">Developer</span></strong>
-                                </cite>
-                            </blockquote>
-                        </div>
-                        <div>
-                            <!-- testimonial quote -->
-                            <blockquote class="testimonial-quote font-roboto">
-                                <p>“ Trent from punchy rollie grab us a waggin school. Flat out like a bludger where he hasn't got a damper. As stands out like brass razoo heaps it'll be relo. As busy as a paddock.”</p>
-                                <cite class="element-block font-lato">
-                                    <span class="avatar rounded-circle element-block">
-                                        <img class="rounded-circle" src="{{ asset('assets/images/img16.jpg')}}" alt="Nethor Doct -Developer">
-                                    </span>
-                                    <strong class="element-block h5 h">Nethor Doct -<span class="text-gray">Developer</span></strong>
-                                </cite>
-                            </blockquote>
-                        </div>
-                        <div>
-                            <!-- testimonial quote -->
-                            <blockquote class="testimonial-quote font-roboto">
-                                <p>“ Trent from punchy rollie grab us a waggin school. Flat out like a bludger where he hasn't got a damper. As stands out like brass razoo heaps it'll be relo. As busy as a paddock.”</p>
-                                <cite class="element-block font-lato">
-                                    <span class="avatar rounded-circle element-block">
-                                        <img class="rounded-circle" src="{{ asset('assets/images/img16.jpg')}}" alt="Nethor Doct -Developer">
-                                    </span>
-                                    <strong class="element-block h5 h">Nethor Doct -<span class="text-gray">Developer</span></strong>
-                                </cite>
-                            </blockquote>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+   @include('home.testimonial')
+
    
     <!-- subscription aside block -->
     <aside class="subscription-aside-block bg-theme text-white">

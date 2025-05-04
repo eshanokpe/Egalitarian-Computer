@@ -38,7 +38,7 @@
                 
             </div>
             <div class="col-xs-12 col-sm-6">
-                <img src="{{ asset('assets/images/img56.jpg')}}" class="element-block image" alt="image description">
+                <img src="{{ asset('assets/images/img35.jpg')}}" class="element-block image" alt="image description">
             </div>
         </div>
     </article>
@@ -75,126 +75,11 @@
             </div>
         </div>
     </aside>
-    <!-- why lms block -->
-    <article class="why-lms-block container">
-        <div class="row">
-            <div class="col-xs-12 col-md-6 col">
-                <h2 class="sep-heading text-capitalize">Happy Students Say</h2>
-                <!-- why say slider -->
-                <div class="slider why-say-slider">
-                    <div>
-                        <!-- say quote -->
-                        <blockquote class="say-quote">
-                            <q class="element-block">&ldquo; The labour movement had the best opportunity in 50 years to transform not merely an industrial situation and win an impor tant battle for workers in struggle, but an opportunity to change the government of the day. &rdquo;</q>
-                            <cite>
-                                <span class="alignleft rounded-circle no-shrink">
-                                    <img class="rounded-circle" src="{{ asset('assets/images/img57.jpg')}}" alt="Gregory Benford Developer">
-                                </span>
-                                <span class="description-wrap">
-                                    <strong class="element-block author-title text-capitalize font-roboto fw-normal">Gregory Benford</strong>
-                                    <strong class="element-block author-subtitle font-lato fw-normal text-capitalize">Developer</strong>
-                                </span>
-                            </cite>
-                        </blockquote>
-                    </div>
-                    <div>
-                        <!-- say quote -->
-                        <blockquote class="say-quote">
-                            <q class="element-block">&ldquo; The labour movement had the best opportunity in 50 years to transform not merely an industrial situation and win an impor tant battle for workers in struggle, but an opportunity to change the government of the day. &rdquo;</q>
-                            <cite>
-                                <span class="alignleft rounded-circle no-shrink">
-                                    <img class="rounded-circle" src="{{ asset('assets/images/img57.jpg')}}" alt="Gregory Benford Developer">
-                                </span>
-                                <span class="description-wrap">
-                                    <strong class="element-block author-title text-capitalize font-roboto fw-normal">Gregory Benford</strong>
-                                    <strong class="element-block author-subtitle font-lato fw-normal text-capitalize">Developer</strong>
-                                </span>
-                            </cite>
-                        </blockquote>
-                    </div>
-                    <div>
-                        <!-- say quote -->
-                        <blockquote class="say-quote">
-                            <q class="element-block">&ldquo; The labour movement had the best opportunity in 50 years to transform not merely an industrial situation and win an impor tant battle for workers in struggle, but an opportunity to change the government of the day. &rdquo;</q>
-                            <cite>
-                                <span class="alignleft rounded-circle no-shrink">
-                                    <img class="rounded-circle" src="{{ asset('assets/images/img57.jpg')}}" alt="Gregory Benford Developer">
-                                </span>
-                                <span class="description-wrap">
-                                    <strong class="element-block author-title text-capitalize font-roboto fw-normal">Gregory Benford</strong>
-                                    <strong class="element-block author-subtitle font-lato fw-normal text-capitalize">Developer</strong>
-                                </span>
-                            </cite>
-                        </blockquote>
-                    </div>
-                    <div>
-                        <!-- say quote -->
-                        <blockquote class="say-quote">
-                            <q class="element-block">&ldquo; The labour movement had the best opportunity in 50 years to transform not merely an industrial situation and win an impor tant battle for workers in struggle, but an opportunity to change the government of the day. &rdquo;</q>
-                            <cite>
-                                <span class="alignleft rounded-circle no-shrink">
-                                    <img class="rounded-circle" src="{{ asset('assets/images/img57.jpg')}}" alt="Gregory Benford Developer">
-                                </span>
-                                <span class="description-wrap">
-                                    <strong class="element-block author-title text-capitalize font-roboto fw-normal">Gregory Benford</strong>
-                                    <strong class="element-block author-subtitle font-lato fw-normal text-capitalize">Developer</strong>
-                                </span>
-                            </cite>
-                        </blockquote>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col">
-                <h2 class="sep-heading">Why Egalitarian Best?</h2>
-                <!-- why panel group accrdion -->
-                <div class="panel-group why-panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <!-- panel -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne">
-                            <h4 class="panel-title fw-normal">
-                                <a class="accOpener element-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                    Learn anything online</a>
-                            </h4>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                            <div class="panel-body">
-                                <p>Explore foundational concepts in web development, including HTML, CSS, JavaScript, and popular frameworks to build modern web applications.</p>
-                           
-                            </div>
-                        </div>
-                    </div>
-                    <!-- panel -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingTwo">
-                            <h4 class="panel-title fw-normal">
-                                <a class="accOpener element-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">Basic to advance course</a>
-                            </h4>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
-                            <div class="panel-body">
-                                <p>Master essential programming skills, data structures, and algorithms applicable across various tech domains, from software engineering to data science.</p>
-                            
-                            </div>
-                        </div>
-                    </div>
-                    <!-- panel -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingThree">
-                            <h4 class="panel-title fw-normal">
-                                <a class="accOpener element-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Learn anything online</a>
-                            </h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                            <div class="panel-body">
-                                <p>Dive into specialized tech fields like cybersecurity, cloud computing, or artificial intelligence with our comprehensive course offerings.</p>
-                            
-                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </article>
+
+    <!-- testimonials block -->
+    @include('home.testimonial')
+
+   
     <!-- aside note block -->
     <aside class="bg-theme aside-note-block text-white">
         <div class="container">

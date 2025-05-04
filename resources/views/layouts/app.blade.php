@@ -29,6 +29,12 @@
 	<link rel="stylesheet" href="{{ asset('assets/style.css')}}">
 	<!-- include the site responsive stylesheet -->
 	<link rel="stylesheet" href="{{ asset('assets/css/responsive.css')}}">
+
+	<!-- Add Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
 </head>
 <body>
 	<!-- main container of all the page elements -->

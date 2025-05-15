@@ -29,4 +29,8 @@ class FrontendController extends Controller
     public function courses(){
         return view('home.courses');
     }
+
+    public function nysc(){
+        return view('home.nysc');
+    }
 }

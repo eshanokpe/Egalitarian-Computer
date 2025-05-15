@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Admin\NyscController;
 use App\Http\Controllers\Admin\CoursesController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\AdminController;
@@ -48,6 +49,11 @@ Route::prefix('admin')->group(function () {
             Route::resource('courses', CoursesController::class);
         });
 
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::resource('nysc', NyscController::class);
+        });
+
+        
         Route::name('admin.')->group(function () {
             Route::resource('recognition', RecognitionController::class);
         });

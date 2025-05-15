@@ -12,12 +12,11 @@ return new class extends Migration
      * @return void
      */
     public function up()
-    {
-        Schema::create('sliders', function (Blueprint $table) {
+    { 
+        Schema::create('nyscs', function (Blueprint $table) {
             $table->id();
-            $table->text('title')->nullable();
-            $table->text('content')->nullable();
-            $table->text('images')->nullable();
+            $table->string('title')->nullable();
+            $table->text('image')->nullable();    
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sliders');
+        Schema::dropIfExists('nyscs');
     }
 };

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use DB;
 use View;
+use App\Models\Nysc;
 use App\Models\Slider;
 use App\Models\Course;
 use Illuminate\Support\ServiceProvider;
@@ -34,6 +35,9 @@ class AppServiceProvider extends ServiceProvider
             }
             if (Schema::hasTable('sliders')) {
                 View::share('sliders', Slider::all()->shuffle()); 
+            } 
+            if (Schema::hasTable('nyscs')) {
+                View::share('nyscs', Nysc::oldest()->paginate(20));
             } 
  
         }

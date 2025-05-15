@@ -65,6 +65,7 @@
                                 <li><a href="{{ route('index') }}">Home</a></li>
                                 <li><a href="{{ route('about') }}">About</a></li>
                                 <li><a href="{{ route('courses') }}">Courses</a></li>
+                                <li><a href="{{ route('nysc') }}">NYSC</a></li>
 
                                 
                                 <li><a href="{{ route('contact') }}">Contact</a></li>

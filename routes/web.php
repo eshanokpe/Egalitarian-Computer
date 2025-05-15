@@ -25,6 +25,7 @@ Route::get('/privacy-policy', [FrontendController::class, 'privacy'])->name('pri
 Route::get('/terms', [FrontendController::class, 'terms'])->name('terms');
 Route::get('/courses', [FrontendController::class, 'courses'])->name('courses');
 Route::get('/courses/{course}', [CoursesController::class, 'show'])->name('courses.show');
+Route::get('/nysc', [FrontendController::class, 'nysc'])->name('nysc');
 
 Auth::routes();
 

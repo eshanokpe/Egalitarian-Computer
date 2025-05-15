@@ -20,6 +20,12 @@
                 </a> 
             </li>
             <li>
+                <a class="has-arrow ai-icon" href="{{ route('admin.nysc.index') }}" aria-expanded="false">
+                    <i class="flaticon-381-book"></i>
+                    <span class="nav-text">Nysc</span>
+                </a> 
+            </li>
+            <li>
                 <a class="has-arrow ai-icon" href="{{ route('admin.slider.index') }}" aria-expanded="false">
                     <i class="flaticon-381-book"></i>
                     <span class="nav-text">Slider</span>
